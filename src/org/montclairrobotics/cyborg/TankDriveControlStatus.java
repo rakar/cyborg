@@ -8,5 +8,4 @@ public class TankDriveControlStatus extends DriveControlStatus {
 
 	double leftPower;
 	double rightPower;
-
 }
