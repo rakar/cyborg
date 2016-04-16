@@ -1,4 +1,6 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.plugins;
+
+import org.montclairrobotics.cyborg.DriveRequestStatus;
 
 public class TankDriveRequestStatus extends DriveRequestStatus {
 

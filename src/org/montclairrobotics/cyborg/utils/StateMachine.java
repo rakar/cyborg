@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.utils;
 
 public abstract class StateMachine<T> {
 	protected T currState;

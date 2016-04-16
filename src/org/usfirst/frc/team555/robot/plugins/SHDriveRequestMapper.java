@@ -1,8 +1,9 @@
-package org.usfirst.frc.team555.robot;
+package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.DriveRequestMapper;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.DriverStationState;
+import org.usfirst.frc.team555.robot.Robot;
 
 public class SHDriveRequestMapper extends DriveRequestMapper {
 	Robot robot;

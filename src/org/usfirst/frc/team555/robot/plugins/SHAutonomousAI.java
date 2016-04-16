@@ -1,6 +1,7 @@
-package org.usfirst.frc.team555.robot;
+package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.AutonomousAI;
+import org.usfirst.frc.team555.robot.Robot;
 
 enum AutoAIState {start,armdown,drive,done};
 

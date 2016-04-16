@@ -1,6 +1,10 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.plugins;
 
 import java.util.ArrayList;
+
+import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.CyborgModule;
+import org.montclairrobotics.cyborg.DriveController;
 
 import edu.wpi.first.wpilibj.SpeedController;
 

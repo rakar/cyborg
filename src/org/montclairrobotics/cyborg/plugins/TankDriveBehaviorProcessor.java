@@ -1,4 +1,7 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.plugins;
+
+import org.montclairrobotics.cyborg.BehaviorProcessor;
+import org.montclairrobotics.cyborg.Cyborg;
 
 public class TankDriveBehaviorProcessor extends BehaviorProcessor {
 

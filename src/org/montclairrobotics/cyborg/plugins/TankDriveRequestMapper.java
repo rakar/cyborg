@@ -1,4 +1,7 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.plugins;
+
+import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.DriveRequestMapper;
 
 public class TankDriveRequestMapper extends DriveRequestMapper {
 

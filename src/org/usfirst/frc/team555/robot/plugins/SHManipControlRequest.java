@@ -1,4 +1,4 @@
-package org.usfirst.frc.team555.robot;
+package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.ManipRequestStatus;
 

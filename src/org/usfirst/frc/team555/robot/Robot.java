@@ -2,6 +2,11 @@
 package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.cyborg.*;
+import org.montclairrobotics.cyborg.plugins.DifferentialDriveController;
+import org.montclairrobotics.cyborg.plugins.TankDriveBehaviorProcessor;
+import org.montclairrobotics.cyborg.plugins.TankDriveControlStatus;
+import org.montclairrobotics.cyborg.plugins.TankDriveRequestMapper;
+import org.montclairrobotics.cyborg.plugins.TankDriveRequestStatus;
 
 import edu.wpi.first.wpilibj.Talon;
 

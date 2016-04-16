@@ -1,4 +1,6 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.plugins;
+
+import org.montclairrobotics.cyborg.DriveControlStatus;
 
 public class TankDriveControlStatus extends DriveControlStatus {
 
