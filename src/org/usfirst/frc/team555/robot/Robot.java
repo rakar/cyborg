@@ -3,6 +3,8 @@ package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.cyborg.*;
 
+import edu.wpi.first.wpilibj.Talon;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,7 +50,13 @@ public class Robot extends Cyborg {
 		// Output Controller Initialization
 		//
 		this.feedbackControllers.add(new FeedbackController(this));
-		this.driveControllers.add(new TankDriveTalonController(this, 1, 2));
+		this.driveControllers.add(
+				new DifferentialDriveController(this)
+				.addLeftSpeedController(new Talon(1))  // Left  1 - 1
+				.addLeftSpeedController(new Talon(2))  // Left  2 - 2
+				.addRightSpeedController(new Talon(3)) // Right 1 - 3
+				.addRightSpeedController(new Talon(4)) // Right 2 - 4
+				);
 		this.manipControllers.add(new ManipController(this));
 		
 	}
