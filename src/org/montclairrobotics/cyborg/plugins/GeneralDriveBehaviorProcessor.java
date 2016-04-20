@@ -1,7 +1,5 @@
 package org.montclairrobotics.cyborg.plugins;
 
-import javax.xml.transform.Source;
-
 import org.montclairrobotics.cyborg.BehaviorProcessor;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.EdgeTrigger;
@@ -33,15 +31,16 @@ public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 		
 		// Copy simple Tank drive command info
 		cs.active = rs.active;
-		cs.direction.setLocation(rs.direction);
-		cs.rotation = rs.rotation;
-		
-		gyroLockState.setState(rs.gyroLock);
-		if(gyroLockTracker!=null) {
-			if(gyroLockState.getRisingEdge()) gyroLockTracker.lock();
-			if(gyroLockState.getState()) cs.rotation = gyroLockTracker.update();
+		if(cs.active) {
+			cs.direction.setLocation(rs.direction);
+			cs.rotation = rs.rotation;
+			
+			gyroLockState.setState(rs.gyroLock);
+			if(gyroLockTracker!=null) {
+				if(gyroLockState.getRisingEdge()) gyroLockTracker.lock();
+				if(gyroLockState.getState()) cs.rotation = gyroLockTracker.update();
+			}
 		}
-		
 		//
 		// Turn off request.active to indicate that command was handled. 
 		// This will prevent re-processing a given request. For example

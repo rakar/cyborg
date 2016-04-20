@@ -1,7 +1,7 @@
 package org.montclairrobotics.cyborg.utils;
 
 public class NavXYawSource implements ISource {
-	private NavX	navx;
+	private NavX navx;
 	
 	public NavXYawSource(NavX navx) {
 		this.navx = navx;

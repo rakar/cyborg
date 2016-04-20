@@ -1,8 +1,6 @@
 package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.DriveRequestMapper;
-import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.DriverStationState;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHDriveRequestMapper extends DriveRequestMapper {
@@ -15,7 +13,7 @@ public class SHDriveRequestMapper extends DriveRequestMapper {
 
 	@Override
 	public void update() {
-		SHDriveRequestStatus drs = (SHDriveRequestStatus)robot.driveRequestStatus;
+		//SHDriveRequestStatus drs = (SHDriveRequestStatus)robot.driveRequestStatus;
 		//drs.DrivePower = robot.driverStationState.getJoystickAxis(0, 1);
 		//drs.TurnPower = robot.driverStationState.getJoystickAxis(0, 0);
 
