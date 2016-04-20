@@ -89,13 +89,13 @@ public abstract class Cyborg extends IterativeRobot {
     public final void autonomousPeriodic() {
 		// Update input interfaces
 		//driverStationInterface.Update();
-		robotSensorInterface.Update();
+		robotSensorInterface.update();
 		
 		// Update Input Mappers
-		for(RobotSensorMapper m:this.robotSensorMappers) m.Update(); 
+		for(RobotSensorMapper m:this.robotSensorMappers) m.update(); 
 
 		// Autonomous Control
-		autonomousAI.Update();
+		autonomousAI.update();
 
 		// Let the robot do it's thing...
 		robotControl();
@@ -108,13 +108,13 @@ public abstract class Cyborg extends IterativeRobot {
     public final void teleopPeriodic() {
 		
 		// Update input interfaces
-		driverStationInterface.Update();
-		robotSensorInterface.Update();
+		driverStationInterface.update();
+		robotSensorInterface.update();
 		
 		// Update Input Mappers
 		for(DriveRequestMapper m:this.driveRequestMappers) m.update(); 
-		for(ManipRequestMapper m:this.manipRequestMappers) m.Update(); 
-		for(RobotSensorMapper m:this.robotSensorMappers) m.Update(); 
+		for(ManipRequestMapper m:this.manipRequestMappers) m.update(); 
+		for(RobotSensorMapper m:this.robotSensorMappers) m.update(); 
 		
 		// Let the robot do it's thing...
 		robotControl();
@@ -131,19 +131,19 @@ public abstract class Cyborg extends IterativeRobot {
 
 	private void robotControl() {
 		// Update Rule and Behavior Processors 
-		for(RuleProcessor m:this.ruleProcessors) m.Update(); 
-		for(BehaviorProcessor m:this.behaviorProcessors) m.Update(); 
+		for(RuleProcessor m:this.ruleProcessors) m.update(); 
+		for(BehaviorProcessor m:this.behaviorProcessors) m.update(); 
 		
 		
 		// Update Output Controllers
-		for(FeedbackController m:this.feedbackControllers) m.Update(); 
-		for(DriveController m:this.driveControllers) m.Update(); 
-		for(ManipController m:this.manipControllers) m.Update(); 
+		for(FeedbackController m:this.feedbackControllers) m.update(); 
+		for(DriveController m:this.driveControllers) m.update(); 
+		for(ManipController m:this.manipControllers) m.update(); 
 		
 		
 		// Update output interfaces
-		//this.feedbackControlInterface.Update();
-		//this.hardwareControlInterface.Update();
+		//this.feedbackControlInterface.update();
+		//this.hardwareControlInterface.update();
 
 	}
 	
