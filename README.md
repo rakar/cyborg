@@ -11,3 +11,5 @@ On the output side "controllers" convert the high-level output data from the log
 By isolating the logic layer, the input mappers, and the output controllers the entire process is broken down into clear descrete components that will hopefully allow for efficient implementation with a high degree of code reuse and a high degree of flexibility. 
 
 Additionally, the structured framework should allow for the creation of a rich toolset that will further promote rapid reliable code development. 
+
+[Control Flow Diagram](https://docs.google.com/drawings/d/1_jMmhirzTuN9DtRAc1PL9qTd5cR360GLOtq_dHbUayQ/edit?usp=sharing "Control Flow Diagram")
