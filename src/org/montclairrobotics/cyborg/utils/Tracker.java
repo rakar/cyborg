@@ -14,8 +14,6 @@ public class Tracker {
 	}
 	
 	public double update() {
-		//TODO: add a delta time calculation to adjust for variable update periods.
-		controller.in(source.get());
-		return controller.update();
+		return controller.update(source.get());
 	}
 }

@@ -21,7 +21,7 @@ public class NavX {
     public float getRoll() {
         return ahrs.getRoll(); // Ignore documentation; there is a typo
     }
-    
+
     public float getYaw() {
         return ahrs.getYaw();
     }

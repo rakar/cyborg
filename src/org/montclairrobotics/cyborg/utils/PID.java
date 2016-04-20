@@ -1,5 +1,8 @@
 package org.montclairrobotics.cyborg.utils;
 
+
+//TODO: add a delta time calculation to adjust for variable update periods.
+
 public class PID {
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
@@ -7,78 +10,69 @@ public class PID {
 	private double target;
 	private double totalError, prevError, error;
 
-	public PID(double P,double I,double D)
-	{
-		this(P,I,D,0,0);
-	}
-	
 	/**
 	 * @param P the Propotional Constant
 	 * @param I the Integral Constant
 	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
 	 */
-	public PID(double P,double I,double D,double minIn,double maxIn)
+	public PID(double P,double I,double D)
 	{
-		this(P,I,D,minIn,maxIn,0,0);
+		this.P=P;
+		this.I=I;
+		this.D=D;
+	}
+	
+	/**
+	 * @param minIn the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
+	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
+	 * @param maxIn the maximum input, or 0 to ignore
+	 */
+	public PID setInLimits(double minIn,double maxIn)
+	{
+		this.minIn = minIn;
+		this.maxIn = maxIn;
+		return this;
 	}
 	
 	/**
 	 * 
-	 * @param P the Propotional Constant
-	 * @param I the Integral Constant
-	 * @param D the Derivitive Constant
-	 * @param minIn OPTIONAL the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn OPTIONAL the maximum input, or 0 to ignore
-	 * @param minOut OPTIONAL the minimum output to constrain to, or 0 to ignore
-	 * @param maxOut OPTIONAL the maximum output to constrain to, or 0 to ignore
+	 * @param minOut the minimum output to constrain to, or 0 to ignore
+	 * @param maxOut the maximum output to constrain to, or 0 to ignore
 	 */
-	public PID(double P,double I,double D, double minIn, double maxIn, double minOut, double maxOut)
+	public PID setOutLimits(double minOut, double maxOut)
 	{
-		this.P=P;
-		this.I=I;
-		this.D=D;
 		this.minOut=minOut;
 		this.maxOut=maxOut;
-		this.minIn=minIn;
-		this.maxIn=maxIn;
-		setTarget();
-		//Updater.add(this, UpdateClass.ControlTranslator);
+		return this;
 	}
 
-	public void setPID(double P, double I, double D){
+	public PID setPID(double P, double I, double D){
 		this.P=P;
 		this.I=I;
 		this.D=D;
+		return this;
 	}
 	
-	public void setMinMaxInOut(double minIn, double maxIn, double minOut, double maxOut)
-	{
-		this.minOut=minOut;
-		this.maxOut=maxOut;
-		this.minIn=minIn;
-		this.maxIn=maxIn;
-	}
 	/**
 	 * Copy constructor so you can copy PID controllers
 	 * @return a copy of this PID controller
 	 */
 	public PID copy()
 	{
-		return new PID(P,I,D,minIn,maxIn,minOut,maxOut);
+		return new PID(P,I,D)
+				.setInLimits(minIn, maxIn)
+				.setOutLimits(minOut, maxOut);
 	}
 	
-	public void setTarget()
+	
+	public PID setTarget()
 	{
-		setTarget(0.0,true);
+		return setTarget(0.0,true);
 	}
 	
-	public void setTarget(double t)
+	public PID setTarget(double t)
 	{
-		setTarget(t,true);
+		return setTarget(t,true);
 	}
 	
 	/**
@@ -86,43 +80,42 @@ public class PID {
 	 * @param t the target/setpoint
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public void setTarget(double t, boolean reset)
+	public PID setTarget(double t, boolean reset)
 	{
 		target=t;
 		if(reset)
 		{
-			error=0.0;
-			prevError=0.0;
-			totalError=0.0;
+			this.reset();
 		}
+		return this;
 	}
 	
-	/**
-	 * Set the input value (do this once per loop)
-	 * @param val the input value
-	 */
-	public void in(double val)
-	{
-		in=val;
+	public PID reset() {
+		error=0.0;
+		prevError=0.0;
+		totalError=0.0;	
+		return this;
 	}
-
-	/**
-	 * Get the output value
-	 * @return the output
-	 */
-	public double out()
-	{
-		return out;
+		
+	public PID resetIAccum() {
+		totalError=0.0;	
+		return this;
 	}
-	
-	private double calculate(double val)
+		
+	private double calculate(double actual)
 	{
-		error=target-val;
+		error=target-actual;
+		
+		// If circular wrap to shortest error
 		if(minIn!=0&&maxIn!=0)
 		{
 			double diff=maxIn-minIn;
 			error=((error-minIn)%diff+diff)%diff+minIn;
 		}
+		
+		// Accumulate total error for I term
+		// and clamp result 
+		// (not sure why were clamping the partial result)
 		totalError+=error;
 		if (I != 0) 
 		{
@@ -138,26 +131,28 @@ public class PID {
 			}
 		}
 	
-		double out = P * error + I * totalError +
+		// calculate correction
+		double correction = P * error + I * totalError +
 	             D * (error - prevError); //+ calculateFeedForward();
 
-		prevError = error;
+		// moved into update to make calculate "update free"
+		// prevError = error;
 		
+		// Clamp output
 		if(minOut!=0 || maxOut!=0)
 		{
-			if (out > maxOut) out=maxOut;
-			else if (out < minOut) out=minOut;
+			if (correction > maxOut) correction=maxOut;
+			else if (correction < minOut) correction=minOut;
 		}
-		return out;
+		
+		return correction;
 	}
 	
-	public double getError(){
-		return error;
-	}
-
-	public double update()
+	public double update(double source)
 	{
-		out=calculate(in);
+		prevError=error;
+		in=source;
+		out = calculate(source);
 		return out;
 	}
 	
@@ -166,8 +161,12 @@ public class PID {
 		return in;
 	}
 	
-	public void setOut(double val)
+	public double getError(){
+		return error;
+	}
+
+	public double getOut()
 	{
-		out=val;
+		return out;
 	}
 }

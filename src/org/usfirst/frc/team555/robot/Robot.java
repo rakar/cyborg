@@ -76,6 +76,7 @@ public class Robot extends Cyborg {
 				.setGyroLockTracker(
 						new NavXYawSource(navx), 
 						new PID(0.2, 0.0, 2.0)
+						.setInLimits(-180, 180) // assumes navx source in degrees
 					)
 				);
 		
