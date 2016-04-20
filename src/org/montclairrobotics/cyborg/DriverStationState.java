@@ -12,19 +12,19 @@ public class DriverStationState {
 
 	
 	public double getJoystickAxis(int stick, int axis) {
-		return joysticks.get(stick).getRawAxis(axis);
+		return joysticks.get(stick-1).getRawAxis(axis);
 	}
 	
 	public boolean getButtonState(int stick, int button) {
-		return buttonState[stick][button]==1?true:false;
+		return buttonState[stick-1][button-1]==1?true:false;
 	}
 	
 	public boolean getButtonPress(int stick, int button) {
-		return buttonTrans[stick][button]==1?true:false;
+		return buttonTrans[stick-1][button-1]==1?true:false;
 	}
 	
 	public boolean getButtonRelease(int stick, int button) {
-		return buttonTrans[stick][button]==-1?true:false;
+		return buttonTrans[stick-1][button-1]==-1?true:false;
 	}
 	
 

@@ -26,7 +26,7 @@ public class DriverStationInterface extends CyborgModule {
 	 */
 	public void setJoystickCount(int count) {
 		for(int i=robot.driverStationState.joystickCount;i<count;i++) {
-			robot.driverStationState.joysticks.add(new Joystick(i));
+			robot.driverStationState.joysticks.add(new Joystick(i+1));
 		}
 		while(robot.driverStationState.joysticks.size()>count) {
 			robot.driverStationState.joysticks.remove(count);

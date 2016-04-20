@@ -60,17 +60,18 @@ public abstract class Cyborg extends IterativeRobot {
      */
 	@Override
     public final void robotInit() {        	
-		driverStationInterface = new DriverStationInterface(this);
-		robotSensorInterface = new RobotSensorInterface(this);
+		driverStationInterface   = new DriverStationInterface(this);
+		robotSensorInterface     = new RobotSensorInterface(this);
 		feedbackControlInterface = new FeedbackControlInterface(this);
 		hardwareControlInterface = new HardwareControlInterface(this);
 
 		cyborgInit();
 		
-		if(driverStationState==null) driverStationState=new DriverStationState();
-		if(driverFeedbackState==null) driverFeedbackState=new FeedbackControlState();
-		if(robotSensorState==null) robotSensorState = new RobotSensorState();
-		if(hardwareControlState==null) hardwareControlState = new HardwareControlState();
+		// Set default StateObjects
+		if(driverStationState  == null) driverStationState   = new DriverStationState();
+		if(driverFeedbackState == null) driverFeedbackState  = new FeedbackControlState();
+		if(robotSensorState    == null) robotSensorState     = new RobotSensorState();
+		if(hardwareControlState== null) hardwareControlState = new HardwareControlState();
 		
 	}
     

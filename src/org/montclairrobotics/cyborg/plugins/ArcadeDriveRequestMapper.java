@@ -31,8 +31,8 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 
 	@Override
 	public void update() {
-		double velocity = robot.driverStationState.getJoystickAxis(joystick,velJoystickAxis);  // y-axis of first stick
-		double rotation = robot.driverStationState.getJoystickAxis(joystick, rotJoystickAxis); // y-axis of second stick;
+		double velocity = -robot.driverStationState.getJoystickAxis(joystick, velJoystickAxis);  // y-axis of first stick
+		double rotation =  robot.driverStationState.getJoystickAxis(joystick, rotJoystickAxis);  // x-axis of first stick;
 		
 		// Implement dead zone
 		if(Math.abs(velocity)<deadzone) velocity=0.0;
