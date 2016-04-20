@@ -7,5 +7,5 @@ public DriveRequestMapper(Cyborg robot) {
 	// TODO Auto-generated constructor stub
 }
 
-	public abstract void Update();
+	public abstract void update();
 }

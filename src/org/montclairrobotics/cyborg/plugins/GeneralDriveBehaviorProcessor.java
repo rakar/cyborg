@@ -3,23 +3,23 @@ package org.montclairrobotics.cyborg.plugins;
 import org.montclairrobotics.cyborg.BehaviorProcessor;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class TankDriveBehaviorProcessor extends BehaviorProcessor {
+public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 
-	public TankDriveBehaviorProcessor(Cyborg robot) {
+	public GeneralDriveBehaviorProcessor(Cyborg robot) {
 		super(robot);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void update() {
 		super.update();
 		
-		TankDriveRequestStatus rs = (TankDriveRequestStatus)robot.driveRequestStatus;
-		DifferentialDriveControlStatus cs = (DifferentialDriveControlStatus)robot.driveControlStatus;
+		GeneralDriveRequestStatus rs = (GeneralDriveRequestStatus)robot.driveRequestStatus;
+		GeneralDriveControlStatus cs = (GeneralDriveControlStatus)robot.driveControlStatus;
 		
 		// Copy simple Tank drive command info
-		cs.leftPower = rs.leftPower;
-		cs.rightPower = rs.rightPower;
+		cs.direction.setLocation(rs.direction);
+		cs.rotation = rs.rotation;
 		cs.active = rs.active;
 		
 		//
@@ -29,4 +29,6 @@ public class TankDriveBehaviorProcessor extends BehaviorProcessor {
 		//  
 		rs.active = false;
 	}
+
+
 }

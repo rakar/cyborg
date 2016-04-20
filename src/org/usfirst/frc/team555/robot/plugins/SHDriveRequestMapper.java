@@ -14,7 +14,7 @@ public class SHDriveRequestMapper extends DriveRequestMapper {
 	}
 
 	@Override
-	public void Update() {
+	public void update() {
 		SHDriveRequestStatus drs = (SHDriveRequestStatus)robot.driveRequestStatus;
 		//drs.DrivePower = robot.driverStationState.getJoystickAxis(0, 1);
 		//drs.TurnPower = robot.driverStationState.getJoystickAxis(0, 0);

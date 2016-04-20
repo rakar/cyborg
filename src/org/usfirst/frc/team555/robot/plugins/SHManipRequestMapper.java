@@ -13,7 +13,7 @@ public class SHManipRequestMapper extends ManipRequestMapper {
 	}
 	
 	@Override
-	public void Update() {
+	public void update() {
 		//SHDrivetrainControlRequest req = (SHDrivetrainControlRequest)robot.inputRequest;
 		//req.Shoot = robot.driverStationState.getButtonPress(1, 1);
 		//req.ArmUp = robot.driverStationState.getButtonPress(1, 2);

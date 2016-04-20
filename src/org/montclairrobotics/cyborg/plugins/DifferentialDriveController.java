@@ -16,15 +16,27 @@ public class DifferentialDriveController extends DriveController {
 	}
 	
 	@Override
-	public void Update() {
-		if(!(robot.driveControlStatus instanceof TankDriveControlStatus)) {
-			System.out.println("Error: TankDriveTalonController requires TankDriveControlStatus");
-		} else {
-			TankDriveControlStatus status = (TankDriveControlStatus)robot.driveControlStatus;
+	public void update() {
+		if(robot.driveControlStatus instanceof DifferentialDriveControlStatus) {
+			DifferentialDriveControlStatus status = (DifferentialDriveControlStatus)robot.driveControlStatus;
 			if(status.active) {
 				for(SpeedController l:tLeft) l.set(status.leftPower);
 				for(SpeedController r:tRight) r.set(status.rightPower);
 			}
+
+		} else if(robot.driveControlStatus instanceof GeneralDriveControlStatus) {
+			GeneralDriveControlStatus status = (GeneralDriveControlStatus)robot.driveControlStatus;
+			
+			double left = status.direction.getY()+status.rotation;
+			double right= status.direction.getY()-status.rotation;
+			
+			if(status.active) {
+				for(SpeedController l:tLeft) l.set(left);
+				for(SpeedController r:tRight) r.set(right);
+			}
+
+		} else {
+			System.out.println("Error: Invalid DriveControlStatus for TankDriveTalonController");
 		}
 	}
 	
@@ -43,7 +55,7 @@ public class DifferentialDriveController extends DriveController {
 	 * This concept is not fleshed out yet.  
 	 */
 	@Override
-	public void ConfigHardware() {
+	public void configHardware() {
 		
 	}
 }

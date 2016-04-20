@@ -4,7 +4,7 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.cyborg.*;
 import org.montclairrobotics.cyborg.plugins.DifferentialDriveController;
 import org.montclairrobotics.cyborg.plugins.TankDriveBehaviorProcessor;
-import org.montclairrobotics.cyborg.plugins.TankDriveControlStatus;
+import org.montclairrobotics.cyborg.plugins.DifferentialDriveControlStatus;
 import org.montclairrobotics.cyborg.plugins.TankDriveRequestMapper;
 import org.montclairrobotics.cyborg.plugins.TankDriveRequestStatus;
 
@@ -31,7 +31,7 @@ public class Robot extends Cyborg {
 		//
 		// Input Mapper Initialization
 		//
-		this.driveRequestMappers.add(new TankDriveRequestMapper(this));
+		this.driveRequestMappers.add(new TankDriveRequestMapper(this, 1, 1, 2, 1));
 		this.manipRequestMappers.add(new ManipRequestMapper(this));
 		this.robotSensorMappers.add(new RobotSensorMapper(this));
 		
@@ -42,8 +42,9 @@ public class Robot extends Cyborg {
 		this.manipRequestStatus = new ManipRequestStatus();
 		this.robotSensorStatus = new RobotSensorStatus();	
 		this.feedbackControlStatus = new FeedbackControlStatus();
-		this.driveControlStatus = new TankDriveControlStatus();
+		this.driveControlStatus = new DifferentialDriveControlStatus();
 		this.manipControlStatus = new ManipControlStatus();	
+		this.processorStatus = new ProcessorStatus();
 	
 		//
 		// Processors

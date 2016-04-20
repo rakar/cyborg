@@ -7,7 +7,7 @@ public class HardwareControlInterface extends CyborgModule {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void Update() {
+	public void update() {
 		// TODO Auto-generated method stub
 		//HardwareControlState state = robot.hardwareControlState;
 		//for(int i=0;i<16;i++) {

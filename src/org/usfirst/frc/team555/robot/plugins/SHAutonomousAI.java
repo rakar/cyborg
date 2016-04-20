@@ -15,8 +15,8 @@ public class SHAutonomousAI extends AutonomousAI {
 	}
 	
 	@Override
-	public void Update() {
-		sm.Update();
+	public void update() {
+		sm.update();
 	}
 
 }

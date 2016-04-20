@@ -10,7 +10,7 @@ public abstract class StateMachine<T> {
 		currState = start;
 	}
 
-	public void Update() {
+	public void update() {
 		boolean loop = true;
 		while(loop) {
 			calcNextState();

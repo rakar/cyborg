@@ -7,7 +7,7 @@ public class RobotSensorInterface extends CyborgModule {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void Update() {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}

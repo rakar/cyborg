@@ -2,9 +2,9 @@ package org.montclairrobotics.cyborg.plugins;
 
 import org.montclairrobotics.cyborg.DriveControlStatus;
 
-public class TankDriveControlStatus extends DriveControlStatus {
+public class DifferentialDriveControlStatus extends DriveControlStatus {
 
-	public TankDriveControlStatus() {
+	public DifferentialDriveControlStatus() {
 		// TODO Auto-generated constructor stub
 	}
 

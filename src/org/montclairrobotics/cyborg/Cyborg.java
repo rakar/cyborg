@@ -45,6 +45,7 @@ public abstract class Cyborg extends IterativeRobot {
 	public FeedbackControlStatus feedbackControlStatus;
 	public DriveControlStatus driveControlStatus;
 	public ManipControlStatus manipControlStatus;
+	public ProcessorStatus processorStatus;
 	
 	// Logic Layer
 	public ArrayList<RuleProcessor> ruleProcessors = new ArrayList<>();
@@ -111,7 +112,7 @@ public abstract class Cyborg extends IterativeRobot {
 		robotSensorInterface.Update();
 		
 		// Update Input Mappers
-		for(DriveRequestMapper m:this.driveRequestMappers) m.Update(); 
+		for(DriveRequestMapper m:this.driveRequestMappers) m.update(); 
 		for(ManipRequestMapper m:this.manipRequestMappers) m.Update(); 
 		for(RobotSensorMapper m:this.robotSensorMappers) m.Update(); 
 		

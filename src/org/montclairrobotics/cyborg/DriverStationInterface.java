@@ -9,7 +9,7 @@ public class DriverStationInterface extends CyborgModule {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void Update() {
+	public void update() {
 		for(int i=0; i<robot.driverStationState.joystickCount;i++) {
 			Joystick js = robot.driverStationState.joysticks.get(i);
 			int jsbc = js.getButtonCount();
