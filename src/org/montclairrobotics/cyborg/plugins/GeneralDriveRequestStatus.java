@@ -12,5 +12,8 @@ public class GeneralDriveRequestStatus extends DriveRequestStatus {
 	
 	public Point2D direction;
 	public double rotation;
+	
+	public boolean gyroLock;
+	
 
 }

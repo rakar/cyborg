@@ -9,14 +9,26 @@ public class TankDriveRequestMapper extends DriveRequestMapper {
 	private int rightJoystick;
 	private int rightJoystickAxis;
 	private double deadzone = 0.0;
+	private int gyroLockStick = -1;
+	private int gyroLockButton = -1;
 
 	public TankDriveRequestMapper(Cyborg robot, int leftJoystick, int leftJoystickAxis, int rightJoystick, int rightJoystickAxis) {
 		super(robot);
-		// TODO Auto-generated constructor stub
+		this.leftJoystick = leftJoystick;
+		this.leftJoystickAxis = leftJoystickAxis;
+		this.rightJoystick = rightJoystick;
+		this.rightJoystickAxis = rightJoystickAxis;
 	}
 	
-	public void setDeadZone(double deadzone) {
+	public TankDriveRequestMapper setDeadZone(double deadzone) {
 		this.deadzone = deadzone;
+		return this;
+	}
+	
+	public TankDriveRequestMapper setGyroLockButton(int stick, int button) {
+		this.gyroLockStick = stick;
+		this.gyroLockButton = button;
+		return this;
 	}
 
 	@Override
@@ -32,9 +44,16 @@ public class TankDriveRequestMapper extends DriveRequestMapper {
 			GeneralDriveRequestStatus rs = (GeneralDriveRequestStatus)robot.driveRequestStatus;
 			double velocity = (leftStick+rightStick)/2.0;// Average stick value "forward"
 			double rotation = leftStick - velocity;
+
+			rs.active = true;
+			
 			rs.direction.setLocation(0, velocity); 
 			rs.rotation = rotation; 
-			rs.active = true;
+			
+			if(gyroLockStick>=0) {
+				rs.gyroLock = robot.driverStationState.getButtonState(gyroLockStick, gyroLockButton);
+			}
+			
 		} else if (robot.driveRequestStatus instanceof TankDriveRequestStatus) {
 			TankDriveRequestStatus rs = (TankDriveRequestStatus)robot.driveRequestStatus;
 			rs.leftPower = leftStick; 

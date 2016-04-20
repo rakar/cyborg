@@ -1,13 +1,27 @@
 package org.montclairrobotics.cyborg.plugins;
 
+import javax.xml.transform.Source;
+
 import org.montclairrobotics.cyborg.BehaviorProcessor;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.utils.EdgeTrigger;
+import org.montclairrobotics.cyborg.utils.ISource;
+import org.montclairrobotics.cyborg.utils.PID;
+import org.montclairrobotics.cyborg.utils.Tracker;
 
 public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
+	EdgeTrigger gyroLockState;
+	Tracker gyroLockTracker=null;
 
 	public GeneralDriveBehaviorProcessor(Cyborg robot) {
 		super(robot);
-		// TODO Auto-generated constructor stub
+
+		gyroLockState = new EdgeTrigger();
+	}
+	
+	public GeneralDriveBehaviorProcessor setGyroLockTracker(ISource source, PID pid) {
+		this.gyroLockTracker = new Tracker(source, pid);
+		return this;
 	}
 	
 	@Override
@@ -18,9 +32,15 @@ public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 		GeneralDriveControlStatus cs = (GeneralDriveControlStatus)robot.driveControlStatus;
 		
 		// Copy simple Tank drive command info
+		cs.active = rs.active;
 		cs.direction.setLocation(rs.direction);
 		cs.rotation = rs.rotation;
-		cs.active = rs.active;
+		
+		gyroLockState.setState(rs.gyroLock);
+		if(gyroLockTracker!=null) {
+			if(gyroLockState.getRisingEdge()) gyroLockTracker.lock();
+			if(gyroLockState.getState()) cs.rotation = gyroLockTracker.update();
+		}
 		
 		//
 		// Turn off request.active to indicate that command was handled. 
