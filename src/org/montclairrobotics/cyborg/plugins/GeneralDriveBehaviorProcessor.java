@@ -10,6 +10,7 @@ import org.montclairrobotics.cyborg.utils.Tracker;
 public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 	EdgeTrigger gyroLockState;
 	Tracker gyroLockTracker=null;
+	
 
 	public GeneralDriveBehaviorProcessor(Cyborg robot) {
 		super(robot);
@@ -21,7 +22,7 @@ public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 		this.gyroLockTracker = new Tracker(source, pid);
 		return this;
 	}
-	
+		
 	@Override
 	public void update() {
 		super.update();
@@ -29,7 +30,6 @@ public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 		GeneralDriveRequestStatus rs = (GeneralDriveRequestStatus)robot.driveRequestStatus;
 		GeneralDriveControlStatus cs = (GeneralDriveControlStatus)robot.driveControlStatus;
 		
-		// Copy simple Tank drive command info
 		cs.active = rs.active;
 		if(cs.active) {
 			cs.direction.setLocation(rs.direction);

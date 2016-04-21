@@ -10,6 +10,10 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 	private double deadzone = 0.0;
 	private int gyroLockStick = -1;
 	private int gyroLockButton = -1;
+	private double velocitySmoothing;
+	private double rotationSmoothing;
+	private double lastVelocity;
+	private double lastRotation;
 
 	public ArcadeDriveRequestMapper(Cyborg robot, int joystick, int velJoystickAxis, int rotJoystickAxis) {
 		super(robot);
@@ -29,6 +33,13 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 		return this;
 	}
 
+	public ArcadeDriveRequestMapper setSmoothing(double velocitySmoothing, double rotationSmoothing) {
+		this.velocitySmoothing = velocitySmoothing;
+		this.rotationSmoothing = rotationSmoothing;
+		return this;
+	}
+	
+	
 	@Override
 	public void update() {
 		double velocity = -robot.driverStationState.getJoystickAxis(joystick, velJoystickAxis);  // y-axis of first stick
@@ -40,6 +51,17 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 		
 		if(robot.driveRequestStatus instanceof GeneralDriveRequestStatus) {
 			GeneralDriveRequestStatus rs = (GeneralDriveRequestStatus)robot.driveRequestStatus;
+
+			// if smoothing is defined for a given axis use it to follow the control 
+			if(velocitySmoothing!=0) {
+				velocity = lastVelocity + (velocity - lastVelocity)*velocitySmoothing;
+				lastVelocity = velocity;
+			}
+			
+			if(rotationSmoothing!=0) { 
+				rotation = lastRotation + (rotation - lastRotation)*rotationSmoothing;
+				lastRotation = rotation;
+			}
 
 			rs.active = true;
 			rs.direction.setLocation(0, velocity); 
