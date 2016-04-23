@@ -52,10 +52,10 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 		double value[] = new double[3];
 		
 		for(int i=0;i<3;i++) {
-			if(joystick[0]>=0)
-			   value[0] = robot.driverStationState.getJoystickAxis(joystick[i], joystickAxis[i]);
+			if(joystick[i]>=0)
+			   value[i] = robot.driverStationState.getJoystickAxis(joystick[i], joystickAxis[i]);
 			else
-				value[0] = 0;	
+				value[i] = 0;	
 			if(Math.abs(value[i]) <deadzone[i]) value[i] = 0.0;
 		}
 		

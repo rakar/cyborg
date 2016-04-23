@@ -8,9 +8,11 @@ import org.montclairrobotics.cyborg.DriveController;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class DifferentialDriveController extends DriveController {
-	ArrayList<SpeedController> tLeft = new ArrayList<>();
-	ArrayList<SpeedController> tRight = new ArrayList<>();
-
+	private ArrayList<SpeedController> tLeft = new ArrayList<>();
+	private ArrayList<SpeedController> tRight = new ArrayList<>();
+	int leftDir = 1;
+	int rightDir = 1;
+	
 	public DifferentialDriveController(Cyborg robot) {
 		super(robot);
 	}
@@ -29,8 +31,8 @@ public class DifferentialDriveController extends DriveController {
 				GeneralDriveControlStatus status = (GeneralDriveControlStatus)robot.driveControlStatus;
 				double left = status.direction.getY()+status.rotation;
 				double right= status.direction.getY()-status.rotation;
-				for(SpeedController l:tLeft) l.set(left);
-				for(SpeedController r:tRight) r.set(right);
+				for(SpeedController l:tLeft) l.set(left*leftDir);
+				for(SpeedController r:tRight) r.set(right*rightDir);
 	
 			} else {
 				System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
@@ -45,6 +47,16 @@ public class DifferentialDriveController extends DriveController {
 	
 	public DifferentialDriveController addRightSpeedController(SpeedController controller) {
 		tRight.add(controller);
+		return this;
+	}
+	
+	public DifferentialDriveController setLeftDirection(int dir) {
+		leftDir = dir;
+		return this;
+	}
+
+	public DifferentialDriveController setRightDirection(int dir) {
+		rightDir = dir;
 		return this;
 	}
 

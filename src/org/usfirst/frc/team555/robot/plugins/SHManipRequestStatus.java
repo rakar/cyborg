@@ -7,7 +7,8 @@ public class SHManipRequestStatus extends ManipRequestStatus {
 	public boolean ArmDown;
 	public boolean HalfUp;
 	public boolean HalfDown;
-	public boolean Shoot;
+	public boolean ShootOut;
+	public boolean ShootIn;
 	public boolean SpinIn;
 	public boolean SpinOut;
 }

@@ -9,7 +9,7 @@ public class GeneralDriveControlStatus extends DriveControlStatus {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public DirectionVector direction;
+	public DirectionVector direction = new DirectionVector();
 	public double rotation;
 
 }

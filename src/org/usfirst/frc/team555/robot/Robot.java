@@ -8,8 +8,6 @@ import org.usfirst.frc.team555.robot.plugins.*;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
-
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -48,8 +46,8 @@ public class Robot extends Cyborg {
 		// Arcade Drive...
 		this.driveRequestMappers.add(
 				new ArcadeDriveRequestMapper(this, 0, 1, -1, -1, 0, 0) // Add the basic mapper
-				.setDeadZone(0.1)			// Activate Deadzone
-				.setGyroLockButton(0, 0)	// Set GyroLock button
+				.setDeadZone(0.2)			// Activate Deadzone
+				//.setGyroLockButton(0, 1)	// Set GyroLock button
 				);
 
 		this.manipRequestMappers.add(new SHManipRequestMapper(this));
@@ -98,9 +96,10 @@ public class Robot extends Cyborg {
 		this.driveControllers.add(
 				new DifferentialDriveController(this)
 				.addLeftSpeedController (new Talon(1))  // Left:  1 PWM: 1
-				.addLeftSpeedController (new Talon(2))  // Left:  2 PWM: 2
-				.addRightSpeedController(new Talon(3))  // Right: 1 PWM: 3
+				.addLeftSpeedController (new Talon(3))  // Left:  2 PWM: 2
+				.addRightSpeedController(new Talon(2))  // Right: 1 PWM: 3
 				.addRightSpeedController(new Talon(4))  // Right: 2 PWM: 4
+				.setRightDirection(-1)
 				);
 		
 		this.manipControllers.add(new SHManipController(this));

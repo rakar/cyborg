@@ -1,6 +1,5 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.ManipController;
 import org.montclairrobotics.cyborg.utils.*;
 import org.usfirst.frc.team555.robot.Robot;
@@ -15,8 +14,8 @@ public class SHManipController extends ManipController {
 	Solenoid halfValve;
 
 	EdgeTrigger armControl;
-	EdgeTrigger halfControl = new EdgeTrigger();
-	EdgeTrigger shootControl = new EdgeTrigger();
+	EdgeTrigger halfControl;
+	EdgeTrigger shootControl;
 	
 	Talon leftSpin;
 	Talon rightSpin;
@@ -25,15 +24,15 @@ public class SHManipController extends ManipController {
 		super(robot);
 
 		armValve = new Solenoid(0);
-		halfValve = new Solenoid(1);
-		shootValve = new Solenoid(2);
+		halfValve = new Solenoid(2);
+		shootValve = new Solenoid(1);
 		
 		armControl = new EdgeTrigger();
 		halfControl = new EdgeTrigger();
 		shootControl = new EdgeTrigger();
 		
 		leftSpin = new Talon(5);
-		rightSpin = new Talon(6);
+		rightSpin = new Talon(0);
 	}
 
 	
@@ -43,17 +42,14 @@ public class SHManipController extends ManipController {
 
 			SHManipControlStatus cs = (SHManipControlStatus)robot.manipControlStatus;
 			
-			armControl.setState(cs.ArmDown);
-			if(armControl.getRisingEdge()) armValve.set(true);
-			if(armControl.getFallingEdge()) armValve.set(false);
+			if(cs.ArmDown) armValve.set(true);
+			if(cs.ArmUp)   armValve.set(false);
 			
-			halfControl.setState(cs.HalfDown);
-			if(halfControl.getRisingEdge()) halfValve.set(true);
-			if(halfControl.getFallingEdge()) halfValve.set(false);
+			if(cs.HalfDown) halfValve.set(true);
+			if(cs.HalfUp)   halfValve.set(false);
 			
-			shootControl.setState(cs.ShootOut);
-			if(shootControl.getRisingEdge()) shootValve.set(true);
-			if(shootControl.getFallingEdge()) shootValve.set(false);
+			if(cs.ShootOut) shootValve.set(true);
+			if(cs.ShootIn)  shootValve.set(false);
 			
 			leftSpin.set(-cs.SpinSpeed);
 			rightSpin.set(cs.SpinSpeed);

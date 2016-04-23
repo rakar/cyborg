@@ -9,7 +9,10 @@ public class SHManipControlStatus extends ManipControlStatus {
 	}
 	
 	public boolean ArmDown;
+	public boolean ArmUp;
 	public boolean HalfDown;
+	public boolean HalfUp;
 	public boolean ShootOut;
+	public boolean ShootIn;
 	public double SpinSpeed;
 }
