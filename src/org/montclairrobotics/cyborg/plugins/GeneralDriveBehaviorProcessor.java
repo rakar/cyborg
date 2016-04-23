@@ -2,10 +2,7 @@ package org.montclairrobotics.cyborg.plugins;
 
 import org.montclairrobotics.cyborg.BehaviorProcessor;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.utils.EdgeTrigger;
-import org.montclairrobotics.cyborg.utils.ISource;
-import org.montclairrobotics.cyborg.utils.PID;
-import org.montclairrobotics.cyborg.utils.Tracker;
+import org.montclairrobotics.cyborg.utils.*;
 
 public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 	EdgeTrigger gyroLockState;
@@ -32,7 +29,7 @@ public class GeneralDriveBehaviorProcessor extends BehaviorProcessor {
 		
 		cs.active = rs.active;
 		if(cs.active) {
-			cs.direction.setLocation(rs.direction);
+			cs.direction.copy(rs.direction);
 			cs.rotation = rs.rotation;
 			
 			gyroLockState.setState(rs.gyroLock);

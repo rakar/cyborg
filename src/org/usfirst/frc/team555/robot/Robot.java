@@ -2,19 +2,14 @@
 package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.cyborg.*;
-import org.montclairrobotics.cyborg.plugins.DifferentialDriveController;
-import org.montclairrobotics.cyborg.plugins.GeneralDriveBehaviorProcessor;
-import org.montclairrobotics.cyborg.plugins.GeneralDriveRequestStatus;
-import org.montclairrobotics.cyborg.plugins.TankDriveBehaviorProcessor;
-import org.montclairrobotics.cyborg.plugins.TankDriveRequestMapper;
-import org.montclairrobotics.cyborg.plugins.TankDriveRequestStatus;
-import org.montclairrobotics.cyborg.plugins.ArcadeDriveRequestMapper;
-import org.montclairrobotics.cyborg.plugins.DifferentialDriveControlStatus;
-import org.montclairrobotics.cyborg.utils.NavX;
-import org.montclairrobotics.cyborg.utils.NavXYawSource;
-import org.montclairrobotics.cyborg.utils.PID;
+import org.montclairrobotics.cyborg.plugins.*;
+import org.montclairrobotics.cyborg.utils.*;
+import org.usfirst.frc.team555.robot.plugins.*;
+
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
+
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -34,7 +29,8 @@ public class Robot extends Cyborg {
 		
 		// Declare NavX Unit
 		ahrs = new AHRS(SPI.Port.kMXP);
-		navx = new NavX(ahrs);
+		navx = new NavX(ahrs);		
+		
 		// Configure "built-in" DriverStationInterface
 		this.setJoystickCount(2);
 		
@@ -43,52 +39,62 @@ public class Robot extends Cyborg {
 		//
 		
 		// Tank Drive...
-		this.driveRequestMappers.add(
-				new TankDriveRequestMapper(this, 1, 1, 2, 1) // Add the basic mapper
-				.setDeadZone(0.1)			// Activate Deadzone
-				.setGyroLockButton(1, 1)	// Set GyroLock button
-				);
-		
-		// Arcade Drive...
 		//this.driveRequestMappers.add(
-		//		new ArcadeDriveRequestMapper(this, 1, 1, 2) // Add the basic mapper
+		//		new TankDriveRequestMapper(this, 0, 1, 1, 1) // Add the basic mapper
 		//		.setDeadZone(0.1)			// Activate Deadzone
 		//		.setGyroLockButton(1, 1)	// Set GyroLock button
 		//		);
-		this.manipRequestMappers.add(new ManipRequestMapper(this));
-		this.robotSensorMappers.add(new RobotSensorMapper(this));
+		
+		// Arcade Drive...
+		this.driveRequestMappers.add(
+				new ArcadeDriveRequestMapper(this, 0, 1, -1, -1, 0, 0) // Add the basic mapper
+				.setDeadZone(0.1)			// Activate Deadzone
+				.setGyroLockButton(0, 0)	// Set GyroLock button
+				);
+
+		this.manipRequestMappers.add(new SHManipRequestMapper(this));
+		//this.robotSensorMappers.add(new RobotSensorMapper(this));
 	
 		//
 		// Status Initialization
 		//
-		this.driveRequestStatus    = new TankDriveRequestStatus(); // GeneralDriveRequestStatus();
-		this.manipRequestStatus    = new ManipRequestStatus();
+		this.driveRequestStatus    = new GeneralDriveRequestStatus();
+		this.driveControlStatus    = new GeneralDriveControlStatus();
+
+		this.manipRequestStatus    = new SHManipRequestStatus();
+		this.manipControlStatus    = new SHManipControlStatus();	
+		
 		this.robotSensorStatus     = new RobotSensorStatus();	
 		this.feedbackControlStatus = new FeedbackControlStatus();
-		this.driveControlStatus    = new DifferentialDriveControlStatus();
-		this.manipControlStatus    = new ManipControlStatus();	
 		this.processorStatus       = new ProcessorStatus();
 	
 		//
 		// Processors
 		//
-		this.ruleProcessors.add(new RuleProcessor(this));
+		
+		//this.ruleProcessors.add(new RuleProcessor(this));
+		
+		this.behaviorProcessors.add(
+				new GeneralDriveBehaviorProcessor(this)
+				.setGyroLockTracker(
+						new NavXYawSource(navx), 
+						new PID(0.2, 0.0, 2.0)
+						.setInputLimits(-180, 180) // assumes navx source in degrees
+					)
+				);
 		//this.behaviorProcessors.add(
-		//		new GeneralDriveBehaviorProcessor(this)
-		//		.setGyroLockTracker(
-		//				new NavXYawSource(navx), 
-		//				new PID(0.2, 0.0, 2.0)
-		//				.setInLimits(-180, 180) // assumes navx source in degrees
-		//			)
+		//		new TankDriveBehaviorProcessor(this)
 		//		);
 		this.behaviorProcessors.add(
-				new TankDriveBehaviorProcessor(this)
+				new SHBehaviorProcessor(this)
 				);
 		
 		//
 		// Output Controller Initialization
 		//
-		this.feedbackControllers.add(new FeedbackController(this));
+		
+		//this.feedbackControllers.add(new FeedbackController(this));
+		
 		this.driveControllers.add(
 				new DifferentialDriveController(this)
 				.addLeftSpeedController (new Talon(1))  // Left:  1 PWM: 1
@@ -96,7 +102,8 @@ public class Robot extends Cyborg {
 				.addRightSpeedController(new Talon(3))  // Right: 1 PWM: 3
 				.addRightSpeedController(new Talon(4))  // Right: 2 PWM: 4
 				);
-		this.manipControllers.add(new ManipController(this));
+		
+		this.manipControllers.add(new SHManipController(this));
 			
 	}
 	

@@ -33,7 +33,7 @@ public class DifferentialDriveController extends DriveController {
 				for(SpeedController r:tRight) r.set(right);
 	
 			} else {
-				System.out.println("Error: Invalid DriveControlStatus for TankDriveTalonController");
+				System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
 			}
 		}
 	}

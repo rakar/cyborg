@@ -30,7 +30,8 @@ public class SHAutoAISM extends StateMachine<AutoAIState> {
 	
 	@Override
 	public void doTransition() {
-		SHManipControlRequest scr = (SHManipControlRequest) robot.manipRequestStatus;
+		/*
+		SHManipRequestStatus scr = (SHManipRequestStatus) robot.manipRequestStatus;
 		SHDriveRequestStatus dcr =(SHDriveRequestStatus) robot.driveRequestStatus;
 		if(currState==AutoAIState.start && nextState==AutoAIState.armdown) {
 			scr.ArmDown=true;
@@ -52,5 +53,6 @@ public class SHAutoAISM extends StateMachine<AutoAIState> {
 			dcr.GyroLock = true;
 			dcr.DriveCmd = true;
 		}
+		*/
 	}
 }

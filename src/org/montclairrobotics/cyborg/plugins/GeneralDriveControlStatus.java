@@ -1,8 +1,7 @@
 package org.montclairrobotics.cyborg.plugins;
 
-import java.awt.geom.Point2D;
-
 import org.montclairrobotics.cyborg.DriveControlStatus;
+import org.montclairrobotics.cyborg.utils.*;
 
 public class GeneralDriveControlStatus extends DriveControlStatus {
 
@@ -10,7 +9,7 @@ public class GeneralDriveControlStatus extends DriveControlStatus {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Point2D direction;
+	public DirectionVector direction;
 	public double rotation;
 
 }

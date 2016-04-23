@@ -47,7 +47,7 @@ public class TankDriveRequestMapper extends DriveRequestMapper {
 
 			rs.active = true;
 			
-			rs.direction.setLocation(0, velocity); 
+			rs.direction.setXY(0, velocity); 
 			rs.rotation = rotation; 
 			
 			if(gyroLockStick>=0) {

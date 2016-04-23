@@ -27,7 +27,7 @@ public class PID {
 	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
 	 * @param maxIn the maximum input, or 0 to ignore
 	 */
-	public PID setInLimits(double minIn,double maxIn)
+	public PID setInputLimits(double minIn,double maxIn)
 	{
 		this.minIn = minIn;
 		this.maxIn = maxIn;
@@ -39,7 +39,7 @@ public class PID {
 	 * @param minOut the minimum output to constrain to, or 0 to ignore
 	 * @param maxOut the maximum output to constrain to, or 0 to ignore
 	 */
-	public PID setOutLimits(double minOut, double maxOut)
+	public PID setOutputLimits(double minOut, double maxOut)
 	{
 		this.minOut=minOut;
 		this.maxOut=maxOut;
@@ -60,8 +60,8 @@ public class PID {
 	public PID copy()
 	{
 		return new PID(P,I,D)
-				.setInLimits(minIn, maxIn)
-				.setOutLimits(minOut, maxOut);
+				.setInputLimits(minIn, maxIn)
+				.setOutputLimits(minOut, maxOut);
 	}
 	
 	
