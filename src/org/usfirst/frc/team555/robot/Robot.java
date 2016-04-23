@@ -8,6 +8,8 @@ import org.usfirst.frc.team555.robot.plugins.*;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
+
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -19,8 +21,18 @@ import com.kauailabs.navx.frc.AHRS;
  * directory.
  */
 public class Robot extends Cyborg {
+	
 	AHRS ahrs;
 	NavX navx;
+
+	public SolenoidValve armValve;
+	public SolenoidValve shootValve;
+	public SolenoidValve halfValve;
+
+	public Talon leftSpin;
+	public Talon rightSpin;
+	
+
 	
 	@Override
 	public void cyborgInit() {
@@ -28,7 +40,14 @@ public class Robot extends Cyborg {
 		// Declare NavX Unit
 		ahrs = new AHRS(SPI.Port.kMXP);
 		navx = new NavX(ahrs);		
+
+		armValve = new SolenoidValve(0);
+		halfValve = new SolenoidValve(2);
+		shootValve = new SolenoidValve(1);
 		
+		leftSpin = new Talon(5);
+		rightSpin = new Talon(0);
+
 		// Configure "built-in" DriverStationInterface
 		this.setJoystickCount(2);
 		
@@ -84,7 +103,7 @@ public class Robot extends Cyborg {
 		//		new TankDriveBehaviorProcessor(this)
 		//		);
 		this.behaviorProcessors.add(
-				new SHBehaviorProcessor(this)
+				new SHManipBehaviorProcessor(this)
 				);
 		
 		//

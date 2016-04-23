@@ -17,16 +17,18 @@ public class SHManipRequestMapper extends ManipRequestMapper {
 	@Override
 	public void update() {
 		SHManipRequestStatus req = (SHManipRequestStatus)robot.manipRequestStatus;
-		req.ShootOut = robot.driverStationState.getButtonPress(1, 1);
-		req.ShootIn  = robot.driverStationState.getButtonRelease(1, 1);
-		req.ArmUp = robot.driverStationState.getButtonPress(1, 6);
-		req.ArmDown = robot.driverStationState.getButtonState(1, 3);
-		req.HalfUp = robot.driverStationState.getButtonPress(1, 5);
-		req.HalfDown = robot.driverStationState.getButtonPress(1, 4);
+		req.ShootOut.set(
+				robot.driverStationState.getButtonPress(1, 1),
+				robot.driverStationState.getButtonRelease(1, 1));
+		req.ArmDown.set(
+				robot.driverStationState.getButtonPress(1, 3),
+				robot.driverStationState.getButtonState(1, 5));
+		req.HalfUp.set(
+				robot.driverStationState.getButtonPress(1, 6),
+				robot.driverStationState.getButtonPress(1, 4));
 		
 		int pov = robot.driverStationState.getPOV(1, 0);
-		req.SpinIn   = 180==pov;
-		req.SpinOut  =   0==pov;
+		req.SpinIn.set(180==pov,0==pov);
 		
 		//SmartDashboard.putNumber("POV", pov);
 	}
