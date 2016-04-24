@@ -53,7 +53,7 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 		
 		for(int i=0;i<3;i++) {
 			if(joystick[i]>=0)
-			   value[i] = robot.driverStationState.getJoystickAxis(joystick[i], joystickAxis[i]);
+			   value[i] = robot.hardwareAdapter.getJoystickAxis(joystick[i], joystickAxis[i]);
 			else
 				value[i] = 0;	
 			if(Math.abs(value[i]) <deadzone[i]) value[i] = 0.0;
@@ -75,7 +75,7 @@ public class ArcadeDriveRequestMapper extends DriveRequestMapper {
 			rs.rotation = value[2]; 
 			
 			if(gyroLockStick>=0) {
-				rs.gyroLock = robot.driverStationState.getButtonState(gyroLockStick, gyroLockButton);
+				rs.gyroLock = robot.hardwareAdapter.getButtonState(gyroLockStick, gyroLockButton);
 			}			
 		} else {
 			robot.driveRequestStatus.active = false; // If we don't know what type of request it is shut down drive

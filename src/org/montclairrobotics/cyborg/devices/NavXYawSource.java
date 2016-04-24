@@ -1,4 +1,6 @@
-package org.montclairrobotics.cyborg.utils;
+package org.montclairrobotics.cyborg.devices;
+
+import org.montclairrobotics.cyborg.utils.ISource;
 
 public class NavXYawSource implements ISource {
 	private NavX navx;

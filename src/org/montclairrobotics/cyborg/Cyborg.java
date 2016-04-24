@@ -5,6 +5,8 @@ package org.montclairrobotics.cyborg;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team555.robot.Robot.Device;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
@@ -13,17 +15,19 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  */
 public abstract class Cyborg extends IterativeRobot {
 	// Hardware Interface Classes
-	public DriverStationInterface driverStationInterface;
-	public RobotSensorInterface robotSensorInterface;
+	//public DriverStationAdapter driverStationInterface;
+	//public RobotSensorInterface robotSensorInterface;
 	public FeedbackControlInterface feedbackControlInterface;
-	public HardwareControlInterface hardwareControlInterface;
+	//public HardwareControlInterface hardwareControlInterface;
+	//@SuppressWarnings("rawtypes")
+	public HardwareAdapter hardwareAdapter;
 	
 	// State Classes
 	// States represent low-level "raw" messages
-	public DriverStationState driverStationState;
-	public RobotSensorState robotSensorState;
+	//public DriverStationState driverStationState;
+	//public RobotSensorState robotSensorState;
 	public FeedbackControlState driverFeedbackState;
-	public HardwareControlState hardwareControlState;
+	//public HardwareControlState hardwareControlState;
 
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
@@ -53,26 +57,24 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	public AutonomousAI autonomousAI;
 	
+	// shortcut to customHardwareInterface
+	@SuppressWarnings("unchecked")
+	public HardwareAdapter<Device> getHA() {
+		return (HardwareAdapter<Device>) this.hardwareAdapter;
+	}
 	
-	 /**
+	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
 	@Override
     public final void robotInit() {        	
-		driverStationInterface   = new DriverStationInterface(this);
-		robotSensorInterface     = new RobotSensorInterface(this);
 		feedbackControlInterface = new FeedbackControlInterface(this);
-		hardwareControlInterface = new HardwareControlInterface(this);
-		driverStationState   = new DriverStationState();
 
 		cyborgInit();
 		
 		// Set default StateObjects
-		//if(driverStationState  == null) 
 		if(driverFeedbackState == null) driverFeedbackState  = new FeedbackControlState();
-		if(robotSensorState    == null) robotSensorState     = new RobotSensorState();
-		if(hardwareControlState== null) hardwareControlState = new HardwareControlState();
 		
 	}
     
@@ -91,7 +93,7 @@ public abstract class Cyborg extends IterativeRobot {
     public final void autonomousPeriodic() {
 		// Update input interfaces
 		//driverStationInterface.Update();
-		robotSensorInterface.update();
+		//robotSensorInterface.update();
 		
 		// Update Input Mappers
 		for(RobotSensorMapper m:this.robotSensorMappers) m.update(); 
@@ -110,8 +112,9 @@ public abstract class Cyborg extends IterativeRobot {
     public final void teleopPeriodic() {
 		
 		// Update input interfaces
-		driverStationInterface.update();
-		robotSensorInterface.update();
+		//driverStationInterface.update();
+		//robotSensorInterface.update();
+		hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
 		for(DriveRequestMapper m:this.driveRequestMappers) m.update(); 
@@ -146,6 +149,7 @@ public abstract class Cyborg extends IterativeRobot {
 		// Update output interfaces
 		//this.feedbackControlInterface.update();
 		//this.hardwareControlInterface.update();
+		hardwareAdapter.controlUpdate();
 
 	}
 	
@@ -153,9 +157,9 @@ public abstract class Cyborg extends IterativeRobot {
 	/*
 	 * Setters/Getters 
 	 */
-	public void setJoystickCount(int count) {
-		driverStationInterface.setJoystickCount(count);
-	}
+	//public void setJoystickCount(int count) {
+	//	driverStationInterface.setJoystickCount(count);
+	//}
 	
 	//public void addHumanInterfaceMapper(DriveRequestMapper mapper) {
 	//	DrivetrainControlMappers.add(mapper);

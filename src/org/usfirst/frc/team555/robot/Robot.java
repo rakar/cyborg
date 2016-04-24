@@ -2,16 +2,16 @@
 package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.cyborg.*;
+import org.montclairrobotics.cyborg.devices.MotorController;
+import org.montclairrobotics.cyborg.devices.NavX;
+import org.montclairrobotics.cyborg.devices.NavXYawSource;
+import org.montclairrobotics.cyborg.devices.SolenoidValve;
 import org.montclairrobotics.cyborg.plugins.*;
 import org.montclairrobotics.cyborg.utils.*;
 import org.usfirst.frc.team555.robot.plugins.*;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
-
-import com.kauailabs.navx.frc.AHRS;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,34 +22,44 @@ import com.kauailabs.navx.frc.AHRS;
  */
 public class Robot extends Cyborg {
 	
-	AHRS ahrs;
-	NavX navx;
+	//
+	// List Custom Hardware Devices...
+	// This should include all of the active devices other than the Driver's Station
+	//
+	public enum Device {
+		NAVX, 
+		ARM_VALVE, HALF_VALVE, SHOOT_VALVE, 
+		SPIN_LEFT, SPINT_RIGHT,
+		DRIVE_LEFT_1, DRIVE_LEFT_2, DRIVE_RIGHT_1, DRIVE_RIGHT_2}; 
 
-	public SolenoidValve armValve;
-	public SolenoidValve shootValve;
-	public SolenoidValve halfValve;
-
-	public Talon leftSpin;
-	public Talon rightSpin;
 	
-
 	
 	@Override
 	public void cyborgInit() {
 		
-		// Declare NavX Unit
-		ahrs = new AHRS(SPI.Port.kMXP);
-		navx = new NavX(ahrs);		
-
-		armValve = new SolenoidValve(0);
-		halfValve = new SolenoidValve(2);
-		shootValve = new SolenoidValve(1);
 		
-		leftSpin = new Talon(5);
-		rightSpin = new Talon(0);
+		// Configure Custom Hardware
+		HardwareAdapter<Device> ha = new HardwareAdapter<>(this);
+		this.hardwareAdapter = ha;
+		
+		// Configure Driver Station data collection
+		ha.setJoystickCount(2);		
+		
+		ha.add(Device.NAVX,          new NavX(SPI.Port.kMXP));		
 
-		// Configure "built-in" DriverStationInterface
-		this.setJoystickCount(2);
+		ha.add(Device.ARM_VALVE,     new SolenoidValve(0));
+		ha.add(Device.HALF_VALVE,    new SolenoidValve(2));
+		ha.add(Device.SHOOT_VALVE,   new SolenoidValve(1));
+		
+		ha.add(Device.SPIN_LEFT,     new MotorController(new Talon(5)));
+		ha.add(Device.SPINT_RIGHT,   new MotorController(new Talon(0)));
+		
+		ha.add(Device.DRIVE_LEFT_1,  new MotorController(new Talon(1)));
+		ha.add(Device.DRIVE_LEFT_2,  new MotorController(new Talon(3)));
+		ha.add(Device.DRIVE_RIGHT_1, new MotorController(new Talon(2)));
+		ha.add(Device.DRIVE_RIGHT_2, new MotorController(new Talon(4)));
+
+		
 		
 		//
 		// Input Mapper Initialization
@@ -72,6 +82,8 @@ public class Robot extends Cyborg {
 		this.manipRequestMappers.add(new SHManipRequestMapper(this));
 		//this.robotSensorMappers.add(new RobotSensorMapper(this));
 	
+		
+		
 		//
 		// Status Initialization
 		//
@@ -85,16 +97,17 @@ public class Robot extends Cyborg {
 		this.feedbackControlStatus = new FeedbackControlStatus();
 		this.processorStatus       = new ProcessorStatus();
 	
+		
+		
 		//
 		// Processors
 		//
 		
 		//this.ruleProcessors.add(new RuleProcessor(this));
-		
 		this.behaviorProcessors.add(
 				new GeneralDriveBehaviorProcessor(this)
 				.setGyroLockTracker(
-						new NavXYawSource(navx), 
+						new NavXYawSource(getHA().getNavX(Device.NAVX)), 
 						new PID(0.2, 0.0, 2.0)
 						.setInputLimits(-180, 180) // assumes navx source in degrees
 					)
@@ -106,21 +119,20 @@ public class Robot extends Cyborg {
 				new SHManipBehaviorProcessor(this)
 				);
 		
+		
 		//
 		// Output Controller Initialization
 		//
 		
-		//this.feedbackControllers.add(new FeedbackController(this));
-		
+		//this.feedbackControllers.add(new FeedbackController(this));		
 		this.driveControllers.add(
 				new DifferentialDriveController(this)
-				.addLeftSpeedController (new Talon(1))  // Left:  1 PWM: 1
-				.addLeftSpeedController (new Talon(3))  // Left:  2 PWM: 2
-				.addRightSpeedController(new Talon(2))  // Right: 1 PWM: 3
-				.addRightSpeedController(new Talon(4))  // Right: 2 PWM: 4
+				.addLeftSpeedController (ha.getMotorController(Device.DRIVE_LEFT_1))
+				.addLeftSpeedController (ha.getMotorController(Device.DRIVE_LEFT_2))
+				.addRightSpeedController(ha.getMotorController(Device.DRIVE_RIGHT_1))
+				.addRightSpeedController(ha.getMotorController(Device.DRIVE_RIGHT_1))
 				.setRightDirection(-1)
 				);
-		
 		this.manipControllers.add(new SHManipController(this));
 			
 	}

@@ -33,8 +33,8 @@ public class TankDriveRequestMapper extends DriveRequestMapper {
 
 	@Override
 	public void update() {
-		double leftStick  = -robot.driverStationState.getJoystickAxis(leftJoystick,  leftJoystickAxis );  // y-axis of first stick
-		double rightStick = -robot.driverStationState.getJoystickAxis(rightJoystick, rightJoystickAxis);  // y-axis of second stick;
+		double leftStick  = -robot.hardwareAdapter.getJoystickAxis(leftJoystick,  leftJoystickAxis );  // y-axis of first stick
+		double rightStick = -robot.hardwareAdapter.getJoystickAxis(rightJoystick, rightJoystickAxis);  // y-axis of second stick;
 		
 		// Implement dead zone
 		if(Math.abs( leftStick)<deadzone)  leftStick=0.0;
@@ -51,7 +51,7 @@ public class TankDriveRequestMapper extends DriveRequestMapper {
 			rs.rotation = rotation; 
 			
 			if(gyroLockStick>=0) {
-				rs.gyroLock = robot.driverStationState.getButtonState(gyroLockStick, gyroLockButton);
+				rs.gyroLock = robot.hardwareAdapter.getButtonState(gyroLockStick, gyroLockButton);
 			}
 			
 		} else if (robot.driveRequestStatus instanceof TankDriveRequestStatus) {

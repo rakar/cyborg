@@ -1,5 +1,6 @@
-package org.montclairrobotics.cyborg.utils;
+package org.montclairrobotics.cyborg.devices;
 
+import org.montclairrobotics.cyborg.utils.TriState;
 import org.montclairrobotics.cyborg.utils.TriState.TriStateValue;
 
 import edu.wpi.first.wpilibj.Solenoid;

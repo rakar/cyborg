@@ -1,11 +1,17 @@
-package org.montclairrobotics.cyborg.utils;
+package org.montclairrobotics.cyborg.devices;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI.Port;
 
 public class NavX { 
 	    
     // AHRS reference from wherever NavXGyro is initialized 
     private AHRS ahrs;
+    
+    public NavX(Port spi_port_id) {
+    	ahrs = new AHRS(spi_port_id);
+    }
     
     public NavX(AHRS ahrs) {
         this.ahrs = ahrs;
