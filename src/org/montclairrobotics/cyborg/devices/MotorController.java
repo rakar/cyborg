@@ -1,10 +1,13 @@
 package org.montclairrobotics.cyborg.devices;
 
+import org.montclairrobotics.cyborg.utils.PID;
+
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class MotorController implements SpeedController{
 
 	SpeedController controller; 
+	PID pid;
 	
 	public MotorController(SpeedController controller) {
 		this.controller = controller;
@@ -49,5 +52,14 @@ public class MotorController implements SpeedController{
 	public void stopMotor() {
 		controller.stopMotor();
 	}
+	
+	public MotorController setPID(PID pid) {
+		this.pid = pid;
+		return this;
+	}
 
+	public void update() {
+		
+	}
+	
 }
