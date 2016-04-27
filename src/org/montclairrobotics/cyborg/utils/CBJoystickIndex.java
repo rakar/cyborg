@@ -17,4 +17,8 @@ public class CBJoystickIndex {
 	public boolean isDefined() {
 		return stickID>=0;
 	}
+	
+	public static CBJoystickIndex undefined() {
+		return new CBJoystickIndex(-1,-1);
+	}
 }

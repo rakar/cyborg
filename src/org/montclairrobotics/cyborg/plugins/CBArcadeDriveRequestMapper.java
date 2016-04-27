@@ -18,6 +18,13 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 		this.axes[2] = new CBJoystickIndex(rotJoystick, rotJoystickAxis);
 	}
 
+	public CBArcadeDriveRequestMapper(Cyborg robot, CBJoystickIndex fwd, CBJoystickIndex str, CBJoystickIndex rot) {
+		super(robot);
+		this.axes[0] = fwd;
+		this.axes[1] = str;
+		this.axes[2] = rot;
+	}
+
 	public CBArcadeDriveRequestMapper setDeadZone(double deadzone) {
 		return setDeadZone(deadzone,deadzone,deadzone);
 	}
@@ -32,6 +39,11 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 	
 	public CBArcadeDriveRequestMapper setGyroLockButton(int stick, int button) {
 		this.gyroLock = new CBJoystickIndex(stick,button);
+		return this;
+	}
+	
+	public CBArcadeDriveRequestMapper setGyroLockButton(CBJoystickIndex button) {
+		this.gyroLock = button;
 		return this;
 	}
 

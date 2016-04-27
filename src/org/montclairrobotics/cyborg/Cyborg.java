@@ -19,7 +19,8 @@ public abstract class Cyborg extends IterativeRobot {
 	//public RobotSensorInterface robotSensorInterface;
 	public CBFeedbackControlInterface feedbackControlInterface;
 	//public HardwareControlInterface hardwareControlInterface;
-	//@SuppressWarnings("rawtypes")
+	
+	@SuppressWarnings("rawtypes")
 	public CBHardwareAdapter hardwareAdapter;
 	
 	// State Classes

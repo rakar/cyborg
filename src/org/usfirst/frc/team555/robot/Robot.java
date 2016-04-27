@@ -30,7 +30,8 @@ public class Robot extends Cyborg {
 		NAVX, 
 		ARM_VALVE, HALF_VALVE, SHOOT_VALVE, 
 		SPIN_LEFT, SPINT_RIGHT,
-		DRIVE_LEFT_1, DRIVE_LEFT_2, DRIVE_RIGHT_1, DRIVE_RIGHT_2}; 
+		DRIVE_LEFT_1, DRIVE_LEFT_2, 
+		DRIVE_RIGHT_1, DRIVE_RIGHT_2}; 
 
 	
 	
@@ -74,9 +75,14 @@ public class Robot extends Cyborg {
 		
 		// Arcade Drive...
 		this.driveRequestMappers.add(
-				new CBArcadeDriveRequestMapper(this, 0, 1, -1, -1, 0, 0) // Add the basic mapper
+				new CBArcadeDriveRequestMapper(
+						this, 
+						new CBJoystickIndex(0, 1),
+						CBJoystickIndex.undefined(),
+						new CBJoystickIndex(0, 0)
+						) // Add the basic mapper
 				.setDeadZone(0.2)			// Activate Deadzone
-				//.setGyroLockButton(0, 1)	// Set GyroLock button
+				.setGyroLockButton(new CBJoystickIndex(0, 1))	// Set GyroLock button
 				);
 
 		this.manipRequestMappers.add(new SHManipRequestMapper(this));
