@@ -1,10 +1,10 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.ManipController;
+import org.montclairrobotics.cyborg.CBManipController;
 import org.usfirst.frc.team555.robot.Robot;
 import org.usfirst.frc.team555.robot.Robot.Device;
 
-public class SHManipController extends ManipController {
+public class SHManipController extends CBManipController {
 	Robot robot;
 
 	public SHManipController(Robot robot) {

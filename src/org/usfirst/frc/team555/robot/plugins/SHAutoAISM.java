@@ -1,9 +1,9 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.utils.StateMachine;
+import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHAutoAISM extends StateMachine<AutoAIState> {
+public class SHAutoAISM extends CBStateMachine<AutoAIState> {
 	private Robot robot;
 
 	public SHAutoAISM(Robot robot) {

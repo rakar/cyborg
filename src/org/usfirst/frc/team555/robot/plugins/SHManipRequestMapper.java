@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.ManipRequestMapper;
+import org.montclairrobotics.cyborg.CBManipRequestMapper;
 import org.usfirst.frc.team555.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SHManipRequestMapper extends ManipRequestMapper {
+public class SHManipRequestMapper extends CBManipRequestMapper {
 
 	Robot robot;
 	

@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.AutonomousAI;
+import org.montclairrobotics.cyborg.CBAutonomousAI;
 import org.usfirst.frc.team555.robot.Robot;
 
 enum AutoAIState {start,armdown,drive,done};
 
-public class SHAutonomousAI extends AutonomousAI {
+public class SHAutonomousAI extends CBAutonomousAI {
 	Robot robot;
 	SHAutoAISM sm;
 	

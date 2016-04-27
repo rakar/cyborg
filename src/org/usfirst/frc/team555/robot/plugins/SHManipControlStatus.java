@@ -1,15 +1,15 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.ManipControlStatus;
-import org.montclairrobotics.cyborg.utils.TriState;
+import org.montclairrobotics.cyborg.CBManipControlStatus;
+import org.montclairrobotics.cyborg.utils.CBTriState;
 
-public class SHManipControlStatus extends ManipControlStatus {
+public class SHManipControlStatus extends CBManipControlStatus {
 
 	public SHManipControlStatus() {
 	}
 	
-	public TriState ArmDown;
-	public TriState HalfUp;
-	public TriState ShootOut;
+	public CBTriState ArmDown;
+	public CBTriState HalfUp;
+	public CBTriState ShootOut;
 	public double SpinSpeed;
 }

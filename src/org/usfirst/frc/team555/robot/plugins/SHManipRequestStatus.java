@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.ManipRequestStatus;
+import org.montclairrobotics.cyborg.CBManipRequestStatus;
 import org.montclairrobotics.cyborg.utils.*;
 
-public class SHManipRequestStatus extends ManipRequestStatus {
-	public TriState ArmDown;
-	public TriState HalfUp;
-	public TriState ShootOut;
-	public TriState SpinIn;
+public class SHManipRequestStatus extends CBManipRequestStatus {
+	public CBTriState ArmDown;
+	public CBTriState HalfUp;
+	public CBTriState ShootOut;
+	public CBTriState SpinIn;
 }
