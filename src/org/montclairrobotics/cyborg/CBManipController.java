@@ -1,5 +1,7 @@
 package org.montclairrobotics.cyborg;
 
+import org.montclairrobotics.cyborg.utils.CBModule;
+
 public class CBManipController extends CBModule {
 
 	public CBManipController(Cyborg robot) {

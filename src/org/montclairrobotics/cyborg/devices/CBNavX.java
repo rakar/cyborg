@@ -4,7 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 
-public class CBNavX { 
+public class CBNavX implements CBDevice { 
 	    
     // AHRS reference from wherever NavXGyro is initialized 
     private AHRS ahrs;
@@ -35,5 +35,17 @@ public class CBNavX {
     public void zeroYaw()
     {
         ahrs.zeroYaw();
-    }	    
+    }
+
+	@Override
+	public void senseUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void controlUpdate() {
+		// TODO Auto-generated method stub
+		
+	}	    
 }

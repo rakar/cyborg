@@ -1,6 +1,6 @@
-package org.montclairrobotics.cyborg.utils;
+package org.montclairrobotics.cyborg.devices;
 
-public class CBJoystickIndex {
+public class CBJoystickIndex{
 	public int stickID;
 	public int index;
 	

@@ -1,23 +1,21 @@
 package org.montclairrobotics.cyborg.plugins;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.devices.CBAxis;
+import org.montclairrobotics.cyborg.devices.CBButton;
+import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBDriveRequestMapper;
 
 public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
-	private int leftJoystick;
-	private int leftJoystickAxis;
-	private int rightJoystick;
-	private int rightJoystickAxis;
+	private CBAxis left;
+	private CBAxis right;
 	private double deadzone = 0.0;
-	private int gyroLockStick = -1;
-	private int gyroLockButton = -1;
-
-	public CBTankDriveRequestMapper(Cyborg robot, int leftJoystick, int leftJoystickAxis, int rightJoystick, int rightJoystickAxis) {
+	private CBButton gyroLock=null;
+	
+	public CBTankDriveRequestMapper(Cyborg robot, Device leftID, Device rightID) {
 		super(robot);
-		this.leftJoystick = leftJoystick;
-		this.leftJoystickAxis = leftJoystickAxis;
-		this.rightJoystick = rightJoystick;
-		this.rightJoystickAxis = rightJoystickAxis;
+		this.left = Cyborg.getHA().getAxis(leftID);
+		this.right = Cyborg.getHA().getAxis(rightID);
 	}
 	
 	public CBTankDriveRequestMapper setDeadZone(double deadzone) {
@@ -25,23 +23,26 @@ public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
 		return this;
 	}
 	
-	public CBTankDriveRequestMapper setGyroLockButton(int stick, int button) {
-		this.gyroLockStick = stick;
-		this.gyroLockButton = button;
+	public CBTankDriveRequestMapper setGyroLockButton(Device buttonID) {
+		this.gyroLock = Cyborg.getHA().getButton(buttonID);
 		return this;
 	}
 
 	@Override
 	public void update() {
-		double leftStick  = -robot.hardwareAdapter.getJoystickAxis(leftJoystick,  leftJoystickAxis );  // y-axis of first stick
-		double rightStick = -robot.hardwareAdapter.getJoystickAxis(rightJoystick, rightJoystickAxis);  // y-axis of second stick;
+		double leftStick  = 0; //-left.get(); //-Cyborg.getHA().getJoystickAxis(leftJoystick,  leftJoystickAxis );  // y-axis of first stick
+		double rightStick = 0; // right.get(); //Cyborg.getHA().getJoystickAxis(rightJoystick, rightJoystickAxis);  // y-axis of second stick;
+		
+		if(left!=null && left.isDefined()) leftStick = -left.get();
+		if(right!=null && right.isDefined()) rightStick = right.get();
+
 		
 		// Implement dead zone
 		if(Math.abs( leftStick)<deadzone)  leftStick=0.0;
 		if(Math.abs(rightStick)<deadzone) rightStick=0.0;
 		
-		if(robot.driveRequestStatus instanceof CBGeneralDriveRequestStatus) {
-			CBGeneralDriveRequestStatus rs = (CBGeneralDriveRequestStatus)robot.driveRequestStatus;
+		if(Cyborg.driveRequestStatus instanceof CBGeneralDriveRequestStatus) {
+			CBGeneralDriveRequestStatus rs = (CBGeneralDriveRequestStatus)Cyborg.driveRequestStatus;
 			double velocity = (leftStick+rightStick)/2.0;// Average stick value "forward"
 			double rotation = leftStick - velocity;
 
@@ -50,17 +51,17 @@ public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
 			rs.direction.setXY(0, velocity); 
 			rs.rotation = rotation; 
 			
-			if(gyroLockStick>=0) {
-				rs.gyroLock = robot.hardwareAdapter.getButtonState(gyroLockStick, gyroLockButton);
+			if(gyroLock!=null && gyroLock.isDefined()) {
+				rs.gyroLock = gyroLock.getButtonState();
 			}
 			
-		} else if (robot.driveRequestStatus instanceof CBTankDriveRequestStatus) {
-			CBTankDriveRequestStatus rs = (CBTankDriveRequestStatus)robot.driveRequestStatus;
+		} else if (Cyborg.driveRequestStatus instanceof CBTankDriveRequestStatus) {
+			CBTankDriveRequestStatus rs = (CBTankDriveRequestStatus)Cyborg.driveRequestStatus;
 			rs.leftPower = leftStick; 
 			rs.rightPower = rightStick; 
 			rs.active = true;
 		} else {
-			robot.driveRequestStatus.active = false; // If we don't know what type of request it is shut down drive
+			Cyborg.driveRequestStatus.active = false; // If we don't know what type of request it is shut down drive
 		}
 	}
 }

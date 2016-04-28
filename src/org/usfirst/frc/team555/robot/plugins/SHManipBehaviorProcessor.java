@@ -10,8 +10,8 @@ public class SHManipBehaviorProcessor extends CBBehaviorProcessor {
 	}
 	
 	public void update() {
-		SHManipRequestStatus rs = (SHManipRequestStatus)robot.manipRequestStatus;
-		SHManipControlStatus cs = (SHManipControlStatus)robot.manipControlStatus;
+		SHManipRequestStatus rs = (SHManipRequestStatus)Cyborg.manipRequestStatus;
+		SHManipControlStatus cs = (SHManipControlStatus)Cyborg.manipControlStatus;
 		
 		cs.ShootOut.set(rs.ShootOut.get());  
 		cs.ArmDown.set(rs.ArmDown.get());	

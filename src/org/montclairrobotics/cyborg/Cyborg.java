@@ -14,43 +14,30 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  *
  */
 public abstract class Cyborg extends IterativeRobot {
-	// Hardware Interface Classes
-	//public DriverStationAdapter driverStationInterface;
-	//public RobotSensorInterface robotSensorInterface;
-	public CBFeedbackControlInterface feedbackControlInterface;
-	//public HardwareControlInterface hardwareControlInterface;
-	
-	@SuppressWarnings("rawtypes")
-	public CBHardwareAdapter hardwareAdapter;
-	
-	// State Classes
-	// States represent low-level "raw" messages
-	//public DriverStationState driverStationState;
-	//public RobotSensorState robotSensorState;
-	public CBFeedbackControlState driverFeedbackState;
-	//public HardwareControlState hardwareControlState;
 
+	@SuppressWarnings("rawtypes")
+	public static CBHardwareAdapter hardwareAdapter;
+	
+	// Status Classes
+	// Statuses represent high-level meaningful messages
+	public static CBDriveRequestStatus driveRequestStatus;
+	public static CBManipRequestStatus manipRequestStatus;
+	public static CBRobotSensorStatus robotSensorStatus;
+	//public CBFeedbackControlStatus feedbackControlStatus;
+	public static CBDriveControlStatus driveControlStatus;
+	public static CBManipControlStatus manipControlStatus;
+	public static CBProcessorStatus processorStatus;
+
+	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
 	public ArrayList<CBDriveRequestMapper> driveRequestMappers = new ArrayList<CBDriveRequestMapper>();
 	public ArrayList<CBManipRequestMapper> manipRequestMappers = new ArrayList<CBManipRequestMapper>();
 	public ArrayList<CBRobotSensorMapper> robotSensorMappers = new ArrayList<CBRobotSensorMapper>();
 	// Controller Queues hold lists of controllers that convert high-level reqeusts into low-level raw control output data
-	public ArrayList<CBFeedbackController> feedbackControllers = new ArrayList<CBFeedbackController>();
+	//private ArrayList<CBFeedbackController> feedbackControllers = new ArrayList<CBFeedbackController>();
 	public ArrayList<CBDriveController> driveControllers = new ArrayList<CBDriveController>();
 	public ArrayList<CBManipController> manipControllers = new ArrayList<CBManipController>();
-	
-	
-	
-	// Status Classes
-	// Statuses represent high-level meaningful messages
-	public CBDriveRequestStatus driveRequestStatus;
-	public CBManipRequestStatus manipRequestStatus;
-	public CBRobotSensorStatus robotSensorStatus;
-	public CBFeedbackControlStatus feedbackControlStatus;
-	public CBDriveControlStatus driveControlStatus;
-	public CBManipControlStatus manipControlStatus;
-	public CBProcessorStatus processorStatus;
 	
 	// Logic Layer
 	public ArrayList<CBRuleProcessor> ruleProcessors = new ArrayList<>();
@@ -60,8 +47,8 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	// shortcut to customHardwareInterface
 	@SuppressWarnings("unchecked")
-	public CBHardwareAdapter<Device> getHA() {
-		return (CBHardwareAdapter<Device>) this.hardwareAdapter;
+	public static CBHardwareAdapter<Device> getHA() {
+		return (CBHardwareAdapter<Device>) hardwareAdapter;
 	}
 	
 	/**
@@ -70,12 +57,12 @@ public abstract class Cyborg extends IterativeRobot {
      */
 	@Override
     public final void robotInit() {        	
-		feedbackControlInterface = new CBFeedbackControlInterface(this);
+		//feedbackControlInterface = new CBFeedbackControlInterface(this);
 
 		cyborgInit();
 		
 		// Set default StateObjects
-		if(driverFeedbackState == null) driverFeedbackState  = new CBFeedbackControlState();
+		//if(driverFeedbackState == null) driverFeedbackState  = new CBFeedbackControlState();
 		
 	}
     
@@ -93,8 +80,9 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void autonomousPeriodic() {
 		// Update input interfaces
-		//driverStationInterface.Update();
-		//robotSensorInterface.update();
+		// driverStationInterface.Update();
+		// robotSensorInterface.update();
+		hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
 		for(CBRobotSensorMapper m:this.robotSensorMappers) m.update(); 
@@ -120,7 +108,8 @@ public abstract class Cyborg extends IterativeRobot {
 		// Update Input Mappers
 		for(CBDriveRequestMapper m:this.driveRequestMappers) m.update(); 
 		for(CBManipRequestMapper m:this.manipRequestMappers) m.update(); 
-		for(CBRobotSensorMapper m:this.robotSensorMappers) m.update(); 
+		for(CBRobotSensorMapper  m:this.robotSensorMappers)  m.update(); 
+
 		
 		// Let the robot do it's thing...
 		robotControl();
@@ -142,7 +131,6 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		
 		// Update Output Controllers
-		for(CBFeedbackController m:this.feedbackControllers) m.update(); 
 		for(CBDriveController m:this.driveControllers) m.update(); 
 		for(CBManipController m:this.manipControllers) m.update(); 
 		

@@ -3,6 +3,8 @@
  */
 package org.montclairrobotics.cyborg;
 
+import org.montclairrobotics.cyborg.utils.CBModule;
+
 public class CBDriveController extends CBModule {
 
 	public CBDriveController(Cyborg robot) {

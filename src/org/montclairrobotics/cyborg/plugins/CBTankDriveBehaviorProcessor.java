@@ -13,8 +13,8 @@ public class CBTankDriveBehaviorProcessor extends CBBehaviorProcessor {
 	public void update() {
 		super.update();
 		
-		CBTankDriveRequestStatus rs = (CBTankDriveRequestStatus)robot.driveRequestStatus;
-		CBDifferentialDriveControlStatus cs = (CBDifferentialDriveControlStatus)robot.driveControlStatus;
+		CBTankDriveRequestStatus rs = (CBTankDriveRequestStatus)Cyborg.driveRequestStatus;
+		CBDifferentialDriveControlStatus cs = (CBDifferentialDriveControlStatus)Cyborg.driveControlStatus;
 		
 		// Copy simple Tank drive command info
 		cs.leftPower = rs.leftPower;

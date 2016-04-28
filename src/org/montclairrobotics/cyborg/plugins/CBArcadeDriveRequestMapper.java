@@ -1,28 +1,23 @@
 package org.montclairrobotics.cyborg.plugins;
 
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.utils.CBJoystickIndex;
+import org.montclairrobotics.cyborg.devices.CBAxis;
+import org.montclairrobotics.cyborg.devices.CBButton;
+import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBDriveRequestMapper;
 
 public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
-	private CBJoystickIndex[] axes = new CBJoystickIndex[3];
+	private CBAxis[] axes = new CBAxis[3];
 	private double[] deadzone = new double[3];
-	private CBJoystickIndex gyroLock = new CBJoystickIndex();
+	private CBButton gyroLock = null; //new CBJoystickIndex();
 	private double[] smoothing = new double[3];
 	private double[] lastValue = new double[3];
 
-	public CBArcadeDriveRequestMapper(Cyborg robot, int fwdJoystick, int fwdJoystickAxis, int strJoystick, int strJoystickAxis, int rotJoystick, int rotJoystickAxis) {
+	public CBArcadeDriveRequestMapper(Cyborg robot, Device fwd, Device str, Device rot) {
 		super(robot);
-		this.axes[0] = new CBJoystickIndex(fwdJoystick, fwdJoystickAxis);
-		this.axes[1] = new CBJoystickIndex(strJoystick, strJoystickAxis);
-		this.axes[2] = new CBJoystickIndex(rotJoystick, rotJoystickAxis);
-	}
-
-	public CBArcadeDriveRequestMapper(Cyborg robot, CBJoystickIndex fwd, CBJoystickIndex str, CBJoystickIndex rot) {
-		super(robot);
-		this.axes[0] = fwd;
-		this.axes[1] = str;
-		this.axes[2] = rot;
+		this.axes[0] = Cyborg.getHA().getAxis(fwd);
+		this.axes[1] = Cyborg.getHA().getAxis(str);
+		this.axes[2] = Cyborg.getHA().getAxis(rot);
 	}
 
 	public CBArcadeDriveRequestMapper setDeadZone(double deadzone) {
@@ -36,14 +31,8 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 		return this;
 	}
 	
-	
-	public CBArcadeDriveRequestMapper setGyroLockButton(int stick, int button) {
-		this.gyroLock = new CBJoystickIndex(stick,button);
-		return this;
-	}
-	
-	public CBArcadeDriveRequestMapper setGyroLockButton(CBJoystickIndex button) {
-		this.gyroLock = button;
+	public CBArcadeDriveRequestMapper setGyroLockButton(Device buttonID) {
+		this.gyroLock = Cyborg.getHA().getButton(buttonID);
 		return this;
 	}
 
@@ -59,15 +48,15 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 		double value[] = new double[3];
 		
 		for(int i=0;i<3;i++) {
-			if(axes[i].isDefined())
-			   value[i] = robot.hardwareAdapter.getJoystickAxis(axes[i]);
+			if(axes[i]!=null && axes[i].isDefined())
+			   value[i] = axes[i].get();
 			else
 				value[i] = 0;	
 			if(Math.abs(value[i]) <deadzone[i]) value[i] = 0.0;
 		}
 		
-		if(robot.driveRequestStatus instanceof CBGeneralDriveRequestStatus) {
-			CBGeneralDriveRequestStatus rs = (CBGeneralDriveRequestStatus)robot.driveRequestStatus;
+		if(Cyborg.driveRequestStatus instanceof CBGeneralDriveRequestStatus) {
+			CBGeneralDriveRequestStatus rs = (CBGeneralDriveRequestStatus)Cyborg.driveRequestStatus;
 
 			// if smoothing is defined for a given axis use it to follow the control 
 			for(int i=0;i<3;i++) {
@@ -81,12 +70,11 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 			rs.direction.setXY(value[1], value[0]); 
 			rs.rotation = value[2]; 
 			
-			if(gyroLock.isDefined()) {
-				rs.gyroLock = robot.hardwareAdapter.getButtonState(gyroLock);
+			if(gyroLock!=null && gyroLock.isDefined()) {
+				rs.gyroLock = gyroLock.getButtonState();
 			}			
 		} else {
-			robot.driveRequestStatus.active = false; // If we don't know what type of request it is shut down drive
+			Cyborg.driveRequestStatus.active = false; // If we don't know what type of request it is shut down drive
 		}
 	}
-
 }

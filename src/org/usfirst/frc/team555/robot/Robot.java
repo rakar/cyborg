@@ -2,9 +2,12 @@
 package org.usfirst.frc.team555.robot;
 
 import org.montclairrobotics.cyborg.*;
+import org.montclairrobotics.cyborg.devices.CBAxis;
+import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
+import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.plugins.*;
 import org.montclairrobotics.cyborg.utils.*;
@@ -30,8 +33,13 @@ public class Robot extends Cyborg {
 		NAVX, 
 		ARM_VALVE, HALF_VALVE, SHOOT_VALVE, 
 		SPIN_LEFT, SPINT_RIGHT,
-		DRIVE_LEFT_1, DRIVE_LEFT_2, 
-		DRIVE_RIGHT_1, DRIVE_RIGHT_2}; 
+		DRIVE_MOTOR_LEFT_1, DRIVE_MOTOR_LEFT_2, 
+		DRIVE_MOTOR_RIGHT_1, DRIVE_MOTOR_RIGHT_2,
+		GYROLOCK_BUTTON, 
+		FORWARD_AXIS, ROTATION_AXIS, FORWARD2_AXIS,
+		SHOOT_BUTTON,ARMDOWN_BUTTON,ARMUP_BUTTON,HALFDOWN_BUTTON,HALFUP_BUTTON,
+		SPIN_POV,
+		}; 
 
 	
 	
@@ -41,26 +49,34 @@ public class Robot extends Cyborg {
 		
 		// Configure Custom Hardware
 		CBHardwareAdapter<Device> ha = new CBHardwareAdapter<>(this);
-		this.hardwareAdapter = ha;
+		Cyborg.hardwareAdapter = ha;
 		
 		// Configure Driver Station data collection
 		ha.setJoystickCount(2);		
 		
-		ha.add(Device.NAVX,          new CBNavX(SPI.Port.kMXP));		
+		ha.add(Device.NAVX,          		new CBNavX(SPI.Port.kMXP));		
 
-		ha.add(Device.ARM_VALVE,     new CBSolenoid(0));
-		ha.add(Device.HALF_VALVE,    new CBSolenoid(2));
-		ha.add(Device.SHOOT_VALVE,   new CBSolenoid(1));
+		ha.add(Device.ARM_VALVE,     		new CBSolenoid(0));
+		ha.add(Device.SHOOT_VALVE,   		new CBSolenoid(1));
+		ha.add(Device.HALF_VALVE,    		new CBSolenoid(2));
 		
-		ha.add(Device.SPIN_LEFT,     new CBMotorController(new Talon(5)));
-		ha.add(Device.SPINT_RIGHT,   new CBMotorController(new Talon(0)));
+		ha.add(Device.SPIN_LEFT,     		new CBMotorController(new Talon(5)));
+		ha.add(Device.SPINT_RIGHT,			new CBMotorController(new Talon(0)));
 		
-		ha.add(Device.DRIVE_LEFT_1,  new CBMotorController(new Talon(1)));
-		ha.add(Device.DRIVE_LEFT_2,  new CBMotorController(new Talon(3)));
-		ha.add(Device.DRIVE_RIGHT_1, new CBMotorController(new Talon(2)));
-		ha.add(Device.DRIVE_RIGHT_2, new CBMotorController(new Talon(4)));
-
-		
+		ha.add(Device.DRIVE_MOTOR_LEFT_1,	new CBMotorController(new Talon(1)));
+		ha.add(Device.DRIVE_MOTOR_LEFT_2,	new CBMotorController(new Talon(3)));
+		ha.add(Device.DRIVE_MOTOR_RIGHT_1,	new CBMotorController(new Talon(2)));
+		ha.add(Device.DRIVE_MOTOR_RIGHT_2,	new CBMotorController(new Talon(4)));
+		ha.add(Device.GYROLOCK_BUTTON,		new CBButton(0, 1));
+		ha.add(Device.FORWARD_AXIS, 		new CBAxis(0,1));
+		ha.add(Device.ROTATION_AXIS, 		new CBAxis(0,0));
+		ha.add(Device.FORWARD2_AXIS, 		new CBAxis(1,1));
+		ha.add(Device.SHOOT_BUTTON,			new CBButton(1, 1));
+		ha.add(Device.ARMDOWN_BUTTON,		new CBButton(1, 3));
+		ha.add(Device.ARMUP_BUTTON,			new CBButton(1, 5));
+		ha.add(Device.HALFDOWN_BUTTON,		new CBButton(1, 4));
+		ha.add(Device.HALFUP_BUTTON,		new CBButton(1, 6));
+		ha.add(Device.SPIN_POV, 			new CBPov(1,0));
 		
 		//
 		// Input Mapper Initialization
@@ -68,21 +84,21 @@ public class Robot extends Cyborg {
 		
 		// Tank Drive...
 		//this.driveRequestMappers.add(
-		//		new TankDriveRequestMapper(this, 0, 1, 1, 1) // Add the basic mapper
-		//		.setDeadZone(0.1)			// Activate Deadzone
-		//		.setGyroLockButton(1, 1)	// Set GyroLock button
+		//		new CBTankDriveRequestMapper(this, Device.FORWARD_AXIS, Device.FORWARD2_AXIS)
+		//		.setDeadZone(0.1)
+		//		.setGyroLockButton(Device.GYROLOCK_BUTTON)
 		//		);
 		
 		// Arcade Drive...
 		this.driveRequestMappers.add(
 				new CBArcadeDriveRequestMapper(
 						this, 
-						new CBJoystickIndex(0, 1),
-						CBJoystickIndex.undefined(),
-						new CBJoystickIndex(0, 0)
-						) // Add the basic mapper
-				.setDeadZone(0.2)			// Activate Deadzone
-				.setGyroLockButton(new CBJoystickIndex(0, 1))	// Set GyroLock button
+						Device.FORWARD_AXIS,
+						null,
+						Device.ROTATION_AXIS
+						) 
+				.setDeadZone(0.2)			
+				.setGyroLockButton(Device.GYROLOCK_BUTTON)	
 				);
 
 		this.manipRequestMappers.add(new SHManipRequestMapper(this));
@@ -93,15 +109,15 @@ public class Robot extends Cyborg {
 		//
 		// Status Initialization
 		//
-		this.driveRequestStatus    = new CBGeneralDriveRequestStatus();
-		this.driveControlStatus    = new CBGeneralDriveControlStatus();
+		driveRequestStatus    = new CBGeneralDriveRequestStatus();
+		driveControlStatus    = new CBGeneralDriveControlStatus();
 
-		this.manipRequestStatus    = new SHManipRequestStatus();
-		this.manipControlStatus    = new SHManipControlStatus();	
+		manipRequestStatus    = new SHManipRequestStatus();
+		manipControlStatus    = new SHManipControlStatus();	
 		
-		this.robotSensorStatus     = new CBRobotSensorStatus();	
-		this.feedbackControlStatus = new CBFeedbackControlStatus();
-		this.processorStatus       = new CBProcessorStatus();
+		robotSensorStatus     = new CBRobotSensorStatus();	
+		//this.feedbackControlStatus = new CBFeedbackControlStatus();
+		processorStatus       = new CBProcessorStatus();
 	
 		
 		
@@ -113,7 +129,7 @@ public class Robot extends Cyborg {
 		this.behaviorProcessors.add(
 				new CBGeneralDriveBehaviorProcessor(this)
 				.setGyroLockTracker(
-						new CBNavXYawSource(getHA().getNavX(Device.NAVX)), 
+						new CBNavXYawSource(Device.NAVX), 
 						new CBPID(0.2, 0.0, 2.0)
 						.setInputLimits(-180, 180) // assumes navx source in degrees
 					)
@@ -123,7 +139,7 @@ public class Robot extends Cyborg {
 		//		);
 		this.behaviorProcessors.add(
 				new SHManipBehaviorProcessor(this)
-				);
+				); 
 		
 		
 		//
@@ -133,10 +149,10 @@ public class Robot extends Cyborg {
 		//this.feedbackControllers.add(new FeedbackController(this));		
 		this.driveControllers.add(
 				new CBDifferentialDriveController(this)
-				.addLeftSpeedController (ha.getMotorController(Device.DRIVE_LEFT_1))
-				.addLeftSpeedController (ha.getMotorController(Device.DRIVE_LEFT_2))
-				.addRightSpeedController(ha.getMotorController(Device.DRIVE_RIGHT_1))
-				.addRightSpeedController(ha.getMotorController(Device.DRIVE_RIGHT_1))
+				.addLeftMotorController (Device.DRIVE_MOTOR_LEFT_1)
+				.addLeftMotorController (Device.DRIVE_MOTOR_LEFT_2)
+				.addRightMotorController(Device.DRIVE_MOTOR_RIGHT_1)
+				.addRightMotorController(Device.DRIVE_MOTOR_RIGHT_1)
 				.setRightDirection(-1)
 				);
 		this.manipControllers.add(new SHManipController(this));

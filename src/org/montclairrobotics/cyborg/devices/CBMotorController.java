@@ -4,7 +4,7 @@ import org.montclairrobotics.cyborg.utils.CBPID;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class CBMotorController implements SpeedController{
+public class CBMotorController  implements CBDevice, SpeedController{
 
 	SpeedController controller; 
 	CBPID pid;
@@ -58,7 +58,15 @@ public class CBMotorController implements SpeedController{
 		return this;
 	}
 
-	public void update() {
+	@Override
+	public void senseUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void controlUpdate() {
+		// TODO Auto-generated method stub
 		
 	}
 	
