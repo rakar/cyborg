@@ -10,7 +10,6 @@ import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.utils.CBModule;
-import org.usfirst.frc.team555.robot.Robot.Device;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
@@ -22,15 +21,13 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 
 	private int joystickCount;
 	private ArrayList<Joystick> joysticks = new ArrayList<>(); 
-	//private int[][] buttonState = new int[4][16];
-	//private int[][] buttonTrans = new int[4][16];
 
 	private ArrayList<CBDevice> device = new ArrayList<>();
 
 	
-	public CBHardwareAdapter(Cyborg robot) {
+	public CBHardwareAdapter(Cyborg robot, int deviceCount) {
 		super(robot);
-		device.ensureCapacity(Device.values().length);
+		device.ensureCapacity(deviceCount);
 	}
 	
 	public void senseUpdate() {
@@ -65,15 +62,17 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 		return joysticks.get(index);
 	}	
 
+
 	public CBHardwareAdapter<T> add(Enum<T> id, CBDevice device) {
 		this.device.ensureCapacity(id.ordinal()+1);
 		this.device.set(id.ordinal(),device);
 		return this;
 	}
 	
-	public CBDevice getDevice(T id) {
+	public CBDevice getDevice(Enum<T> id) {
 		return device.get(id.ordinal());
 	}
+
 	public CBAxis getAxis(Enum<T> id) {
 		return (CBAxis)device.get(id.ordinal());
 	}
@@ -86,6 +85,10 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 		return (CBMotorController)device.get(id.ordinal());
 	}
 	
+	public CBNavX getNavX(Enum<T> navx){
+		return (CBNavX)device.get(navx.ordinal());
+	}
+
 	public CBPov getPOV(Enum<T> id) {
 		return (CBPov)device.get(id.ordinal());
 	}
@@ -106,8 +109,4 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 		return (Encoder)device.get(id.ordinal());
 	}
 	
-	public CBNavX getNavX(Enum<T> id){
-		return (CBNavX)device.get(id.ordinal());
-	}
-
 }

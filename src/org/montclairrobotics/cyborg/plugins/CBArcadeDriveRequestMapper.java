@@ -3,7 +3,6 @@ package org.montclairrobotics.cyborg.plugins;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
-import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBDriveRequestMapper;
 
 public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
@@ -13,7 +12,8 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 	private double[] smoothing = new double[3];
 	private double[] lastValue = new double[3];
 
-	public CBArcadeDriveRequestMapper(Cyborg robot, Device fwd, Device str, Device rot) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public CBArcadeDriveRequestMapper(Cyborg robot, Enum fwd, Enum str, Enum rot) {
 		super(robot);
 		this.axes[0] = Cyborg.getHA().getAxis(fwd);
 		this.axes[1] = Cyborg.getHA().getAxis(str);
@@ -31,7 +31,8 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 		return this;
 	}
 	
-	public CBArcadeDriveRequestMapper setGyroLockButton(Device buttonID) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public CBArcadeDriveRequestMapper setGyroLockButton(Enum buttonID) {
 		this.gyroLock = Cyborg.getHA().getButton(buttonID);
 		return this;
 	}

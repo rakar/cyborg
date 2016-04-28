@@ -48,7 +48,7 @@ public class Robot extends Cyborg {
 		
 		
 		// Configure Custom Hardware
-		CBHardwareAdapter<Device> ha = new CBHardwareAdapter<>(this);
+		CBHardwareAdapter<Device> ha = new CBHardwareAdapter<Device>(this, Device.values().length);
 		Cyborg.hardwareAdapter = ha;
 		
 		// Configure Driver Station data collection

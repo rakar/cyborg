@@ -26,7 +26,7 @@ public class SHManipRequestMapper extends CBManipRequestMapper {
 		this.armUpButton    = Cyborg.getHA().getButton(Device.ARMUP_BUTTON);
 		this.halfDownButton = Cyborg.getHA().getButton(Device.HALFDOWN_BUTTON);
 		this.halfUpButton   = Cyborg.getHA().getButton(Device.HALFUP_BUTTON);
-		this.spinPov     = Cyborg.getHA().getPOV(Device.SPIN_POV);
+		this.spinPov     	= Cyborg.getHA().getPOV(Device.SPIN_POV);
 	}
 	
 	@Override

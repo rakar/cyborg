@@ -3,7 +3,6 @@ package org.montclairrobotics.cyborg.plugins;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
-import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBDriveRequestMapper;
 
 public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
@@ -12,7 +11,8 @@ public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
 	private double deadzone = 0.0;
 	private CBButton gyroLock=null;
 	
-	public CBTankDriveRequestMapper(Cyborg robot, Device leftID, Device rightID) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public CBTankDriveRequestMapper(Cyborg robot, Enum leftID, Enum rightID) {
 		super(robot);
 		this.left = Cyborg.getHA().getAxis(leftID);
 		this.right = Cyborg.getHA().getAxis(rightID);
@@ -23,7 +23,8 @@ public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
 		return this;
 	}
 	
-	public CBTankDriveRequestMapper setGyroLockButton(Device buttonID) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public CBTankDriveRequestMapper setGyroLockButton(Enum buttonID) {
 		this.gyroLock = Cyborg.getHA().getButton(buttonID);
 		return this;
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
-import org.usfirst.frc.team555.robot.Robot.Device;
+//import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBDriveController;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -42,12 +42,14 @@ public class CBDifferentialDriveController extends CBDriveController {
 		}
 	}
 	
-	public CBDifferentialDriveController addLeftMotorController(Device controller) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public CBDifferentialDriveController addLeftMotorController(Enum controller) {
 		tLeft.add(Cyborg.getHA().getMotorController(controller));
 		return this;
 	}
 	
-	public CBDifferentialDriveController addRightMotorController(Device controller) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public CBDifferentialDriveController addRightMotorController(Enum controller) {
 		tRight.add(Cyborg.getHA().getMotorController(controller));
 		return this;
 	}
