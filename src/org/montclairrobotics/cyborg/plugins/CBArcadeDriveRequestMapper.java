@@ -54,8 +54,8 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 			if(Math.abs(value[i]) <deadzone[i]) value[i] = 0.0;
 		}
 		
-		if(Cyborg.driveRequestStatus instanceof CBGeneralDriveRequestStatus) {
-			CBGeneralDriveRequestStatus rs = (CBGeneralDriveRequestStatus)Cyborg.driveRequestStatus;
+		if(Cyborg.driveRequestData instanceof CBGeneralDriveRequestData) {
+			CBGeneralDriveRequestData rs = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
 
 			// if smoothing is defined for a given axis use it to follow the control 
 			for(int i=0;i<3;i++) {
@@ -73,7 +73,7 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 				rs.gyroLock = gyroLock.getButtonState();
 			}			
 		} else {
-			Cyborg.driveRequestStatus.active = false; // If we don't know what type of request it is shut down drive
+			Cyborg.driveRequestData.active = false; // If we don't know what type of request it is shut down drive
 		}
 	}
 }

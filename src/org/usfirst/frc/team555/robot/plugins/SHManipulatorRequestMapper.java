@@ -1,13 +1,13 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBManipRequestMapper;
+import org.montclairrobotics.cyborg.CBManipulatorRequestMapper;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.usfirst.frc.team555.robot.Robot;
 import org.usfirst.frc.team555.robot.Robot.Device;
 
-public class SHManipRequestMapper extends CBManipRequestMapper {
+public class SHManipulatorRequestMapper extends CBManipulatorRequestMapper {
 
 	Robot robot;
 	CBButton shootButton;
@@ -17,7 +17,7 @@ public class SHManipRequestMapper extends CBManipRequestMapper {
 	CBButton halfUpButton;
 	CBPov spinPov;
 	
-	public SHManipRequestMapper(Robot robot) {
+	public SHManipulatorRequestMapper(Robot robot) {
 		super(robot);
 		this.robot = robot;
 		
@@ -31,7 +31,7 @@ public class SHManipRequestMapper extends CBManipRequestMapper {
 	
 	@Override
 	public void update() {
-		SHManipRequestStatus req = (SHManipRequestStatus)Cyborg.manipRequestStatus;
+		SHManipulatorRequestData req = (SHManipulatorRequestData)Cyborg.manipulatorRequestData;
 
 		req.ShootOut.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
 		req.ArmDown.set(armDownButton.getButtonPress(), armUpButton.getButtonPress());

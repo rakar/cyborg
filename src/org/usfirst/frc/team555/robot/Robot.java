@@ -102,7 +102,7 @@ public class Robot extends Cyborg {
 				.setGyroLockButton(Device.GYROLOCK_BUTTON)	
 				);
 
-		this.manipRequestMappers.add(new SHManipRequestMapper(this));
+		this.manipulatorRequestMappers.add(new SHManipulatorRequestMapper(this));
 		//this.robotSensorMappers.add(new RobotSensorMapper(this));
 	
 		
@@ -110,15 +110,15 @@ public class Robot extends Cyborg {
 		//
 		// Status Initialization
 		//
-		driveRequestStatus    = new CBGeneralDriveRequestStatus();
-		driveControlStatus    = new CBGeneralDriveControlStatus();
+		driveRequestData    = new CBGeneralDriveRequestData();
+		driveControlData    = new CBGeneralDriveControlData();
 
-		manipRequestStatus    = new SHManipRequestStatus();
-		manipControlStatus    = new SHManipControlStatus();	
+		manipulatorRequestData    = new SHManipulatorRequestData();
+		manipulatorControlData    = new SHManipulatorControlData();	
 		
-		robotSensorStatus     = new CBRobotSensorStatus();	
+		robotSensorData     = new CBRobotSensorData();	
 		//this.feedbackControlStatus = new CBFeedbackControlStatus();
-		processorStatus       = new CBProcessorStatus();
+		processorData       = new CBProcessorData();
 	
 		
 		
@@ -139,7 +139,7 @@ public class Robot extends Cyborg {
 		//		new TankDriveBehaviorProcessor(this)
 		//		);
 		this.behaviorProcessors.add(
-				new SHManipBehaviorProcessor(this)
+				new SHManipulatorBehaviorProcessor(this)
 				); 
 		
 		
@@ -156,7 +156,7 @@ public class Robot extends Cyborg {
 				.addRightMotorController(Device.DRIVE_MOTOR_RIGHT_1)
 				.setRightDirection(-1)
 				);
-		this.manipControllers.add(new SHManipController(this));
+		this.manipulatorControllers.add(new SHManipulatorController(this));
 			
 	}
 	

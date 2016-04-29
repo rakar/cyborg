@@ -24,8 +24,8 @@ public class CBGeneralDriveBehaviorProcessor extends CBBehaviorProcessor {
 	public void update() {
 		super.update();
 		
-		CBGeneralDriveRequestStatus rs = (CBGeneralDriveRequestStatus)Cyborg.driveRequestStatus;
-		CBGeneralDriveControlStatus cs = (CBGeneralDriveControlStatus)Cyborg.driveControlStatus;
+		CBGeneralDriveRequestData rs = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
+		CBGeneralDriveControlData cs = (CBGeneralDriveControlData)Cyborg.driveControlData;
 		
 		cs.active = rs.active;
 		if(cs.active) {

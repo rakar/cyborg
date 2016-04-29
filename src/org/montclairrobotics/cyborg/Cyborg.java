@@ -20,24 +20,24 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	// Status Classes
 	// Statuses represent high-level meaningful messages
-	public static CBDriveRequestStatus driveRequestStatus;
-	public static CBManipRequestStatus manipRequestStatus;
-	public static CBRobotSensorStatus robotSensorStatus;
+	public static CBDriveRequestData driveRequestData;
+	public static CBManipulatorRequestData manipulatorRequestData;
+	public static CBRobotSensorData robotSensorData;
 	//public CBFeedbackControlStatus feedbackControlStatus;
-	public static CBDriveControlStatus driveControlStatus;
-	public static CBManipControlStatus manipControlStatus;
-	public static CBProcessorStatus processorStatus;
+	public static CBDriveControlData driveControlData;
+	public static CBManipulatorControlData manipulatorControlData;
+	public static CBProcessorData processorData;
 
 	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
 	public ArrayList<CBDriveRequestMapper> driveRequestMappers = new ArrayList<CBDriveRequestMapper>();
-	public ArrayList<CBManipRequestMapper> manipRequestMappers = new ArrayList<CBManipRequestMapper>();
+	public ArrayList<CBManipulatorRequestMapper> manipulatorRequestMappers = new ArrayList<CBManipulatorRequestMapper>();
 	public ArrayList<CBRobotSensorMapper> robotSensorMappers = new ArrayList<CBRobotSensorMapper>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
 	//private ArrayList<CBFeedbackController> feedbackControllers = new ArrayList<CBFeedbackController>();
 	public ArrayList<CBDriveController> driveControllers = new ArrayList<CBDriveController>();
-	public ArrayList<CBManipController> manipControllers = new ArrayList<CBManipController>();
+	public ArrayList<CBManipulatorController> manipulatorControllers = new ArrayList<CBManipulatorController>();
 	
 	// Logic Layer
 	public ArrayList<CBRuleProcessor> ruleProcessors = new ArrayList<>();
@@ -107,7 +107,7 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update Input Mappers
 		for(CBDriveRequestMapper m:this.driveRequestMappers) m.update(); 
-		for(CBManipRequestMapper m:this.manipRequestMappers) m.update(); 
+		for(CBManipulatorRequestMapper m:this.manipulatorRequestMappers) m.update(); 
 		for(CBRobotSensorMapper  m:this.robotSensorMappers)  m.update(); 
 
 		
@@ -132,7 +132,7 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update Output Controllers
 		for(CBDriveController m:this.driveControllers) m.update(); 
-		for(CBManipController m:this.manipControllers) m.update(); 
+		for(CBManipulatorController m:this.manipulatorControllers) m.update(); 
 		
 		
 		// Update output interfaces

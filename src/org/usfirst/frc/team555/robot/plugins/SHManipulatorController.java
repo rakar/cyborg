@@ -1,13 +1,13 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBManipController;
+import org.montclairrobotics.cyborg.CBManipulatorController;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
 import org.usfirst.frc.team555.robot.Robot.Device;
 
-public class SHManipController extends CBManipController {
+public class SHManipulatorController extends CBManipulatorController {
 	Robot robot;
 	CBSolenoid armValve;
 	CBSolenoid halfValve;
@@ -15,7 +15,7 @@ public class SHManipController extends CBManipController {
 	CBMotorController spinLeft;
 	CBMotorController spinRight;
 
-	public SHManipController(Robot robot) {
+	public SHManipulatorController(Robot robot) {
 		super(robot);
 		this.robot = robot;
 		
@@ -30,9 +30,9 @@ public class SHManipController extends CBManipController {
 	
 	@Override public void update() {
 		
-		if(Cyborg.manipControlStatus instanceof SHManipControlStatus) {
+		if(Cyborg.manipulatorControlData instanceof SHManipulatorControlData) {
 
-			SHManipControlStatus cs = (SHManipControlStatus)Cyborg.manipControlStatus;
+			SHManipulatorControlData cs = (SHManipulatorControlData)Cyborg.manipulatorControlData;
 			armValve.set(cs.ArmDown.get());
 			halfValve.set(cs.HalfUp.get());
 			shootValve.set(cs.ShootOut.get());

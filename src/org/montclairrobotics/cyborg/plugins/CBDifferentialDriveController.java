@@ -21,16 +21,16 @@ public class CBDifferentialDriveController extends CBDriveController {
 	
 	@Override
 	public void update() {
-		if(Cyborg.driveControlStatus.active) {
-			if(Cyborg.driveControlStatus instanceof CBDifferentialDriveControlStatus) {
+		if(Cyborg.driveControlData.active) {
+			if(Cyborg.driveControlData instanceof CBDifferentialDriveControlData) {
 
-				CBDifferentialDriveControlStatus status = (CBDifferentialDriveControlStatus)Cyborg.driveControlStatus;
+				CBDifferentialDriveControlData status = (CBDifferentialDriveControlData)Cyborg.driveControlData;
 				for(SpeedController l:tLeft) l.set(status.leftPower);
 				for(SpeedController r:tRight) r.set(status.rightPower);
 	
-			} else if(Cyborg.driveControlStatus instanceof CBGeneralDriveControlStatus) {
+			} else if(Cyborg.driveControlData instanceof CBGeneralDriveControlData) {
 
-				CBGeneralDriveControlStatus status = (CBGeneralDriveControlStatus)Cyborg.driveControlStatus;
+				CBGeneralDriveControlData status = (CBGeneralDriveControlData)Cyborg.driveControlData;
 				double left = status.direction.getY()+status.rotation;
 				double right= status.direction.getY()-status.rotation;
 				for(SpeedController l:tLeft) l.set(left*leftDir);

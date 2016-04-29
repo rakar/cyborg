@@ -1,6 +1,5 @@
 package org.montclairrobotics.cyborg;
 
-public class CBDriveControlStatus {
+public class CBDriveRequestData {
 	public boolean active;
-
 }
