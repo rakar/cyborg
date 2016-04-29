@@ -110,15 +110,15 @@ public class Robot extends Cyborg {
 		//
 		// Status Initialization
 		//
-		driveRequestData    = new CBGeneralDriveRequestData();
-		driveControlData    = new CBGeneralDriveControlData();
+		driveRequestData       = new CBGeneralDriveRequestData();
+		driveControlData       = new CBGeneralDriveControlData();
 
-		manipulatorRequestData    = new SHManipulatorRequestData();
-		manipulatorControlData    = new SHManipulatorControlData();	
+		manipulatorRequestData = new SHManipulatorRequestData();
+		manipulatorControlData = new SHManipulatorControlData();	
 		
-		robotSensorData     = new CBRobotSensorData();	
+		robotSensorData        = new CBRobotSensorData();	
 		//this.feedbackControlStatus = new CBFeedbackControlStatus();
-		processorData       = new CBProcessorData();
+		processorData          = new CBProcessorData();
 	
 		
 		
@@ -156,7 +156,9 @@ public class Robot extends Cyborg {
 				.addRightMotorController(Device.DRIVE_MOTOR_RIGHT_1)
 				.setRightDirection(-1)
 				);
-		this.manipulatorControllers.add(new SHManipulatorController(this));
+		this.manipulatorControllers.add(
+				new SHManipulatorController(this)
+				);
 			
 	}
 	

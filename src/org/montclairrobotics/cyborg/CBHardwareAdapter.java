@@ -6,6 +6,9 @@ import java.util.HashMap;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDevice;
+import org.montclairrobotics.cyborg.devices.CBDigitalInput;
+import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
+import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
@@ -20,12 +23,11 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 
-	//private Integer cnt= new Integer(0);
 	private int joystickCount;
 	private ArrayList<Joystick> joysticks = new ArrayList<>(); 
 
 	private ArrayList<CBDevice> devices = new ArrayList<>();
-	private HashMap<Object, Integer> devkey = new HashMap<Object, Integer>();
+	//private HashMap<Object, Integer> devkey = new HashMap<Object, Integer>();
 	
 	public CBHardwareAdapter(Cyborg robot, int deviceCount) {
 		super(robot);
@@ -69,24 +71,25 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 
 
 	public CBHardwareAdapter<T> add(Enum<T> id, CBDevice device) {
+		/*
 		int ptr = this.devices.size();
 		this.devices.add(device);
 		devkey.put(id, ptr);
+		 */
+		this.devices.set(id.ordinal(), device);
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public CBDevice getDevice(Object id) {
-		//cnt++;
+		/*
 		Integer ptr = new Integer(0);
 		ptr = devkey.get(((Enum<T>) id));
-		//String tmp ="null "+cnt.toString();
-		//if(ptr==null) System.err.println(tmp); //id.getClass().getName()); //+((Enum<T>)id).toString());
 		if(ptr==null) return null;
 		CBDevice dev =devices.get(ptr);
-		//tmp ="non-null "+cnt.toString();
-		//if(dev!=null) System.err.println(tmp);
-		return dev;
+		 */
+		if(id==null) return null;
+		return devices.get(((Enum<T>) id).ordinal());
 	}
 
 	public CBAxis getAxis(Object id) {
@@ -97,6 +100,18 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 		return (CBButton)getDevice(id);
 	}
 		
+	public CBDigitalInput getDigitalInput(Object id) {
+		return (CBDigitalInput)getDevice(id);
+	}
+	
+	public CBDigitalOutput getDigitalOutput(Object id) {
+		return (CBDigitalOutput)getDevice(id);
+	}
+	
+	public CBEncoder getEncoder(Object id) {
+		return (CBEncoder)getDevice(id);
+	}
+
 	public CBMotorController getMotorController(Object id) {
 		return (CBMotorController)getDevice(id);
 	}
@@ -109,20 +124,8 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 		return (CBPov)getDevice(id);
 	}
 
-	public DigitalInput getDigitalInput(Object id) {
-		return (DigitalInput)getDevice(id);
-	}
-	
-	public DigitalOutput getDigitalOutput(Object id) {
-		return (DigitalOutput)getDevice(id);
-	}
-	
 	public CBSolenoid getSolenoidValve(Object id) {
 		return (CBSolenoid)getDevice(id);
-	}
-	
-	public Encoder getEncoder(Object id) {
-		return (Encoder)getDevice(id);
 	}
 	
 }
