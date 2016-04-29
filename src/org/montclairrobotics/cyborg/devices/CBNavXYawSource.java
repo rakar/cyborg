@@ -6,9 +6,8 @@ import org.montclairrobotics.cyborg.utils.CBSource;
 public class CBNavXYawSource implements CBSource {
 	private CBNavX navx;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public CBNavXYawSource(Enum navx) {
-		this.navx = Cyborg.getHA().getNavX(navx);
+	public CBNavXYawSource(Object navxDeviceID) {
+		this.navx = Cyborg.getHA().getNavX(navxDeviceID);
 	}
 	
 	public double get() {

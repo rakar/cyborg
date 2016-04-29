@@ -1,6 +1,7 @@
 package org.montclairrobotics.cyborg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
@@ -23,12 +24,13 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 	private ArrayList<Joystick> joysticks = new ArrayList<>(); 
 
 	private ArrayList<CBDevice> device = new ArrayList<>();
-
+	private HashMap<Object, Integer> devkey = new HashMap<Object, Integer>();
 	
 	public CBHardwareAdapter(Cyborg robot, int deviceCount) {
 		super(robot);
 		device.ensureCapacity(deviceCount);
 	}
+	
 	
 	public void senseUpdate() {
 		for(CBDevice d: device) {
@@ -37,9 +39,11 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 	}
 	
 	public void controlUpdate() {
-		
+		for(CBDevice d: device) {
+			d.controlUpdate();
+		}
 	}
-
+	
 	
 	/*
 	 * Getters/Setters
@@ -64,49 +68,53 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 
 
 	public CBHardwareAdapter<T> add(Enum<T> id, CBDevice device) {
-		this.device.ensureCapacity(id.ordinal()+1);
-		this.device.set(id.ordinal(),device);
+		int ptr = this.device.size();
+		this.device.add(device);
+		devkey.put(id, ptr);
 		return this;
 	}
 	
-	public CBDevice getDevice(Enum<T> id) {
-		return device.get(id.ordinal());
+	@SuppressWarnings("unchecked")
+	public CBDevice getDevice(Object id) {
+		Integer ptr = devkey.get(((Enum<T>) id));
+		if(ptr==null) return null;
+		return device.get(ptr);
 	}
 
-	public CBAxis getAxis(Enum<T> id) {
-		return (CBAxis)device.get(id.ordinal());
+	public CBAxis getAxis(Object id) {
+		return (CBAxis)getDevice(id);
 	}
 		
-	public CBButton getButton(Enum<T> id) {
-		return (CBButton)device.get(id.ordinal());
+	public CBButton getButton(Object id) {
+		return (CBButton)getDevice(id);
 	}
 		
-	public CBMotorController getMotorController(Enum<T> id) {
-		return (CBMotorController)device.get(id.ordinal());
+	public CBMotorController getMotorController(Object id) {
+		return (CBMotorController)getDevice(id);
 	}
 	
-	public CBNavX getNavX(Enum<T> navx){
-		return (CBNavX)device.get(navx.ordinal());
+	public CBNavX getNavX(Object id){
+		return (CBNavX)getDevice(id);
 	}
 
-	public CBPov getPOV(Enum<T> id) {
-		return (CBPov)device.get(id.ordinal());
+	public CBPov getPOV(Object id) {
+		return (CBPov)getDevice(id);
 	}
 
-	public DigitalInput getDigitalInput(Enum<T> id) {
-		return (DigitalInput)device.get(id.ordinal());
+	public DigitalInput getDigitalInput(Object id) {
+		return (DigitalInput)getDevice(id);
 	}
 	
-	public DigitalOutput getDigitalOutput(Enum<T> id) {
-		return (DigitalOutput)device.get(id.ordinal());
+	public DigitalOutput getDigitalOutput(Object id) {
+		return (DigitalOutput)getDevice(id);
 	}
 	
-	public CBSolenoid getSolenoidValve(Enum<T> id) {
-		return (CBSolenoid)device.get(id.ordinal());
+	public CBSolenoid getSolenoidValve(Object id) {
+		return (CBSolenoid)getDevice(id);
 	}
 	
-	public Encoder getEncoder(Enum<T> id) {
-		return (Encoder)device.get(id.ordinal());
+	public Encoder getEncoder(Object id) {
+		return (Encoder)getDevice(id);
 	}
 	
 }

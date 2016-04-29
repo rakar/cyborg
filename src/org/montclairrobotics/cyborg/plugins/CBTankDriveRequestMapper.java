@@ -11,11 +11,11 @@ public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
 	private double deadzone = 0.0;
 	private CBButton gyroLock=null;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public CBTankDriveRequestMapper(Cyborg robot, Enum leftID, Enum rightID) {
+
+	public CBTankDriveRequestMapper(Cyborg robot, Object leftDeviceID, Object rightDeviceID) {
 		super(robot);
-		this.left = Cyborg.getHA().getAxis(leftID);
-		this.right = Cyborg.getHA().getAxis(rightID);
+		this.left = Cyborg.getHA().getAxis(leftDeviceID);
+		this.right = Cyborg.getHA().getAxis(rightDeviceID);
 	}
 	
 	public CBTankDriveRequestMapper setDeadZone(double deadzone) {
@@ -23,16 +23,15 @@ public class CBTankDriveRequestMapper extends CBDriveRequestMapper {
 		return this;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public CBTankDriveRequestMapper setGyroLockButton(Enum buttonID) {
+	public CBTankDriveRequestMapper setGyroLockButton(Object buttonID) {
 		this.gyroLock = Cyborg.getHA().getButton(buttonID);
 		return this;
 	}
 
 	@Override
 	public void update() {
-		double leftStick  = 0; //-left.get(); //-Cyborg.getHA().getJoystickAxis(leftJoystick,  leftJoystickAxis );  // y-axis of first stick
-		double rightStick = 0; // right.get(); //Cyborg.getHA().getJoystickAxis(rightJoystick, rightJoystickAxis);  // y-axis of second stick;
+		double leftStick  = 0; // y-axis of first stick
+		double rightStick = 0; // y-axis of second stick;
 		
 		if(left!=null && left.isDefined()) leftStick = -left.get();
 		if(right!=null && right.isDefined()) rightStick = right.get();

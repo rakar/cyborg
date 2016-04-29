@@ -34,7 +34,7 @@ public abstract class Cyborg extends IterativeRobot {
 	public ArrayList<CBDriveRequestMapper> driveRequestMappers = new ArrayList<CBDriveRequestMapper>();
 	public ArrayList<CBManipRequestMapper> manipRequestMappers = new ArrayList<CBManipRequestMapper>();
 	public ArrayList<CBRobotSensorMapper> robotSensorMappers = new ArrayList<CBRobotSensorMapper>();
-	// Controller Queues hold lists of controllers that convert high-level reqeusts into low-level raw control output data
+	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
 	//private ArrayList<CBFeedbackController> feedbackControllers = new ArrayList<CBFeedbackController>();
 	public ArrayList<CBDriveController> driveControllers = new ArrayList<CBDriveController>();
 	public ArrayList<CBManipController> manipControllers = new ArrayList<CBManipController>();
@@ -141,17 +141,5 @@ public abstract class Cyborg extends IterativeRobot {
 		hardwareAdapter.controlUpdate();
 
 	}
-	
-	
-	/*
-	 * Setters/Getters 
-	 */
-	//public void setJoystickCount(int count) {
-	//	driverStationInterface.setJoystickCount(count);
-	//}
-	
-	//public void addHumanInterfaceMapper(DriveRequestMapper mapper) {
-	//	DrivetrainControlMappers.add(mapper);
-	//}
 	
 }

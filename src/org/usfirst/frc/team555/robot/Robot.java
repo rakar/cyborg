@@ -41,8 +41,6 @@ public class Robot extends Cyborg {
 		SPIN_POV,
 		}; 
 
-	
-	
 	@Override
 	public void cyborgInit() {
 		
@@ -67,15 +65,18 @@ public class Robot extends Cyborg {
 		ha.add(Device.DRIVE_MOTOR_LEFT_2,	new CBMotorController(new Talon(3)));
 		ha.add(Device.DRIVE_MOTOR_RIGHT_1,	new CBMotorController(new Talon(2)));
 		ha.add(Device.DRIVE_MOTOR_RIGHT_2,	new CBMotorController(new Talon(4)));
-		ha.add(Device.GYROLOCK_BUTTON,		new CBButton(0, 1));
+		
 		ha.add(Device.FORWARD_AXIS, 		new CBAxis(0,1));
 		ha.add(Device.ROTATION_AXIS, 		new CBAxis(0,0));
-		ha.add(Device.FORWARD2_AXIS, 		new CBAxis(1,1));
+		//ha.add(Device.FORWARD2_AXIS, 		new CBAxis(1,1)); for Tank drive 
+
+		ha.add(Device.GYROLOCK_BUTTON,		new CBButton(0, 1));
 		ha.add(Device.SHOOT_BUTTON,			new CBButton(1, 1));
 		ha.add(Device.ARMDOWN_BUTTON,		new CBButton(1, 3));
 		ha.add(Device.ARMUP_BUTTON,			new CBButton(1, 5));
 		ha.add(Device.HALFDOWN_BUTTON,		new CBButton(1, 4));
 		ha.add(Device.HALFUP_BUTTON,		new CBButton(1, 6));
+		
 		ha.add(Device.SPIN_POV, 			new CBPov(1,0));
 		
 		//

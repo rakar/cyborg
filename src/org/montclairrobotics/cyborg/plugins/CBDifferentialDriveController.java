@@ -42,14 +42,12 @@ public class CBDifferentialDriveController extends CBDriveController {
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public CBDifferentialDriveController addLeftMotorController(Enum controller) {
+	public CBDifferentialDriveController addLeftMotorController(Object controller) {
 		tLeft.add(Cyborg.getHA().getMotorController(controller));
 		return this;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public CBDifferentialDriveController addRightMotorController(Enum controller) {
+	public CBDifferentialDriveController addRightMotorController(Object controller) {
 		tRight.add(Cyborg.getHA().getMotorController(controller));
 		return this;
 	}
