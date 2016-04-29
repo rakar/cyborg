@@ -8,8 +8,8 @@ public class SHManipControlStatus extends CBManipControlStatus {
 	public SHManipControlStatus() {
 	}
 	
-	public CBTriState ArmDown;
-	public CBTriState HalfUp;
-	public CBTriState ShootOut;
+	public CBTriState ArmDown = new CBTriState();
+	public CBTriState HalfUp= new CBTriState();
+	public CBTriState ShootOut= new CBTriState();
 	public double SpinSpeed;
 }

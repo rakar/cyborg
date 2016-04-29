@@ -22,7 +22,7 @@ public class SHManipRequestMapper extends CBManipRequestMapper {
 		this.robot = robot;
 		
 		this.shootButton    = Cyborg.getHA().getButton(Device.SHOOT_BUTTON);
-		this.armDownButton  = Cyborg.getHA().getButton(Device.ARMUP_BUTTON);
+		this.armDownButton  = Cyborg.getHA().getButton(Device.ARMDOWN_BUTTON);
 		this.armUpButton    = Cyborg.getHA().getButton(Device.ARMUP_BUTTON);
 		this.halfDownButton = Cyborg.getHA().getButton(Device.HALFDOWN_BUTTON);
 		this.halfUpButton   = Cyborg.getHA().getButton(Device.HALFUP_BUTTON);

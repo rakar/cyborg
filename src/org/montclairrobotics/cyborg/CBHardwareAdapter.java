@@ -20,26 +20,27 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 
+	//private Integer cnt= new Integer(0);
 	private int joystickCount;
 	private ArrayList<Joystick> joysticks = new ArrayList<>(); 
 
-	private ArrayList<CBDevice> device = new ArrayList<>();
+	private ArrayList<CBDevice> devices = new ArrayList<>();
 	private HashMap<Object, Integer> devkey = new HashMap<Object, Integer>();
 	
 	public CBHardwareAdapter(Cyborg robot, int deviceCount) {
 		super(robot);
-		device.ensureCapacity(deviceCount);
+		devices.ensureCapacity(deviceCount);
 	}
 	
 	
 	public void senseUpdate() {
-		for(CBDevice d: device) {
+		for(CBDevice d: devices) {
 			d.senseUpdate();
 		}
 	}
 	
 	public void controlUpdate() {
-		for(CBDevice d: device) {
+		for(CBDevice d: devices) {
 			d.controlUpdate();
 		}
 	}
@@ -68,17 +69,24 @@ public class CBHardwareAdapter<T extends Enum<T>> extends CBModule {
 
 
 	public CBHardwareAdapter<T> add(Enum<T> id, CBDevice device) {
-		int ptr = this.device.size();
-		this.device.add(device);
+		int ptr = this.devices.size();
+		this.devices.add(device);
 		devkey.put(id, ptr);
 		return this;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public CBDevice getDevice(Object id) {
-		Integer ptr = devkey.get(((Enum<T>) id));
+		//cnt++;
+		Integer ptr = new Integer(0);
+		ptr = devkey.get(((Enum<T>) id));
+		//String tmp ="null "+cnt.toString();
+		//if(ptr==null) System.err.println(tmp); //id.getClass().getName()); //+((Enum<T>)id).toString());
 		if(ptr==null) return null;
-		return device.get(ptr);
+		CBDevice dev =devices.get(ptr);
+		//tmp ="non-null "+cnt.toString();
+		//if(dev!=null) System.err.println(tmp);
+		return dev;
 	}
 
 	public CBAxis getAxis(Object id) {

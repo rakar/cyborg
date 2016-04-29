@@ -17,7 +17,7 @@ public class SHManipBehaviorProcessor extends CBBehaviorProcessor {
 		cs.ArmDown.set(rs.ArmDown.get());	
 		cs.HalfUp.set(rs.HalfUp.get());
 		
-		cs.SpinSpeed = (double)rs.SpinIn.select(-.4, .6, 0); 
+		cs.SpinSpeed = (double)rs.SpinIn.select(-0.4, 0.6, 0.0); 
 		
 	}
 
