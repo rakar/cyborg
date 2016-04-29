@@ -12,7 +12,7 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		state = Cyborg.getHA().getJoystick(stickID).getPOV(index);
+		state = Cyborg.hardwareAdapter.getJoystick(stickID).getPOV(index);
 	}
 
 	@Override

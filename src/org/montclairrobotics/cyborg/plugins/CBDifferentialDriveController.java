@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
+import org.montclairrobotics.cyborg.utils.CBDeviceID;
 //import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBDriveController;
 
@@ -42,13 +43,13 @@ public class CBDifferentialDriveController extends CBDriveController {
 		}
 	}
 	
-	public CBDifferentialDriveController addLeftMotorController(Object controller) {
-		tLeft.add(Cyborg.getHA().getMotorController(controller));
+	public CBDifferentialDriveController addLeftMotorController(CBDeviceID controller) {
+		tLeft.add(Cyborg.hardwareAdapter.getMotorController(controller));
 		return this;
 	}
 	
-	public CBDifferentialDriveController addRightMotorController(Object controller) {
-		tRight.add(Cyborg.getHA().getMotorController(controller));
+	public CBDifferentialDriveController addRightMotorController(CBDeviceID controller) {
+		tRight.add(Cyborg.hardwareAdapter.getMotorController(controller));
 		return this;
 	}
 	

@@ -3,6 +3,7 @@ package org.montclairrobotics.cyborg.plugins;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
+import org.montclairrobotics.cyborg.utils.CBDeviceID;
 import org.montclairrobotics.cyborg.CBDriveRequestMapper;
 
 public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
@@ -12,11 +13,11 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 	private double[] smoothing = new double[3];
 	private double[] lastValue = new double[3];
 
-	public CBArcadeDriveRequestMapper(Cyborg robot, Object fwdDeviceID, Object strDeviceID, Object rotDeviceID) {
+	public CBArcadeDriveRequestMapper(Cyborg robot, CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
 		super(robot);
-		this.axes[0] = Cyborg.getHA().getAxis(fwdDeviceID);
-		this.axes[1] = Cyborg.getHA().getAxis(strDeviceID);
-		this.axes[2] = Cyborg.getHA().getAxis(rotDeviceID);
+		this.axes[0] = Cyborg.hardwareAdapter.getAxis(fwdDeviceID);
+		this.axes[1] = Cyborg.hardwareAdapter.getAxis(strDeviceID);
+		this.axes[2] = Cyborg.hardwareAdapter.getAxis(rotDeviceID);
 	}
 
 	public CBArcadeDriveRequestMapper setDeadZone(double deadzone) {
@@ -30,8 +31,8 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 		return this;
 	}
 	
-	public CBArcadeDriveRequestMapper setGyroLockButton(Object buttonDeviceID) {
-		this.gyroLock = Cyborg.getHA().getButton(buttonDeviceID);
+	public CBArcadeDriveRequestMapper setGyroLockButton(CBDeviceID buttonDeviceID) {
+		this.gyroLock = Cyborg.hardwareAdapter.getButton(buttonDeviceID);
 		return this;
 	}
 

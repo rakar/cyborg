@@ -5,8 +5,6 @@ package org.montclairrobotics.cyborg;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc.team555.robot.Robot.Device;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
@@ -15,7 +13,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  */
 public abstract class Cyborg extends IterativeRobot {
 
-	@SuppressWarnings("rawtypes")
 	public static CBHardwareAdapter hardwareAdapter;
 	
 	// Status Classes
@@ -45,11 +42,6 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	public CBAutonomousAI autonomousAI;
 	
-	// shortcut to customHardwareInterface
-	@SuppressWarnings("unchecked")
-	public static CBHardwareAdapter<Device> getHA() {
-		return (CBHardwareAdapter<Device>) hardwareAdapter;
-	}
 	
 	/**
      * This function is run when the robot is first started up and should be

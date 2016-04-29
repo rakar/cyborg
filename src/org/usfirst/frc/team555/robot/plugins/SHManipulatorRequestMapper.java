@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot.plugins;
 
+import org.montclairrobotics.cyborg.CBHardwareAdapter;
 import org.montclairrobotics.cyborg.CBManipulatorRequestMapper;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.usfirst.frc.team555.robot.Robot;
-import org.usfirst.frc.team555.robot.Robot.Device;
 
 public class SHManipulatorRequestMapper extends CBManipulatorRequestMapper {
 
@@ -20,13 +20,14 @@ public class SHManipulatorRequestMapper extends CBManipulatorRequestMapper {
 	public SHManipulatorRequestMapper(Robot robot) {
 		super(robot);
 		this.robot = robot;
+		CBHardwareAdapter ha = Cyborg.hardwareAdapter;
 		
-		this.shootButton    = Cyborg.getHA().getButton(Device.SHOOT_BUTTON);
-		this.armDownButton  = Cyborg.getHA().getButton(Device.ARMDOWN_BUTTON);
-		this.armUpButton    = Cyborg.getHA().getButton(Device.ARMUP_BUTTON);
-		this.halfDownButton = Cyborg.getHA().getButton(Device.HALFDOWN_BUTTON);
-		this.halfUpButton   = Cyborg.getHA().getButton(Device.HALFUP_BUTTON);
-		this.spinPov     	= Cyborg.getHA().getPOV(Device.SPIN_POV);
+		this.shootButton    = ha.getButton(robot.devices.shootButton);
+		this.armDownButton  = ha.getButton(robot.devices.armDownButton);
+		this.armUpButton    = ha.getButton(robot.devices.armUpButton);
+		this.halfDownButton = ha.getButton(robot.devices.halfDownButton);
+		this.halfUpButton   = ha.getButton(robot.devices.halfUpButton);
+		this.spinPov     	= ha.getPOV(robot.devices.spinPov);
 	}
 	
 	@Override

@@ -12,5 +12,4 @@ public class CBGeneralDriveRequestData extends CBDriveRequestData {
 	public CBDirectionVector direction = new CBDirectionVector();
 	public double rotation;
 	public boolean gyroLock;
-	
 }

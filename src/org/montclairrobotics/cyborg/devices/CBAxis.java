@@ -11,7 +11,7 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		value = Cyborg.getHA().getJoystick(stickID).getRawAxis(index);
+		value = Cyborg.hardwareAdapter.getJoystick(stickID).getRawAxis(index);
 	}
 
 	@Override
