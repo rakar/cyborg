@@ -152,6 +152,7 @@ public class Robot extends Cyborg {
 		this.behaviorProcessors.add(
 				new SHManipulatorBehaviorProcessor(this)
 				); 
+		this.autonomousAI = new SHAutonomousAI(this);
 
 	}
 	

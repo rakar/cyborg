@@ -3,25 +3,28 @@ package org.usfirst.frc.team555.robot.plugins;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHAutoAISM extends CBStateMachine<AutoAIState> {
+enum AutoAIStatex {start,armdown,drive,done};
+
+public class SHAutoAISMx extends CBStateMachine<AutoAIStatex> {
 	private Robot robot;
 
-	public SHAutoAISM(Robot robot) {
-		super(AutoAIState.start);
+	
+	public SHAutoAISMx(Robot robot) {
+		super(AutoAIStatex.start);
 		this.robot = robot;
 	}
 	
 	@Override
 	public void calcNextState() {
-		switch(currState) {
+		switch(currentState) {
 		case start:
-			nextState = AutoAIState.armdown;
+			nextState = AutoAIStatex.armdown;
 			break;
 		case armdown:
-			if(cycles>175) nextState = AutoAIState.drive;
+			if(cycles>175) nextState = AutoAIStatex.drive;
 			break;
 		case drive:
-			if(cycles>175) nextState = AutoAIState.done;
+			if(cycles>175) nextState = AutoAIStatex.done;
 			break;
 		case done:
 			break;			

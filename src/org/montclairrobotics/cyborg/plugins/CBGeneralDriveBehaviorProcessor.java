@@ -37,13 +37,14 @@ public class CBGeneralDriveBehaviorProcessor extends CBBehaviorProcessor {
 				if(gyroLockState.getRisingEdge()) gyroLockTracker.lock();
 				if(gyroLockState.getState()) cs.rotation = gyroLockTracker.update();
 			}
+			
+			//
+			// Turn off request.active to indicate that command was handled. 
+			// This will prevent re-processing a given request. For example
+			// Autonomous may only issue drive requests periodically.
+			//  
+			rs.active = false;
 		}
-		//
-		// Turn off request.active to indicate that command was handled. 
-		// This will prevent re-processing a given request. For example
-		// Autonomous may only issue drive requests periodically.
-		//  
-		rs.active = false;
 	}
 
 
