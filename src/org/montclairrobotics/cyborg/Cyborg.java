@@ -59,11 +59,14 @@ public abstract class Cyborg extends IterativeRobot {
 	}
     
     public abstract void cyborgInit();
+    public abstract void cyborgAutonomousInit();
+    public abstract void cyborgTeleopInit();
     
 	/**
 	 */
 	@Override
     public final void autonomousInit() {
+		cyborgAutonomousInit();
     }
 
     /**

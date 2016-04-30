@@ -67,8 +67,8 @@ public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
 			}
 
 			rs.active = true;
-			rs.direction.setXY(value[1], value[0]); 
-			rs.rotation = value[2]; 
+			rs.direction.setXY(value[1], -value[0]); 
+			rs.rotation = -value[2]; 
 			
 			if(gyroLock!=null && gyroLock.isDefined()) {
 				rs.gyroLock = gyroLock.getButtonState();

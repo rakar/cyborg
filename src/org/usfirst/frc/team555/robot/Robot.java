@@ -30,15 +30,15 @@ public class Robot extends Cyborg {
 	//
 	public class SHDevices {
 		public CBDeviceID 
-		navx, 
-		armValve, halfValve, shootValve,
-		spinLeft, spinRight,
-		driveMotorLeft1, driveMotorLeft2,
-		driveMotorRight1,driveMotorRight2,
-		gyroLockButton,
-		forwardAxis, rotationAxis, forward2Axis,
-		shootButton, armDownButton, armUpButton, halfDownButton, halfUpButton,
-		spinPov
+		navx=new CBDeviceID(), 
+		armValve=new CBDeviceID(), halfValve=new CBDeviceID(), shootValve=new CBDeviceID(),
+		spinLeft=new CBDeviceID(), spinRight=new CBDeviceID(),
+		driveMotorLeft1=new CBDeviceID(), driveMotorLeft2=new CBDeviceID(),
+		driveMotorRight1=new CBDeviceID(),driveMotorRight2=new CBDeviceID(),
+		gyroLockButton=new CBDeviceID(),
+		forwardAxis=new CBDeviceID(), rotationAxis=new CBDeviceID(), forward2Axis=new CBDeviceID(),
+		shootButton=new CBDeviceID(), armDownButton=new CBDeviceID(), armUpButton=new CBDeviceID(), halfDownButton=new CBDeviceID(), halfUpButton=new CBDeviceID(),
+		spinPov=new CBDeviceID()
 		;
 	}
 	
@@ -47,7 +47,9 @@ public class Robot extends Cyborg {
 	@Override
 	public void cyborgInit() {
 		
+		System.out.println("starting...");
 		// Configure Custom Hardware
+		
 		Cyborg.hardwareAdapter = new CBHardwareAdapter(this)
 				.setJoystickCount(2)		
 				.add(devices.navx,              new CBNavX(SPI.Port.kMXP))	
@@ -77,6 +79,7 @@ public class Robot extends Cyborg {
 				.add(devices.spinPov, 			new CBPov(1,0))
 				;
 		
+		System.out.println("ha done");
 	
 
 		//
@@ -128,7 +131,7 @@ public class Robot extends Cyborg {
 				.addLeftMotorController (devices.driveMotorLeft2)
 				.addRightMotorController(devices.driveMotorRight1)
 				.addRightMotorController(devices.driveMotorRight1)
-				.setRightDirection(-1)
+				.setLeftDirection(-1)
 				);
 		this.manipulatorControllers.add(
 				new SHManipulatorController(this)
@@ -156,4 +159,13 @@ public class Robot extends Cyborg {
 
 	}
 	
+	@Override
+	public void cyborgAutonomousInit() {
+		((SHAutonomousAI)autonomousAI).init();
+	}
+	
+	@Override
+	public void cyborgTeleopInit() {
+	
+	}
 }

@@ -68,15 +68,19 @@ public class SHAutonomousAI extends CBAutonomousAI {
 
 	SHAutoAISM sm;
 
-	
 	public SHAutonomousAI(Robot robot) {
 		this.robot = robot;
 		sm = new SHAutoAISM(robot);
 	}
-	
+
+	@Override
+	public void init() {
+		sm.setState(AutoAIState.start);
+	}
+
 	@Override
 	public void update() {
 		sm.update();
 	}
-
+	
 }

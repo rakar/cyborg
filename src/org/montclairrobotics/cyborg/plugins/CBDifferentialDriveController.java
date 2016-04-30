@@ -32,8 +32,8 @@ public class CBDifferentialDriveController extends CBDriveController {
 			} else if(Cyborg.driveControlData instanceof CBGeneralDriveControlData) {
 
 				CBGeneralDriveControlData status = (CBGeneralDriveControlData)Cyborg.driveControlData;
-				double left = status.direction.getY()+status.rotation;
-				double right= status.direction.getY()-status.rotation;
+				double left = status.direction.getY()-status.rotation;
+				double right= status.direction.getY()+status.rotation;
 				for(SpeedController l:tLeft) l.set(left*leftDir);
 				for(SpeedController r:tRight) r.set(right*rightDir);
 	

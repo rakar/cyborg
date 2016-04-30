@@ -1,7 +1,9 @@
 package org.montclairrobotics.cyborg;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
@@ -73,7 +75,8 @@ public class CBHardwareAdapter extends CBModule {
 
 	public CBHardwareAdapter add(CBDeviceID id, CBDevice device) {
 		id.ordinal = this.devices.size();
-		this.devices.set(id.ordinal, device);
+		//this.devices.ensureCapacity(40);
+		this.devices.add(device);
 		return this;
 	}
 	

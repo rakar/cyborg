@@ -3,13 +3,16 @@ package org.montclairrobotics.cyborg.utils;
 public abstract class CBStateMachine<T> {
 	protected T currentState;
 	protected T nextState;
-	
 	protected int cycles; 
 		
 	protected CBStateMachine(T start) {
-		currentState = start;
+		setState(start);
 	}
 
+	public void setState(T state) {
+		currentState = state;
+	}
+	
 	public void update() {
 		boolean loop = true;
 		while(loop) {
