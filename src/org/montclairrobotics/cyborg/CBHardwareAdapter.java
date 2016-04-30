@@ -2,9 +2,6 @@ package org.montclairrobotics.cyborg;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDevice;
@@ -18,9 +15,6 @@ import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.utils.CBModule;
 import org.montclairrobotics.cyborg.utils.CBDeviceID;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 
 
@@ -73,14 +67,13 @@ public class CBHardwareAdapter extends CBModule {
 	}	
 
 
-	public CBHardwareAdapter add(CBDeviceID id, CBDevice device) {
-		id.ordinal = this.devices.size();
-		//this.devices.ensureCapacity(40);
-		this.devices.add(device);
-		return this;
+	public CBDeviceID add(CBDevice device) {
+		CBDeviceID id = new CBDeviceID();
+		id.ordinal = devices.size();
+		devices.add(device);
+		return id;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public CBDevice getDevice(CBDeviceID id) {
 		if(id==null) return null;
 		return devices.get(id.ordinal);

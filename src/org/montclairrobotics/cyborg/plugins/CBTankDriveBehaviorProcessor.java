@@ -1,9 +1,9 @@
 package org.montclairrobotics.cyborg.plugins;
 
-import org.montclairrobotics.cyborg.CBBehaviorProcessor;
+import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class CBTankDriveBehaviorProcessor extends CBBehaviorProcessor {
+public class CBTankDriveBehaviorProcessor extends CBBehavior {
 
 	public CBTankDriveBehaviorProcessor(Cyborg robot) {
 		super(robot);

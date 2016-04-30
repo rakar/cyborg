@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBBehaviorProcessor;
+import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class SHManipulatorBehaviorProcessor extends CBBehaviorProcessor {
+public class SHManipulatorBehavior extends CBBehavior {
 
-	public SHManipulatorBehaviorProcessor(Cyborg robot) {
+	public SHManipulatorBehavior(Cyborg robot) {
 		super(robot);
 	}
 	

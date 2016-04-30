@@ -37,11 +37,11 @@ public abstract class Cyborg extends IterativeRobot {
 	public ArrayList<CBManipulatorController> manipulatorControllers = new ArrayList<CBManipulatorController>();
 	
 	// Logic Layer
-	public ArrayList<CBRuleProcessor> ruleProcessors = new ArrayList<>();
-	public ArrayList<CBBehaviorProcessor> behaviorProcessors = new ArrayList<>();
+	public ArrayList<CBRule> rules = new ArrayList<>();
+	public ArrayList<CBBehavior> behaviors = new ArrayList<>();
 	
-	public CBAutonomousAI autonomousAI;
-	
+	public CBAutonomous autonomous;
+
 	
 	/**
      * This function is run when the robot is first started up and should be
@@ -83,7 +83,7 @@ public abstract class Cyborg extends IterativeRobot {
 		for(CBRobotSensorMapper m:this.robotSensorMappers) m.update(); 
 
 		// Autonomous Control
-		autonomousAI.update();
+		autonomous.update();
 
 		// Let the robot do it's thing...
 		robotControl();
@@ -121,8 +121,8 @@ public abstract class Cyborg extends IterativeRobot {
 
 	private void robotControl() {
 		// Update Rule and Behavior Processors 
-		for(CBRuleProcessor m:this.ruleProcessors) m.update(); 
-		for(CBBehaviorProcessor m:this.behaviorProcessors) m.update(); 
+		for(CBRule m:this.rules) m.update(); 
+		for(CBBehavior m:this.behaviors) m.update(); 
 		
 		
 		// Update Output Controllers

@@ -27,21 +27,18 @@ public class SHManipulatorController extends CBManipulatorController {
 		spinLeft   = ha.getMotorController(robot.devices.spinLeft);
 		spinRight  = ha.getMotorController(robot.devices.spinRight);
 	}
-
 	
-	@Override public void update() {
+	@Override 
+	public void update() {
 		
-		if(Cyborg.manipulatorControlData instanceof SHManipulatorControlData) {
+		SHManipulatorControlData cs = (SHManipulatorControlData)Cyborg.manipulatorControlData;
+		armValve.set(cs.ArmDown.get());
+		halfValve.set(cs.HalfUp.get());
+		shootValve.set(cs.ShootOut.get());
+		
+		spinLeft.set(-cs.SpinSpeed);
+		spinRight.set(cs.SpinSpeed);
 
-			SHManipulatorControlData cs = (SHManipulatorControlData)Cyborg.manipulatorControlData;
-			armValve.set(cs.ArmDown.get());
-			halfValve.set(cs.HalfUp.get());
-			shootValve.set(cs.ShootOut.get());
-			
-			spinLeft.set(-cs.SpinSpeed);
-			spinRight.set(cs.SpinSpeed);
-			
-		}
 	}
 	
 }

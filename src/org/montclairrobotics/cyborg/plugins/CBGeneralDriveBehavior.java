@@ -1,21 +1,21 @@
 package org.montclairrobotics.cyborg.plugins;
 
-import org.montclairrobotics.cyborg.CBBehaviorProcessor;
+import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.*;
 
-public class CBGeneralDriveBehaviorProcessor extends CBBehaviorProcessor {
+public class CBGeneralDriveBehavior extends CBBehavior {
 	CBEdgeTrigger gyroLockState;
 	CBTracker gyroLockTracker=null;
 	
 
-	public CBGeneralDriveBehaviorProcessor(Cyborg robot) {
+	public CBGeneralDriveBehavior(Cyborg robot) {
 		super(robot);
 
 		gyroLockState = new CBEdgeTrigger();
 	}
 	
-	public CBGeneralDriveBehaviorProcessor setGyroLockTracker(CBSource source, CBPID pid) {
+	public CBGeneralDriveBehavior setGyroLockTracker(CBSource source, CBPIDController pid) {
 		this.gyroLockTracker = new CBTracker(source, pid);
 		return this;
 	}

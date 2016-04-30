@@ -2,9 +2,9 @@ package org.montclairrobotics.cyborg.utils;
 
 public class CBTracker {
 	private CBSource source;
-	private CBPID controller;
+	private CBPIDController controller;
 	
-	public CBTracker(CBSource source, CBPID controller) {
+	public CBTracker(CBSource source, CBPIDController controller) {
 		this.source = source;
 		this.controller = controller;
 	}

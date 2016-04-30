@@ -3,7 +3,7 @@ package org.montclairrobotics.cyborg.utils;
 
 //TODO: add a delta time calculation to adjust for variable update periods.
 
-public class CBPID {
+public class CBPIDController {
 	private double P,I,D,minIn,maxIn,minOut,maxOut;
 	
 	private double in,out;
@@ -11,11 +11,11 @@ public class CBPID {
 	private double totalError, prevError, error;
 
 	/**
-	 * @param P the Propotional Constant
+	 * @param P the Proportional Constant
 	 * @param I the Integral Constant
-	 * @param D the Derivitive Constant
+	 * @param D the Derivative Constant
 	 */
-	public CBPID(double P,double I,double D)
+	public CBPIDController(double P,double I,double D)
 	{
 		this.P=P;
 		this.I=I;
@@ -27,7 +27,7 @@ public class CBPID {
 	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
 	 * @param maxIn the maximum input, or 0 to ignore
 	 */
-	public CBPID setInputLimits(double minIn,double maxIn)
+	public CBPIDController setInputLimits(double minIn,double maxIn)
 	{
 		this.minIn = minIn;
 		this.maxIn = maxIn;
@@ -39,14 +39,14 @@ public class CBPID {
 	 * @param minOut the minimum output to constrain to, or 0 to ignore
 	 * @param maxOut the maximum output to constrain to, or 0 to ignore
 	 */
-	public CBPID setOutputLimits(double minOut, double maxOut)
+	public CBPIDController setOutputLimits(double minOut, double maxOut)
 	{
 		this.minOut=minOut;
 		this.maxOut=maxOut;
 		return this;
 	}
 
-	public CBPID setPID(double P, double I, double D){
+	public CBPIDController setPID(double P, double I, double D){
 		this.P=P;
 		this.I=I;
 		this.D=D;
@@ -57,20 +57,20 @@ public class CBPID {
 	 * Copy constructor so you can copy PID controllers
 	 * @return a copy of this PID controller
 	 */
-	public CBPID copy()
+	public CBPIDController copy()
 	{
-		return new CBPID(P,I,D)
+		return new CBPIDController(P,I,D)
 				.setInputLimits(minIn, maxIn)
 				.setOutputLimits(minOut, maxOut);
 	}
 	
 	
-	public CBPID setTarget()
+	public CBPIDController setTarget()
 	{
 		return setTarget(0.0,true);
 	}
 	
-	public CBPID setTarget(double t)
+	public CBPIDController setTarget(double t)
 	{
 		return setTarget(t,true);
 	}
@@ -80,7 +80,7 @@ public class CBPID {
 	 * @param t the target/setpoint
 	 * @param reset true if the PID should reset, false otherwise
 	 */
-	public CBPID setTarget(double t, boolean reset)
+	public CBPIDController setTarget(double t, boolean reset)
 	{
 		target=t;
 		if(reset)
@@ -90,14 +90,14 @@ public class CBPID {
 		return this;
 	}
 	
-	public CBPID reset() {
+	public CBPIDController reset() {
 		error=0.0;
 		prevError=0.0;
 		totalError=0.0;	
 		return this;
 	}
 		
-	public CBPID resetIAccum() {
+	public CBPIDController resetIAccum() {
 		totalError=0.0;	
 		return this;
 	}

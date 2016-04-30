@@ -2,9 +2,9 @@ package org.montclairrobotics.cyborg;
 
 import org.montclairrobotics.cyborg.utils.CBModule;
 
-public class CBBehaviorProcessor extends CBModule {
+public class CBBehavior extends CBModule {
 
-	public CBBehaviorProcessor(Cyborg robot) {
+	public CBBehavior(Cyborg robot) {
 		super(robot);
 		// TODO Auto-generated constructor stub
 	}

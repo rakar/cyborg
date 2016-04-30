@@ -1,13 +1,13 @@
 package org.montclairrobotics.cyborg.devices;
 
-import org.montclairrobotics.cyborg.utils.CBPID;
+import org.montclairrobotics.cyborg.utils.CBPIDController;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class CBMotorController  implements CBDevice, SpeedController{
 
 	SpeedController controller; 
-	CBPID pid;
+	CBPIDController pid;
 	
 	public CBMotorController(SpeedController controller) {
 		this.controller = controller;
@@ -53,7 +53,7 @@ public class CBMotorController  implements CBDevice, SpeedController{
 		controller.stopMotor();
 	}
 	
-	public CBMotorController setPID(CBPID pid) {
+	public CBMotorController setPID(CBPIDController pid) {
 		this.pid = pid;
 		return this;
 	}

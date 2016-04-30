@@ -1,23 +1,20 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBAutonomousAI;
+import org.montclairrobotics.cyborg.CBAutonomous;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.plugins.CBGeneralDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHAutonomousAI extends CBAutonomousAI {
+public class SHAutonomous extends CBAutonomous {
 	Robot robot;
 
 	enum AutoAIState {start,armdown,drive,done}
 
 	public class SHAutoAISM extends CBStateMachine<AutoAIState> {
-		//private Robot robot;
-
 		
-		public SHAutoAISM(Robot robot) {
+		public SHAutoAISM() {
 			super(AutoAIState.start);
-			//this.robot = robot;
 		}
 		
 		@Override
@@ -68,9 +65,9 @@ public class SHAutonomousAI extends CBAutonomousAI {
 
 	SHAutoAISM sm;
 
-	public SHAutonomousAI(Robot robot) {
+	public SHAutonomous(Robot robot) {
 		this.robot = robot;
-		sm = new SHAutoAISM(robot);
+		sm = new SHAutoAISM();
 	}
 
 	@Override

@@ -23,149 +23,137 @@ import edu.wpi.first.wpilibj.SPI;
  * directory.
  */
 public class Robot extends Cyborg {
-	
+
 	//
 	// List Custom Hardware Devices...
-	// This should include all of the active devices 
+	// This should include all of the active devices
 	//
 	public class SHDevices {
-		public CBDeviceID 
-		navx=new CBDeviceID(), 
-		armValve=new CBDeviceID(), halfValve=new CBDeviceID(), shootValve=new CBDeviceID(),
-		spinLeft=new CBDeviceID(), spinRight=new CBDeviceID(),
-		driveMotorLeft1=new CBDeviceID(), driveMotorLeft2=new CBDeviceID(),
-		driveMotorRight1=new CBDeviceID(),driveMotorRight2=new CBDeviceID(),
-		gyroLockButton=new CBDeviceID(),
-		forwardAxis=new CBDeviceID(), rotationAxis=new CBDeviceID(), forward2Axis=new CBDeviceID(),
-		shootButton=new CBDeviceID(), armDownButton=new CBDeviceID(), armUpButton=new CBDeviceID(), halfDownButton=new CBDeviceID(), halfUpButton=new CBDeviceID(),
-		spinPov=new CBDeviceID()
-		;
+		public CBDeviceID navx, 
+			armValve, halfValve,
+			shootValve, spinLeft, spinRight,
+			driveMotorLeft1, driveMotorLeft2,
+			driveMotorRight1, driveMotorRight2,
+			gyroLockButton, forwardAxis, rotationAxis,
+			forward2Axis, shootButton, armDownButton,
+			armUpButton, halfDownButton, halfUpButton,
+			spinPov;
 	}
-	
+
 	public SHDevices devices = new SHDevices();
 
 	@Override
 	public void cyborgInit() {
-		
-		System.out.println("starting...");
-		// Configure Custom Hardware
-		
-		Cyborg.hardwareAdapter = new CBHardwareAdapter(this)
-				.setJoystickCount(2)		
-				.add(devices.navx,              new CBNavX(SPI.Port.kMXP))	
-				.add(devices.armValve,     		new CBSolenoid(0))
-				.add(devices.shootValve,   		new CBSolenoid(1))
-				.add(devices.halfValve,    		new CBSolenoid(2))
-				
-				.add(devices.spinLeft,     		new CBMotorController(new Talon(5)))
-				.add(devices.spinRight,			new CBMotorController(new Talon(0)))
-				
-				.add(devices.driveMotorLeft1,	new CBMotorController(new Talon(1)))
-				.add(devices.driveMotorLeft2,	new CBMotorController(new Talon(3)))
-				.add(devices.driveMotorRight1,	new CBMotorController(new Talon(2)))
-				.add(devices.driveMotorRight2,	new CBMotorController(new Talon(4)))
-				
-				.add(devices.forwardAxis, 		new CBAxis(0,1))
-				.add(devices.rotationAxis, 		new CBAxis(0,0))
-				//.add(devices.forward2Axis, 		new CBAxis(1,1)) // for Tank drive 
-		
-				.add(devices.gyroLockButton,	new CBButton(0, 1))
-				.add(devices.shootButton,		new CBButton(1, 1))
-				.add(devices.armDownButton,		new CBButton(1, 3))
-				.add(devices.armUpButton,		new CBButton(1, 5))
-				.add(devices.halfDownButton,	new CBButton(1, 4))
-				.add(devices.halfUpButton,		new CBButton(1, 6))
-				
-				.add(devices.spinPov, 			new CBPov(1,0))
-				;
-		
-		System.out.println("ha done");
-	
 
+		// Configure Custom Hardware
+		CBHardwareAdapter ha = new CBHardwareAdapter(this);
+		Cyborg.hardwareAdapter = ha;
+		ha.setJoystickCount(2);
+		
+		devices.navx 			= ha.add(new CBNavX(SPI.Port.kMXP));
+		
+		devices.armValve 		= ha.add(new CBSolenoid(0));
+		devices.shootValve 		= ha.add(new CBSolenoid(1));
+		devices.halfValve 		= ha.add(new CBSolenoid(2));
+
+		devices.spinLeft 		= ha.add(new CBMotorController(new Talon(5)));
+		devices.spinRight		= ha.add(new CBMotorController(new Talon(0)));
+
+		devices.driveMotorLeft1 = ha.add(new CBMotorController(new Talon(1)));
+		devices.driveMotorLeft2 = ha.add(new CBMotorController(new Talon(3)));
+		devices.driveMotorRight1 = ha.add(new CBMotorController(new Talon(2)));
+		devices.driveMotorRight2 = ha.add(new CBMotorController(new Talon(4)));
+
+		devices.forwardAxis 	= ha.add(new CBAxis(0, 1));
+		devices.rotationAxis 	= ha.add(new CBAxis(0, 0));
+		// devices.forward2Axis = ha.add(new CBAxis(1,1)) // for Tank drive
+
+		devices.gyroLockButton 	= ha.add(new CBButton(0, 1));
+		devices.shootButton 	= ha.add(new CBButton(1, 1));
+		devices.armDownButton 	= ha.add(new CBButton(1, 3));
+		devices.armUpButton 	= ha.add(new CBButton(1, 5));
+		devices.halfDownButton 	= ha.add(new CBButton(1, 4));
+		devices.halfUpButton 	= ha.add(new CBButton(1, 6));
+
+		devices.spinPov 		= ha.add(new CBPov(1, 0));
+		;
+
+		
 		//
 		// Status Initialization
 		//
-		driveRequestData       = new CBGeneralDriveRequestData();
-		driveControlData       = new CBGeneralDriveControlData();
+		driveRequestData 		= new CBGeneralDriveRequestData();
+		driveControlData		= new CBGeneralDriveControlData();
 
-		manipulatorRequestData = new SHManipulatorRequestData();
-		manipulatorControlData = new SHManipulatorControlData();	
-		
-		//robotSensorData        = new CBRobotSensorData();	
-		//this.feedbackControlStatus = new CBFeedbackControlStatus();
-		
-		processorData          = new CBProcessorData();
-	
+		manipulatorRequestData	= new SHManipulatorRequestData();
+		manipulatorControlData	= new SHManipulatorControlData();
+
+		// robotSensorData = new CBRobotSensorData();
+		// this.feedbackControlStatus = new CBFeedbackControlStatus();
+
+		processorData = new CBProcessorData();
+
 		
 		//
 		// Input Mapper Initialization
-		//		
+		//
+		
 		// Tank Drive...
-		//this.driveRequestMappers.add(
-		//		new CBTankDriveRequestMapper(this, Device.FORWARD_AXIS, Device.FORWARD2_AXIS)
-		//		.setDeadZone(0.1)
-		//		.setGyroLockButton(Device.GYROLOCK_BUTTON)
-		//		);		
+		// this.driveRequestMappers.add(
+		// new CBTankDriveRequestMapper(this, Device.FORWARD_AXIS,
+		// Device.FORWARD2_AXIS)
+		// .setDeadZone(0.1)
+		// .setGyroLockButton(Device.GYROLOCK_BUTTON)
+		// );
+
 		// Arcade Drive...
 		this.driveRequestMappers.add(
-				new CBArcadeDriveRequestMapper(
-						this, 
-						devices.forwardAxis,
-						null,
-						devices.rotationAxis
-						) 
-				.setDeadZone(0.2)			
-				.setGyroLockButton(devices.gyroLockButton)	
+				new CBArcadeDriveRequestMapper(this, devices.forwardAxis, null, devices.rotationAxis)
+				.setDeadZone(0.2)
+				.setGyroLockButton(devices.gyroLockButton)
 				);
 		this.manipulatorRequestMappers.add(new SHManipulatorRequestMapper(this));
-		//this.robotSensorMappers.add(new RobotSensorMapper(this));
-		
+		// this.robotSensorMappers.add(new RobotSensorMapper(this));
+
 		
 		//
 		// Output Controller Initialization
-		//		
-		//this.feedbackControllers.add(new FeedbackController(this));		
-		this.driveControllers.add(
-				new CBDifferentialDriveController(this)
-				.addLeftMotorController (devices.driveMotorLeft1)
-				.addLeftMotorController (devices.driveMotorLeft2)
-				.addRightMotorController(devices.driveMotorRight1)
-				.addRightMotorController(devices.driveMotorRight1)
-				.setLeftDirection(-1)
-				);
-		this.manipulatorControllers.add(
-				new SHManipulatorController(this)
-				);
-			
+		//
+		// this.feedbackControllers.add(new FeedbackController(this));
+		this.driveControllers.add(new CBDifferentialDriveController(this)
+				.addLeftMotorController(devices.driveMotorLeft1).addLeftMotorController(devices.driveMotorLeft2)
+				.addRightMotorController(devices.driveMotorRight1).addRightMotorController(devices.driveMotorRight1)
+				.setLeftDirection(-1));
+		this.manipulatorControllers.add(new SHManipulatorController(this));
+
+		
 		//
 		// Processors
-		//		
-		//this.ruleProcessors.add(new RuleProcessor(this));
-		this.behaviorProcessors.add(
-				new CBGeneralDriveBehaviorProcessor(this)
+		//
+		// this.ruleProcessors.add(new RuleProcessor(this));
+		this.behaviors.add(
+				new CBGeneralDriveBehavior(this)
 				.setGyroLockTracker(
 						new CBNavXYawSource(devices.navx), 
-						new CBPID(0.2, 0.0, 2.0)
+						new CBPIDController(0.2, 0.0, 2.0)
 						.setInputLimits(-180, 180) // assumes navx source in degrees
-					)
+						)
 				);
-		//this.behaviorProcessors.add(
-		//		new TankDriveBehaviorProcessor(this)
+		// this.behaviorProcessors.add(
+		//		new CBTankDriveBehaviorProcessor(this)
 		//		);
-		this.behaviorProcessors.add(
-				new SHManipulatorBehaviorProcessor(this)
-				); 
-		this.autonomousAI = new SHAutonomousAI(this);
+		this.behaviors.add(new SHManipulatorBehavior(this));
+		this.autonomous = new SHAutonomous(this);
 
 	}
-	
+
 	@Override
 	public void cyborgAutonomousInit() {
-		((SHAutonomousAI)autonomousAI).init();
+		((SHAutonomous) autonomous).init();
 	}
-	
+
 	@Override
 	public void cyborgTeleopInit() {
-	
+
 	}
 }
