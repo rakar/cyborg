@@ -1,13 +1,13 @@
 package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.CBHardwareAdapter;
-import org.montclairrobotics.cyborg.CBManipulatorRequestMapper;
+import org.montclairrobotics.cyborg.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHManipulatorRequestMapper extends CBManipulatorRequestMapper {
+public class SHManipulatorRequestMapper extends CBTeleOpMapper {
 
 	Robot robot;
 	CBButton shootButton;

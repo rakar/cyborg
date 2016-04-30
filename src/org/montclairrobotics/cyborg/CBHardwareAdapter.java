@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDevice;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
@@ -13,7 +14,6 @@ import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.utils.CBModule;
-import org.montclairrobotics.cyborg.utils.CBDeviceID;
 
 import edu.wpi.first.wpilibj.Joystick;
 

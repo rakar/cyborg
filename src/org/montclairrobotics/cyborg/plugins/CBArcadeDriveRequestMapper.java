@@ -3,10 +3,10 @@ package org.montclairrobotics.cyborg.plugins;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
-import org.montclairrobotics.cyborg.utils.CBDeviceID;
-import org.montclairrobotics.cyborg.CBDriveRequestMapper;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.CBTeleOpMapper;
 
-public class CBArcadeDriveRequestMapper extends CBDriveRequestMapper {
+public class CBArcadeDriveRequestMapper extends CBTeleOpMapper {
 	private CBAxis[] axes = new CBAxis[3];
 	private CBButton gyroLock = null; 
 	private double[] deadzone = new double[3];

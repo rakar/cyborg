@@ -1,13 +1,13 @@
 package org.usfirst.frc.team555.robot.plugins;
 
+import org.montclairrobotics.cyborg.CBRobotController;
 import org.montclairrobotics.cyborg.CBHardwareAdapter;
-import org.montclairrobotics.cyborg.CBManipulatorController;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHManipulatorController extends CBManipulatorController {
+public class SHManipulatorController extends CBRobotController {
 	Robot robot;
 	CBSolenoid armValve;
 	CBSolenoid halfValve;

@@ -3,6 +3,7 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.cyborg.*;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
@@ -107,12 +108,12 @@ public class Robot extends Cyborg {
 		// );
 
 		// Arcade Drive...
-		this.driveRequestMappers.add(
+		this.teleOpMappers.add(
 				new CBArcadeDriveRequestMapper(this, devices.forwardAxis, null, devices.rotationAxis)
 				.setDeadZone(0.2)
 				.setGyroLockButton(devices.gyroLockButton)
 				);
-		this.manipulatorRequestMappers.add(new SHManipulatorRequestMapper(this));
+		this.teleOpMappers.add(new SHManipulatorRequestMapper(this));
 		// this.robotSensorMappers.add(new RobotSensorMapper(this));
 
 		
@@ -120,11 +121,11 @@ public class Robot extends Cyborg {
 		// Output Controller Initialization
 		//
 		// this.feedbackControllers.add(new FeedbackController(this));
-		this.driveControllers.add(new CBDifferentialDriveController(this)
+		this.robotControllers.add(new CBDifferentialDriveController(this)
 				.addLeftMotorController(devices.driveMotorLeft1).addLeftMotorController(devices.driveMotorLeft2)
 				.addRightMotorController(devices.driveMotorRight1).addRightMotorController(devices.driveMotorRight1)
 				.setLeftDirection(-1));
-		this.manipulatorControllers.add(new SHManipulatorController(this));
+		this.robotControllers.add(new SHManipulatorController(this));
 
 		
 		//

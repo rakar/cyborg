@@ -28,13 +28,13 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
-	public ArrayList<CBDriveRequestMapper> driveRequestMappers = new ArrayList<CBDriveRequestMapper>();
-	public ArrayList<CBManipulatorRequestMapper> manipulatorRequestMappers = new ArrayList<CBManipulatorRequestMapper>();
+	public ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<CBTeleOpMapper>();
+	//public ArrayList<CBManipulatorRequestMapper> manipulatorRequestMappers = new ArrayList<CBManipulatorRequestMapper>();
 	public ArrayList<CBRobotSensorMapper> robotSensorMappers = new ArrayList<CBRobotSensorMapper>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
 	//private ArrayList<CBFeedbackController> feedbackControllers = new ArrayList<CBFeedbackController>();
-	public ArrayList<CBDriveController> driveControllers = new ArrayList<CBDriveController>();
-	public ArrayList<CBManipulatorController> manipulatorControllers = new ArrayList<CBManipulatorController>();
+	public ArrayList<CBRobotController> robotControllers = new ArrayList<CBRobotController>();
+	//public ArrayList<CBManipulatorController> manipulatorControllers = new ArrayList<CBManipulatorController>();
 	
 	// Logic Layer
 	public ArrayList<CBRule> rules = new ArrayList<>();
@@ -101,8 +101,8 @@ public abstract class Cyborg extends IterativeRobot {
 		hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
-		for(CBDriveRequestMapper m:this.driveRequestMappers) m.update(); 
-		for(CBManipulatorRequestMapper m:this.manipulatorRequestMappers) m.update(); 
+		for(CBTeleOpMapper m:this.teleOpMappers) m.update(); 
+		//for(CBManipulatorRequestMapper m:this.manipulatorRequestMappers) m.update(); 
 		for(CBRobotSensorMapper  m:this.robotSensorMappers)  m.update(); 
 
 		
@@ -126,8 +126,8 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		
 		// Update Output Controllers
-		for(CBDriveController m:this.driveControllers) m.update(); 
-		for(CBManipulatorController m:this.manipulatorControllers) m.update(); 
+		for(CBRobotController m:this.robotControllers) m.update(); 
+		//for(CBManipulatorController m:this.manipulatorControllers) m.update(); 
 		
 		
 		// Update output interfaces

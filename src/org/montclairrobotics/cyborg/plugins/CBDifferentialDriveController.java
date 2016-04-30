@@ -3,14 +3,14 @@ package org.montclairrobotics.cyborg.plugins;
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
-import org.montclairrobotics.cyborg.utils.CBDeviceID;
 //import org.usfirst.frc.team555.robot.Robot.Device;
-import org.montclairrobotics.cyborg.CBDriveController;
+import org.montclairrobotics.cyborg.CBRobotController;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class CBDifferentialDriveController extends CBDriveController {
+public class CBDifferentialDriveController extends CBRobotController {
 	private ArrayList<CBMotorController> tLeft = new ArrayList<>();
 	private ArrayList<CBMotorController> tRight = new ArrayList<>();
 	int leftDir = 1;
