@@ -3,6 +3,7 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.cyborg.*;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
+import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
@@ -38,7 +39,8 @@ public class Robot extends Cyborg {
 			gyroLockButton, forwardAxis, rotationAxis,
 			forward2Axis, shootButton, armDownButton,
 			armUpButton, halfDownButton, halfUpButton,
-			spinPov;
+			spinPov,
+			autoSelect;
 	}
 
 	public SHDevices devices = new SHDevices();
@@ -77,22 +79,24 @@ public class Robot extends Cyborg {
 		devices.halfUpButton 	= ha.add(new CBButton(1, 6));
 
 		devices.spinPov 		= ha.add(new CBPov(1, 0));
-		;
+		devices.autoSelect		= ha.add(
+				new CBDashboardChooser<Integer>("Auto:")
+				.setTiming(CBGameMode.preGame, 50)
+				.addDefault("zero", 0)
+				.addChoice("one", 1)
+				);
 
 		
 		//
 		// Status Initialization
 		//
-		driveRequestData 		= new CBGeneralDriveRequestData();
-		driveControlData		= new CBGeneralDriveControlData();
+		driveRequestData 	= new CBGeneralDriveRequestData();
+		driveControlData	= new CBGeneralDriveControlData();
 
-		manipulatorRequestData	= new SHManipulatorRequestData();
-		manipulatorControlData	= new SHManipulatorControlData();
+		generalRequestData	= new SHGeneralRequestData();
+		generalControlData	= new SHGeneralControlData();
 
-		// robotSensorData = new CBRobotSensorData();
-		// this.feedbackControlStatus = new CBFeedbackControlStatus();
-
-		processorData = new CBProcessorData();
+		processorData 		= new CBProcessorData();
 
 		
 		//
@@ -109,12 +113,12 @@ public class Robot extends Cyborg {
 
 		// Arcade Drive...
 		this.teleOpMappers.add(
-				new CBArcadeDriveRequestMapper(this, devices.forwardAxis, null, devices.rotationAxis)
+				new CBArcadeDriveMapper(this, devices.forwardAxis, null, devices.rotationAxis)
 				.setDeadZone(0.2)
 				.setGyroLockButton(devices.gyroLockButton)
 				);
-		this.teleOpMappers.add(new SHManipulatorRequestMapper(this));
-		// this.robotSensorMappers.add(new RobotSensorMapper(this));
+		this.teleOpMappers.add(new SHOperatorMapper(this));
+		this.generalMappers.add(new SHSensorMapper(this));
 
 		
 		//
@@ -125,7 +129,7 @@ public class Robot extends Cyborg {
 				.addLeftMotorController(devices.driveMotorLeft1).addLeftMotorController(devices.driveMotorLeft2)
 				.addRightMotorController(devices.driveMotorRight1).addRightMotorController(devices.driveMotorRight1)
 				.setLeftDirection(-1));
-		this.robotControllers.add(new SHManipulatorController(this));
+		this.robotControllers.add(new SHGeneralController(this));
 
 		
 		//
@@ -143,18 +147,23 @@ public class Robot extends Cyborg {
 		// this.behaviorProcessors.add(
 		//		new CBTankDriveBehaviorProcessor(this)
 		//		);
-		this.behaviors.add(new SHManipulatorBehavior(this));
+		this.behaviors.add(new SHGeneralBehavior(this));
 		this.autonomous = new SHAutonomous(this);
 
 	}
 
 	@Override
-	public void cyborgAutonomousInit() {
-		((SHAutonomous) autonomous).init();
+	public void cyborgTeleopInit() {
+
 	}
 
 	@Override
-	public void cyborgTeleopInit() {
+	public void cyborgTestInit() {
+		
+	}
 
+	@Override
+	public void cyborgTestPeriodic() {
+		
 	}
 }

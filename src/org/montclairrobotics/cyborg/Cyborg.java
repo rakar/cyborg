@@ -18,29 +18,25 @@ public abstract class Cyborg extends IterativeRobot {
 	// Status Classes
 	// Statuses represent high-level meaningful messages
 	public static CBDriveRequestData driveRequestData;
-	public static CBManipulatorRequestData manipulatorRequestData;
-	public static CBRobotSensorData robotSensorData;
-	//public CBFeedbackControlStatus feedbackControlStatus;
+	public static CBGeneralRequestData generalRequestData;
 	public static CBDriveControlData driveControlData;
-	public static CBManipulatorControlData manipulatorControlData;
+	public static CBGeneralControlData generalControlData;
 	public static CBProcessorData processorData;
 
 	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
 	public ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<CBTeleOpMapper>();
-	//public ArrayList<CBManipulatorRequestMapper> manipulatorRequestMappers = new ArrayList<CBManipulatorRequestMapper>();
-	public ArrayList<CBRobotSensorMapper> robotSensorMappers = new ArrayList<CBRobotSensorMapper>();
+	public ArrayList<CBGeneralMapper> generalMappers = new ArrayList<CBGeneralMapper>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
-	//private ArrayList<CBFeedbackController> feedbackControllers = new ArrayList<CBFeedbackController>();
 	public ArrayList<CBRobotController> robotControllers = new ArrayList<CBRobotController>();
-	//public ArrayList<CBManipulatorController> manipulatorControllers = new ArrayList<CBManipulatorController>();
 	
 	// Logic Layer
 	public ArrayList<CBRule> rules = new ArrayList<>();
 	public ArrayList<CBBehavior> behaviors = new ArrayList<>();
-	
 	public CBAutonomous autonomous;
+	
+	public static int gameMode=0;
 
 	
 	/**
@@ -49,38 +45,37 @@ public abstract class Cyborg extends IterativeRobot {
      */
 	@Override
     public final void robotInit() {        	
-		//feedbackControlInterface = new CBFeedbackControlInterface(this);
+		gameMode = CBGameMode.robotInit;
 
 		cyborgInit();
 		
-		// Set default StateObjects
-		//if(driverFeedbackState == null) driverFeedbackState  = new CBFeedbackControlState();
-		
 	}
     
+	public abstract void cyborgTestInit();
+	public abstract void cyborgTestPeriodic();
+
     public abstract void cyborgInit();
-    public abstract void cyborgAutonomousInit();
+	//public abstract void cyborgDisabledInit();
+	//public abstract void cyborgDisabledPeriodic();
     public abstract void cyborgTeleopInit();
     
-	/**
-	 */
+    
+    
 	@Override
     public final void autonomousInit() {
-		cyborgAutonomousInit();
+		gameMode = CBGameMode.autonomousInit;
+		autonomous.init();
     }
 
-    /**
-     * This function is called periodically during autonomous
-     */
 	@Override
     public final void autonomousPeriodic() {
+		gameMode = CBGameMode.autonomousPeriodic;
+
 		// Update input interfaces
-		// driverStationInterface.Update();
-		// robotSensorInterface.update();
-		hardwareAdapter.senseUpdate();
-		
+		hardwareAdapter.senseUpdate();		
+
 		// Update Input Mappers
-		for(CBRobotSensorMapper m:this.robotSensorMappers) m.update(); 
+		for(CBGeneralMapper m:this.generalMappers) m.update(); 
 
 		// Autonomous Control
 		autonomous.update();
@@ -89,33 +84,47 @@ public abstract class Cyborg extends IterativeRobot {
 		robotControl();
     }
 
-    /**
+    
+	
+	@Override
+    public final void teleopInit() {
+		gameMode = CBGameMode.teleopInit;
+    }
+
+	/**
      * This function is called periodically during operator control
      */
 	@Override
     public final void teleopPeriodic() {
+		gameMode = CBGameMode.teleopPeriodic;
 		
 		// Update input interfaces
-		//driverStationInterface.update();
-		//robotSensorInterface.update();
 		hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
 		for(CBTeleOpMapper m:this.teleOpMappers) m.update(); 
-		//for(CBManipulatorRequestMapper m:this.manipulatorRequestMappers) m.update(); 
-		for(CBRobotSensorMapper  m:this.robotSensorMappers)  m.update(); 
+		for(CBGeneralMapper  m:this.generalMappers)  m.update(); 
 
 		
 		// Let the robot do it's thing...
 		robotControl();
     }
+	
+	
+	
+	@Override
+	public final void testInit() {
+		gameMode = CBGameMode.testInit;
+		cyborgTestInit();
+	}
     
     /**
      * This function is called periodically during test mode
      */
 	@Override
     public final void testPeriodic() {
-    
+		gameMode = CBGameMode.testPeriodic;
+		cyborgTestPeriodic();
     }
 
 
@@ -127,14 +136,42 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update Output Controllers
 		for(CBRobotController m:this.robotControllers) m.update(); 
-		//for(CBManipulatorController m:this.manipulatorControllers) m.update(); 
 		
 		
 		// Update output interfaces
-		//this.feedbackControlInterface.update();
-		//this.hardwareControlInterface.update();
 		hardwareAdapter.controlUpdate();
 
 	}
+
+    /**
+     * This function is called periodically during disabled 
+     */
+	@Override
+    public final void disabledInit() {
+		gameMode = CBGameMode.disabledInit;
+		
+		// Update input interfaces
+		hardwareAdapter.senseUpdate();
+		
+		// Update Input Mappers
+		for(CBGeneralMapper m:this.generalMappers) m.update(); 
+
+    }
+
+    /**
+     * This function is called periodically during disabled 
+     */
+	@Override
+    public final void disabledPeriodic() {
+		gameMode = CBGameMode.disabledPeriodic;
+		
+		// Update input interfaces
+		hardwareAdapter.senseUpdate();
+		
+		// Update Input Mappers
+		for(CBGeneralMapper m:this.generalMappers) m.update(); 
+
+    }
+
 	
 }

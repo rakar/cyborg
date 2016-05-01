@@ -12,9 +12,13 @@ public class SHAutonomous extends CBAutonomous {
 	enum AutoAIState {start,armdown,drive,done}
 
 	public class SHAutoAISM extends CBStateMachine<AutoAIState> {
+		SHGeneralRequestData mrd;
+		CBGeneralDriveRequestData drd;
 		
 		public SHAutoAISM() {
 			super(AutoAIState.start);
+			mrd = (SHGeneralRequestData) Cyborg.generalRequestData;
+			drd =(CBGeneralDriveRequestData) Cyborg.driveRequestData;
 		}
 		
 		@Override
@@ -37,11 +41,10 @@ public class SHAutonomous extends CBAutonomous {
 		@Override
 		public void doTransition() {
 
-			SHManipulatorRequestData mrd = (SHManipulatorRequestData) Cyborg.manipulatorRequestData;
-			CBGeneralDriveRequestData drd =(CBGeneralDriveRequestData) Cyborg.driveRequestData;
+
 			if(currentState==AutoAIState.start && nextState==AutoAIState.armdown) {
 				mrd.ArmDown.set(true, false);
-				mrd.HalfUp.set(true, false);			
+				mrd.HalfUp.set(mrd.selectedAuto==0, mrd.selectedAuto!=0);			
 			}
 			if(currentState==AutoAIState.armdown && nextState==AutoAIState.drive) {
 				drd.direction.setXY(0.0, 0.5);

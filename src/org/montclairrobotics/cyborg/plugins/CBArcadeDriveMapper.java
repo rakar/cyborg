@@ -6,37 +6,37 @@ import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.CBTeleOpMapper;
 
-public class CBArcadeDriveRequestMapper extends CBTeleOpMapper {
+public class CBArcadeDriveMapper extends CBTeleOpMapper {
 	private CBAxis[] axes = new CBAxis[3];
 	private CBButton gyroLock = null; 
 	private double[] deadzone = new double[3];
 	private double[] smoothing = new double[3];
 	private double[] lastValue = new double[3];
 
-	public CBArcadeDriveRequestMapper(Cyborg robot, CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
+	public CBArcadeDriveMapper(Cyborg robot, CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
 		super(robot);
 		this.axes[0] = Cyborg.hardwareAdapter.getAxis(fwdDeviceID);
 		this.axes[1] = Cyborg.hardwareAdapter.getAxis(strDeviceID);
 		this.axes[2] = Cyborg.hardwareAdapter.getAxis(rotDeviceID);
 	}
 
-	public CBArcadeDriveRequestMapper setDeadZone(double deadzone) {
+	public CBArcadeDriveMapper setDeadZone(double deadzone) {
 		return setDeadZone(deadzone,deadzone,deadzone);
 	}
 	
-	public CBArcadeDriveRequestMapper setDeadZone(double fwdDeadzone, double strDeadzone, double rotDeadzone) {
+	public CBArcadeDriveMapper setDeadZone(double fwdDeadzone, double strDeadzone, double rotDeadzone) {
 		this.deadzone[0] = fwdDeadzone;
 		this.deadzone[1] = strDeadzone;
 		this.deadzone[2] = rotDeadzone;
 		return this;
 	}
 	
-	public CBArcadeDriveRequestMapper setGyroLockButton(CBDeviceID buttonDeviceID) {
+	public CBArcadeDriveMapper setGyroLockButton(CBDeviceID buttonDeviceID) {
 		this.gyroLock = Cyborg.hardwareAdapter.getButton(buttonDeviceID);
 		return this;
 	}
 
-	public CBArcadeDriveRequestMapper setSmoothing(double fwdSmoothing, double strSmoothing, double rotSmoothing) {
+	public CBArcadeDriveMapper setSmoothing(double fwdSmoothing, double strSmoothing, double rotSmoothing) {
 		this.smoothing[0] = fwdSmoothing;
 		this.smoothing[1] = strSmoothing;
 		this.smoothing[2] = rotSmoothing;

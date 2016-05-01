@@ -1,11 +1,11 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBManipulatorControlData;
+import org.montclairrobotics.cyborg.CBGeneralControlData;
 import org.montclairrobotics.cyborg.utils.CBTriState;
 
-public class SHManipulatorControlData extends CBManipulatorControlData {
+public class SHGeneralControlData extends CBGeneralControlData {
 
-	public SHManipulatorControlData() {
+	public SHGeneralControlData() {
 	}
 	
 	public CBTriState ArmDown = new CBTriState();

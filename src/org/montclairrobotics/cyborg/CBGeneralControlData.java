@@ -1,5 +1,5 @@
 package org.montclairrobotics.cyborg;
 
-public class CBManipulatorControlData {
+public class CBGeneralControlData {
 
 }

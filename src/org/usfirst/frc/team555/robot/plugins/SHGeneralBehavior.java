@@ -3,15 +3,15 @@ package org.usfirst.frc.team555.robot.plugins;
 import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class SHManipulatorBehavior extends CBBehavior {
+public class SHGeneralBehavior extends CBBehavior {
 
-	public SHManipulatorBehavior(Cyborg robot) {
+	public SHGeneralBehavior(Cyborg robot) {
 		super(robot);
 	}
 	
 	public void update() {
-		SHManipulatorRequestData rs = (SHManipulatorRequestData)Cyborg.manipulatorRequestData;
-		SHManipulatorControlData cs = (SHManipulatorControlData)Cyborg.manipulatorControlData;
+		SHGeneralRequestData rs = (SHGeneralRequestData)Cyborg.generalRequestData;
+		SHGeneralControlData cs = (SHGeneralControlData)Cyborg.generalControlData;
 		
 		cs.ShootOut.set(rs.ShootOut.get());  
 		cs.ArmDown.set(rs.ArmDown.get());	

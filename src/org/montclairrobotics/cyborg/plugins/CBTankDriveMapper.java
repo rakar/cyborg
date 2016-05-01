@@ -6,25 +6,25 @@ import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.CBTeleOpMapper;
 
-public class CBTankDriveRequestMapper extends CBTeleOpMapper {
+public class CBTankDriveMapper extends CBTeleOpMapper {
 	private CBAxis left;
 	private CBAxis right;
 	private double deadzone = 0.0;
 	private CBButton gyroLock=null;
 	
 
-	public CBTankDriveRequestMapper(Cyborg robot, CBDeviceID leftDeviceID, CBDeviceID rightDeviceID) {
+	public CBTankDriveMapper(Cyborg robot, CBDeviceID leftDeviceID, CBDeviceID rightDeviceID) {
 		super(robot);
 		this.left = Cyborg.hardwareAdapter.getAxis(leftDeviceID);
 		this.right = Cyborg.hardwareAdapter.getAxis(rightDeviceID);
 	}
 	
-	public CBTankDriveRequestMapper setDeadZone(double deadzone) {
+	public CBTankDriveMapper setDeadZone(double deadzone) {
 		this.deadzone = deadzone;
 		return this;
 	}
 	
-	public CBTankDriveRequestMapper setGyroLockButton(CBDeviceID buttonID) {
+	public CBTankDriveMapper setGyroLockButton(CBDeviceID buttonID) {
 		this.gyroLock = Cyborg.hardwareAdapter.getButton(buttonID);
 		return this;
 	}
