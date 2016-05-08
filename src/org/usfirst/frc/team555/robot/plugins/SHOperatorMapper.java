@@ -11,12 +11,14 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	Robot robot;
 	CBHardwareAdapter ha;
 	SHGeneralRequestData req;
+
 	
 	CBButton shootButton;
 	CBButton armDownButton;
 	CBButton armUpButton;
 	CBButton halfDownButton;
 	CBButton halfUpButton;
+	CBButton autoSteerButton;
 	CBPov spinPov;
 	
 	public SHOperatorMapper(Robot robot) {
@@ -31,6 +33,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		this.halfDownButton = ha.getButton(robot.devices.halfDownButton);
 		this.halfUpButton   = ha.getButton(robot.devices.halfUpButton);
 		this.spinPov     	= ha.getPOV(robot.devices.spinPov);
+		this.autoSteerButton = ha.getButton(robot.devices.autoSteerButton);
 	}
 	
 	@Override
@@ -39,6 +42,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		req.ShootOut.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
 		req.ArmDown.set(armDownButton.getButtonPress(), armUpButton.getButtonPress());
 		req.HalfUp.set(halfUpButton.getButtonPress(),halfDownButton.getButtonPress());
+		req.autoSteer = autoSteerButton.getButtonState();
 
 		int pov = spinPov.get();
 		req.SpinIn.set(180==pov,0==pov);		

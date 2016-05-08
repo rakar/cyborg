@@ -2,26 +2,24 @@ package org.montclairrobotics.cyborg.devices;
 
 import org.montclairrobotics.cyborg.CBGameMode;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.utils.CBTimingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class CBDashboardChooser<T> implements CBDevice {
 	String name;
 	SendableChooser chooser;
-	private int timingMode;
-	private int timingDelay; 
-	private int timingCount=0;
+	CBTimingController timer;
 	private Object selected;
 	
 	public CBDashboardChooser(String name) {
 		this.name = name;
+		timer = new CBTimingController();
 		chooser = new SendableChooser();
 	}
 	
 	public CBDashboardChooser<T> setTiming(int mode, int delay) {
-		timingMode = mode;
-		timingDelay = delay;
-		timingCount = delay;
+		timer.setTiming(mode, delay);
 		return this;
 	}
 	
@@ -43,12 +41,8 @@ public class CBDashboardChooser<T> implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		if((Cyborg.gameMode & timingMode)!=0 ) {
-			timingCount--;
-			if(timingCount<=0 || (Cyborg.gameMode & CBGameMode.anyInit)!=0) {
-				selected = chooser.getSelected();
-				timingCount = timingDelay;
-			}
+		if(timer.update()) {
+			selected = chooser.getSelected();
 		}
 	}
 

@@ -3,6 +3,7 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.cyborg.*;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
+import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
@@ -39,8 +40,10 @@ public class Robot extends Cyborg {
 			gyroLockButton, forwardAxis, rotationAxis,
 			forward2Axis, shootButton, armDownButton,
 			armUpButton, halfDownButton, halfUpButton,
+			autoSteerButton,
 			spinPov,
-			autoSelect;
+			autoSelect,
+			xTarget;
 	}
 
 	public SHDevices devices = new SHDevices();
@@ -72,6 +75,8 @@ public class Robot extends Cyborg {
 		// devices.forward2Axis = ha.add(new CBAxis(1,1)) // for Tank drive
 
 		devices.gyroLockButton 	= ha.add(new CBButton(0, 1));
+		devices.autoSteerButton	= ha.add(new CBButton(0, 3));
+
 		devices.shootButton 	= ha.add(new CBButton(1, 1));
 		devices.armDownButton 	= ha.add(new CBButton(1, 3));
 		devices.armUpButton 	= ha.add(new CBButton(1, 5));
@@ -79,14 +84,18 @@ public class Robot extends Cyborg {
 		devices.halfUpButton 	= ha.add(new CBButton(1, 6));
 
 		devices.spinPov 		= ha.add(new CBPov(1, 0));
-		//devices.autoSelect		= ha.add(
-		//		new CBDashboardChooser<Integer>("Auto:")
-		//		.setTiming(CBGameMode.preGame, 50)
-		//		.addDefault("zero", 0)
-		//		.addChoice("one", 1)
-		//		);
-
 		
+		devices.autoSelect		= ha.add(
+				new CBDashboardChooser<Integer>("Auto:")
+				.setTiming(CBGameMode.preGame, 50)
+				.addDefault("zero", 0)
+				.addChoice("one", 1)
+				);
+		devices.xTarget			 = ha.add(
+				new CBContourReport("GRIP/mynewreport")
+				.setTiming(CBGameMode.anyPeriodic, 5)
+				);
+
 		//
 		// Status Initialization
 		//
