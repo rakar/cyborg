@@ -79,12 +79,12 @@ public class Robot extends Cyborg {
 		devices.halfUpButton 	= ha.add(new CBButton(1, 6));
 
 		devices.spinPov 		= ha.add(new CBPov(1, 0));
-		devices.autoSelect		= ha.add(
-				new CBDashboardChooser<Integer>("Auto:")
-				.setTiming(CBGameMode.preGame, 50)
-				.addDefault("zero", 0)
-				.addChoice("one", 1)
-				);
+		//devices.autoSelect		= ha.add(
+		//		new CBDashboardChooser<Integer>("Auto:")
+		//		.setTiming(CBGameMode.preGame, 50)
+		//		.addDefault("zero", 0)
+		//		.addChoice("one", 1)
+		//		);
 
 		
 		//

@@ -6,6 +6,8 @@ package org.montclairrobotics.cyborg;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @author rich
@@ -37,6 +39,7 @@ public abstract class Cyborg extends IterativeRobot {
 	public CBAutonomous autonomous;
 	
 	public static int gameMode=0;
+	public NetworkTable table;
 
 	
 	/**
@@ -46,6 +49,7 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void robotInit() {        	
 		gameMode = CBGameMode.robotInit;
+		table = NetworkTable.getTable("GRIP");
 
 		cyborgInit();
 		
@@ -98,6 +102,12 @@ public abstract class Cyborg extends IterativeRobot {
     public final void teleopPeriodic() {
 		gameMode = CBGameMode.teleopPeriodic;
 		
+		
+		double[] ys = table.getNumberArray("mynewreport/centerX",new double[0]);
+		
+		if (ys.length>0) {
+			SmartDashboard.putNumber("y0", ys[0]);
+		}
 		// Update input interfaces
 		hardwareAdapter.senseUpdate();
 		
@@ -151,10 +161,10 @@ public abstract class Cyborg extends IterativeRobot {
 		gameMode = CBGameMode.disabledInit;
 		
 		// Update input interfaces
-		hardwareAdapter.senseUpdate();
+		//hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
-		for(CBGeneralMapper m:this.generalMappers) m.update(); 
+		//for(CBGeneralMapper m:this.generalMappers) m.update(); 
 
     }
 
@@ -166,10 +176,10 @@ public abstract class Cyborg extends IterativeRobot {
 		gameMode = CBGameMode.disabledPeriodic;
 		
 		// Update input interfaces
-		hardwareAdapter.senseUpdate();
+		//hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
-		for(CBGeneralMapper m:this.generalMappers) m.update(); 
+		//for(CBGeneralMapper m:this.generalMappers) m.update(); 
 
     }
 

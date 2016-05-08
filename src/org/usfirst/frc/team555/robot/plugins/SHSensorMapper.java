@@ -16,13 +16,13 @@ public class SHSensorMapper extends CBGeneralMapper {
 		
 		this.robot = robot;	
 		this.mrd = (SHGeneralRequestData) Cyborg.generalRequestData;
-		this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(robot.devices.autoSelect);
+		//this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(robot.devices.autoSelect);
 	}
 
 	@Override
 	public void update() {
 
-		mrd.selectedAuto = autoChooser.getSelected();
+		//mrd.selectedAuto = autoChooser.getSelected();
 		
 	}
 	
