@@ -1,7 +1,5 @@
 package org.montclairrobotics.cyborg.devices;
 
-import org.montclairrobotics.cyborg.CBGameMode;
-import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBTimingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;

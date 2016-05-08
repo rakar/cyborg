@@ -7,6 +7,8 @@ import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.usfirst.frc.team555.robot.Robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class SHOperatorMapper extends CBTeleOpMapper {
 	Robot robot;
 	CBHardwareAdapter ha;
@@ -43,6 +45,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		req.ArmDown.set(armDownButton.getButtonPress(), armUpButton.getButtonPress());
 		req.HalfUp.set(halfUpButton.getButtonPress(),halfDownButton.getButtonPress());
 		req.autoSteer = autoSteerButton.getButtonState();
+		SmartDashboard.putBoolean("AutoSteerButton", req.autoSteer);
 
 		int pov = spinPov.get();
 		req.SpinIn.set(180==pov,0==pov);		

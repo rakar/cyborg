@@ -2,16 +2,19 @@ package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.plugins.CBGeneralDriveControlData;
 import org.montclairrobotics.cyborg.plugins.CBGeneralDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBPIDController;
 import org.montclairrobotics.cyborg.utils.CBSource;
 import org.montclairrobotics.cyborg.utils.CBTracker;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class SHGeneralBehavior extends CBBehavior {
 
 	SHGeneralRequestData grd;
 	SHGeneralControlData gcd;
-	CBGeneralDriveRequestData drd;
+	CBGeneralDriveControlData drd;
 	CBTracker xTracker;
 	
 	public class xTrackerSource implements CBSource {
@@ -28,10 +31,11 @@ public class SHGeneralBehavior extends CBBehavior {
 
 		grd = (SHGeneralRequestData)Cyborg.generalRequestData;
 		gcd = (SHGeneralControlData)Cyborg.generalControlData;
-		drd = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
+		drd = (CBGeneralDriveControlData)Cyborg.driveControlData;
 		xTracker = new CBTracker(
 				new xTrackerSource(),
-				new CBPIDController(0.001,0.0,0.0)
+				new CBPIDController(-0.025,0.0,0.0)
+				.setOutputLimits(-.3, .3)
 				).setTarget(200.0);
 	}
 	
@@ -46,6 +50,7 @@ public class SHGeneralBehavior extends CBBehavior {
 		
 		if(grd.autoSteer && grd.targetX>-1) {
 			drd.rotation = xTracker.update();
+			SmartDashboard.putNumber("autoSteerRotation", drd.rotation);
 		}
 		
 	}

@@ -88,8 +88,8 @@ public class Robot extends Cyborg {
 		devices.autoSelect		= ha.add(
 				new CBDashboardChooser<Integer>("Auto:")
 				.setTiming(CBGameMode.preGame, 50)
-				.addDefault("zero", 0)
-				.addChoice("one", 1)
+				.addDefault("zero",new Integer(0))
+				.addChoice("one", new Integer(1))
 				);
 		devices.xTarget			 = ha.add(
 				new CBContourReport("GRIP/mynewreport")
