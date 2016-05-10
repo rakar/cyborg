@@ -4,6 +4,7 @@ package org.montclairrobotics.cyborg;
 import java.util.ArrayList;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
+import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDevice;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
@@ -85,6 +86,10 @@ public class CBHardwareAdapter extends CBModule {
 		
 	public CBButton getButton(CBDeviceID id) {
 		return (CBButton)getDevice(id);
+	}
+		
+	public CBContourReport getContourReport(CBDeviceID id) {
+		return (CBContourReport)getDevice(id);
 	}
 		
 	public CBDigitalInput getDigitalInput(CBDeviceID id) {

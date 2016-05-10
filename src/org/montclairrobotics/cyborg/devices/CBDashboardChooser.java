@@ -14,6 +14,7 @@ public class CBDashboardChooser<T> implements CBDevice {
 		this.name = name;
 		timer = new CBTimingController();
 		chooser = new SendableChooser();
+		selected = null;
 	}
 	
 	public CBDashboardChooser<T> setTiming(int mode, int delay) {
@@ -39,7 +40,7 @@ public class CBDashboardChooser<T> implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		if(timer.update()) {
+		if(timer.update() && chooser!=null) {
 			selected = chooser.getSelected();
 		}
 	}

@@ -45,7 +45,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		req.ArmDown.set(armDownButton.getButtonPress(), armUpButton.getButtonPress());
 		req.HalfUp.set(halfUpButton.getButtonPress(),halfDownButton.getButtonPress());
 		req.autoSteer = autoSteerButton.getButtonState();
-		SmartDashboard.putBoolean("AutoSteerButton", req.autoSteer);
+		//SmartDashboard.putBoolean("AutoSteerButton", req.autoSteer);
 
 		int pov = spinPov.get();
 		req.SpinIn.set(180==pov,0==pov);		

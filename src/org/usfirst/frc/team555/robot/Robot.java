@@ -84,13 +84,14 @@ public class Robot extends Cyborg {
 		devices.halfUpButton 	= ha.add(new CBButton(1, 6));
 
 		devices.spinPov 		= ha.add(new CBPov(1, 0));
-		
+
 		devices.autoSelect		= ha.add(
 				new CBDashboardChooser<Integer>("Auto:")
 				.setTiming(CBGameMode.preGame, 50)
 				.addDefault("zero",new Integer(0))
 				.addChoice("one", new Integer(1))
 				);
+
 		devices.xTarget			 = ha.add(
 				new CBContourReport("GRIP/mynewreport")
 				.setTiming(CBGameMode.anyPeriodic, 5)

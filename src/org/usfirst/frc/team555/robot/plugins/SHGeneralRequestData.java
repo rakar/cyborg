@@ -8,7 +8,7 @@ public class SHGeneralRequestData extends CBGeneralRequestData {
 	public CBTriState HalfUp = new CBTriState();
 	public CBTriState ShootOut = new CBTriState();
 	public CBTriState SpinIn = new CBTriState();
-	public int selectedAuto;
-	public boolean autoSteer;
-	public double targetX;
+	public Integer selectedAuto = new Integer(-1);
+	public boolean autoSteer = false;
+	public double targetX = -1;
 }

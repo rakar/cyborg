@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHSensorMapper extends CBGeneralMapper {
 	Robot robot;
-	CBDashboardChooser<Integer> autoChooser;
 	SHGeneralRequestData grd;
+	CBDashboardChooser<Integer> autoChooser;
 	CBContourReport contourRpt;
 
 	@SuppressWarnings("unchecked")
@@ -20,6 +20,7 @@ public class SHSensorMapper extends CBGeneralMapper {
 		
 		this.robot = robot;	
 		this.grd = (SHGeneralRequestData) Cyborg.generalRequestData;
+		
 		this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(robot.devices.autoSelect);
 		this.contourRpt = (CBContourReport)Cyborg.hardwareAdapter.getDevice(robot.devices.xTarget);
 	}
@@ -27,7 +28,9 @@ public class SHSensorMapper extends CBGeneralMapper {
 	@Override
 	public void update() {
 
-		//grd.selectedAuto = autoChooser.getSelected();
+		if(autoChooser!=null)
+			grd.selectedAuto = autoChooser.getSelected();
+		
 		grd.targetX = -1;
 		if(contourRpt.centerX>=0) {
 			grd.targetX = contourRpt.centerX; //Array[contourRpt.largest];
