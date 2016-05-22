@@ -56,7 +56,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		}
 		
 		if(Cyborg.driveRequestData instanceof CBGeneralDriveRequestData) {
-			CBGeneralDriveRequestData rs = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
+			CBGeneralDriveRequestData drd = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
 
 			// if smoothing is defined for a given axis use it to follow the control 
 			for(int i=0;i<3;i++) {
@@ -66,12 +66,12 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 				}
 			}
 
-			rs.active = true;
-			rs.direction.setXY(value[1], -value[0]); 
-			rs.rotation = -value[2]; 
+			drd.active = true;
+			drd.direction.setXY(value[1], -value[0]); 
+			drd.rotation = -value[2]; 
 			
 			if(gyroLock!=null && gyroLock.isDefined()) {
-				rs.gyroLock = gyroLock.getButtonState();
+				drd.gyroLock = gyroLock.getButtonState();
 			}			
 		} else {
 			Cyborg.driveRequestData.active = false; // If we don't know what type of request it is shut down drive

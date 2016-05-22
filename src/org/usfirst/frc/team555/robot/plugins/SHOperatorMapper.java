@@ -7,8 +7,6 @@ import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.usfirst.frc.team555.robot.Robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SHOperatorMapper extends CBTeleOpMapper {
 	Robot robot;
 	CBHardwareAdapter ha;

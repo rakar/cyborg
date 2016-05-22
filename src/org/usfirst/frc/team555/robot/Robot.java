@@ -13,7 +13,6 @@ import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.plugins.*;
-import org.montclairrobotics.cyborg.plugins.CBDifferentialDriveController.DriveMode;
 import org.montclairrobotics.cyborg.utils.*;
 import org.usfirst.frc.team555.robot.plugins.*;
 
@@ -45,7 +44,7 @@ public class Robot extends Cyborg {
 			autoSteerButton,
 			spinPov,
 			autoSelect,
-			xTarget
+			visionPipeline
 			;
 	}
 
@@ -114,7 +113,7 @@ public class Robot extends Cyborg {
 				.addChoice("one", new Integer(1))
 				);
 
-		devices.xTarget			 = ha.add(
+		devices.visionPipeline	 = ha.add(
 				new CBContourReport("GRIP/mynewreport")
 				.setTiming(CBGameMode.anyPeriodic, 5)
 				);

@@ -22,7 +22,7 @@ public class SHSensorMapper extends CBGeneralMapper {
 		this.grd = (SHGeneralRequestData) Cyborg.generalRequestData;
 		
 		this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(robot.devices.autoSelect);
-		this.contourRpt = (CBContourReport)Cyborg.hardwareAdapter.getDevice(robot.devices.xTarget);
+		this.contourRpt = (CBContourReport)Cyborg.hardwareAdapter.getDevice(robot.devices.visionPipeline);
 	}
 
 	@Override
@@ -31,12 +31,15 @@ public class SHSensorMapper extends CBGeneralMapper {
 		if(autoChooser!=null)
 			grd.selectedAuto = autoChooser.getSelected();
 		
-		grd.targetX = -1;
-		if(contourRpt.centerX>=0) {
-			grd.targetX = contourRpt.centerX; //Array[contourRpt.largest];
-		} else {
-			grd.targetX = 200.0;
-		}
+		
+		//grd.targetX = -1;
+		//if(contourRpt.centerX>=0) {
+		//	grd.targetX = contourRpt.centerX; //Array[contourRpt.largest];
+		//} else {
+		//	grd.targetX = 200.0;
+		//}
+		grd.targetX = contourRpt.centerX;
+		grd.targetY = contourRpt.centerY;
 		SmartDashboard.putNumber("grd.targetX", grd.targetX);
 		
 	}

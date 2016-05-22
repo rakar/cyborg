@@ -8,13 +8,14 @@ public class CBContourReport implements CBDevice{
 	NetworkTable table;
 	String baseKey;
 	CBTimingController timer;
-	public double[] width = new double[0];
+	public double[] widthArray = new double[0];
 	public double[] centerXArray = new double[0];
-	public double[] centerY = new double[0];
-	public double[] height = new double[0];
+	public double[] centerYArray = new double[0];
+	public double[] heightArray = new double[0];
 	public double[] area = new double[0];
 	public int largest = -1;
 	public double centerX = -1;
+	public double centerY = -1;
 	
 	
 	
@@ -34,16 +35,16 @@ public class CBContourReport implements CBDevice{
 		if(timer.update()) {
 			area = table.getNumberArray("area", new double[0]);
 			if (area.length>0) {
-				width = table.getNumberArray("width", new double[0]);
-				height = table.getNumberArray("height", new double[0]);
+				widthArray = table.getNumberArray("width", new double[0]);
+				heightArray = table.getNumberArray("height", new double[0]);
 				centerXArray = table.getNumberArray("centerX", new double[0]);
-				centerY = table.getNumberArray("centerY", new double[0]);
+				centerYArray = table.getNumberArray("centerY", new double[0]);
 			} else {
-				if (width.length>0) {
-					width =  new double[0];
-					height = new double[0];
+				if (widthArray.length>0) {
+					widthArray =  new double[0];
+					heightArray = new double[0];
 					centerXArray = new double[0];
-					centerY = new double[0];
+					centerYArray = new double[0];
 				}
 			}
 			double maxArea = -1.0;
@@ -55,6 +56,7 @@ public class CBContourReport implements CBDevice{
 					largest = i;
 					if (i<centerXArray.length) {
 						centerX = centerXArray[i];
+						centerY = centerYArray[i];
 					}
 				}
 			}

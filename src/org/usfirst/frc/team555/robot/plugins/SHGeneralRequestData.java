@@ -11,4 +11,5 @@ public class SHGeneralRequestData extends CBGeneralRequestData {
 	public Integer selectedAuto = new Integer(-1);
 	public boolean autoSteer = false;
 	public double targetX = -1;
+	public double targetY = -1;
 }
