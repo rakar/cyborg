@@ -78,13 +78,11 @@ public class Robot extends Cyborg {
 		devices.driveMotorRight2 = ha.add(new CBMotorController(new Talon(4)));
 
 		devices.driveEncoderLeft = ha.add(
-				new CBEncoder(1,2,EncodingType.k4X)
-				.setDistancePerPulse(10.0/1600) // distance/encoder ticks
+				new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses
 				.setReverseDirection(true)
 				);
 		devices.driveEncoderRight = ha.add(
-				new CBEncoder(3,4,EncodingType.k4X)
-				.setDistancePerPulse(10.0/1600) // distance/encoder ticks
+				new CBEncoder(3,4,EncodingType.k4X,10.0/1600)
 				.setReverseDirection(false)
 				);
 

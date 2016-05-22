@@ -1,21 +1,87 @@
 package org.montclairrobotics.cyborg.devices;
 
+import java.util.ArrayList;
+
+import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.utils.CBSource;
+
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Encoder.IndexingType;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.tables.ITable;
 
-public class CBEncoder implements CBDevice{
-	Encoder encoder;
-
-	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType) {
-		encoder = new Encoder(aChannel, bChannel, false, encodingType);
+public class CBEncoder implements CBDevice, CBSource{
+	private Encoder encoder;
+	private int edgesPerPulse;
+	private double distancePerPulse;
+	private int offsetPulses;
+	private int offsetEdges;
+	private double offsetDistance;
+	private ArrayList<IndexEntry> indexEntries = new ArrayList<>();
+	
+	public class IndexEntry {
+		CBDigitalInput trigger;
+		CBDeviceID triggerId;
+		boolean activeState;
+		double distance;
+		
+		public IndexEntry(CBDeviceID triggerId,	boolean activeState, double distance) {
+			this.triggerId = triggerId;
+			this.activeState = activeState;
+			this.distance = distance;
+			this.trigger = Cyborg.hardwareAdapter.getDigitalInput(triggerId);
+		}
 	}
 
-	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType) {
+	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, double distancePerPulse) {
+		setTickConversion(encodingType);
+		setDistancePerPulse(distancePerPulse);
+		encoder = new Encoder(aChannel, bChannel, false, encodingType);
+	}
+	
+	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, double distancePerPulse) {
+		setTickConversion(encodingType);
+		setDistancePerPulse(distancePerPulse);
 		encoder = new Encoder(aSource, bSource, false, encodingType);
+	}
+	
+	private void setTickConversion(EncodingType encodingType) {
+		switch(encodingType) {
+		case k1X:
+			edgesPerPulse = 1;
+			break;
+		case k2X:
+			edgesPerPulse = 2;
+			break;
+		case k4X:
+			edgesPerPulse = 4;
+			break;
+		}
+	}
+	
+	public CBEncoder setDistance(double distance){
+		reset();
+		offsetDistance = distance;
+		offsetPulses = (int)(distance/distancePerPulse);
+		offsetEdges = offsetPulses*edgesPerPulse;
+		return this;
+	}
+
+	public CBEncoder setPulses(int pulses){
+		reset();
+		offsetDistance = distancePerPulse*pulses;
+		offsetPulses = pulses;
+		offsetEdges = offsetPulses*edgesPerPulse;
+		return this;
+	}
+
+	public CBEncoder setEdges(int edges){
+		reset();
+		offsetEdges = edges;
+		offsetPulses = edgesPerPulse*edges;
+		offsetDistance = distancePerPulse*offsetPulses;
+		return this;
 	}
 
 	public CBEncoder setReverseDirection(boolean reverseDirection) {
@@ -23,27 +89,51 @@ public class CBEncoder implements CBDevice{
 		return this;
 	}
 
-	public CBEncoder setIndexChannel(DigitalSource source) {
-		encoder.setIndexSource(source);
-		return this;
-	}
+	// hijack indexing to allow for multiple indexes with non-zero distances
+	//public CBEncoder setIndexChannel(DigitalSource source) {
+	//	encoder.setIndexSource(source);
+	//	return this;
+	//}
 
-	public CBEncoder setIndexChannel(int indexChannel) {
-		encoder.setIndexSource(indexChannel);
-		return this;
-	}
+	//public CBEncoder setIndexChannel(int indexChannel) {
+	//	encoder.setIndexSource(indexChannel);
+	//	return this;
+	//}
 
-	public CBEncoder setIndexChannel(DigitalSource source, IndexingType indexingType) {
-		encoder.setIndexSource(source, indexingType);
-		return this;
-	}
+	//public CBEncoder setIndexChannel(DigitalSource source, IndexingType indexingType) {
+	//	encoder.setIndexSource(source, indexingType);
+	//	return this;
+	//}
 
-	public CBEncoder setIndexChannel(int indexChannel, IndexingType indexingType) {
-		encoder.setIndexSource(indexChannel, indexingType);
+	//public CBEncoder setIndexChannel(int indexChannel, IndexingType indexingType) {
+	//	encoder.setIndexSource(indexChannel, indexingType);
+	//	return this;
+	//}
+	
+	public CBEncoder addIndexEntry(IndexEntry indexEntry) {
+		removeIndexEntry(indexEntry.triggerId);
+		indexEntries.add(indexEntry);
 		return this;
 	}
 	
+	public CBEncoder removeIndexEntry(CBDeviceID triggerId) {
+		int trg = -1;
+		for(int i=0;i<indexEntries.size();i++) {
+			if(indexEntries.get(i).triggerId==triggerId) {
+				trg=i;
+				break;
+			}
+		}
+		if(trg>-1) {
+			indexEntries.remove(trg);
+		}
+		return this;
+	}
+	
+	
 	public CBEncoder setDistancePerPulse(double distancePerPulse) {
+		if (distancePerPulse==0) distancePerPulse=1;
+		this.distancePerPulse = distancePerPulse;
 		encoder.setDistancePerPulse(distancePerPulse);
 		return this;
 	}
@@ -87,8 +177,8 @@ public class CBEncoder implements CBDevice{
 		encoder.free();
 	}
 	
-	public int get() {
-		return encoder.get();
+	public double get() {
+		return encoder.get()+offsetPulses;
 	}
 	
 	public boolean getDirection() {
@@ -96,7 +186,7 @@ public class CBEncoder implements CBDevice{
 	}
 	
 	public double getDistance() {
-		return getDistance();
+		return getDistance()+offsetDistance;
 	}
 	
 	public int getEncodingScale() {
@@ -113,6 +203,10 @@ public class CBEncoder implements CBDevice{
 	
 	public double getRate() {
 		return getRate();
+	}
+	
+	public int getEdges() {
+		return encoder.getRaw()+offsetEdges;
 	}
 	
 	public int getRaw() {
@@ -140,18 +234,34 @@ public class CBEncoder implements CBDevice{
 		return this;
 	}
 	
+	// have to hijack this since our offset system 
+	// prevents using the encoder's pidGet
 	public double pidGet() {
-		return encoder.pidGet();
+		switch(encoder.getPIDSourceType()) {
+		case kDisplacement:
+			return getDistance();
+		case kRate:
+			return getRate();
+		default:
+			return 0;
+		}
 	}
 	
 	public CBEncoder reset() {
 		encoder.reset();
+		offsetEdges = 0;
+		offsetPulses = 0;
+		offsetDistance = 0;
 		return this;
 	}
 	
 	@Override
 	public void senseUpdate() {
-		
+		for(IndexEntry i:indexEntries) {
+			if(i.trigger.get()==i.activeState) {
+				setDistance(i.distance);
+			}
+		}
 	}
 
 	@Override
