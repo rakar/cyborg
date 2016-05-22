@@ -6,24 +6,25 @@ import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBMotorController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.plugins.*;
+import org.montclairrobotics.cyborg.plugins.CBDifferentialDriveController.DriveMode;
 import org.montclairrobotics.cyborg.utils.*;
 import org.usfirst.frc.team555.robot.plugins.*;
 
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
+ * 
+ * This is the main robot definition class.
+ * 
  */
 public class Robot extends Cyborg {
 
@@ -37,13 +38,15 @@ public class Robot extends Cyborg {
 			shootValve, spinLeft, spinRight,
 			driveMotorLeft1, driveMotorLeft2,
 			driveMotorRight1, driveMotorRight2,
+			driveEncoderLeft, driveEncoderRight,
 			gyroLockButton, forwardAxis, rotationAxis,
 			forward2Axis, shootButton, armDownButton,
 			armUpButton, halfDownButton, halfUpButton,
 			autoSteerButton,
 			spinPov,
 			autoSelect,
-			xTarget;
+			xTarget
+			;
 	}
 
 	public SHDevices devices = new SHDevices();
@@ -51,10 +54,15 @@ public class Robot extends Cyborg {
 	@Override
 	public void cyborgInit() {
 
-		// Configure Custom Hardware
+		
+		// Configure Hardware Adapter
+		
 		CBHardwareAdapter ha = new CBHardwareAdapter(this);
 		Cyborg.hardwareAdapter = ha;
 		ha.setJoystickCount(2);
+		
+		
+		// Robot Hardware 
 		
 		devices.navx 			= ha.add(new CBNavX(SPI.Port.kMXP));
 		
@@ -70,6 +78,20 @@ public class Robot extends Cyborg {
 		devices.driveMotorRight1 = ha.add(new CBMotorController(new Talon(2)));
 		devices.driveMotorRight2 = ha.add(new CBMotorController(new Talon(4)));
 
+		devices.driveEncoderLeft = ha.add(
+				new CBEncoder(1,2,EncodingType.k4X)
+				.setDistancePerPulse(10.0/1600) // distance/encoder ticks
+				.setReverseDirection(true)
+				);
+		devices.driveEncoderRight = ha.add(
+				new CBEncoder(3,4,EncodingType.k4X)
+				.setDistancePerPulse(10.0/1600) // distance/encoder ticks
+				.setReverseDirection(false)
+				);
+
+		
+		// Driver's Station Controls
+		
 		devices.forwardAxis 	= ha.add(new CBAxis(0, 1));
 		devices.rotationAxis 	= ha.add(new CBAxis(0, 0));
 		// devices.forward2Axis = ha.add(new CBAxis(1,1)) // for Tank drive
@@ -98,7 +120,7 @@ public class Robot extends Cyborg {
 				);
 
 		//
-		// Status Initialization
+		// Data Initialization
 		//
 		driveRequestData 	= new CBGeneralDriveRequestData();
 		driveControlData	= new CBGeneralDriveControlData();
@@ -113,7 +135,7 @@ public class Robot extends Cyborg {
 		// Input Mapper Initialization
 		//
 		
-		// Tank Drive...
+		// Tank Drive Stick Input Example...
 		// this.driveRequestMappers.add(
 		// new CBTankDriveRequestMapper(this, Device.FORWARD_AXIS,
 		// Device.FORWARD2_AXIS)
@@ -131,21 +153,31 @@ public class Robot extends Cyborg {
 		this.generalMappers.add(new SHSensorMapper(this));
 
 		
+		
 		//
 		// Output Controller Initialization
 		//
-		// this.feedbackControllers.add(new FeedbackController(this));
-		this.robotControllers.add(new CBDifferentialDriveController(this)
+		
+		this.robotControllers.add(
+				new CBDifferentialDriveController(this)
 				.addLeftMotorController(devices.driveMotorLeft1).addLeftMotorController(devices.driveMotorLeft2)
 				.addRightMotorController(devices.driveMotorRight1).addRightMotorController(devices.driveMotorRight1)
-				.setLeftDirection(-1));
+				.setLeftDirection(-1)
+				// Enable this code to switch to Speed Control Mode.
+				//.setEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
+				//.setPIDControllers(
+				//		new CBPIDController(.9,0,9), 
+				//		new CBPIDController(.9,0,9)
+				//		)
+				//.setDriveMode(DriveMode.Speed)
+				);
 		this.robotControllers.add(new SHGeneralController(this));
 
 		
 		//
-		// Processors
+		// Behavior Processors
 		//
-		// this.ruleProcessors.add(new RuleProcessor(this));
+
 		this.behaviors.add(
 				new CBGeneralDriveBehavior(this)
 				.setGyroLockTracker(

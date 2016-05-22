@@ -1,5 +1,6 @@
 package org.montclairrobotics.cyborg.utils;
 
+import java.util.Date;
 
 //TODO: add a delta time calculation to adjust for variable update periods.
 
@@ -9,6 +10,8 @@ public class CBPIDController {
 	private double in,out;
 	private double target;
 	private double totalError, prevError, error;
+	private long   lastUpdate, thisUpdate; 
+	private double timeSpan;
 
 	/**
 	 * @param P the Proportional Constant
@@ -93,7 +96,8 @@ public class CBPIDController {
 	public CBPIDController reset() {
 		error=0.0;
 		prevError=0.0;
-		totalError=0.0;	
+		totalError=0.0;
+		lastUpdate = 0;
 		return this;
 	}
 		
@@ -104,7 +108,7 @@ public class CBPIDController {
 		
 	private double calculate(double actual)
 	{
-		error=target-actual;
+		error=(target-actual) * timeSpan;
 		
 		// If circular wrap to shortest error
 		if(minIn!=0&&maxIn!=0)
@@ -151,8 +155,14 @@ public class CBPIDController {
 	public double update(double source)
 	{
 		prevError=error;
-		in=source;
-		out = calculate(source);
+		if (lastUpdate == 0) {
+			lastUpdate = new Date().getTime();
+		} else {
+			thisUpdate = new Date().getTime();
+			timeSpan =  (thisUpdate-lastUpdate)/1000.0;
+			in=source;
+			out = calculate(source);
+		}
 		return out;
 	}
 	
