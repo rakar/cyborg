@@ -7,7 +7,7 @@ import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBMotorController;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.devices.CBPov;
@@ -69,13 +69,13 @@ public class Robot extends Cyborg {
 		devices.shootValve 		= ha.add(new CBSolenoid(1));
 		devices.halfValve 		= ha.add(new CBSolenoid(2));
 
-		devices.spinLeft 		= ha.add(new CBMotorController(new Talon(5)));
-		devices.spinRight		= ha.add(new CBMotorController(new Talon(0)));
+		devices.spinLeft 		= ha.add(new CBSpeedController(new Talon(5)));
+		devices.spinRight		= ha.add(new CBSpeedController(new Talon(0)));
 
-		devices.driveMotorLeft1 = ha.add(new CBMotorController(new Talon(1)));
-		devices.driveMotorLeft2 = ha.add(new CBMotorController(new Talon(3)));
-		devices.driveMotorRight1 = ha.add(new CBMotorController(new Talon(2)));
-		devices.driveMotorRight2 = ha.add(new CBMotorController(new Talon(4)));
+		devices.driveMotorLeft1 = ha.add(new CBSpeedController(new Talon(1)));
+		devices.driveMotorLeft2 = ha.add(new CBSpeedController(new Talon(3)));
+		devices.driveMotorRight1 = ha.add(new CBSpeedController(new Talon(2)));
+		devices.driveMotorRight2 = ha.add(new CBSpeedController(new Talon(4)));
 
 		devices.driveEncoderLeft = ha.add(
 				new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses

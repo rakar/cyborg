@@ -18,15 +18,15 @@ public class CBEncoder implements CBDevice, CBSource{
 	private int offsetPulses;
 	private int offsetEdges;
 	private double offsetDistance;
-	private ArrayList<IndexEntry> indexEntries = new ArrayList<>();
+	private ArrayList<CBIndexEntry> indexEntries = new ArrayList<>();
 	
-	public class IndexEntry {
+	public class CBIndexEntry {
 		CBDigitalInput trigger;
 		CBDeviceID triggerId;
 		boolean activeState;
 		double distance;
 		
-		public IndexEntry(CBDeviceID triggerId,	boolean activeState, double distance) {
+		public CBIndexEntry(CBDeviceID triggerId,	boolean activeState, double distance) {
 			this.triggerId = triggerId;
 			this.activeState = activeState;
 			this.distance = distance;
@@ -110,7 +110,7 @@ public class CBEncoder implements CBDevice, CBSource{
 	//	return this;
 	//}
 	
-	public CBEncoder addIndexEntry(IndexEntry indexEntry) {
+	public CBEncoder addIndexEntry(CBIndexEntry indexEntry) {
 		removeIndexEntry(indexEntry.triggerId);
 		indexEntries.add(indexEntry);
 		return this;
@@ -257,7 +257,7 @@ public class CBEncoder implements CBDevice, CBSource{
 	
 	@Override
 	public void senseUpdate() {
-		for(IndexEntry i:indexEntries) {
+		for(CBIndexEntry i:indexEntries) {
 			if(i.trigger.get()==i.activeState) {
 				setDistance(i.distance);
 			}

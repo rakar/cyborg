@@ -10,7 +10,7 @@ import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBMotorController;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
@@ -104,8 +104,8 @@ public class CBHardwareAdapter extends CBModule {
 		return (CBEncoder)getDevice(id);
 	}
 
-	public CBMotorController getMotorController(CBDeviceID id) {
-		return (CBMotorController)getDevice(id);
+	public CBSpeedController getMotorController(CBDeviceID id) {
+		return (CBSpeedController)getDevice(id);
 	}
 	
 	public CBNavX getNavX(CBDeviceID id){

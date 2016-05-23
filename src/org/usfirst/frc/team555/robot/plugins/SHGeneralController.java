@@ -3,7 +3,7 @@ package org.usfirst.frc.team555.robot.plugins;
 import org.montclairrobotics.cyborg.CBRobotController;
 import org.montclairrobotics.cyborg.CBHardwareAdapter;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.devices.CBMotorController;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
 
@@ -15,8 +15,8 @@ public class SHGeneralController extends CBRobotController {
 	CBSolenoid armValve;
 	CBSolenoid halfValve;
 	CBSolenoid shootValve;
-	CBMotorController spinLeft;
-	CBMotorController spinRight;
+	CBSpeedController spinLeft;
+	CBSpeedController spinRight;
 
 	public SHGeneralController(Robot robot) {
 		super(robot);

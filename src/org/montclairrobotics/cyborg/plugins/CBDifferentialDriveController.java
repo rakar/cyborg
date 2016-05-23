@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBMotorController;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBPIDController;
 //import org.usfirst.frc.team555.robot.Robot.Device;
 import org.montclairrobotics.cyborg.CBRobotController;
@@ -16,8 +16,8 @@ public class CBDifferentialDriveController extends CBRobotController {
 
 	public enum DriveMode { Power, Speed };
 
-	private ArrayList<CBMotorController> leftControllers = new ArrayList<>();
-	private ArrayList<CBMotorController> rightControllers = new ArrayList<>();
+	private ArrayList<CBSpeedController> leftControllers = new ArrayList<>();
+	private ArrayList<CBSpeedController> rightControllers = new ArrayList<>();
 	private int leftDir = 1;
 	private int rightDir = 1;
 	private DriveMode mode;
@@ -64,9 +64,9 @@ public class CBDifferentialDriveController extends CBRobotController {
 	
 			} else if(Cyborg.driveControlData instanceof CBGeneralDriveControlData) {
 
-				CBGeneralDriveControlData status = (CBGeneralDriveControlData)Cyborg.driveControlData;
-				double left = status.direction.getY()-status.rotation;
-				double right= status.direction.getY()+status.rotation;
+				CBGeneralDriveControlData dcd = (CBGeneralDriveControlData)Cyborg.driveControlData;
+				double left = dcd.direction.getY()-dcd.rotation;
+				double right= dcd.direction.getY()+dcd.rotation;
 				switch(mode) {
 				case Power:
 					leftPower = left*leftDir;
