@@ -9,7 +9,7 @@ public class CBGeneralDriveControlData extends CBDriveControlData {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public CBDirectionVector direction = new CBDirectionVector();
+	public CBDirectionVector direction = new CBDirectionVector();	
 	public double rotation;
 
 }
