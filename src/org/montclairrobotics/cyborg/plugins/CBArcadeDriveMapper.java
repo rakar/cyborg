@@ -13,11 +13,14 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 	private double[] smoothing = new double[3];
 	private double[] lastValue = new double[3];
 
-	public CBArcadeDriveMapper(Cyborg robot, CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
+	public CBArcadeDriveMapper(Cyborg robot) {
 		super(robot);
+	}
+	public CBArcadeDriveMapper setAxes(CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
 		this.axes[0] = Cyborg.hardwareAdapter.getAxis(fwdDeviceID);
 		this.axes[1] = Cyborg.hardwareAdapter.getAxis(strDeviceID);
 		this.axes[2] = Cyborg.hardwareAdapter.getAxis(rotDeviceID);
+		return this;
 	}
 
 	public CBArcadeDriveMapper setDeadZone(double deadzone) {

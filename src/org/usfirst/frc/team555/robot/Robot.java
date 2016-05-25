@@ -71,8 +71,13 @@ public class Robot extends Cyborg {
 		devices.shootValve 		= ha.add(new CBSolenoid(1));
 		devices.halfValve 		= ha.add(new CBSolenoid(2));
 
-		devices.spinLeft 		= ha.add(new CBSpeedController(new Talon(5)));
-		devices.spinRight		= ha.add(new CBSpeedController(new Talon(0)));
+		devices.spinLeft 		= ha.add(
+				new CBSpeedController(new Talon(5))
+				);
+		devices.spinRight		= ha.add(
+				new CBSpeedController(new Talon(0))
+				.setInverted(true)
+				);
 
 		devices.driveMotorLeft1 = ha.add(new CBSpeedController(new Talon(1)));
 		devices.driveMotorLeft2 = ha.add(new CBSpeedController(new Talon(3)));
@@ -136,15 +141,16 @@ public class Robot extends Cyborg {
 		
 		// Tank Drive Stick Input Example...
 		// this.driveRequestMappers.add(
-		// new CBTankDriveRequestMapper(this, Device.FORWARD_AXIS,
-		// Device.FORWARD2_AXIS)
+		// new CBTankDriveRequestMapper(this, devices.forwardAxis,
+		// devices.forward2Axis)
 		// .setDeadZone(0.1)
-		// .setGyroLockButton(Device.GYROLOCK_BUTTON)
+		// .setGyroLockButton(devices.gyroLockButton)
 		// );
 
 		// Arcade Drive...
 		this.teleOpMappers.add(
-				new CBArcadeDriveMapper(this, devices.forwardAxis, null, devices.rotationAxis)
+				new CBArcadeDriveMapper(this)
+				.setAxes(devices.forwardAxis, null, devices.rotationAxis)
 				.setDeadZone(0.2)
 				.setGyroLockButton(devices.gyroLockButton)
 				);
@@ -198,7 +204,7 @@ public class Robot extends Cyborg {
 						.setInputLimits(-180, 180) // assumes navx source in degrees
 						)
 				);
-		// this.behaviorProcessors.add(
+		// this.behaviors.add(
 		//		new CBTankDriveBehaviorProcessor(this)
 		//		);
 		this.behaviors.add(new SHGeneralBehavior(this));

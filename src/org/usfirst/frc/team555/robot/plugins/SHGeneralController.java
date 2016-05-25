@@ -3,44 +3,47 @@ package org.usfirst.frc.team555.robot.plugins;
 import org.montclairrobotics.cyborg.CBRobotController;
 import org.montclairrobotics.cyborg.CBHardwareAdapter;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController;
+import org.montclairrobotics.cyborg.devices.CBVictorArrayController;
+import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHGeneralController extends CBRobotController {
 	Robot robot;
-	SHGeneralControlData cs;
+	SHGeneralControlData gcd;
 	CBHardwareAdapter ha;
 
 	CBSolenoid armValve;
 	CBSolenoid halfValve;
 	CBSolenoid shootValve;
-	CBSpeedController spinLeft;
-	CBSpeedController spinRight;
+	CBSpeedControllerArrayController spinArray;
 
 	public SHGeneralController(Robot robot) {
 		super(robot);
 		this.robot = robot;
-		cs = (SHGeneralControlData)Cyborg.generalControlData;
+		gcd = (SHGeneralControlData)Cyborg.generalControlData;
 		ha = Cyborg.hardwareAdapter;
 
 		armValve   = ha.getSolenoidValve(robot.devices.armValve);
 		halfValve  = ha.getSolenoidValve(robot.devices.halfValve);
 		shootValve = ha.getSolenoidValve(robot.devices.shootValve);
 
-		spinLeft   = ha.getSpeedController(robot.devices.spinLeft);
-		spinRight  = ha.getSpeedController(robot.devices.spinRight);
+		spinArray = new CBVictorArrayController()
+				.addSpeedController(robot.devices.spinLeft)
+				.addSpeedController(robot.devices.spinRight)
+				.setDriveMode(CBDriveMode.Power)
+				;
 	}
 	
 	@Override 
 	public void update() {
 
-		armValve.set(cs.ArmDown.get());
-		halfValve.set(cs.HalfUp.get());
-		shootValve.set(cs.ShootOut.get());
+		armValve.set(gcd.ArmDown.get());
+		halfValve.set(gcd.HalfUp.get());
+		shootValve.set(gcd.ShootOut.get());
 
-		spinLeft.set(-cs.SpinSpeed);
-		spinRight.set(cs.SpinSpeed);
+		spinArray.update(gcd.SpinSpeed);
 
 	}
 

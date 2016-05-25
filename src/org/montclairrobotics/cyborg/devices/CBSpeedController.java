@@ -2,53 +2,50 @@ package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class CBSpeedController  implements CBDevice, SpeedController{
+public class CBSpeedController implements CBDevice{
 
-	SpeedController controller; 
-	//CBPIDController pid;
+	private SpeedController controller; 
 	
 	public CBSpeedController(SpeedController controller) {
 		this.controller = controller;
 	}
 
-	@Override
-	public void pidWrite(double output) {
+	public CBSpeedController pidWrite(double output) {
 		controller.pidWrite(output);
+		return this;
 	}
 
-	@Override
 	public double get() {
 		return controller.get();
 	}
 
-	@Override
-	public void set(double speed, byte syncGroup) {
+	public CBSpeedController set(double speed, byte syncGroup) {
 		controller.set(speed,syncGroup);
+		return this;
 	}
 
-	@Override
-	public void set(double speed) {
+	public CBSpeedController set(double speed) {
 		controller.set(speed);
+		return this;
 	}
 
-	@Override
-	public void setInverted(boolean isInverted) {
+	public CBSpeedController setInverted(boolean isInverted) {
 		controller.setInverted(isInverted);
+		return this;
 	}
 
-	@Override
 	public boolean getInverted() {
 		return controller.getInverted();
 	}
 
-	@Override
-	public void disable() {
+	public CBSpeedController disable() {
 		controller.disable();
+		return this;
 	}
 
-	@Override
-	public void stopMotor() {
+	public CBSpeedController stopMotor() {
 		controller.stopMotor();
+		return this;
 	}
 	
 	//public CBSpeedController setPID(CBPIDController pid) {

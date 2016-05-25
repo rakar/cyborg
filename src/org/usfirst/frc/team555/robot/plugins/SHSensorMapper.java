@@ -30,21 +30,11 @@ public class SHSensorMapper extends CBGeneralMapper {
 
 		if(autoChooser!=null)
 			grd.selectedAuto = autoChooser.getSelected();
-		
-		
-		//grd.targetX = -1;
-		//if(contourRpt.centerX>=0) {
-		//	grd.targetX = contourRpt.centerX; //Array[contourRpt.largest];
-		//} else {
-		//	grd.targetX = 200.0;
-		//}
+
 		grd.targetX = contourRpt.centerX;
 		grd.targetY = contourRpt.centerY;
 		SmartDashboard.putNumber("grd.targetX", grd.targetX);
-		
-	}
-	
-	
 
+	}
 }
  

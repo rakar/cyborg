@@ -6,8 +6,6 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 
-import edu.wpi.first.wpilibj.SpeedController;
-
 /**
  * 
  * @author rich
@@ -94,7 +92,7 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 			break;
 		}
 		
-		for(SpeedController l:speedControllers) l.set(target*direction);
+		for(CBSpeedController l:speedControllers) l.set(target*direction);
 
 		
 		return this;
