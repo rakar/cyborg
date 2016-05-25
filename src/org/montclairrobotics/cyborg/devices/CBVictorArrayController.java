@@ -20,13 +20,13 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 	private ArrayList<CBSpeedController> speedControllers = new ArrayList<>();
 	private CBEncoder encoder = null;
 	private CBErrorCorrection errorCorrection = null;
-	private CBDriveMode mode;
+	private CBDriveMode mode = CBDriveMode.Power;
 	private boolean reversed=false;
 	private int direction=1;
-	
+
 	public CBVictorArrayController() {
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController#addSpeedController(org.montclairrobotics.cyborg.devices.CBSpeedController)
 	 */
@@ -35,7 +35,7 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 		speedControllers.add(Cyborg.hardwareAdapter.getSpeedController(controllerId));
 		return this;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController#setEncoder(org.montclairrobotics.cyborg.devices.CBEncoder)
 	 */
@@ -44,7 +44,7 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 		this.encoder = Cyborg.hardwareAdapter.getEncoder(encoderId);
 		return this;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController#setErrorCorrection(org.montclairrobotics.cyborg.utils.CBErrorCorrection)
 	 */
@@ -91,10 +91,9 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 			}
 			break;
 		}
-		
+
 		for(CBSpeedController l:speedControllers) l.set(target*direction);
 
-		
 		return this;
 	}
 	

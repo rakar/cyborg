@@ -28,7 +28,6 @@ public class CBHardwareAdapter extends CBModule {
 	
 	public CBHardwareAdapter(Cyborg robot) {
 		super(robot);
-		//devices.ensureCapacity(deviceCount);
 	}
 	
 	

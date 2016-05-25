@@ -48,11 +48,6 @@ public class CBSpeedController implements CBDevice{
 		return this;
 	}
 	
-	//public CBSpeedController setPID(CBPIDController pid) {
-	//	this.pid = pid;
-	//	return this;
-	//}
-
 	@Override
 	public void senseUpdate() {
 		// TODO Auto-generated method stub
