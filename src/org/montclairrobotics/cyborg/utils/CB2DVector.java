@@ -4,10 +4,17 @@ package org.montclairrobotics.cyborg.utils;
  * Generalized 2D Vector
  * Includes Cartesian and Polar conversions and utilities  
  */
-public class CBDirectionVector {
+public class CB2DVector {
 	
 	private double x,y;
 	private double angle,mag;
+	
+	public CB2DVector() {
+		
+	}
+	public CB2DVector( double x, double y) {
+		setXY(x,y);
+	}
 
 	/**
 	 * Sets the DirectionVector based on Cartesian coordinates 
@@ -16,7 +23,7 @@ public class CBDirectionVector {
 	 * @param y forward(+)/back(-) direction
 	 * @return  current object
 	 */
-	public CBDirectionVector setXY(double x, double y) {
+	public CB2DVector setXY(double x, double y) {
 		this.x = x;
 		this.y = y;
 		// angle is based on 0 degrees being "forward" 
@@ -76,7 +83,7 @@ public class CBDirectionVector {
 		return mag;
 	}
 
-	public CBDirectionVector copy(CBDirectionVector src) {
+	public CB2DVector copy(CB2DVector src) {
 		return this.setXY(src.getX(), src.getY()); // , src.getRotDeg());
 	}
 }

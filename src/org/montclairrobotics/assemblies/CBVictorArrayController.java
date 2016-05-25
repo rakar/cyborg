@@ -1,8 +1,11 @@
-package org.montclairrobotics.cyborg.devices;
+package org.montclairrobotics.assemblies;
 
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.devices.CBEncoder;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 
@@ -15,7 +18,7 @@ import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
  * to be the lead controller and all others will be considered followers.  
  *
  */
-public class CBVictorArrayController implements CBSpeedControllerArrayController { //implements CBDevice {
+public class CBVictorArrayController implements CBSpeedControllerArrayController { 
 
 	private ArrayList<CBSpeedController> speedControllers = new ArrayList<>();
 	private CBEncoder encoder = null;

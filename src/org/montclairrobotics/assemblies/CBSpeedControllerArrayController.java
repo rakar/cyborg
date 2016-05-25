@@ -1,5 +1,6 @@
-package org.montclairrobotics.cyborg.devices;
+package org.montclairrobotics.assemblies;
 
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 

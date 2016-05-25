@@ -9,7 +9,7 @@ public class CBGeneralDriveRequestData extends CBDriveRequestData {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public CBDirectionVector direction = new CBDirectionVector();
+	public CB2DVector direction = new CB2DVector();
 	public double rotation;
 	public boolean gyroLock;
 }

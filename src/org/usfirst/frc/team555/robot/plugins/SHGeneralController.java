@@ -1,10 +1,10 @@
 package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.CBRobotController;
+import org.montclairrobotics.assemblies.CBSpeedControllerArrayController;
+import org.montclairrobotics.assemblies.CBVictorArrayController;
 import org.montclairrobotics.cyborg.CBHardwareAdapter;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController;
-import org.montclairrobotics.cyborg.devices.CBVictorArrayController;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
