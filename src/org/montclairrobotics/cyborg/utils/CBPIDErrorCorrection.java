@@ -2,11 +2,9 @@ package org.montclairrobotics.cyborg.utils;
 
 import java.util.Date;
 
-//TODO: add a delta time calculation to adjust for variable update periods.
-
-public class CBPIDController {
-	private double P,I,D,minIn,maxIn,minOut,maxOut;
-	
+public class CBPIDErrorCorrection implements CBErrorCorrection {
+	private double minIn,maxIn,minOut,maxOut;
+	private double[] k;
 	private double in,out;
 	private double target;
 	private double totalError, prevError, error;
@@ -18,72 +16,77 @@ public class CBPIDController {
 	 * @param I the Integral Constant
 	 * @param D the Derivative Constant
 	 */
-	public CBPIDController(double P,double I,double D)
+	public CBPIDErrorCorrection()
 	{
-		this.P=P;
-		this.I=I;
-		this.D=D;
+		//this.k = k;
 	}
 	
-	/**
-	 * @param minIn the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
-	 * eg. so the error between 5 degrees and 355 degrees is 10 degrees
-	 * @param maxIn the maximum input, or 0 to ignore
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#setInputLimits(double, double)
 	 */
-	public CBPIDController setInputLimits(double minIn,double maxIn)
+	@Override
+	public CBErrorCorrection setInputLimits(double minIn,double maxIn)
 	{
 		this.minIn = minIn;
 		this.maxIn = maxIn;
 		return this;
 	}
 	
-	/**
-	 * 
-	 * @param minOut the minimum output to constrain to, or 0 to ignore
-	 * @param maxOut the maximum output to constrain to, or 0 to ignore
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#setOutputLimits(double, double)
 	 */
-	public CBPIDController setOutputLimits(double minOut, double maxOut)
+	@Override
+	public CBErrorCorrection setOutputLimits(double minOut, double maxOut)
 	{
 		this.minOut=minOut;
 		this.maxOut=maxOut;
 		return this;
 	}
 
-	public CBPIDController setPID(double P, double I, double D){
-		this.P=P;
-		this.I=I;
-		this.D=D;
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#setConstants(double[])
+	 */
+	@Override
+	public CBErrorCorrection setConstants(double[] k){
+		//this.P=P;
+		//this.I=I;
+		//this.D=D;
+		this.k = k;
 		return this;
 	}
 	
-	/**
-	 * Copy constructor so you can copy PID controllers
-	 * @return a copy of this PID controller
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#setTarget()
 	 */
-	public CBPIDController copy()
-	{
-		return new CBPIDController(P,I,D)
-				.setInputLimits(minIn, maxIn)
-				.setOutputLimits(minOut, maxOut);
-	}
+	//public CBPIDController copy()
+	//{
+	//	return new CBPIDController()
+	//			.setConstants(k)
+	//			.setInputLimits(minIn, maxIn)
+	//			.setOutputLimits(minOut, maxOut);
+	//}
 	
 	
-	public CBPIDController setTarget()
+	@Override
+	public CBErrorCorrection setTarget()
 	{
 		return setTarget(0.0,true);
 	}
 	
-	public CBPIDController setTarget(double t)
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#setTarget(double)
+	 */
+	@Override
+	public CBErrorCorrection setTarget(double t)
 	{
 		return setTarget(t,true);
 	}
 	
-	/**
-	 * Sets the setpoint
-	 * @param t the target/setpoint
-	 * @param reset true if the PID should reset, false otherwise
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#setTarget(double, boolean)
 	 */
-	public CBPIDController setTarget(double t, boolean reset)
+	@Override
+	public CBErrorCorrection setTarget(double t, boolean reset)
 	{
 		target=t;
 		if(reset)
@@ -93,7 +96,11 @@ public class CBPIDController {
 		return this;
 	}
 	
-	public CBPIDController reset() {
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#reset()
+	 */
+	@Override
+	public CBErrorCorrection reset() {
 		error=0.0;
 		prevError=0.0;
 		totalError=0.0;
@@ -101,13 +108,17 @@ public class CBPIDController {
 		return this;
 	}
 		
-	public CBPIDController resetIAccum() {
+	public CBErrorCorrection resetIAccum() {
 		totalError=0.0;	
 		return this;
 	}
 		
-	private double calculate(double actual)
+	protected double calculate(double actual)
 	{
+		double P = k[0];
+		double I = k[1];
+		double D = k[2];
+		
 		error=(target-actual) * timeSpan;
 		
 		// If circular wrap to shortest error
@@ -152,6 +163,10 @@ public class CBPIDController {
 		return correction;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#update(double)
+	 */
+	@Override
 	public double update(double source)
 	{
 		prevError=error;
@@ -166,15 +181,27 @@ public class CBPIDController {
 		return out;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#getIn()
+	 */
+	@Override
 	public double getIn()
 	{
 		return in;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#getError()
+	 */
+	@Override
 	public double getError(){
 		return error;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#getOut()
+	 */
+	@Override
 	public double getOut()
 	{
 		return out;

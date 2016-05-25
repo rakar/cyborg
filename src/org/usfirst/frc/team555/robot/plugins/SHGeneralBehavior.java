@@ -3,7 +3,7 @@ package org.usfirst.frc.team555.robot.plugins;
 import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.plugins.CBGeneralDriveControlData;
-import org.montclairrobotics.cyborg.utils.CBPIDController;
+import org.montclairrobotics.cyborg.utils.CBPIDErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBSource;
 import org.montclairrobotics.cyborg.utils.CBTracker;
 
@@ -41,12 +41,14 @@ public class SHGeneralBehavior extends CBBehavior {
 		dcd = (CBGeneralDriveControlData)Cyborg.driveControlData;
 		xTracker = new CBTracker(
 				new xTrackerSource(),
-				new CBPIDController(-0.025,0.0,0.0)
+				new CBPIDErrorCorrection()
+				.setConstants(new double[]{-0.025,0.0,0.0})
 				.setOutputLimits(-.3, .3)
 				).setTarget(120.0);
 		yTracker = new CBTracker(
 				new yTrackerSource(),
-				new CBPIDController( 0.025,0.0,0.0)
+				new CBPIDErrorCorrection()
+				.setConstants(new double[]{ 0.025,0.0,0.0})
 				.setOutputLimits(-.3, .3)
 				).setTarget(180.0);
 	}

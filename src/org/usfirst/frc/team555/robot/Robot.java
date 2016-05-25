@@ -8,12 +8,14 @@ import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.devices.CBVictorArrayController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.plugins.*;
 import org.montclairrobotics.cyborg.utils.*;
+import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.usfirst.frc.team555.robot.plugins.*;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -154,20 +156,32 @@ public class Robot extends Cyborg {
 		//
 		// Output Controller Initialization
 		//
-		
 		this.robotControllers.add(
 				new CBDifferentialDriveController(this)
-				.addLeftMotorController(devices.driveMotorLeft1).addLeftMotorController(devices.driveMotorLeft2)
-				.addRightMotorController(devices.driveMotorRight1).addRightMotorController(devices.driveMotorRight1)
-				.setLeftDirection(-1)
-				// Enable this code to switch to Speed Control Mode.
-				//.setEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
-				//.setPIDControllers(
-				//		new CBPIDController(.9,0,9), 
-				//		new CBPIDController(.9,0,9)
-				//		)
-				//.setDriveMode(DriveMode.Speed)
+				.setLeftSpeedControllerArray(
+						new CBVictorArrayController()
+						.setDriveMode(CBDriveMode.Power)
+						.addSpeedController(devices.driveMotorLeft1)
+						.addSpeedController(devices.driveMotorLeft2)
+						.setEncoder(devices.driveEncoderLeft)
+						.setErrorCorrection(
+								new CBPIDErrorCorrection()
+								.setConstants(new double[]{.9,0,.9})
+								)
+						)
+				.setRightSpeedControllerArray(
+						new CBVictorArrayController()
+						.setDriveMode(CBDriveMode.Power)
+						.addSpeedController(devices.driveMotorRight1)
+						.addSpeedController(devices.driveMotorRight2)
+						.setEncoder(devices.driveEncoderRight)
+						.setErrorCorrection(
+								new CBPIDErrorCorrection()
+								.setConstants(new double[]{.9,0,.9})
+								)
+						)
 				);
+				
 		this.robotControllers.add(new SHGeneralController(this));
 
 		
@@ -179,7 +193,8 @@ public class Robot extends Cyborg {
 				new CBGeneralDriveBehavior(this)
 				.setGyroLockTracker(
 						new CBNavXYawSource(devices.navx), 
-						new CBPIDController(0.2, 0.0, 2.0)
+						new CBPIDErrorCorrection()
+						.setConstants(new double[]{0.2, 0.0, 2.0})
 						.setInputLimits(-180, 180) // assumes navx source in degrees
 						)
 				);

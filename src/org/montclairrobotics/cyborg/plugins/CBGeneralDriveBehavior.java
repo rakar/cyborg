@@ -15,7 +15,7 @@ public class CBGeneralDriveBehavior extends CBBehavior {
 		gyroLockState = new CBEdgeTrigger();
 	}
 	
-	public CBGeneralDriveBehavior setGyroLockTracker(CBSource source, CBPIDController pid) {
+	public CBGeneralDriveBehavior setGyroLockTracker(CBSource source, CBErrorCorrection pid) {
 		this.gyroLockTracker = new CBTracker(source, pid);
 		return this;
 	}

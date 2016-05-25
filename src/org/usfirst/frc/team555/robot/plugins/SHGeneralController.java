@@ -28,8 +28,8 @@ public class SHGeneralController extends CBRobotController {
 		halfValve  = ha.getSolenoidValve(robot.devices.halfValve);
 		shootValve = ha.getSolenoidValve(robot.devices.shootValve);
 
-		spinLeft   = ha.getMotorController(robot.devices.spinLeft);
-		spinRight  = ha.getMotorController(robot.devices.spinRight);
+		spinLeft   = ha.getSpeedController(robot.devices.spinLeft);
+		spinRight  = ha.getSpeedController(robot.devices.spinRight);
 	}
 	
 	@Override 

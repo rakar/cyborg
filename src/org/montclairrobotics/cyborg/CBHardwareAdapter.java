@@ -104,7 +104,7 @@ public class CBHardwareAdapter extends CBModule {
 		return (CBEncoder)getDevice(id);
 	}
 
-	public CBSpeedController getMotorController(CBDeviceID id) {
+	public CBSpeedController getSpeedController(CBDeviceID id) {
 		return (CBSpeedController)getDevice(id);
 	}
 	
