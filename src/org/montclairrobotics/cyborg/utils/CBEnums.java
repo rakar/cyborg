@@ -2,17 +2,62 @@ package org.montclairrobotics.cyborg.utils;
 
 public class CBEnums {
 
-	public enum CBDriveMode { Power, Speed };
+	/**
+	 * DriveMode:
+	 * {@link #Power}
+	 * {@link #Speed}
+	 * {@link #Conflict}
+	 */
+	public enum CBDriveMode { 
+		/**
+		 * Power: -1 <= raw power <= 1
+		 */
+		Power, 
+		/**
+		 * Speed: units/second (direction) degrees/second (rotation)
+		 */
+		Speed,
+		/**
+		 * Conflict: indicates an error due to mixed modes
+		 */
+		Conflict
+		};
 	
+	/**
+	 * SpeedControllerScheme:
+	 * {@link #Basic}
+	 * {@link #Advanced}
+	 */
 	public enum CBSpeedControllerScheme {
-		Basic,		// simple controllers used without internal intelligence 
-		Advanced	// make use of SRX style control by off-loading correction to speed controller 
+		/**
+		 * Basic: Simple controllers used without internal intelligence
+		 */
+		Basic,		
+		/**
+		 * Advanced: Make use of SRX style control by off-loading correction to speed controller 
+		 */
+		Advanced	
 		};
 
+	/**
+	 * CBEncoderScheme:
+	 * {@link #None}
+	 * {@link #RoboRio}
+	 * {@link #SpeedController}
+	 */
 	public enum CBEncoderScheme {
-		None,			// No encoder used
-		RoboRio,		// Encoder wired directly to roboRio
-		SpeedController	// Encoder wired to an SRX style controller
+		/*
+		 * None: No encoder used
+		 */
+		None,
+		/**
+		 * RoboRio: Encoder wired directly to roboRio
+		 */
+		RoboRio,
+		/**
+		 * SpeedController: Encoder wired to an SRX style controller 
+		 */
+		SpeedController
 		};
 	
 

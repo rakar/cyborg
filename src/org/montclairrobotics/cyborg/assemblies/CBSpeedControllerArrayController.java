@@ -1,4 +1,4 @@
-package org.montclairrobotics.assemblies;
+package org.montclairrobotics.cyborg.assemblies;
 
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
@@ -19,5 +19,7 @@ public interface CBSpeedControllerArrayController {
 	CBSpeedControllerArrayController setEncoder(CBDeviceID encoderId);
 
 	CBSpeedControllerArrayController addSpeedController(CBDeviceID controllerId);
+	
+	CBDriveMode getDriveMode();
 
 }

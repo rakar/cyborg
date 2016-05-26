@@ -1,4 +1,4 @@
-package org.montclairrobotics.assemblies;
+package org.montclairrobotics.cyborg.assemblies;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 	private ArrayList<CBSpeedController> speedControllers = new ArrayList<>();
 	private CBEncoder encoder = null;
 	private CBErrorCorrection errorCorrection = null;
-	private CBDriveMode mode = CBDriveMode.Power;
+	private CBDriveMode driveMode = CBDriveMode.Power;
 	private boolean reversed=false;
 	private int direction=1;
 
@@ -62,7 +62,7 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 	 */
 	@Override
 	public CBSpeedControllerArrayController setDriveMode(CBDriveMode driveMode) {
-		this.mode = driveMode;
+		this.driveMode = driveMode;
 		return this;
 	}
 	
@@ -81,7 +81,7 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 	 */
 	@Override
 	public CBSpeedControllerArrayController update(double target) {
-		switch(mode) {
+		switch(driveMode) {
 		case Power:
 			//target = target; //*direction;
 			break;
@@ -92,6 +92,10 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 			} else {
 				target  += errorCorrection.setTarget(target).update(encoder.getRate());
 			}
+			break;
+		case Conflict:
+		default:
+			target = 0;
 			break;
 		}
 
@@ -106,6 +110,10 @@ public class CBVictorArrayController implements CBSpeedControllerArrayController
 	@Override
 	public boolean getReversed() {
 		return reversed;
+	}
+	
+	public CBDriveMode getDriveMode() {
+		return driveMode;
 	}
 	
 }

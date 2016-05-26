@@ -86,4 +86,44 @@ public class CB2DVector {
 	public CB2DVector copy(CB2DVector src) {
 		return this.setXY(src.getX(), src.getY()); // , src.getRotDeg());
 	}
+	
+	public CB2DVector copy() {
+		return new CB2DVector(x,y);
+	}
+	
+	public CB2DVector rotate(double degrees) {
+		double radians = Math.PI*degrees/180;
+		double xp = x*Math.cos(radians) - y*Math.sin(radians);
+		double yp = y*Math.cos(radians) + x*Math.sin(radians);
+		return new CB2DVector(xp,yp);
+	}
+	
+	public CB2DVector translate(CB2DVector translation) {
+		double xp = x+translation.x;
+		double yp = y+translation.y;
+		return new CB2DVector(xp,yp);
+	}
+	
+	public CB2DVector scaledRotate(double degrees, double scale) {
+		double radians = (Math.PI*degrees/180)*scale;
+		double xp = x*Math.cos(radians) - y*Math.sin(radians);
+		double yp = y*Math.cos(radians) + x*Math.sin(radians);
+		return new CB2DVector(xp,yp);
+	}
+	
+	public CB2DVector scaledTranslate(CB2DVector translation, double scale) {
+		double xp = x+translation.x*scale;
+		double yp = y+translation.y*scale;
+		return new CB2DVector(xp,yp);
+	}
+	
+	public CB2DVector sub(CB2DVector vector) {
+		double xp = x-vector.x;
+		double yp = y-vector.y;
+		return new CB2DVector(xp,yp);
+	}
+	
+	public double dot(CB2DVector vector) {
+		return x*vector.x + y*vector.y;
+	}
 }

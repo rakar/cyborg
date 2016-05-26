@@ -1,8 +1,8 @@
 package org.usfirst.frc.team555.robot;
 
-import org.montclairrobotics.assemblies.CBDriveModule;
-import org.montclairrobotics.assemblies.CBVictorArrayController;
 import org.montclairrobotics.cyborg.*;
+import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
+import org.montclairrobotics.cyborg.assemblies.CBVictorArrayController;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
@@ -85,14 +85,14 @@ public class Robot extends Cyborg {
 		devices.driveMotorRight1 = ha.add(new CBSpeedController(new Talon(2)));
 		devices.driveMotorRight2 = ha.add(new CBSpeedController(new Talon(4)));
 
-		devices.driveEncoderLeft = ha.add(
-				new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses
-				.setReverseDirection(true)
-				);
-		devices.driveEncoderRight = ha.add(
-				new CBEncoder(3,4,EncodingType.k4X,10.0/1600)
-				.setReverseDirection(false)
-				);
+		//devices.driveEncoderLeft = ha.add(
+		//		new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses
+		//		.setReverseDirection(false)
+		//		);
+		//devices.driveEncoderRight = ha.add(
+		//		new CBEncoder(3,4,EncodingType.k4X,10.0/1600)
+		//		.setReverseDirection(false)
+		//		);
 
 		
 		// Driver's Station Controls
@@ -172,11 +172,11 @@ public class Robot extends Cyborg {
 								.setDriveMode(CBDriveMode.Power)
 								.addSpeedController(devices.driveMotorLeft1)
 								.addSpeedController(devices.driveMotorLeft2)
-								.setEncoder(devices.driveEncoderLeft)
-								.setErrorCorrection(
-										new CBPIDErrorCorrection()
-										.setConstants(new double[]{.9,0,.9})
-										)
+								//.setEncoder(devices.driveEncoderLeft)
+								//.setErrorCorrection(
+								//		new CBPIDErrorCorrection()
+								//		.setConstants(new double[]{.9,0,.9})
+								//		)
 								)
 						)
 				.setRightDriveModule(
@@ -186,11 +186,11 @@ public class Robot extends Cyborg {
 								.setDriveMode(CBDriveMode.Power)
 								.addSpeedController(devices.driveMotorRight1)
 								.addSpeedController(devices.driveMotorRight2)
-								.setEncoder(devices.driveEncoderRight)
-								.setErrorCorrection(
-										new CBPIDErrorCorrection()
-										.setConstants(new double[]{.9,0,.9})
-										)
+								//.setEncoder(devices.driveEncoderRight)
+								//.setErrorCorrection(
+								//		new CBPIDErrorCorrection()
+								//		.setConstants(new double[]{.9,0,.9})
+								//		)
 								)
 						)
 				);

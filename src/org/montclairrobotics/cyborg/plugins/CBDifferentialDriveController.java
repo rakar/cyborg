@@ -1,14 +1,18 @@
 package org.montclairrobotics.cyborg.plugins;
 
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.assemblies.CBDriveModule;
-import org.montclairrobotics.assemblies.CBSpeedControllerArrayController;
+import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
+import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
+import org.montclairrobotics.cyborg.utils.CB2DVector;
+import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.CBRobotController;
 
 public class CBDifferentialDriveController extends CBRobotController {
 
-	CBDriveModule leftDriveModule;
-	CBDriveModule rightDriveModule;
+	private CBDriveModule leftDriveModule;
+	private CBDriveModule rightDriveModule;
+	private CBDriveMode driveMode;
+	private double controlPeriod = 1/50.0;
 	
 	
 	public CBDifferentialDriveController(Cyborg robot) {
@@ -27,20 +31,45 @@ public class CBDifferentialDriveController extends CBRobotController {
 	
 			} else if(Cyborg.driveControlData instanceof CBGeneralDriveControlData) {
 				
-				// TODO: Now that we have position/orientation, I=implement the "go there from here" model. 
-				// can now do full "trig/vector analysis" of movement to work out control values 
-				// This might actually be more accurate if we scaled the rotation by the distance from center
-				// and then add the radian amount to the linear travel adjusting both for orientation, then scale for time.
-				
 				CBGeneralDriveControlData dcd = (CBGeneralDriveControlData)Cyborg.driveControlData;
-				double left = dcd.direction.getY()-dcd.rotation;
-				double right= dcd.direction.getY()+dcd.rotation;
+				double left = calculate(leftDriveModule, dcd.direction, dcd.rotation);
+				double right= calculate(rightDriveModule, dcd.direction, dcd.rotation);
 				for(CBSpeedControllerArrayController c:leftDriveModule.getControllerArrays()) c.update(left);
 				for(CBSpeedControllerArrayController c:rightDriveModule.getControllerArrays()) c.update(right);
+
 			} else {
+				
 				System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
+				
 			}
 		}
+	}
+	
+	protected double calculate(CBDriveModule module, CB2DVector direction, double rotation) {
+		double res = 0;
+
+		switch (driveMode) {
+		case Power:
+		{
+			CB2DVector diff = new CB2DVector(0,direction.getY()+Math.signum(module.getPosition().getX())*rotation);
+			res = module.getOrientationVector().dot(diff);
+		}
+			break;
+		case Speed:
+		{
+			CB2DVector targetPosition = module.getPosition()
+							.scaledRotate(rotation, controlPeriod)
+							.scaledTranslate(direction, controlPeriod);
+			CB2DVector diff = module.getPosition().sub(targetPosition);
+			res = module.getOrientationVector().dot(diff);
+		}
+			break;
+		case Conflict:
+		default:
+			break;
+		}
+				
+		return res;
 	}
 	
 	public CBDifferentialDriveController setLeftDriveModule(CBDriveModule driveModule) {
@@ -52,8 +81,24 @@ public class CBDifferentialDriveController extends CBRobotController {
 		rightDriveModule = driveModule;
 		return this;
 	}
-	
 
+	/**
+	 * @return the driveMode
+	 */
+	public CBDriveMode getDriveMode() {
+		return driveMode;
+	}
+
+	protected void updateDriveMode(CBDriveModule driveModule) {
+		if (driveMode==null) {
+			driveMode = driveModule.getDriveMode();
+		} else {
+			if (driveModule.getDriveMode()!=driveMode) {
+				driveMode = CBDriveMode.Conflict;
+			}
+		}
+	}
+	
 	/* 
 	 * The purpose of this function would be to do some setup process that calls
 	 * configHardware() to build whatever required WPI infrastructure is required.
@@ -62,5 +107,19 @@ public class CBDifferentialDriveController extends CBRobotController {
 	@Override
 	public void configHardware() {
 		
+	}
+
+	/**
+	 * @return the controlPeriod
+	 */
+	public double getControlPeriod() {
+		return controlPeriod;
+	}
+
+	/**
+	 * @param controlPeriod the controlPeriod to set
+	 */
+	public void setControlPeriod(double controlPeriod) {
+		this.controlPeriod = controlPeriod;
 	}
 }
