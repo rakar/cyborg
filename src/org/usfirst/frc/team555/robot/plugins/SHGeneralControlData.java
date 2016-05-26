@@ -8,8 +8,8 @@ public class SHGeneralControlData extends CBGeneralControlData {
 	public SHGeneralControlData() {
 	}
 	
-	public CBTriState ArmDown = new CBTriState();
-	public CBTriState HalfUp= new CBTriState();
-	public CBTriState ShootOut= new CBTriState();
+	public CBTriState ArmDown	= new CBTriState();
+	public CBTriState HalfUp	= new CBTriState();
+	public CBTriState ShootOut	= new CBTriState();
 	public double SpinSpeed;
 }

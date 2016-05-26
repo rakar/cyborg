@@ -25,13 +25,13 @@ public class SHGeneralController extends CBRobotController {
 		gcd = (SHGeneralControlData)Cyborg.generalControlData;
 		ha = Cyborg.hardwareAdapter;
 
-		armValve   = ha.getSolenoidValve(robot.devices.armValve);
-		halfValve  = ha.getSolenoidValve(robot.devices.halfValve);
-		shootValve = ha.getSolenoidValve(robot.devices.shootValve);
+		armValve   = ha.getSolenoidValve(robot.devices.armMainValve);
+		halfValve  = ha.getSolenoidValve(robot.devices.armHalfValve);
+		shootValve = ha.getSolenoidValve(robot.devices.shooterValve);
 
 		spinArray = new CBVictorArrayController()
-				.addSpeedController(robot.devices.spinLeft)
-				.addSpeedController(robot.devices.spinRight)
+				.addSpeedController(robot.devices.shooterLeftMotor)
+				.addSpeedController(robot.devices.shooterRightMotor)
 				.setDriveMode(CBDriveMode.Power)
 				;
 	}

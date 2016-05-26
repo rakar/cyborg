@@ -43,24 +43,26 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 		if(Math.abs(rightStick)<deadzone) rightStick=0.0;
 		
 		if(Cyborg.driveRequestData instanceof CBGeneralDriveRequestData) {
-			CBGeneralDriveRequestData rs = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
+			
+			CBGeneralDriveRequestData drd = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
 			double velocity = (leftStick+rightStick)/2.0;// Average stick value "forward"
 			double rotation = leftStick - velocity;
 
-			rs.active = true;
-			
-			rs.direction.setXY(0, velocity); 
-			rs.rotation = rotation; 
-			
+			drd.active = true;
+			drd.direction.setXY(0, velocity); 
+			drd.rotation = rotation; 
+
 			if(gyroLock!=null && gyroLock.isDefined()) {
-				rs.gyroLock = gyroLock.getButtonState();
+				drd.gyroLock = gyroLock.getButtonState();
 			}
 			
 		} else if (Cyborg.driveRequestData instanceof CBTankDriveRequestData) {
-			CBTankDriveRequestData rs = (CBTankDriveRequestData)Cyborg.driveRequestData;
-			rs.leftPower = leftStick; 
-			rs.rightPower = rightStick; 
-			rs.active = true;
+			
+			CBTankDriveRequestData drd = (CBTankDriveRequestData)Cyborg.driveRequestData;
+			drd.leftPower = leftStick; 
+			drd.rightPower = rightStick; 
+			drd.active = true;
+		
 		} else {
 			Cyborg.driveRequestData.active = false; // If we don't know what type of request it is shut down drive
 		}

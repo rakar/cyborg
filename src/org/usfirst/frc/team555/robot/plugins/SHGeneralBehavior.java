@@ -56,13 +56,13 @@ public class SHGeneralBehavior extends CBBehavior {
 	}
 	
 	public void update() {
-			
+
 		gcd.ShootOut.set(grd.ShootOut.get());  
-		gcd.ArmDown.set(grd.ArmDown || grd.ArmHalfUp,grd.ArmUp);	
-		gcd.HalfUp.set(grd.ArmHalfUp,grd.ArmDown);
-		
+		gcd.ArmDown.set(grd.ArmDown || grd.ArmHalfUp, grd.ArmUp);	
+		gcd.HalfUp.set(grd.ArmHalfUp, grd.ArmDown);
+
 		gcd.SpinSpeed = (double)grd.SpinIn.select(-0.4, 0.6, 0.0); 
-		
+
 		if(grd.autoSteer) {
 			dcd.rotation = 0;
 			dcd.direction.setXY(0, 0);

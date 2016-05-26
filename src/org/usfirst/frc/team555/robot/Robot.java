@@ -35,16 +35,17 @@ public class Robot extends Cyborg {
 	// This should include all of the active devices
 	//
 	public class SHDevices {
-		public CBDeviceID navx, 
-			armValve, halfValve,
-			shootValve, spinLeft, spinRight,
+		public CBDeviceID 
+			navx, 
+			armMainValve, armHalfValve, shooterValve, 
+			shooterLeftMotor, shooterRightMotor,
 			driveMotorLeft1, driveMotorLeft2,
-			driveMotorRight1, driveMotorRight2,
+			driveMotorRight1, driveMotorRight2,		
 			driveEncoderLeft, driveEncoderRight,
-			gyroLockButton, forwardAxis, rotationAxis,
-			forward2Axis, shootButton, armDownButton,
-			armUpButton, halfDownButton, halfUpButton,
-			autoSteerButton,
+			forwardAxis, rotationAxis,
+			forward2Axis, 
+			shootButton, armUpButton, armMidButton, armDownButton,
+			gyroLockButton, autoSteerButton,
 			spinPov,
 			autoSelect,
 			visionPipeline
@@ -66,49 +67,36 @@ public class Robot extends Cyborg {
 		
 		// Robot Hardware 
 		
-		devices.navx 			= ha.add(new CBNavX(SPI.Port.kMXP));
+		devices.navx 				= ha.add(new CBNavX(SPI.Port.kMXP));
 		
-		devices.armValve 		= ha.add(new CBSolenoid(0));
-		devices.shootValve 		= ha.add(new CBSolenoid(1));
-		devices.halfValve 		= ha.add(new CBSolenoid(2));
+		devices.armMainValve 		= ha.add(new CBSolenoid(0));
+		devices.shooterValve 		= ha.add(new CBSolenoid(1));
+		devices.armHalfValve 		= ha.add(new CBSolenoid(2));
 
-		devices.spinLeft 		= ha.add(
-				new CBSpeedController(new Talon(5))
-				.setInverted(true)
-				);
-		devices.spinRight		= ha.add(
-				new CBSpeedController(new Talon(0))
-				);
+		devices.shooterLeftMotor	= ha.add(new CBSpeedController(new Talon(5)).setInverted(true));
+		devices.shooterRightMotor	= ha.add(new CBSpeedController(new Talon(0)));
 
-		devices.driveMotorLeft1 = ha.add(new CBSpeedController(new Talon(2)));
-		devices.driveMotorLeft2 = ha.add(new CBSpeedController(new Talon(4)));
-		devices.driveMotorRight1 = ha.add(new CBSpeedController(new Talon(1)));
-		devices.driveMotorRight2 = ha.add(new CBSpeedController(new Talon(3)));
+		devices.driveMotorLeft1		= ha.add(new CBSpeedController(new Talon(2)));
+		devices.driveMotorLeft2		= ha.add(new CBSpeedController(new Talon(4)));
+		devices.driveMotorRight1	= ha.add(new CBSpeedController(new Talon(1)));
+		devices.driveMotorRight2	= ha.add(new CBSpeedController(new Talon(3)));
 
-		devices.driveEncoderLeft = ha.add(
-				new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses
-				.setReverseDirection(false)
-				);
-		devices.driveEncoderRight = ha.add(
-				new CBEncoder(3,4,EncodingType.k4X,10.0/1600)
-				.setReverseDirection(false)
-				);
+		devices.driveEncoderLeft 	= ha.add(new CBEncoder(1,2,EncodingType.k4X,10.0/1600));
+		devices.driveEncoderRight 	= ha.add(new CBEncoder(3,4,EncodingType.k4X,10.0/1600));
 
 		
-		// Driver's Station Controls
-		
+		// Driver's Station Controls	
 		devices.forwardAxis 	= ha.add(new CBAxis(0, 1));
 		devices.rotationAxis 	= ha.add(new CBAxis(0, 0));
-		// devices.forward2Axis = ha.add(new CBAxis(1,1)) // for Tank drive
+		devices.forward2Axis 	= ha.add(new CBAxis(1, 1)); // for Tank drive
 
 		devices.gyroLockButton 	= ha.add(new CBButton(0, 1));
 		devices.autoSteerButton	= ha.add(new CBButton(0, 3));
 
 		devices.shootButton 	= ha.add(new CBButton(1, 1));
 		devices.armUpButton 	= ha.add(new CBButton(1, 5));
-		devices.halfUpButton 	= ha.add(new CBButton(1, 3));
+		devices.armMidButton 	= ha.add(new CBButton(1, 3));
 		devices.armDownButton 	= ha.add(new CBButton(1, 4));
-		//devices.halfDownButton 	= ha.add(new CBButton(1, 4));
 
 		devices.spinPov 		= ha.add(new CBPov(1, 0));
 
@@ -127,6 +115,12 @@ public class Robot extends Cyborg {
 		//
 		// Data Initialization
 		//
+		// Initialize data stores
+		// The drive and general data stores are separated 
+		// since the drive stores will most likely be 
+		// pre-built and the general ones will handle 
+		// custom data requirements. 
+		// 
 		driveRequestData 	= new CBGeneralDriveRequestData();
 		driveControlData	= new CBGeneralDriveControlData();
 
@@ -141,20 +135,22 @@ public class Robot extends Cyborg {
 		//
 		
 		// Tank Drive Stick Input Example...
-		// this.driveRequestMappers.add(
-		// new CBTankDriveRequestMapper(this, devices.forwardAxis,
-		// devices.forward2Axis)
-		// .setDeadZone(0.1)
-		// .setGyroLockButton(devices.gyroLockButton)
-		// );
+		//this.teleOpMappers.add(
+		//		new CBTankDriveMapper(this, devices.forwardAxis,
+		//				devices.forward2Axis)
+		//		.setDeadZone(0.1)
+		//		.setGyroLockButton(devices.gyroLockButton)
+		//		);
 
 		// Arcade Drive...
+		// Use pre-built Cyborg plug-in to map arcade drive control  
 		this.teleOpMappers.add(
 				new CBArcadeDriveMapper(this)
-				.setAxes(devices.forwardAxis, null, devices.rotationAxis)
+				.setAxes(devices.forwardAxis, null, devices.rotationAxis) // No strafe axis
 				.setDeadZone(0.2)
 				.setGyroLockButton(devices.gyroLockButton)
 				);
+		// Use custom mappers for operator mappings and sensor mappings
 		this.teleOpMappers.add(new SHOperatorMapper(this));
 		this.generalMappers.add(new SHSensorMapper(this));
 
@@ -165,7 +161,7 @@ public class Robot extends Cyborg {
 		//
 		this.robotControllers.add(
 				new CBDifferentialDriveController(this)
-				.setLeftDriveModule(
+				.addDriveModule(
 						new CBDriveModule(new CB2DVector(-15,0), 0)
 						.addSpeedControllerArray(
 								new CBVictorArrayController()
@@ -179,7 +175,7 @@ public class Robot extends Cyborg {
 										)
 								)
 						)
-				.setRightDriveModule(
+				.addDriveModule(
 						new CBDriveModule(new CB2DVector( 15,0), 180)
 						.addSpeedControllerArray(
 								new CBVictorArrayController()
@@ -201,7 +197,6 @@ public class Robot extends Cyborg {
 		//
 		// Behavior Processors
 		//
-
 		this.behaviors.add(
 				new CBGeneralDriveBehavior(this)
 				.setGyroLockTracker(

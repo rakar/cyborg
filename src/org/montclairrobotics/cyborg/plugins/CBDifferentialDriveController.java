@@ -6,16 +6,17 @@ import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
 import org.montclairrobotics.cyborg.utils.CB2DVector;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.CBRobotController;
 
 public class CBDifferentialDriveController extends CBRobotController {
 
-	private CBDriveModule leftDriveModule;
-	private CBDriveModule rightDriveModule;
-	private CBDriveMode driveMode;
-	private double controlPeriod = 1/50.0;
+	//private CBDriveModule leftDriveModule;
+	//private CBDriveModule rightDriveModule;
+	protected ArrayList<CBDriveModule> driveModules;
+	protected CBDriveMode driveMode;
+	protected double controlPeriod = 1/50.0;
 	
 	
 	public CBDifferentialDriveController(Cyborg robot) {
@@ -29,16 +30,22 @@ public class CBDifferentialDriveController extends CBRobotController {
 			if(Cyborg.driveControlData instanceof CBDifferentialDriveControlData) {
 
 				CBDifferentialDriveControlData status = (CBDifferentialDriveControlData)Cyborg.driveControlData;
-				for(CBSpeedControllerArrayController c:leftDriveModule.getControllerArrays()) c.update(status.leftPower);
-				for(CBSpeedControllerArrayController c:rightDriveModule.getControllerArrays()) c.update(status.rightPower);
+				for(CBSpeedControllerArrayController c:driveModules.get(0).getControllerArrays()) c.update(status.leftPower);
+				for(CBSpeedControllerArrayController c:driveModules.get(1).getControllerArrays()) c.update(status.rightPower);
 	
 			} else if(Cyborg.driveControlData instanceof CBGeneralDriveControlData) {
 				
 				CBGeneralDriveControlData dcd = (CBGeneralDriveControlData)Cyborg.driveControlData;
-				double left = calculate(leftDriveModule, dcd.direction, dcd.rotation);
-				double right= calculate(rightDriveModule, dcd.direction, dcd.rotation);
-				for(CBSpeedControllerArrayController c:leftDriveModule.getControllerArrays()) c.update(left);
-				for(CBSpeedControllerArrayController c:rightDriveModule.getControllerArrays()) c.update(right);
+				//double left = calculate(leftDriveModule, dcd.direction, dcd.rotation);
+				//double right= calculate(rightDriveModule, dcd.direction, dcd.rotation);
+				//for(CBSpeedControllerArrayController c:leftDriveModule.getControllerArrays()) c.update(left);
+				//for(CBSpeedControllerArrayController c:rightDriveModule.getControllerArrays()) c.update(right);
+				for(CBDriveModule dm:driveModules) {
+					double power = calculate(dm, dcd.direction, dcd.rotation);
+					for(CBSpeedControllerArrayController c:dm.getControllerArrays()) {
+						c.update(power);
+					}
+				}				
 
 			} else {
 				
@@ -56,16 +63,15 @@ public class CBDifferentialDriveController extends CBRobotController {
 		{
 			CB2DVector diff = new CB2DVector(0,direction.getY()+Math.signum(module.getPosition().getX())*rotation);
 			res = module.getOrientationVector().dot(diff);
-			//SmartDashboard.putNumber("Rotation###", rotation);
-			//SmartDashboard.putNumber("Fwd###", direction.getY());
 		}
 			break;
 		case Speed:
 		{
-			CB2DVector targetPosition = module.getPosition()
-							.scaledRotate(rotation, controlPeriod)
-							.scaledTranslate(direction, controlPeriod);
-			CB2DVector diff = module.getPosition().sub(targetPosition);
+			CB2DVector pos = module.getPosition();
+			CB2DVector targetPosition = 
+					pos.scaledRotate(rotation, controlPeriod)
+					.scaledTranslate(direction, controlPeriod);
+			CB2DVector diff = pos.sub(targetPosition);
 			res = module.getOrientationVector().dot(diff);
 		}
 			break;
@@ -77,17 +83,17 @@ public class CBDifferentialDriveController extends CBRobotController {
 		return res;
 	}
 	
-	public CBDifferentialDriveController setLeftDriveModule(CBDriveModule driveModule) {
-		leftDriveModule = driveModule;
+	public CBDifferentialDriveController addDriveModule(CBDriveModule driveModule) {
+		driveModules.add(driveModule);
 		updateDriveMode(driveModule);
 		return this;
 	}
 	
-	public CBDifferentialDriveController setRightDriveModule(CBDriveModule driveModule) {
-		rightDriveModule = driveModule;
-		updateDriveMode(driveModule);
-		return this;
-	}
+	//public CBDifferentialDriveController setRightDriveModule(CBDriveModule driveModule) {
+	//	rightDriveModule = driveModule;
+	//	updateDriveMode(driveModule);
+	//	return this;
+	//}
 
 	/**
 	 * @return the driveMode

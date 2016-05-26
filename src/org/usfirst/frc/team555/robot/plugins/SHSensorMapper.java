@@ -6,8 +6,6 @@ import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.usfirst.frc.team555.robot.Robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SHSensorMapper extends CBGeneralMapper {
 	Robot robot;
 	SHGeneralRequestData grd;
@@ -22,7 +20,7 @@ public class SHSensorMapper extends CBGeneralMapper {
 		this.grd = (SHGeneralRequestData) Cyborg.generalRequestData;
 		
 		this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(robot.devices.autoSelect);
-		this.contourRpt = (CBContourReport)Cyborg.hardwareAdapter.getDevice(robot.devices.visionPipeline);
+		this.contourRpt = Cyborg.hardwareAdapter.getContourReport(robot.devices.visionPipeline);
 	}
 
 	@Override
@@ -33,7 +31,7 @@ public class SHSensorMapper extends CBGeneralMapper {
 
 		grd.targetX = contourRpt.centerX;
 		grd.targetY = contourRpt.centerY;
-		SmartDashboard.putNumber("grd.targetX", grd.targetX);
+		//SmartDashboard.putNumber("grd.targetX", grd.targetX);
 
 	}
 }

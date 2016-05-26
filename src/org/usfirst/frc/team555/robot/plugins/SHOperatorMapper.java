@@ -31,7 +31,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		this.armDownButton  = ha.getButton(robot.devices.armDownButton);
 		this.armUpButton    = ha.getButton(robot.devices.armUpButton);
 		//this.halfDownButton = ha.getButton(robot.devices.halfDownButton);
-		this.halfUpButton   = ha.getButton(robot.devices.halfUpButton);
+		this.halfUpButton   = ha.getButton(robot.devices.armMidButton);
 		this.spinPov     	= ha.getPOV(robot.devices.spinPov);
 		this.autoSteerButton = ha.getButton(robot.devices.autoSteerButton);
 	}
