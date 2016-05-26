@@ -4,8 +4,12 @@ import org.montclairrobotics.cyborg.CBGeneralRequestData;
 import org.montclairrobotics.cyborg.utils.*;
 
 public class SHGeneralRequestData extends CBGeneralRequestData {
-	public CBTriState ArmDown = new CBTriState();
-	public CBTriState HalfUp = new CBTriState();
+	//public CBTriState ArmDown = new CBTriState();
+	//public CBTriState HalfUp = new CBTriState();
+	public boolean ArmUp;
+	public boolean ArmHalfUp;
+	public boolean ArmDown;
+
 	public CBTriState ShootOut = new CBTriState();
 	public CBTriState SpinIn = new CBTriState();
 	public Integer selectedAuto = new Integer(-1);

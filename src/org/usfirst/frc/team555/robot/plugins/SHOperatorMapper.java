@@ -30,7 +30,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		this.shootButton    = ha.getButton(robot.devices.shootButton);
 		this.armDownButton  = ha.getButton(robot.devices.armDownButton);
 		this.armUpButton    = ha.getButton(robot.devices.armUpButton);
-		this.halfDownButton = ha.getButton(robot.devices.halfDownButton);
+		//this.halfDownButton = ha.getButton(robot.devices.halfDownButton);
 		this.halfUpButton   = ha.getButton(robot.devices.halfUpButton);
 		this.spinPov     	= ha.getPOV(robot.devices.spinPov);
 		this.autoSteerButton = ha.getButton(robot.devices.autoSteerButton);
@@ -40,8 +40,9 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	public void update() {
 
 		req.ShootOut.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
-		req.ArmDown.set(armDownButton.getButtonPress(), armUpButton.getButtonPress());
-		req.HalfUp.set(halfUpButton.getButtonPress(),halfDownButton.getButtonPress());
+		req.ArmDown = armDownButton.getButtonPress(); // .set(armDownButton.getButtonPress(), armUpButton.getButtonPress());
+		req.ArmHalfUp = halfUpButton.getButtonPress(); //,halfDownButton.getButtonPress());
+		req.ArmUp = armUpButton.getButtonPress();
 		req.autoSteer = autoSteerButton.getButtonState();
 		//SmartDashboard.putBoolean("AutoSteerButton", req.autoSteer);
 

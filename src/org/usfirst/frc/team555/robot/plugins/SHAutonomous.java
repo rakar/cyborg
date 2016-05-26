@@ -43,8 +43,13 @@ public class SHAutonomous extends CBAutonomous {
 
 
 			if(currentState==AutoAIState.start && nextState==AutoAIState.armdown) {
-				mrd.ArmDown.set(true, false);
-				mrd.HalfUp.set(mrd.selectedAuto==0, mrd.selectedAuto!=0);			
+				//mrd.ArmDown.set(true, false);
+				//mrd.HalfUp.set(mrd.selectedAuto==0, mrd.selectedAuto!=0);
+				if (mrd.selectedAuto==0) {
+					mrd.ArmHalfUp = true;
+				} else {
+					mrd.ArmDown = true;
+				}
 			}
 			if(currentState==AutoAIState.armdown && nextState==AutoAIState.drive) {
 				drd.direction.setXY(0.0, 0.5);

@@ -5,6 +5,9 @@ import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
 import org.montclairrobotics.cyborg.utils.CB2DVector;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.montclairrobotics.cyborg.CBRobotController;
 
 public class CBDifferentialDriveController extends CBRobotController {
@@ -53,6 +56,8 @@ public class CBDifferentialDriveController extends CBRobotController {
 		{
 			CB2DVector diff = new CB2DVector(0,direction.getY()+Math.signum(module.getPosition().getX())*rotation);
 			res = module.getOrientationVector().dot(diff);
+			//SmartDashboard.putNumber("Rotation###", rotation);
+			//SmartDashboard.putNumber("Fwd###", direction.getY());
 		}
 			break;
 		case Speed:
@@ -74,11 +79,13 @@ public class CBDifferentialDriveController extends CBRobotController {
 	
 	public CBDifferentialDriveController setLeftDriveModule(CBDriveModule driveModule) {
 		leftDriveModule = driveModule;
+		updateDriveMode(driveModule);
 		return this;
 	}
 	
 	public CBDifferentialDriveController setRightDriveModule(CBDriveModule driveModule) {
 		rightDriveModule = driveModule;
+		updateDriveMode(driveModule);
 		return this;
 	}
 

@@ -74,25 +74,25 @@ public class Robot extends Cyborg {
 
 		devices.spinLeft 		= ha.add(
 				new CBSpeedController(new Talon(5))
+				.setInverted(true)
 				);
 		devices.spinRight		= ha.add(
 				new CBSpeedController(new Talon(0))
-				.setInverted(true)
 				);
 
-		devices.driveMotorLeft1 = ha.add(new CBSpeedController(new Talon(1)));
-		devices.driveMotorLeft2 = ha.add(new CBSpeedController(new Talon(3)));
-		devices.driveMotorRight1 = ha.add(new CBSpeedController(new Talon(2)));
-		devices.driveMotorRight2 = ha.add(new CBSpeedController(new Talon(4)));
+		devices.driveMotorLeft1 = ha.add(new CBSpeedController(new Talon(2)));
+		devices.driveMotorLeft2 = ha.add(new CBSpeedController(new Talon(4)));
+		devices.driveMotorRight1 = ha.add(new CBSpeedController(new Talon(1)));
+		devices.driveMotorRight2 = ha.add(new CBSpeedController(new Talon(3)));
 
-		//devices.driveEncoderLeft = ha.add(
-		//		new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses
-		//		.setReverseDirection(false)
-		//		);
-		//devices.driveEncoderRight = ha.add(
-		//		new CBEncoder(3,4,EncodingType.k4X,10.0/1600)
-		//		.setReverseDirection(false)
-		//		);
+		devices.driveEncoderLeft = ha.add(
+				new CBEncoder(1,2,EncodingType.k4X,10.0/1600) // distance/encoder pulses
+				.setReverseDirection(false)
+				);
+		devices.driveEncoderRight = ha.add(
+				new CBEncoder(3,4,EncodingType.k4X,10.0/1600)
+				.setReverseDirection(false)
+				);
 
 		
 		// Driver's Station Controls
@@ -105,10 +105,10 @@ public class Robot extends Cyborg {
 		devices.autoSteerButton	= ha.add(new CBButton(0, 3));
 
 		devices.shootButton 	= ha.add(new CBButton(1, 1));
-		devices.armDownButton 	= ha.add(new CBButton(1, 3));
 		devices.armUpButton 	= ha.add(new CBButton(1, 5));
-		devices.halfDownButton 	= ha.add(new CBButton(1, 4));
-		devices.halfUpButton 	= ha.add(new CBButton(1, 6));
+		devices.halfUpButton 	= ha.add(new CBButton(1, 3));
+		devices.armDownButton 	= ha.add(new CBButton(1, 4));
+		//devices.halfDownButton 	= ha.add(new CBButton(1, 4));
 
 		devices.spinPov 		= ha.add(new CBPov(1, 0));
 
@@ -166,31 +166,31 @@ public class Robot extends Cyborg {
 		this.robotControllers.add(
 				new CBDifferentialDriveController(this)
 				.setLeftDriveModule(
-						new CBDriveModule(new CB2DVector(-15,0), 180)
+						new CBDriveModule(new CB2DVector(-15,0), 0)
 						.addSpeedControllerArray(
 								new CBVictorArrayController()
 								.setDriveMode(CBDriveMode.Power)
 								.addSpeedController(devices.driveMotorLeft1)
 								.addSpeedController(devices.driveMotorLeft2)
-								//.setEncoder(devices.driveEncoderLeft)
-								//.setErrorCorrection(
-								//		new CBPIDErrorCorrection()
-								//		.setConstants(new double[]{.9,0,.9})
-								//		)
+								.setEncoder(devices.driveEncoderLeft)
+								.setErrorCorrection(
+										new CBPIDErrorCorrection()
+										.setConstants(new double[]{.9,0,.9})
+										)
 								)
 						)
 				.setRightDriveModule(
-						new CBDriveModule(new CB2DVector( 15,0), 0)
+						new CBDriveModule(new CB2DVector( 15,0), 180)
 						.addSpeedControllerArray(
 								new CBVictorArrayController()
 								.setDriveMode(CBDriveMode.Power)
 								.addSpeedController(devices.driveMotorRight1)
 								.addSpeedController(devices.driveMotorRight2)
-								//.setEncoder(devices.driveEncoderRight)
-								//.setErrorCorrection(
-								//		new CBPIDErrorCorrection()
-								//		.setConstants(new double[]{.9,0,.9})
-								//		)
+								.setEncoder(devices.driveEncoderRight)
+								.setErrorCorrection(
+										new CBPIDErrorCorrection()
+										.setConstants(new double[]{.9,0,.9})
+										)
 								)
 						)
 				);

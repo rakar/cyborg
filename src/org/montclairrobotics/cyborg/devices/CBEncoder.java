@@ -35,15 +35,15 @@ public class CBEncoder implements CBDevice, CBSource{
 	}
 
 	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, double distancePerPulse) {
+		encoder = new Encoder(aChannel, bChannel, false, encodingType);
 		setTickConversion(encodingType);
 		setDistancePerPulse(distancePerPulse);
-		encoder = new Encoder(aChannel, bChannel, false, encodingType);
 	}
 	
 	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, double distancePerPulse) {
+		encoder = new Encoder(aSource, bSource, false, encodingType);
 		setTickConversion(encodingType);
 		setDistancePerPulse(distancePerPulse);
-		encoder = new Encoder(aSource, bSource, false, encodingType);
 	}
 	
 	private void setTickConversion(EncodingType encodingType) {

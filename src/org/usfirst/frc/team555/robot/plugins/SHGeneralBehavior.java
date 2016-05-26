@@ -58,8 +58,8 @@ public class SHGeneralBehavior extends CBBehavior {
 	public void update() {
 			
 		gcd.ShootOut.set(grd.ShootOut.get());  
-		gcd.ArmDown.set(grd.ArmDown.get());	
-		gcd.HalfUp.set(grd.HalfUp.get());
+		gcd.ArmDown.set(grd.ArmDown || grd.ArmHalfUp,grd.ArmUp);	
+		gcd.HalfUp.set(grd.ArmHalfUp,grd.ArmDown);
 		
 		gcd.SpinSpeed = (double)grd.SpinIn.select(-0.4, 0.6, 0.0); 
 		
