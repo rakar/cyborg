@@ -37,7 +37,6 @@ public class SHGeneralBehavior extends CBBehavior {
 		super(robot);
 
 		grd = (SHGeneralRequestData)Cyborg.generalRequestData;
-		
 		gcd = (SHGeneralControlData)Cyborg.generalControlData;
 		dcd = (CBGeneralDriveControlData)Cyborg.driveControlData;
 		

@@ -34,8 +34,8 @@ public class Robot extends Cyborg {
 	// List Custom Hardware Devices...
 	// This should include all of the active devices
 	//
-	public class SHDevices {
-		public CBDeviceID 
+	private class SHDevices {
+		private CBDeviceID 
 			navx, 
 			armMainValve, armHalfValve, shooterValve, 
 			shooterLeftMotor, shooterRightMotor,
@@ -43,7 +43,7 @@ public class Robot extends Cyborg {
 			driveMotorRight1, driveMotorRight2,		
 			driveEncoderLeft, driveEncoderRight,
 			forwardAxis, rotationAxis,
-			forward2Axis, 
+			//forward2Axis, 
 			shootButton, armUpButton, armMidButton, armDownButton,
 			gyroLockButton, autoSteerButton,
 			spinPov,
@@ -52,7 +52,7 @@ public class Robot extends Cyborg {
 			;
 	}
 
-	public SHDevices devices = new SHDevices();
+	private SHDevices devices = new SHDevices();
 
 	@Override
 	public void cyborgInit() {
@@ -60,9 +60,11 @@ public class Robot extends Cyborg {
 		
 		// Configure Hardware Adapter
 		
-		CBHardwareAdapter ha = new CBHardwareAdapter(this);
-		Cyborg.hardwareAdapter = ha;
-		ha.setJoystickCount(2);
+		Cyborg.hardwareAdapter = 
+				new CBHardwareAdapter(this)
+				.setJoystickCount(2);
+		
+		CBHardwareAdapter ha = Cyborg.hardwareAdapter;
 		
 		
 		// Robot Hardware 
@@ -88,7 +90,7 @@ public class Robot extends Cyborg {
 		// Driver's Station Controls	
 		devices.forwardAxis 	= ha.add(new CBAxis(0, 1));
 		devices.rotationAxis 	= ha.add(new CBAxis(0, 0));
-		devices.forward2Axis 	= ha.add(new CBAxis(1, 1)); // for Tank drive
+		//devices.forward2Axis 	= ha.add(new CBAxis(1, 1)); // for Tank drive
 
 		devices.gyroLockButton 	= ha.add(new CBButton(0, 1));
 		devices.autoSteerButton	= ha.add(new CBButton(0, 3));
@@ -151,8 +153,21 @@ public class Robot extends Cyborg {
 				.setGyroLockButton(devices.gyroLockButton)
 				);
 		// Use custom mappers for operator mappings and sensor mappings
-		this.teleOpMappers.add(new SHOperatorMapper(this));
-		this.generalMappers.add(new SHSensorMapper(this));
+		this.teleOpMappers.add(
+				new SHOperatorMapper(this)
+				.setArmDownButton(devices.armDownButton)
+				.setArmUpButton(devices.armUpButton)
+				.setArmHalfUpButton(devices.armMidButton)
+				.setAutoSteerButton(devices.autoSteerButton)
+				.setShootButton(devices.shootButton)
+				.setSpinPOV(devices.spinPov)
+				);
+		
+		this.generalMappers.add(
+				new SHSensorMapper(this)
+				.setAutoChooser(devices.autoSelect)
+				.setContourRpt(devices.visionPipeline)
+				);
 
 		
 		
@@ -191,7 +206,18 @@ public class Robot extends Cyborg {
 						)
 				);
 				
-		this.robotControllers.add(new SHGeneralController(this));
+		this.robotControllers.add(
+				new SHGeneralController(this)
+				.setSpinArray(
+						new CBVictorArrayController()
+						.addSpeedController(devices.shooterLeftMotor)
+						.addSpeedController(devices.shooterRightMotor)
+						.setDriveMode(CBDriveMode.Power)
+						)
+				.setArmValve(devices.armMainValve)
+				.setHalfValve(devices.armHalfValve)
+				.setShootValve(devices.shooterValve)
+				);
 
 		
 		//
