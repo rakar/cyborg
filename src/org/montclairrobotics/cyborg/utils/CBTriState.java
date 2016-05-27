@@ -27,4 +27,14 @@ public class CBTriState {
 		if(value==CBTriStateValue.low) return low;
 		return nil;
 	}
+	
+	public boolean isHigh() {
+		return value==CBTriStateValue.high;
+	}
+	public boolean isLow() {
+		return value==CBTriStateValue.low;
+	}
+	public boolean isNil() {
+		return value==CBTriStateValue.nil;
+	}
 }

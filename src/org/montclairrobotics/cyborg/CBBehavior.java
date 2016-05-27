@@ -10,8 +10,7 @@ public class CBBehavior extends CBModule {
 	}
 
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 }

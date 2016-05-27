@@ -4,10 +4,16 @@ public class CBTracker {
 	private CBSource source;
 	private CBErrorCorrection controller;
 	
+	public CBTracker() {
+		
+	}
+	
+	/*
 	public CBTracker(CBSource source, CBErrorCorrection controller) {
 		this.source = source;
 		this.controller = controller;
 	}
+	*/
 	
 	public CBTracker lock() {
 		controller.setTarget(source.get());
@@ -26,5 +32,19 @@ public class CBTracker {
 	
 	public double update() {
 		return controller.update(source.get());
+	}
+	
+	public double update(double feedback) {
+		return controller.update(feedback);
+	}
+	
+	public CBTracker setSource(CBSource source) {
+		this.source = source;
+		return this;
+	}
+	
+	public CBTracker setErrorCorrection(CBErrorCorrection controller) {
+		this.controller = controller;
+		return this;
 	}
 }

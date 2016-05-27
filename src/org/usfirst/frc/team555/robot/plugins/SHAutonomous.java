@@ -2,7 +2,7 @@ package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.CBAutonomous;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.plugins.CBGeneralDriveRequestData;
+import org.montclairrobotics.cyborg.plugins.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.usfirst.frc.team555.robot.Robot;
 
@@ -12,13 +12,13 @@ public class SHAutonomous extends CBAutonomous {
 	enum AutoAIState {start,armdown,drive,done}
 
 	public class SHAutoAISM extends CBStateMachine<AutoAIState> {
-		SHGeneralRequestData grd;
-		CBGeneralDriveRequestData drd;
+		SHCustomRequestData grd;
+		CBStdDriveRequestData drd;
 		
 		public SHAutoAISM() {
 			super(AutoAIState.start);
-			grd = (SHGeneralRequestData) Cyborg.generalRequestData;
-			drd =(CBGeneralDriveRequestData) Cyborg.driveRequestData;
+			grd = (SHCustomRequestData) Cyborg.customRequestData;
+			drd =(CBStdDriveRequestData) Cyborg.driveRequestData;
 		}
 		
 		@Override

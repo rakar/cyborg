@@ -3,9 +3,9 @@ package org.montclairrobotics.cyborg.plugins;
 import org.montclairrobotics.cyborg.CBDriveControlData;
 import org.montclairrobotics.cyborg.utils.*;
 
-public class CBGeneralDriveControlData extends CBDriveControlData {
+public class CBStdDriveControlData extends CBDriveControlData {
 
-	public CBGeneralDriveControlData() {
+	public CBStdDriveControlData() {
 		// TODO Auto-generated constructor stub
 	}
 	

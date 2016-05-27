@@ -5,10 +5,11 @@ public class CBEdgeTrigger {
 	private boolean risingEdge = false;
 	private boolean fallingEdge = false;
 	
-	public void setState(boolean value) {
+	public CBEdgeTrigger setState(boolean value) {
 		risingEdge  = !state &&  value;
 		fallingEdge =  state && !value;
 		state = value;
+		return this;
 	}
 	
 	public boolean getState() {

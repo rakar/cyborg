@@ -9,7 +9,7 @@ import org.usfirst.frc.team555.robot.Robot;
 
 public class SHOperatorMapper extends CBTeleOpMapper {
 	Robot robot;
-	SHGeneralRequestData grd;
+	SHCustomRequestData grd;
 	
 	CBButton shootButton;
 	CBButton armDownButton;
@@ -22,20 +22,23 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	public SHOperatorMapper(Robot robot) {
 		super(robot);
 		this.robot = robot;
-		grd = (SHGeneralRequestData)Cyborg.generalRequestData;
+		grd = (SHCustomRequestData)Cyborg.customRequestData;
 	}
 	
 	@Override
 	public void update() {
 
-		grd.ShootOut.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
-		grd.ArmDown = armDownButton.getButtonPress(); 
-		grd.ArmHalfUp = halfUpButton.getButtonPress();
 		grd.ArmUp = armUpButton.getButtonPress();
+		grd.ArmHalfUp = halfUpButton.getButtonPress();
+		grd.ArmDown = armDownButton.getButtonPress(); 
+
+		grd.fireShooter.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
 		grd.autoSteer = autoSteerButton.getButtonState();
+		//grd.autoSteerLock = autoSteerLockTrigger.setState(grd.autoSteer).getRisingEdge();
 
 		int pov = spinPov.get();
-		grd.SpinIn.set(180==pov,0==pov);		
+		grd.intake = (180==pov);
+		grd.spinUpShooter = (0==pov);		
 	}
 	
 	public SHOperatorMapper setShootButton(CBDeviceID buttonId) {

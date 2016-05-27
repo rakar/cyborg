@@ -58,8 +58,8 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 			if(Math.abs(value[i]) <deadzone[i]) value[i] = 0.0;
 		}
 		
-		if(Cyborg.driveRequestData instanceof CBGeneralDriveRequestData) {
-			CBGeneralDriveRequestData drd = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
+		if(Cyborg.driveRequestData instanceof CBStdDriveRequestData) {
+			CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.driveRequestData;
 
 			// if smoothing is defined for a given axis use it to follow the control 
 			for(int i=0;i<3;i++) {

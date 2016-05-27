@@ -20,9 +20,9 @@ public abstract class Cyborg extends IterativeRobot {
 	// Status Classes
 	// Statuses represent high-level meaningful messages
 	public static CBDriveRequestData driveRequestData;
-	public static CBGeneralRequestData generalRequestData;
+	public static CBGeneralRequestData customRequestData;
 	public static CBDriveControlData driveControlData;
-	public static CBGeneralControlData generalControlData;
+	public static CBGeneralControlData customControlData;
 	public static CBProcessorData processorData;
 
 	

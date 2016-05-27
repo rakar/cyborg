@@ -7,35 +7,19 @@ import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHGeneralController extends CBRobotController {
+public class SHCustomController extends CBRobotController {
 	Robot robot;
-	SHGeneralControlData gcd;
-	//CBHardwareAdapter ha;
+	SHCustomControlData gcd;
 
 	CBSolenoid armValve;
 	CBSolenoid halfValve;
 	CBSolenoid shootValve;
 	CBSpeedControllerArrayController spinArray;
 
-	public SHGeneralController(Robot robot) {
+	public SHCustomController(Robot robot) {
 		super(robot);
 		this.robot = robot;
-		gcd = (SHGeneralControlData)Cyborg.generalControlData;
-		//ha = Cyborg.hardwareAdapter;
-
-		/*
-		armValve   = ha.getSolenoidValve(robot.devices.armMainValve);
-		halfValve  = ha.getSolenoidValve(robot.devices.armHalfValve);
-		shootValve = ha.getSolenoidValve(robot.devices.shooterValve);
-		*/
-		
-		/*
-		spinArray = new CBVictorArrayController()
-				.addSpeedController(robot.devices.shooterLeftMotor)
-				.addSpeedController(robot.devices.shooterRightMotor)
-				.setDriveMode(CBDriveMode.Power)
-				;
-		*/		
+		gcd = (SHCustomControlData)Cyborg.customControlData;
 	}
 	
 	@Override 
@@ -44,27 +28,25 @@ public class SHGeneralController extends CBRobotController {
 		armValve.set(gcd.ArmDown.get());
 		halfValve.set(gcd.HalfUp.get());
 		shootValve.set(gcd.ShootOut.get());
-
 		spinArray.update(gcd.SpinSpeed);
-
 	}
 	
-	public SHGeneralController setSpinArray(CBSpeedControllerArrayController spinArray) {
+	public SHCustomController setSpinArray(CBSpeedControllerArrayController spinArray) {
 		this.spinArray = spinArray;
 		return this;
 	}
 
-	public SHGeneralController setArmValve(CBDeviceID solenoidId) {
+	public SHCustomController setArmValve(CBDeviceID solenoidId) {
 		this.armValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}
 
-	public SHGeneralController setHalfValve(CBDeviceID solenoidId) {
+	public SHCustomController setHalfValve(CBDeviceID solenoidId) {
 		this.halfValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}
 
-	public SHGeneralController setShootValve(CBDeviceID solenoidId) {
+	public SHCustomController setShootValve(CBDeviceID solenoidId) {
 		this.shootValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}

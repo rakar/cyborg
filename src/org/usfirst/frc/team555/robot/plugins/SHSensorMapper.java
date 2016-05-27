@@ -5,22 +5,23 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
+import org.montclairrobotics.cyborg.plugins.CBStdDriveRequestData;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHSensorMapper extends CBGeneralMapper {
 	Robot robot;
-	SHGeneralRequestData grd;
+	CBStdDriveRequestData drd;
+	SHCustomRequestData grd;
+	
 	CBDashboardChooser<Integer> autoChooser;
 	CBContourReport contourRpt;
+	CBNavXYawSource navxYawSource;
 
 	public SHSensorMapper(Robot robot) {
 		super(robot);
-		
 		this.robot = robot;	
-		this.grd = (SHGeneralRequestData) Cyborg.generalRequestData;
-		
-		
-		//this.contourRpt = Cyborg.hardwareAdapter.getContourReport(robot.devices.visionPipeline);
+		this.grd = (SHCustomRequestData) Cyborg.customRequestData;
 	}
 
 	@Override
@@ -28,11 +29,14 @@ public class SHSensorMapper extends CBGeneralMapper {
 
 		if(autoChooser!=null)
 			grd.selectedAuto = autoChooser.getSelected();
-
+		drd.gyroLockSource = navxYawSource.get();
 		grd.targetX = contourRpt.centerX;
 		grd.targetY = contourRpt.centerY;
-		//SmartDashboard.putNumber("grd.targetX", grd.targetX);
-
+	}
+	
+	public SHSensorMapper setGyroLockSource(CBDeviceID navxId) {
+		navxYawSource = new CBNavXYawSource(navxId); 
+		return this;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -33,9 +33,9 @@ public class CBDifferentialDriveController extends CBRobotController {
 				for(CBSpeedControllerArrayController c:driveModules.get(0).getControllerArrays()) c.update(status.leftPower);
 				for(CBSpeedControllerArrayController c:driveModules.get(1).getControllerArrays()) c.update(status.rightPower);
 	
-			} else if(Cyborg.driveControlData instanceof CBGeneralDriveControlData) {
+			} else if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
 				
-				CBGeneralDriveControlData dcd = (CBGeneralDriveControlData)Cyborg.driveControlData;
+				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
 				//double left = calculate(leftDriveModule, dcd.direction, dcd.rotation);
 				//double right= calculate(rightDriveModule, dcd.direction, dcd.rotation);
 				//for(CBSpeedControllerArrayController c:leftDriveModule.getControllerArrays()) c.update(left);

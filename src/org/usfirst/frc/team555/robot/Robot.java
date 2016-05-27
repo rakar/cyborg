@@ -11,14 +11,12 @@ import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
-import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.plugins.*;
 import org.montclairrobotics.cyborg.utils.*;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.usfirst.frc.team555.robot.plugins.*;
-
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SPI;
@@ -123,12 +121,10 @@ public class Robot extends Cyborg {
 		// pre-built and the general ones will handle 
 		// custom data requirements. 
 		// 
-		driveRequestData 	= new CBGeneralDriveRequestData();
-		driveControlData	= new CBGeneralDriveControlData();
-
-		generalRequestData	= new SHGeneralRequestData();
-		generalControlData	= new SHGeneralControlData();
-
+		driveRequestData 	= new CBStdDriveRequestData();
+		driveControlData	= new CBStdDriveControlData();
+		customRequestData	= new SHCustomRequestData();
+		customControlData	= new SHCustomControlData();
 		processorData 		= new CBProcessorData();
 
 		
@@ -167,6 +163,7 @@ public class Robot extends Cyborg {
 				new SHSensorMapper(this)
 				.setAutoChooser(devices.autoSelect)
 				.setContourRpt(devices.visionPipeline)
+				.setGyroLockSource(devices.navx)
 				);
 
 		
@@ -207,7 +204,7 @@ public class Robot extends Cyborg {
 				);
 				
 		this.robotControllers.add(
-				new SHGeneralController(this)
+				new SHCustomController(this)
 				.setSpinArray(
 						new CBVictorArrayController()
 						.addSpeedController(devices.shooterLeftMotor)
@@ -224,9 +221,8 @@ public class Robot extends Cyborg {
 		// Behavior Processors
 		//
 		this.behaviors.add(
-				new CBGeneralDriveBehavior(this)
+				new CBStdDriveBehavior(this)
 				.setGyroLockTracker(
-						new CBNavXYawSource(devices.navx), 
 						new CBPIDErrorCorrection()
 						.setConstants(new double[]{0.2, 0.0, 2.0})
 						.setInputLimits(-180, 180) // assumes navx source in degrees
@@ -235,7 +231,21 @@ public class Robot extends Cyborg {
 		// this.behaviors.add(
 		//		new CBTankDriveBehaviorProcessor(this)
 		//		);
-		this.behaviors.add(new SHGeneralBehavior(this));
+		this.behaviors.add(
+				new SHCustomBehavior(this)
+				.setXTracker(
+						new CBPIDErrorCorrection()
+						.setConstants(new double[]{-0.025,0.0,0.0})
+						.setOutputLimits(-.3, .3)
+						.setTarget(120.0)
+						)
+				.setYTracker(
+						new CBPIDErrorCorrection()
+						.setConstants(new double[]{ 0.025,0.0,0.0})
+						.setOutputLimits(-.3, .3)
+						.setTarget(180.0)
+						)
+				);
 		this.autonomous = new SHAutonomous(this);
 
 	}

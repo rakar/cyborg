@@ -42,9 +42,9 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 		if(Math.abs( leftStick)<deadzone)  leftStick=0.0;
 		if(Math.abs(rightStick)<deadzone) rightStick=0.0;
 		
-		if(Cyborg.driveRequestData instanceof CBGeneralDriveRequestData) {
+		if(Cyborg.driveRequestData instanceof CBStdDriveRequestData) {
 			
-			CBGeneralDriveRequestData drd = (CBGeneralDriveRequestData)Cyborg.driveRequestData;
+			CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.driveRequestData;
 			double velocity = (leftStick+rightStick)/2.0;// Average stick value "forward"
 			double rotation = leftStick - velocity;
 
