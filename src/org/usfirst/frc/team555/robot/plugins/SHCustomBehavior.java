@@ -2,18 +2,18 @@ package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.plugins.CBStdDriveControlData;
-import org.montclairrobotics.cyborg.plugins.CBStdDriveRequestData;
+import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
+import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHCustomBehavior extends CBBehavior {
 
-	SHCustomRequestData grd;
-	SHCustomControlData gcd;
+	SHCustomRequestData crd;
+	SHCustomControlData ccd;
 	CBStdDriveControlData dcd;
+	
 	CBErrorCorrection xTracker;
 	CBErrorCorrection yTracker;
 	SHFireControlSM fireControl; 
@@ -77,17 +77,21 @@ public class SHCustomBehavior extends CBBehavior {
 		@Override
 		public void doTransition() {
 			if(nextState == SHFireControlStates.SpinUp) {
-				gcd.SpinSpeed = 0.6;
+				ccd.SpinSpeed = 0.6;
+				exit();
 			}
 			if(nextState==SHFireControlStates.Idle) {
-				gcd.ShootOut.set(CBTriStateValue.low);
-				gcd.SpinSpeed = 0.0;
+				ccd.ShootOut.set(CBTriStateValue.low);
+				ccd.SpinSpeed = 0.0;
+				exit();
 			}
 			if(nextState==SHFireControlStates.Intake) {
-				gcd.SpinSpeed = -0.4;
+				ccd.SpinSpeed = -0.4;
+				exit();
 			}
 			if(nextState==SHFireControlStates.Fire) {
-				gcd.ShootOut.set(CBTriStateValue.high);
+				ccd.ShootOut.set(CBTriStateValue.high);
+				exit();
 			}
 		}
 		
@@ -99,30 +103,30 @@ public class SHCustomBehavior extends CBBehavior {
 	public SHCustomBehavior(Cyborg robot) {
 		super(robot);
 
-		grd = (SHCustomRequestData)Cyborg.customRequestData;
-		gcd = (SHCustomControlData)Cyborg.customControlData;
+		crd = (SHCustomRequestData)Cyborg.customRequestData;
+		ccd = (SHCustomControlData)Cyborg.customControlData;
 		dcd = (CBStdDriveControlData)Cyborg.driveControlData;
 		fireControl = new SHFireControlSM();
 	}
 	
 	public void update() {
 
-		gcd.ArmDown.set(grd.ArmDown || grd.ArmHalfUp, grd.ArmUp);	
-		gcd.HalfUp.set(grd.ArmHalfUp, grd.ArmDown);
+		ccd.ArmDown.set(crd.ArmDown || crd.ArmHalfUp, crd.ArmUp);	
+		ccd.HalfUp.set(crd.ArmHalfUp, crd.ArmDown);
 
 		fireControl.update();
 		
-		if(grd.autoSteer) {
+		if(crd.autoSteer) {
 			dcd.rotation = 0;
 			dcd.direction.setXY(0, 0);
 			dcd.active=true;
-			if(grd.targetX>-1) {		
-				dcd.rotation = xTracker.update(grd.targetX);
-				SmartDashboard.putNumber("autoSteerRotation", dcd.rotation);
+			if(crd.targetX>-1) {		
+				dcd.rotation = xTracker.update(crd.targetX);
+				//SmartDashboard.putNumber("autoSteerRotation", dcd.rotation);
 			}
-			if(grd.targetY>-1) {		
-				dcd.direction.setXY(0, yTracker.update(grd.targetY));
-				SmartDashboard.putNumber("autoSteerForward", dcd.direction.getY());
+			if(crd.targetY>-1) {		
+				dcd.direction.setXY(0, yTracker.update(crd.targetY));
+				//SmartDashboard.putNumber("autoSteerForward", dcd.direction.getY());
 			}
 		}
 	}

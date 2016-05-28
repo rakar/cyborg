@@ -1,15 +1,15 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBGeneralMapper;
+import org.montclairrobotics.cyborg.CBCustomMapper;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
-import org.montclairrobotics.cyborg.plugins.CBStdDriveRequestData;
 import org.usfirst.frc.team555.robot.Robot;
 
-public class SHSensorMapper extends CBGeneralMapper {
+public class SHSensorMapper extends CBCustomMapper {
 	Robot robot;
 	CBStdDriveRequestData drd;
 	SHCustomRequestData grd;

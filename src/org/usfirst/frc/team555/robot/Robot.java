@@ -3,6 +3,10 @@ package org.usfirst.frc.team555.robot;
 import org.montclairrobotics.cyborg.*;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
 import org.montclairrobotics.cyborg.assemblies.CBVictorArrayController;
+import org.montclairrobotics.cyborg.behaviors.*;
+import org.montclairrobotics.cyborg.controllers.CBDifferentialDriveController;
+import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
+import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
@@ -10,10 +14,10 @@ import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.mappers.CBArcadeDriveMapper;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
-import org.montclairrobotics.cyborg.plugins.*;
 import org.montclairrobotics.cyborg.utils.*;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.usfirst.frc.team555.robot.plugins.*;
@@ -125,7 +129,7 @@ public class Robot extends Cyborg {
 		driveControlData	= new CBStdDriveControlData();
 		customRequestData	= new SHCustomRequestData();
 		customControlData	= new SHCustomControlData();
-		processorData 		= new CBProcessorData();
+		processorData 		= new CBLogicData();
 
 		
 		//
@@ -159,7 +163,7 @@ public class Robot extends Cyborg {
 				.setSpinPOV(devices.spinPov)
 				);
 		
-		this.generalMappers.add(
+		this.customMappers.add(
 				new SHSensorMapper(this)
 				.setAutoChooser(devices.autoSelect)
 				.setContourRpt(devices.visionPipeline)

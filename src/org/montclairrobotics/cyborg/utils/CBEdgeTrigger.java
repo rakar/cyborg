@@ -4,10 +4,28 @@ public class CBEdgeTrigger {
 	private boolean state = false;
 	private boolean risingEdge = false;
 	private boolean fallingEdge = false;
+	private int edgeDuration = 1;
+	private int edgeCount;
 	
-	public CBEdgeTrigger setState(boolean value) {
-		risingEdge  = !state &&  value;
-		fallingEdge =  state && !value;
+	public CBEdgeTrigger setInitialState(boolean value) {
+		this.state = value;
+		return this;
+	}
+	
+	public CBEdgeTrigger update(boolean value) {
+		if(edgeCount>0) edgeCount--;
+		if(edgeCount==0) {
+			risingEdge=false;
+			fallingEdge=false;
+		}
+		if(!state && value){
+			risingEdge  = true;
+			edgeCount = edgeDuration;
+		}
+		if(state && !value) {
+			fallingEdge = true;
+			edgeCount = edgeDuration;
+		}
 		state = value;
 		return this;
 	}

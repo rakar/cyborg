@@ -1,6 +1,8 @@
-package org.montclairrobotics.cyborg.plugins;
+package org.montclairrobotics.cyborg.mappers;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
+import org.montclairrobotics.cyborg.data.CBTankDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;

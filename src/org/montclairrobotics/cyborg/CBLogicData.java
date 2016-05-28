@@ -1,5 +1,5 @@
 package org.montclairrobotics.cyborg;
 
-public class CBGeneralRequestData {
+public class CBLogicData {
 
 }

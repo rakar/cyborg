@@ -1,5 +1,5 @@
 package org.montclairrobotics.cyborg;
 
-public class CBGeneralControlData {
+public class CBCustomControlData {
 
 }

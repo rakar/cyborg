@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg.plugins;
+package org.montclairrobotics.cyborg.data;
 
 import org.montclairrobotics.cyborg.CBDriveRequestData;
 import org.montclairrobotics.cyborg.utils.*;

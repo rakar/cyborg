@@ -1,9 +1,9 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBGeneralRequestData;
+import org.montclairrobotics.cyborg.CBCustomRequestData;
 import org.montclairrobotics.cyborg.utils.*;
 
-public class SHCustomRequestData extends CBGeneralRequestData {
+public class SHCustomRequestData extends CBCustomRequestData {
 
 	// Operator Mapper Output
 	public boolean ArmUp;

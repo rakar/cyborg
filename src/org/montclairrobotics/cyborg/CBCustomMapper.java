@@ -2,9 +2,9 @@ package org.montclairrobotics.cyborg;
 
 import org.montclairrobotics.cyborg.utils.CBModule;
 
-public abstract class CBGeneralMapper extends CBModule {
+public abstract class CBCustomMapper extends CBModule {
 
-	public CBGeneralMapper(Cyborg robot) {
+	public CBCustomMapper(Cyborg robot) {
 		super(robot);
 		// TODO Auto-generated constructor stub
 	}

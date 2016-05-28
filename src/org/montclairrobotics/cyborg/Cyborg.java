@@ -20,16 +20,16 @@ public abstract class Cyborg extends IterativeRobot {
 	// Status Classes
 	// Statuses represent high-level meaningful messages
 	public static CBDriveRequestData driveRequestData;
-	public static CBGeneralRequestData customRequestData;
+	public static CBCustomRequestData customRequestData;
 	public static CBDriveControlData driveControlData;
-	public static CBGeneralControlData customControlData;
-	public static CBProcessorData processorData;
+	public static CBCustomControlData customControlData;
+	public static CBLogicData processorData;
 
 	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
 	public ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<CBTeleOpMapper>();
-	public ArrayList<CBGeneralMapper> generalMappers = new ArrayList<CBGeneralMapper>();
+	public ArrayList<CBCustomMapper> customMappers = new ArrayList<CBCustomMapper>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
 	public ArrayList<CBRobotController> robotControllers = new ArrayList<CBRobotController>();
 	
@@ -79,7 +79,7 @@ public abstract class Cyborg extends IterativeRobot {
 		hardwareAdapter.senseUpdate();		
 
 		// Update Input Mappers
-		for(CBGeneralMapper m:this.generalMappers) m.update(); 
+		for(CBCustomMapper m:this.customMappers) m.update(); 
 
 		// Autonomous Control
 		autonomous.update();
@@ -113,7 +113,7 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update Input Mappers
 		for(CBTeleOpMapper m:this.teleOpMappers) m.update(); 
-		for(CBGeneralMapper  m:this.generalMappers)  m.update(); 
+		for(CBCustomMapper  m:this.customMappers)  m.update(); 
 
 		
 		// Let the robot do it's thing...

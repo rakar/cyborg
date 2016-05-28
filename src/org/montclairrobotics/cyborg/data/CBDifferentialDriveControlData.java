@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg.plugins;
+package org.montclairrobotics.cyborg.data;
 
 import org.montclairrobotics.cyborg.CBDriveControlData;
 
@@ -8,6 +8,6 @@ public class CBDifferentialDriveControlData extends CBDriveControlData {
 		// TODO Auto-generated constructor stub
 	}
 
-	double leftPower;
-	double rightPower;
+	public double leftPower;
+	public double rightPower;
 }

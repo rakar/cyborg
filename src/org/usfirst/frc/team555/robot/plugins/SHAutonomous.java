@@ -2,15 +2,15 @@ package org.usfirst.frc.team555.robot.plugins;
 
 import org.montclairrobotics.cyborg.CBAutonomous;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.plugins.CBStdDriveRequestData;
+import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHAutonomous extends CBAutonomous {
 	Robot robot;
+	CBStateMachine<AutoAIState> sm;
 
 	enum AutoAIState {start,armdown,drive,done}
-
 	public class SHAutoAISM extends CBStateMachine<AutoAIState> {
 		SHCustomRequestData grd;
 		CBStdDriveRequestData drd;
@@ -48,14 +48,12 @@ public class SHAutonomous extends CBAutonomous {
 				} else {
 					grd.ArmDown = true;
 				}
-			}
-			if(currentState==AutoAIState.armdown && nextState==AutoAIState.drive) {
+			} else if(currentState==AutoAIState.armdown && nextState==AutoAIState.drive) {
 				drd.direction.setXY(0.0, 0.5);
 				drd.rotation = 0.0;
 				drd.gyroLock = true;
 				drd.active = true;
-			}
-			if(currentState==AutoAIState.drive && nextState==AutoAIState.done) {
+			} else if(currentState==AutoAIState.drive && nextState==AutoAIState.done) {
 				drd.direction.setXY(0.0, 0.0);
 				drd.rotation = 0.0;
 				drd.gyroLock = false;
@@ -68,8 +66,6 @@ public class SHAutonomous extends CBAutonomous {
 			
 		}
 	}
-
-	SHAutoAISM sm;
 
 	public SHAutonomous(Robot robot) {
 		this.robot = robot;
@@ -84,6 +80,5 @@ public class SHAutonomous extends CBAutonomous {
 	@Override
 	public void update() {
 		sm.update();
-	}
-	
+	}	
 }

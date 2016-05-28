@@ -1,9 +1,9 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBGeneralControlData;
+import org.montclairrobotics.cyborg.CBCustomControlData;
 import org.montclairrobotics.cyborg.utils.CBTriState;
 
-public class SHCustomControlData extends CBGeneralControlData {
+public class SHCustomControlData extends CBCustomControlData {
 
 	public SHCustomControlData() {
 	}

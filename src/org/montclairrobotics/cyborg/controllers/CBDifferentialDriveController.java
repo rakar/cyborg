@@ -1,8 +1,10 @@
-package org.montclairrobotics.cyborg.plugins;
+package org.montclairrobotics.cyborg.controllers;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
+import org.montclairrobotics.cyborg.data.CBDifferentialDriveControlData;
+import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
 import org.montclairrobotics.cyborg.utils.CB2DVector;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
@@ -36,10 +38,6 @@ public class CBDifferentialDriveController extends CBRobotController {
 			} else if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
 				
 				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
-				//double left = calculate(leftDriveModule, dcd.direction, dcd.rotation);
-				//double right= calculate(rightDriveModule, dcd.direction, dcd.rotation);
-				//for(CBSpeedControllerArrayController c:leftDriveModule.getControllerArrays()) c.update(left);
-				//for(CBSpeedControllerArrayController c:rightDriveModule.getControllerArrays()) c.update(right);
 				for(CBDriveModule dm:driveModules) {
 					double power = calculate(dm, dcd.direction, dcd.rotation);
 					for(CBSpeedControllerArrayController c:dm.getControllerArrays()) {
@@ -89,12 +87,6 @@ public class CBDifferentialDriveController extends CBRobotController {
 		return this;
 	}
 	
-	//public CBDifferentialDriveController setRightDriveModule(CBDriveModule driveModule) {
-	//	rightDriveModule = driveModule;
-	//	updateDriveMode(driveModule);
-	//	return this;
-	//}
-
 	/**
 	 * @return the driveMode
 	 */
@@ -113,7 +105,8 @@ public class CBDifferentialDriveController extends CBRobotController {
 	}
 	
 	/* 
-	 * The purpose of this function would be to do some setup process that calls
+	 * The purpose of this function is to do "last minute" hardware configuration 
+	 * required after construction. 
 	 * configHardware() to build whatever required WPI infrastructure is required.
 	 * This concept is not fleshed out yet.  
 	 */
@@ -132,7 +125,8 @@ public class CBDifferentialDriveController extends CBRobotController {
 	/**
 	 * @param controlPeriod the controlPeriod to set
 	 */
-	public void setControlPeriod(double controlPeriod) {
+	public CBDifferentialDriveController setControlPeriod(double controlPeriod) {
 		this.controlPeriod = controlPeriod;
+		return this;
 	}
 }
