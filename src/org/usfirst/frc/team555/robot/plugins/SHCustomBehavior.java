@@ -7,12 +7,15 @@ import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
+import org.usfirst.frc.team555.robot.Robot;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHCustomBehavior extends CBBehavior {
 
-	SHCustomRequestData crd;
-	SHCustomControlData ccd;
-	CBStdDriveControlData dcd;
+	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
+	SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
+	CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
 	
 	CBErrorCorrection xTracker;
 	CBErrorCorrection yTracker;
@@ -22,6 +25,7 @@ public class SHCustomBehavior extends CBBehavior {
 	public class SHFireControlSM extends CBStateMachine<SHFireControlStates> {
 		SHCustomRequestData grd;
 		CBStdDriveRequestData drd;
+		int cycleCheck=0;
 		
 		boolean fireReqPending;
 		
@@ -33,6 +37,9 @@ public class SHCustomBehavior extends CBBehavior {
 		
 		@Override
 		public void calcNextState() {
+			
+			cycleCheck++;
+			
 			if (grd.fireShooter.isHigh()){
 				fireReqPending=true;
 			}
@@ -48,7 +55,7 @@ public class SHCustomBehavior extends CBBehavior {
 				}
 				break;
 			case Fire:
-				if(cycles>50) {
+				if(stateDuration>.4) {
 					nextState = SHFireControlStates.Idle;
 				}
 				break;
@@ -62,7 +69,7 @@ public class SHCustomBehavior extends CBBehavior {
 				}
 				break;
 			case SpinUp:
-				if (cycles>150) {
+				if (stateDuration>.6) {
 					nextState=SHFireControlStates.AtSpeed;
 				}
 				break;
@@ -78,20 +85,23 @@ public class SHCustomBehavior extends CBBehavior {
 		public void doTransition() {
 			if(nextState == SHFireControlStates.SpinUp) {
 				ccd.SpinSpeed = 0.6;
-				exit();
+				cycleCheck=0;
+				//exit();
 			}
 			if(nextState==SHFireControlStates.Idle) {
 				ccd.ShootOut.set(CBTriStateValue.low);
 				ccd.SpinSpeed = 0.0;
-				exit();
+				//exit();
 			}
 			if(nextState==SHFireControlStates.Intake) {
 				ccd.SpinSpeed = -0.4;
-				exit();
+				this.fireReqPending = false;
+				//exit();
 			}
 			if(nextState==SHFireControlStates.Fire) {
 				ccd.ShootOut.set(CBTriStateValue.high);
-				exit();
+				SmartDashboard.putNumber("CycleCheck", cycleCheck);
+				//exit();
 			}
 		}
 		
@@ -100,12 +110,8 @@ public class SHCustomBehavior extends CBBehavior {
 		}
 	}
 
-	public SHCustomBehavior(Cyborg robot) {
+	public SHCustomBehavior(Robot robot) {
 		super(robot);
-
-		crd = (SHCustomRequestData)Cyborg.customRequestData;
-		ccd = (SHCustomControlData)Cyborg.customControlData;
-		dcd = (CBStdDriveControlData)Cyborg.driveControlData;
 		fireControl = new SHFireControlSM();
 	}
 	

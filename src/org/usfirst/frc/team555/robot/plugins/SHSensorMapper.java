@@ -11,8 +11,8 @@ import org.usfirst.frc.team555.robot.Robot;
 
 public class SHSensorMapper extends CBCustomMapper {
 	Robot robot;
-	CBStdDriveRequestData drd;
-	SHCustomRequestData grd;
+	CBStdDriveRequestData drd = (CBStdDriveRequestData) Cyborg.driveRequestData;
+	SHCustomRequestData grd = (SHCustomRequestData) Cyborg.customRequestData;
 	
 	CBDashboardChooser<Integer> autoChooser;
 	CBContourReport contourRpt;
@@ -21,7 +21,7 @@ public class SHSensorMapper extends CBCustomMapper {
 	public SHSensorMapper(Robot robot) {
 		super(robot);
 		this.robot = robot;	
-		this.grd = (SHCustomRequestData) Cyborg.customRequestData;
+		//this.grd = (SHCustomRequestData) Cyborg.customRequestData;
 	}
 
 	@Override

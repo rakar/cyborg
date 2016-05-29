@@ -1,9 +1,13 @@
 package org.montclairrobotics.cyborg.utils;
 
+import java.util.Date;
+
 public abstract class CBStateMachine<T> {
 	protected T currentState;
 	protected T nextState;
 	protected int cycles; 
+	private long stateStartTime;
+	protected double stateDuration;
 	protected boolean loop;
 	protected CBStateMachineLoopMode loopMode = CBStateMachineLoopMode.OneShot;
 	
@@ -24,15 +28,21 @@ public abstract class CBStateMachine<T> {
 	}
 	
 	public void update() {
+		if(stateStartTime==0) {
+			stateStartTime = new Date().getTime();
+		}
 		loop = true;
 		while(loop) {
+			nextState=currentState;
 			calcNextState();
 			loop = currentState!=nextState;
 			if(loop) {
 				cycles = 0;
+				stateStartTime = new Date().getTime();
 				doTransition();
 			}
 			currentState=nextState;
+			stateDuration = (new Date().getTime()-stateStartTime)/1000.0;
 			doCurrentState();
 			cycles++;
 			loop = loop && (loopMode == CBStateMachineLoopMode.Looping);

@@ -16,7 +16,7 @@ public class CBDifferentialDriveController extends CBRobotController {
 
 	//private CBDriveModule leftDriveModule;
 	//private CBDriveModule rightDriveModule;
-	protected ArrayList<CBDriveModule> driveModules;
+	protected ArrayList<CBDriveModule> driveModules = new ArrayList<>();
 	protected CBDriveMode driveMode;
 	protected double controlPeriod = 1/50.0;
 	

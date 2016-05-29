@@ -9,7 +9,7 @@ import org.usfirst.frc.team555.robot.Robot;
 
 public class SHCustomController extends CBRobotController {
 	Robot robot;
-	SHCustomControlData ccd;
+	SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
 
 	CBSolenoid armValve;
 	CBSolenoid halfValve;
@@ -19,12 +19,10 @@ public class SHCustomController extends CBRobotController {
 	public SHCustomController(Robot robot) {
 		super(robot);
 		this.robot = robot;
-		ccd = (SHCustomControlData)Cyborg.customControlData;
 	}
 	
 	@Override 
 	public void update() {
-
 		armValve.set(ccd.ArmDown.get());
 		halfValve.set(ccd.HalfUp.get());
 		shootValve.set(ccd.ShootOut.get());
@@ -50,5 +48,4 @@ public class SHCustomController extends CBRobotController {
 		this.shootValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}
-
 }

@@ -1,9 +1,7 @@
-/**
- * 
- */
 package org.montclairrobotics.cyborg;
 
 import java.util.ArrayList;
+import org.montclairrobotics.cyborg.utils.CBRunStatistics;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -23,7 +21,7 @@ public abstract class Cyborg extends IterativeRobot {
 	public static CBCustomRequestData customRequestData;
 	public static CBDriveControlData driveControlData;
 	public static CBCustomControlData customControlData;
-	public static CBLogicData processorData;
+	public static CBLogicData logicData;
 
 	
 	// Mapper/Controller Queues
@@ -40,6 +38,8 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	public static int gameMode=0;
 	public NetworkTable table;
+	
+	public CBRunStatistics runStatistics = new CBRunStatistics();
 
 	
 	/**
@@ -93,6 +93,8 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void teleopInit() {
 		gameMode = CBGameMode.teleopInit;
+		runStatistics.teleopInitUpdate();
+		
     }
 
 	/**
@@ -100,14 +102,17 @@ public abstract class Cyborg extends IterativeRobot {
      */
 	@Override
     public final void teleopPeriodic() {
-		gameMode = CBGameMode.teleopPeriodic;
+		gameMode = CBGameMode.teleopPeriodic;		
+		runStatistics.teleopPeriodicUpdate();
 		
+		SmartDashboard.putNumber("cyclesPERsecond", runStatistics.averageCycles);
 		
+		// TODO: Kill this diagnostic
 		double[] ys = table.getNumberArray("mynewreport/centerX",new double[0]);
-		
 		if (ys.length>0) {
 			SmartDashboard.putNumber("y0", ys[0]);
 		}
+		
 		// Update input interfaces
 		hardwareAdapter.senseUpdate();
 		

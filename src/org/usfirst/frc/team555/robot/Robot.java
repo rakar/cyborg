@@ -31,6 +31,12 @@ import edu.wpi.first.wpilibj.SPI;
  * 
  */
 public class Robot extends Cyborg {
+	
+	public SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
+	public SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
+	public CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
+	public CBStdDriveRequestData drd = (CBStdDriveRequestData) Cyborg.driveRequestData;
+	public CBLogicData ld = (CBLogicData)Cyborg.logicData;
 
 	//
 	// List Custom Hardware Devices...
@@ -129,7 +135,7 @@ public class Robot extends Cyborg {
 		driveControlData	= new CBStdDriveControlData();
 		customRequestData	= new SHCustomRequestData();
 		customControlData	= new SHCustomControlData();
-		processorData 		= new CBLogicData();
+		logicData 			= new CBLogicData();
 
 		
 		//

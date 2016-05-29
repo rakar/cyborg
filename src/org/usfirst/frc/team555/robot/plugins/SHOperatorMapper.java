@@ -9,7 +9,7 @@ import org.usfirst.frc.team555.robot.Robot;
 
 public class SHOperatorMapper extends CBTeleOpMapper {
 	Robot robot;
-	SHCustomRequestData grd;
+	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
 	
 	CBButton shootButton;
 	CBButton armDownButton;
@@ -22,23 +22,22 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	public SHOperatorMapper(Robot robot) {
 		super(robot);
 		this.robot = robot;
-		grd = (SHCustomRequestData)Cyborg.customRequestData;
 	}
 	
 	@Override
 	public void update() {
 
-		grd.ArmUp = armUpButton.getButtonPress();
-		grd.ArmHalfUp = halfUpButton.getButtonPress();
-		grd.ArmDown = armDownButton.getButtonPress(); 
+		crd.ArmUp = armUpButton.getButtonPress();
+		crd.ArmHalfUp = halfUpButton.getButtonPress();
+		crd.ArmDown = armDownButton.getButtonPress(); 
 
-		grd.fireShooter.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
-		grd.autoSteer = autoSteerButton.getButtonState();
+		crd.fireShooter.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
+		crd.autoSteer = autoSteerButton.getButtonState();
 		//grd.autoSteerLock = autoSteerLockTrigger.setState(grd.autoSteer).getRisingEdge();
 
 		int pov = spinPov.get();
-		grd.intake = (180==pov);
-		grd.spinUpShooter = (0==pov);		
+		crd.intake = (180==pov);
+		crd.spinUpShooter = (0==pov);		
 	}
 	
 	public SHOperatorMapper setShootButton(CBDeviceID buttonId) {
