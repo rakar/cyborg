@@ -3,6 +3,7 @@ package org.montclairrobotics.cyborg.devices;
 import org.montclairrobotics.cyborg.utils.CBTimingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CBDashboardChooser<T> implements CBDevice {
 	String name;
@@ -40,7 +41,7 @@ public class CBDashboardChooser<T> implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		if(timer.update() && chooser!=null) {
+		if(chooser!=null) {
 			selected = chooser.getSelected();
 		}
 	}
@@ -48,6 +49,11 @@ public class CBDashboardChooser<T> implements CBDevice {
 	@Override
 	public void controlUpdate() {
 		
+	}
+
+	@Override
+	public void configure() {
+		SmartDashboard.putData(this.name, chooser);		
 	}
 
 }

@@ -24,4 +24,10 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 		return state;
 	}
 
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

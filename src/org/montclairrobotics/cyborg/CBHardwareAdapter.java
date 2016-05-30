@@ -30,7 +30,12 @@ public class CBHardwareAdapter extends CBModule {
 		super(robot);
 	}
 	
-	
+	//public void configure() {
+	//	for(CBDevice d: devices) {
+	//		d.configure();
+	//	}
+	//}
+		
 	public void senseUpdate() {
 		for(CBDevice d: devices) {
 			d.senseUpdate();
@@ -71,6 +76,7 @@ public class CBHardwareAdapter extends CBModule {
 		CBDeviceID id = new CBDeviceID();
 		id.ordinal = devices.size();
 		devices.add(device);
+		device.configure();
 		return id;
 	}
 	

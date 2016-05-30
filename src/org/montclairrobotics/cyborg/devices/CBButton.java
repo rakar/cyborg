@@ -35,4 +35,10 @@ public class CBButton extends CBJoystickIndex implements CBDevice {
 		return trans==-1?true:false;
 	}
 
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

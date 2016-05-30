@@ -23,4 +23,10 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 		return value;
 	}
 
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

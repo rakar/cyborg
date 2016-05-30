@@ -18,4 +18,10 @@ public class CBDigitalOutput extends DigitalOutput implements CBDevice {
 		
 	}
 
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

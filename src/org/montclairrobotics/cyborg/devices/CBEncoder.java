@@ -269,4 +269,10 @@ public class CBEncoder implements CBDevice, CBSource{
 		
 	}
 
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
