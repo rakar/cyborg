@@ -1,8 +1,9 @@
 /**
  * 
  */
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.controllers;
 
+import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
 public class CBRobotController extends CBModule {

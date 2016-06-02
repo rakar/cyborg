@@ -22,11 +22,11 @@ public class CBEncoder implements CBDevice, CBSource{
 	
 	public class CBIndexEntry {
 		CBDigitalInput trigger;
-		CBDeviceID triggerId;
+		CBDeviceId triggerId;
 		boolean activeState;
 		double distance;
 		
-		public CBIndexEntry(CBDeviceID triggerId,	boolean activeState, double distance) {
+		public CBIndexEntry(CBDeviceId triggerId,	boolean activeState, double distance) {
 			this.triggerId = triggerId;
 			this.activeState = activeState;
 			this.distance = distance;
@@ -116,7 +116,7 @@ public class CBEncoder implements CBDevice, CBSource{
 		return this;
 	}
 	
-	public CBEncoder removeIndexEntry(CBDeviceID triggerId) {
+	public CBEncoder removeIndexEntry(CBDeviceId triggerId) {
 		int trg = -1;
 		for(int i=0;i<indexEntries.size();i++) {
 			if(indexEntries.get(i).triggerId==triggerId) {

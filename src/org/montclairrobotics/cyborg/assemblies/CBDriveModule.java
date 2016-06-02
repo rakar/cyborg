@@ -7,7 +7,7 @@ import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
 public class CBDriveModule {
 
-	private ArrayList<CBSpeedControllerArrayController> controllerArrays = new ArrayList<>();
+	protected ArrayList<CBSpeedControllerArrayController> controllerArrays = new ArrayList<>();
 	private CB2DVector position = new CB2DVector();
 	private double orientation;
 	private double orientationRadians;
@@ -46,6 +46,13 @@ public class CBDriveModule {
 	 */
 	public ArrayList<CBSpeedControllerArrayController> getControllerArrays() {
 		return controllerArrays;
+	}
+	
+	public CBDriveModule update(double target) {
+		for(CBSpeedControllerArrayController c:controllerArrays) {
+			c.update(target);
+		}
+		return this;
 	}
 
 	/**

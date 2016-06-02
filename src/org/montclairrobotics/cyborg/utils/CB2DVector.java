@@ -12,8 +12,13 @@ public class CB2DVector {
 	public CB2DVector() {
 		
 	}
+	
 	public CB2DVector( double x, double y) {
 		setXY(x,y);
+	}
+	
+	public CB2DVector( CB2DVector v ) {
+		setXY(v.getX(), v.getY());
 	}
 
 	/**
@@ -114,6 +119,12 @@ public class CB2DVector {
 	public CB2DVector scaledTranslate(CB2DVector translation, double scale) {
 		double xp = x+translation.x*scale;
 		double yp = y+translation.y*scale;
+		return new CB2DVector(xp,yp);
+	}
+	
+	public CB2DVector add(CB2DVector vector) {
+		double xp = x+vector.x;
+		double yp = y+vector.y;
 		return new CB2DVector(xp,yp);
 	}
 	

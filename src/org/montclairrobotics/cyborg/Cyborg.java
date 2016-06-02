@@ -1,6 +1,16 @@
 package org.montclairrobotics.cyborg;
 
 import java.util.ArrayList;
+
+import org.montclairrobotics.cyborg.behaviors.CBBehavior;
+import org.montclairrobotics.cyborg.controllers.CBRobotController;
+import org.montclairrobotics.cyborg.data.CBCustomControlData;
+import org.montclairrobotics.cyborg.data.CBCustomRequestData;
+import org.montclairrobotics.cyborg.data.CBDriveControlData;
+import org.montclairrobotics.cyborg.data.CBDriveRequestData;
+import org.montclairrobotics.cyborg.data.CBLogicData;
+import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
+import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.utils.CBRunStatistics;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -15,32 +25,67 @@ public abstract class Cyborg extends IterativeRobot {
 
 	public static CBHardwareAdapter hardwareAdapter;
 	
-	// Status Classes
-	// Statuses represent high-level meaningful messages
+	// Data Stores
+	// Data Stores represent high-level meaningful messages
 	public static CBDriveRequestData driveRequestData;
-	public static CBCustomRequestData customRequestData;
 	public static CBDriveControlData driveControlData;
+	public static CBCustomRequestData customRequestData;
 	public static CBCustomControlData customControlData;
 	public static CBLogicData logicData;
 
 	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
-	public ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<CBTeleOpMapper>();
-	public ArrayList<CBCustomMapper> customMappers = new ArrayList<CBCustomMapper>();
+	private ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<CBTeleOpMapper>();
+	private ArrayList<CBCustomMapper> customMappers = new ArrayList<CBCustomMapper>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
-	public ArrayList<CBRobotController> robotControllers = new ArrayList<CBRobotController>();
+	private ArrayList<CBRobotController> robotControllers = new ArrayList<CBRobotController>();
 	
 	// Logic Layer
-	public ArrayList<CBRule> rules = new ArrayList<>();
-	public ArrayList<CBBehavior> behaviors = new ArrayList<>();
-	public CBAutonomous autonomous;
+	private ArrayList<CBRule> rules = new ArrayList<>();
+	private ArrayList<CBBehavior> behaviors = new ArrayList<>();
+	private CBAutonomous autonomous;
 	
 	public static int gameMode=0;
 	public NetworkTable table;
 	
 	public CBRunStatistics runStatistics = new CBRunStatistics();
-
+	
+	// General Configuration
+	/**
+	 * Conversion from default angle unit to radians.
+	 */
+	public static double angleToRadiansConversion = Math.PI/180.0;
+	
+	public Cyborg addTeleOpMapper(CBTeleOpMapper mapper) {
+		teleOpMappers.add(mapper);
+		return this;
+	}
+	
+	public Cyborg addCustomMapper(CBCustomMapper mapper) {
+		customMappers.add(mapper);
+		return this;
+	}
+	
+	public Cyborg addRobotController(CBRobotController controller) {
+		robotControllers.add(controller);
+		return this;
+	}
+	
+	public Cyborg addRule(CBRule rule) {
+		rules.add(rule);
+		return this;
+	}
+	
+	public Cyborg addBehavior(CBBehavior behavior) {
+		behaviors.add(behavior);
+		return this;
+	}
+	
+	public Cyborg setAutonomous(CBAutonomous autonomous) {
+		this.autonomous = autonomous;
+		return this;
+	}
 	
 	/**
      * This function is run when the robot is first started up and should be
@@ -112,6 +157,7 @@ public abstract class Cyborg extends IterativeRobot {
 		if (ys.length>0) {
 			SmartDashboard.putNumber("y0", ys[0]);
 		}
+		//
 		
 		// Update input interfaces
 		hardwareAdapter.senseUpdate();
@@ -120,7 +166,6 @@ public abstract class Cyborg extends IterativeRobot {
 		for(CBTeleOpMapper m:this.teleOpMappers) m.update(); 
 		for(CBCustomMapper  m:this.customMappers)  m.update(); 
 
-		
 		// Let the robot do it's thing...
 		robotControl();
     }
@@ -147,11 +192,9 @@ public abstract class Cyborg extends IterativeRobot {
 		// Update Rule and Behavior Processors 
 		for(CBRule m:this.rules) m.update(); 
 		for(CBBehavior m:this.behaviors) m.update(); 
-		
-		
+				
 		// Update Output Controllers
 		for(CBRobotController m:this.robotControllers) m.update(); 
-		
 		
 		// Update output interfaces
 		hardwareAdapter.controlUpdate();

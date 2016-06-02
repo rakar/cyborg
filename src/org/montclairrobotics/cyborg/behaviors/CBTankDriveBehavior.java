@@ -1,6 +1,5 @@
 package org.montclairrobotics.cyborg.behaviors;
 
-import org.montclairrobotics.cyborg.CBBehavior;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.data.CBDifferentialDriveControlData;
 import org.montclairrobotics.cyborg.data.CBTankDriveRequestData;

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBCustomRequestData;
+import org.montclairrobotics.cyborg.data.CBCustomRequestData;
 import org.montclairrobotics.cyborg.utils.*;
 
 public class SHCustomRequestData extends CBCustomRequestData {
@@ -17,7 +17,7 @@ public class SHCustomRequestData extends CBCustomRequestData {
 	public boolean intake = false;
 
 	// Sensor Mapper Output
-	public Integer selectedAuto = new Integer(-1);
+	public int selectedAuto = -1;
 	public double targetX = -1;
 	public double targetY = -1;
 }

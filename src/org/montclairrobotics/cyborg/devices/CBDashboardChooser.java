@@ -9,7 +9,7 @@ public class CBDashboardChooser<T> implements CBDevice {
 	String name;
 	SendableChooser chooser;
 	CBTimingController timer;
-	private Object selected;
+	private T selected;
 	
 	public CBDashboardChooser(String name) {
 		this.name = name;
@@ -33,16 +33,16 @@ public class CBDashboardChooser<T> implements CBDevice {
 		return this;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public T getSelected() {
-		return (T)selected;
+		return selected;
 	}
 	
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void senseUpdate() {
 		if(chooser!=null) {
-			selected = chooser.getSelected();
+			selected = (T)chooser.getSelected();
 		}
 	}
 

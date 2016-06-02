@@ -12,6 +12,12 @@ public class CBEdgeTrigger {
 		return this;
 	}
 	
+	public CBEdgeTrigger setEdgeDuration(int edgeDuration) {
+		this.edgeDuration = edgeDuration;
+		return this;
+	}
+	
+	
 	public CBEdgeTrigger update(boolean value) {
 		if(edgeCount>0) edgeCount--;
 		if(edgeCount==0) {

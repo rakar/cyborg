@@ -1,19 +1,19 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBCustomMapper;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
-import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
+import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHSensorMapper extends CBCustomMapper {
 	Robot robot;
 	CBStdDriveRequestData drd = (CBStdDriveRequestData) Cyborg.driveRequestData;
-	SHCustomRequestData grd = (SHCustomRequestData) Cyborg.customRequestData;
-	
+	SHCustomRequestData crd = (SHCustomRequestData) Cyborg.customRequestData;
+
 	CBDashboardChooser<Integer> autoChooser;
 	CBContourReport contourRpt;
 	CBNavXYawSource navxYawSource;
@@ -28,27 +28,27 @@ public class SHSensorMapper extends CBCustomMapper {
 	public void update() {
 
 		if(autoChooser!=null)
-			grd.selectedAuto = autoChooser.getSelected();
+			crd.selectedAuto = autoChooser.getSelected();
 		drd.gyroLockSource = navxYawSource.get();
-		grd.targetX = contourRpt.centerX;
-		grd.targetY = contourRpt.centerY;
+		crd.targetX = contourRpt.centerX;
+		crd.targetY = contourRpt.centerY;
 	}
-	
-	public SHSensorMapper setGyroLockSource(CBDeviceID navxId) {
+
+	public SHSensorMapper setGyroLockSource(CBDeviceId navxId) {
 		navxYawSource = new CBNavXYawSource(navxId); 
 		return this;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public SHSensorMapper setAutoChooser(CBDeviceID chooserId) {
+	public SHSensorMapper setAutoChooser(CBDeviceId chooserId) {
 		this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(chooserId);
 		return this;
 	}
-	
-	public SHSensorMapper setContourRpt(CBDeviceID contourRpt) {
+
+	public SHSensorMapper setContourRpt(CBDeviceId contourRpt) {
 		this.contourRpt = Cyborg.hardwareAdapter.getContourReport(contourRpt);
 		return this;
 	}
-	
+
 }
  

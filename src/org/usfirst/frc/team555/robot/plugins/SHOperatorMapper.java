@@ -1,10 +1,10 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBButton;
-import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBPov;
+import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHOperatorMapper extends CBTeleOpMapper {
@@ -40,32 +40,32 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		crd.spinUpShooter = (0==pov);		
 	}
 	
-	public SHOperatorMapper setShootButton(CBDeviceID buttonId) {
+	public SHOperatorMapper setShootButton(CBDeviceId buttonId) {
 		shootButton = Cyborg.hardwareAdapter.getButton(buttonId);
 		return this;
 	}
 	
-	public SHOperatorMapper setArmDownButton(CBDeviceID buttonId) {
+	public SHOperatorMapper setArmDownButton(CBDeviceId buttonId) {
 		armDownButton = Cyborg.hardwareAdapter.getButton(buttonId);
 		return this;
 	}
 	
-	public SHOperatorMapper setArmUpButton(CBDeviceID buttonId) {
+	public SHOperatorMapper setArmUpButton(CBDeviceId buttonId) {
 		armUpButton = Cyborg.hardwareAdapter.getButton(buttonId);
 		return this;
 	}
 	
-	public SHOperatorMapper setAutoSteerButton(CBDeviceID buttonId) {
+	public SHOperatorMapper setAutoSteerButton(CBDeviceId buttonId) {
 		autoSteerButton = Cyborg.hardwareAdapter.getButton(buttonId);
 		return this;
 	}
 	
-	public SHOperatorMapper setArmHalfUpButton(CBDeviceID buttonId) {
+	public SHOperatorMapper setArmHalfUpButton(CBDeviceId buttonId) {
 		halfUpButton = Cyborg.hardwareAdapter.getButton(buttonId);
 		return this;
 	}
 	
-	public SHOperatorMapper setSpinPOV(CBDeviceID povId) {
+	public SHOperatorMapper setSpinPOV(CBDeviceId povId) {
 		spinPov = Cyborg.hardwareAdapter.getPOV(povId);
 		return this;
 	}

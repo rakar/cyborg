@@ -1,15 +1,13 @@
 package org.montclairrobotics.cyborg.data;
 
-import org.montclairrobotics.cyborg.CBDriveControlData;
 import org.montclairrobotics.cyborg.utils.*;
 
 public class CBStdDriveControlData extends CBDriveControlData {
 
-	public CBStdDriveControlData() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public CB2DVector direction = new CB2DVector();	
 	public double rotation;
+	public boolean steerOnly; 
+	public CB2DVector orbitOffset = new CB2DVector(); 
+	public boolean orbitMode;
 
 }

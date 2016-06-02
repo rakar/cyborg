@@ -1,9 +1,9 @@
 package org.usfirst.frc.team555.robot.plugins;
 
-import org.montclairrobotics.cyborg.CBRobotController;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
-import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.controllers.CBRobotController;
+import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.usfirst.frc.team555.robot.Robot;
 
@@ -34,17 +34,17 @@ public class SHCustomController extends CBRobotController {
 		return this;
 	}
 
-	public SHCustomController setArmValve(CBDeviceID solenoidId) {
+	public SHCustomController setArmValve(CBDeviceId solenoidId) {
 		this.armValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}
 
-	public SHCustomController setHalfValve(CBDeviceID solenoidId) {
+	public SHCustomController setHalfValve(CBDeviceId solenoidId) {
 		this.halfValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}
 
-	public SHCustomController setShootValve(CBDeviceID solenoidId) {
+	public SHCustomController setShootValve(CBDeviceId solenoidId) {
 		this.shootValve = Cyborg.hardwareAdapter.getSolenoidValve(solenoidId);
 		return this;
 	}

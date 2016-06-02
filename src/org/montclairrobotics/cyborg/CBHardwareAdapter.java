@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDevice;
-import org.montclairrobotics.cyborg.devices.CBDeviceID;
+import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
@@ -72,56 +72,56 @@ public class CBHardwareAdapter extends CBModule {
 	}	
 
 
-	public CBDeviceID add(CBDevice device) {
-		CBDeviceID id = new CBDeviceID();
+	public CBDeviceId add(CBDevice device) {
+		CBDeviceId id = new CBDeviceId();
 		id.ordinal = devices.size();
 		devices.add(device);
 		device.configure();
 		return id;
 	}
 	
-	public CBDevice getDevice(CBDeviceID id) {
+	public CBDevice getDevice(CBDeviceId id) {
 		if(id==null) return null;
 		return devices.get(id.ordinal);
 	}
 
-	public CBAxis getAxis(CBDeviceID id) {
+	public CBAxis getAxis(CBDeviceId id) {
 		return (CBAxis)getDevice(id);
 	}
 		
-	public CBButton getButton(CBDeviceID id) {
+	public CBButton getButton(CBDeviceId id) {
 		return (CBButton)getDevice(id);
 	}
 		
-	public CBContourReport getContourReport(CBDeviceID id) {
+	public CBContourReport getContourReport(CBDeviceId id) {
 		return (CBContourReport)getDevice(id);
 	}
 		
-	public CBDigitalInput getDigitalInput(CBDeviceID id) {
+	public CBDigitalInput getDigitalInput(CBDeviceId id) {
 		return (CBDigitalInput)getDevice(id);
 	}
 	
-	public CBDigitalOutput getDigitalOutput(CBDeviceID id) {
+	public CBDigitalOutput getDigitalOutput(CBDeviceId id) {
 		return (CBDigitalOutput)getDevice(id);
 	}
 	
-	public CBEncoder getEncoder(CBDeviceID id) {
+	public CBEncoder getEncoder(CBDeviceId id) {
 		return (CBEncoder)getDevice(id);
 	}
 
-	public CBSpeedController getSpeedController(CBDeviceID id) {
+	public CBSpeedController getSpeedController(CBDeviceId id) {
 		return (CBSpeedController)getDevice(id);
 	}
 	
-	public CBNavX getNavX(CBDeviceID id){
+	public CBNavX getNavX(CBDeviceId id){
 		return (CBNavX)getDevice(id);
 	}
 
-	public CBPov getPOV(CBDeviceID id) {
+	public CBPov getPOV(CBDeviceId id) {
 		return (CBPov)getDevice(id);
 	}
 
-	public CBSolenoid getSolenoidValve(CBDeviceID id) {
+	public CBSolenoid getSolenoidValve(CBDeviceId id) {
 		return (CBSolenoid)getDevice(id);
 	}
 	

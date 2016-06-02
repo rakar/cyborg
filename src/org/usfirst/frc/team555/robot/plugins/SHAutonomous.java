@@ -23,7 +23,9 @@ public class SHAutonomous extends CBAutonomous {
 		public void calcNextState() {
 			switch(currentState) {
 			case start:
-				nextState = AutoAIState.armdown;
+				if (crd.selectedAuto>0) {
+					nextState = AutoAIState.armdown;
+				}
 				break;
 			case armdown:
 				if(cycles>175) nextState = AutoAIState.drive;
@@ -41,7 +43,7 @@ public class SHAutonomous extends CBAutonomous {
 
 
 			if(currentState==AutoAIState.start && nextState==AutoAIState.armdown) {
-				if (crd.selectedAuto==0) {
+				if (crd.selectedAuto==1) {
 					crd.ArmHalfUp = true;
 				} else {
 					crd.ArmDown = true;

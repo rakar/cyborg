@@ -48,9 +48,6 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	 */
 	@Override
 	public CBErrorCorrection setConstants(double[] k){
-		//this.P=P;
-		//this.I=I;
-		//this.D=D;
 		this.k = k;
 		return this;
 	}

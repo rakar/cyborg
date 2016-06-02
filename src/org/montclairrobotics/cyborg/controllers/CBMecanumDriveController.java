@@ -2,27 +2,22 @@ package org.montclairrobotics.cyborg.controllers;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
-import org.montclairrobotics.cyborg.data.CBDifferentialDriveControlData;
 import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
 import org.montclairrobotics.cyborg.utils.CB2DVector;
 
-public class CBDifferentialDriveController extends CBDriveController {
+public class CBMecanumDriveController extends CBDriveController {
 
-	
-	public CBDifferentialDriveController(Cyborg robot) {
+	public CBMecanumDriveController(Cyborg robot) {
 		super(robot);
 	}
-	
+
 	@Override
 	public void update() {
 		if(Cyborg.driveControlData.active) {
-			if(Cyborg.driveControlData instanceof CBDifferentialDriveControlData) {
-
-				CBDifferentialDriveControlData status = (CBDifferentialDriveControlData)Cyborg.driveControlData;
-				driveModules.get(0).update(status.leftPower);
-				driveModules.get(1).update(status.rightPower);
-	
-			} else if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
+			if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
+				// TODO: Implement, like, mecanum calculation, 
+				// asymmetric configurations require an overall "group" calculation 
+				// instead of a "single" module calculation
 				
 				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
 				for(CBDriveModule dm:driveModules) {
@@ -37,7 +32,8 @@ public class CBDifferentialDriveController extends CBDriveController {
 			}
 		}
 	}
-	
+
+	// TODO: Implement, like, Mecanum calculation, the below is differential man!!!
 	protected double calculate(CBDriveModule module, CB2DVector direction, double rotation) {
 		double res = 0;
 
@@ -66,12 +62,12 @@ public class CBDifferentialDriveController extends CBDriveController {
 		return res;
 	}
 	
-	public CBDifferentialDriveController addDriveModule(CBDriveModule driveModule) {
-		return (CBDifferentialDriveController)super.addDriveModule(driveModule);
+	public CBMecanumDriveController addDriveModule(CBDriveModule driveModule) {
+		return (CBMecanumDriveController)super.addDriveModule(driveModule);
 	}
 
 	@Override
-	public CBDifferentialDriveController setControlPeriod(double controlPeriod) {
-		return (CBDifferentialDriveController)super.setControlPeriod(controlPeriod);
+	public CBMecanumDriveController setControlPeriod(double controlPeriod) {
+		return (CBMecanumDriveController)super.setControlPeriod(controlPeriod);
 	}
 }
