@@ -31,7 +31,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		double value[] = new double[3];
 		
 		for(int i=0;i<3;i++) {
-			value[i] = (axes[i]==null)?axes[i].get():0;
+			value[i] = (axes[i]!=null)?axes[i].get():0;
 		}
 		
 		if(Cyborg.driveRequestData instanceof CBStdDriveRequestData) {

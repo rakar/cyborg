@@ -19,19 +19,44 @@ public class CBSwerveDriveModule extends CBDriveModule {
 		System.out.println("Error: update(double taget) not valid for CBSwerveModule."); 
 		return this;
 	}
+	
+	private double shortAngle(double angle) {
+		return ((angle+180.0)%360.0)-180.0;
+	}
+	
 	/**
 	 * Update the module with current control info.
 	 * This routine is responsible for performing angle 
 	 * optimization re: closest half-turn with reverse.
-	 * @param angle
-	 * @param speed
+	 * @param targetAngle
+	 * @param targetSpeed
 	 * @return this module
 	 */
-	public CBDriveModule update(double angle, double speed) {
-		// TODO: Add angle optimization re: closest half-turn with reverse.
-		// TODO: enforce rotation limits.
-		controllerArrays.get(0).update(angle);
-		controllerArrays.get(1).update(speed);
+	public CBDriveModule update(double targetAngle, double targetSpeed) {
+		CBSpeedControllerArrayController angleController = controllerArrays.get(0);
+		CBSpeedControllerArrayController driveController = controllerArrays.get(1);
+		double flip = 1.0;
+
+		double currentAngle = angleController.get();
+		double rem = shortAngle(currentAngle);
+		
+		targetAngle = shortAngle(targetAngle);		
+		
+		double diffAngle = shortAngle(rem-targetAngle);
+		if(diffAngle<-90) {
+			targetAngle+=180.0;
+			flip = -1.0;
+		} else if (diffAngle>90) {
+			targetAngle-=180.0;
+			flip = -1.0;
+		}
+		diffAngle = shortAngle(rem-targetAngle);
+		
+		targetAngle = currentAngle-diffAngle;
+		targetSpeed *= flip;
+		
+		angleController.update(targetAngle);
+		driveController.update(targetSpeed);
 		return this;
 	}
 	

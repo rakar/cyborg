@@ -87,8 +87,8 @@ public class Robot extends Cyborg {
 
 		
 		// Driver's Station Controls	
-		devices.forwardAxis 	= ha.add(new CBAxis(0, 1).setDeadzone(0.2));
-		devices.rotationAxis 	= ha.add(new CBAxis(0, 0).setDeadzone(0.2));
+		devices.forwardAxis 	= ha.add(new CBAxis(0, 1).setDeadzone(0.1));
+		devices.rotationAxis 	= ha.add(new CBAxis(0, 0).setDeadzone(0.1));
 		//devices.forward2Axis 	= ha.add(new CBAxis(1, 1)); // for Tank drive
 
 		devices.gyroLockButton 	= ha.add(new CBButton(0, 1));
