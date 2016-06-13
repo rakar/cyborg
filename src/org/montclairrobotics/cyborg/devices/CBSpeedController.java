@@ -1,69 +1,27 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.SpeedController;
+public interface CBSpeedController extends CBDevice {
+ 
+	CBSpeedController pidWrite(double output);
 
-public class CBSpeedController implements CBDevice{
+	double get();
 
-	private SpeedController controller; 
-	
-	public CBSpeedController(SpeedController controller) {
-		this.controller = controller;
-	}
+	//CBSpeedController set(double speed, byte syncGroup);
 
-	public CBSpeedController pidWrite(double output) {
-		controller.pidWrite(output);
-		return this;
-	}
+	CBSpeedController set(double speed);
 
-	public double get() {
-		return controller.get();
-	}
+	CBSpeedController setInverted(boolean isInverted);
 
-	public CBSpeedController set(double speed, byte syncGroup) {
-		controller.set(speed,syncGroup);
-		return this;
-	}
+	boolean getInverted();
 
-	public CBSpeedController set(double speed) {
-		controller.set(speed);
-		return this;
-	}
+	CBSpeedController disable();
 
-	public CBSpeedController setInverted(boolean isInverted) {
-		controller.setInverted(isInverted);
-		return this;
-	}
+	CBSpeedController stopMotor();
 
-	public boolean getInverted() {
-		return controller.getInverted();
-	}
+	void senseUpdate();
 
-	public CBSpeedController disable() {
-		controller.disable();
-		return this;
-	}
+	void controlUpdate();
 
-	public CBSpeedController stopMotor() {
-		controller.stopMotor();
-		return this;
-	}
-	
-	@Override
-	public void senseUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
+	void configure();
 
-	@Override
-	public void controlUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void configure() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

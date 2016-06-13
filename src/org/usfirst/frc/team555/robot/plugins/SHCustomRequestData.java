@@ -12,12 +12,15 @@ public class SHCustomRequestData extends CBCustomRequestData {
 
 	public CBTriState fireShooter = new CBTriState();
 	public boolean autoSteer = false;
+	public double autoSteerX = -1;
+	public double autoSteerY = -1;
 
 	public boolean spinUpShooter = false;
 	public boolean intake = false;
 
 	// Sensor Mapper Output
 	public int selectedAuto = -1;
+	public int selectedSide = -1;
 	public double targetX = -1;
 	public double targetY = -1;
 }

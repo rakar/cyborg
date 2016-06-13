@@ -15,6 +15,7 @@ public class SHSensorMapper extends CBCustomMapper {
 	SHCustomRequestData crd = (SHCustomRequestData) Cyborg.customRequestData;
 
 	CBDashboardChooser<Integer> autoChooser;
+	CBDashboardChooser<Integer> autoSide;
 	CBContourReport contourRpt;
 	CBNavXYawSource navxYawSource;
 
@@ -29,6 +30,9 @@ public class SHSensorMapper extends CBCustomMapper {
 
 		if(autoChooser!=null)
 			crd.selectedAuto = autoChooser.getSelected();
+		if(autoSide!=null)
+			crd.selectedSide = autoSide.getSelected();
+		
 		drd.gyroLockSource = navxYawSource.get();
 		crd.targetX = contourRpt.centerX;
 		crd.targetY = contourRpt.centerY;
@@ -42,6 +46,12 @@ public class SHSensorMapper extends CBCustomMapper {
 	@SuppressWarnings("unchecked")
 	public SHSensorMapper setAutoChooser(CBDeviceId chooserId) {
 		this.autoChooser = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(chooserId);
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public SHSensorMapper setAutoSide(CBDeviceId chooserId) {
+		this.autoSide = (CBDashboardChooser<Integer>)Cyborg.hardwareAdapter.getDevice(chooserId);
 		return this;
 	}
 

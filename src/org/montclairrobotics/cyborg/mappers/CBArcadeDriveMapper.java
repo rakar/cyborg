@@ -42,7 +42,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 			drd.rotation = -value[2]; 
 			
 			if(gyroLock!=null && gyroLock.isDefined()) {
-				drd.gyroLock = gyroLock.getButtonState();
+				drd.gyroLock = gyroLock.getState();
 			}			
 		} else {
 			Cyborg.driveRequestData.active = false; // If we don't know what type of request it is shut down drive

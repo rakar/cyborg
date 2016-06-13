@@ -54,7 +54,7 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 			drd.rotation = rotation; 
 
 			if(gyroLock!=null && gyroLock.isDefined()) {
-				drd.gyroLock = gyroLock.getButtonState();
+				drd.gyroLock = gyroLock.getState();
 			}
 			
 		} else if (Cyborg.driveRequestData instanceof CBTankDriveRequestData) {

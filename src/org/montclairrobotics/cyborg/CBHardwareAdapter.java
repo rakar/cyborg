@@ -10,10 +10,10 @@ import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -30,11 +30,11 @@ public class CBHardwareAdapter extends CBModule {
 		super(robot);
 	}
 	
-	//public void configure() {
-	//	for(CBDevice d: devices) {
-	//		d.configure();
-	//	}
-	//}
+	public void configure() {
+		for(CBDevice d: devices) {
+			d.configure();
+		}
+	}
 		
 	public void senseUpdate() {
 		for(CBDevice d: devices) {

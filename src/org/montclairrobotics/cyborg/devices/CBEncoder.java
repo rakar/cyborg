@@ -26,7 +26,7 @@ public class CBEncoder implements CBDevice, CBSource{
 		boolean activeState;
 		double distance;
 		
-		public CBIndexEntry(CBDeviceId triggerId,	boolean activeState, double distance) {
+		public CBIndexEntry(CBDeviceId triggerId, boolean activeState, double distance) {
 			this.triggerId = triggerId;
 			this.activeState = activeState;
 			this.distance = distance;
@@ -129,7 +129,6 @@ public class CBEncoder implements CBDevice, CBSource{
 		}
 		return this;
 	}
-	
 	
 	public CBEncoder setDistancePerPulse(double distancePerPulse) {
 		if (distancePerPulse==0) distancePerPulse=1;

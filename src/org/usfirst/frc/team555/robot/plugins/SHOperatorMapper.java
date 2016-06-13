@@ -27,13 +27,17 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	@Override
 	public void update() {
 
-		crd.ArmUp = armUpButton.getButtonPress();
-		crd.ArmHalfUp = halfUpButton.getButtonPress();
-		crd.ArmDown = armDownButton.getButtonPress(); 
+		crd.ArmUp = armUpButton.getRisingEdge();
+		crd.ArmHalfUp = halfUpButton.getRisingEdge();
+		crd.ArmDown = armDownButton.getRisingEdge(); 
 
-		crd.fireShooter.set(shootButton.getButtonPress(),shootButton.getButtonRelease());
-		crd.autoSteer = autoSteerButton.getButtonState();
-		//grd.autoSteerLock = autoSteerLockTrigger.setState(grd.autoSteer).getRisingEdge();
+		crd.fireShooter.set(shootButton.getRisingEdge(),shootButton.getFallingEdge());
+		
+		crd.autoSteer = autoSteerButton.getState();
+		if(crd.autoSteer) {
+			crd.autoSteerX=160;
+			crd.autoSteerY= 90;
+		}
 
 		int pov = spinPov.get();
 		crd.intake = (180==pov);

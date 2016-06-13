@@ -14,7 +14,7 @@ import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.devices.CBTalon;
 import org.montclairrobotics.cyborg.mappers.CBArcadeDriveMapper;
 import org.montclairrobotics.cyborg.devices.CBNavX;
 import org.montclairrobotics.cyborg.devices.CBPov;
@@ -22,7 +22,6 @@ import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.utils.*;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.usfirst.frc.team555.robot.plugins.*;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -60,12 +59,27 @@ public class Robot extends Cyborg {
 	public void cyborgInit() {
 
 		
+		//
+		// Data Initialization
+		//
+		// Initialize data stores
+		// The drive and general data stores are separated 
+		// because the drive stores will most likely be 
+		// pre-built and the custom ones will handle 
+		// robot specific data requirements. 
+		// 
+		driveRequestData 	= new CBStdDriveRequestData();
+		driveControlData	= new CBStdDriveControlData();
+		customRequestData	= new SHCustomRequestData();
+		customControlData	= new SHCustomControlData();
+		logicData 			= new CBLogicData();
+
+		
 		// Configure Hardware Adapter
 		Cyborg.hardwareAdapter = 
 				new CBHardwareAdapter(this)
 				.setJoystickCount(2);
-		CBHardwareAdapter ha = Cyborg.hardwareAdapter;
-		
+		CBHardwareAdapter ha = Cyborg.hardwareAdapter;		
 		
 		// Robot Hardware 
 		devices.navx 				= ha.add(new CBNavX(SPI.Port.kMXP));
@@ -74,13 +88,13 @@ public class Robot extends Cyborg {
 		devices.shooterValve 		= ha.add(new CBSolenoid(1));
 		devices.armHalfValve 		= ha.add(new CBSolenoid(2));
 
-		devices.shooterLeftMotor	= ha.add(new CBSpeedController(new Talon(5)).setInverted(true));
-		devices.shooterRightMotor	= ha.add(new CBSpeedController(new Talon(0)));
+		devices.shooterLeftMotor	= ha.add(new CBTalon(5).setInverted(true));
+		devices.shooterRightMotor	= ha.add(new CBTalon(0));
 
-		devices.driveMotorLeft1		= ha.add(new CBSpeedController(new Talon(2)));
-		devices.driveMotorLeft2		= ha.add(new CBSpeedController(new Talon(4)));
-		devices.driveMotorRight1	= ha.add(new CBSpeedController(new Talon(1)));
-		devices.driveMotorRight2	= ha.add(new CBSpeedController(new Talon(3)));
+		devices.driveMotorLeft1		= ha.add(new CBTalon(2));
+		devices.driveMotorLeft2		= ha.add(new CBTalon(4));
+		devices.driveMotorRight1	= ha.add(new CBTalon(1));
+		devices.driveMotorRight2	= ha.add(new CBTalon(3));
 
 		devices.driveEncoderLeft 	= ha.add(new CBEncoder(1,2,EncodingType.k4X,10.0/1600));
 		devices.driveEncoderRight 	= ha.add(new CBEncoder(3,4,EncodingType.k4X,10.0/1600));
@@ -103,34 +117,26 @@ public class Robot extends Cyborg {
 
 		devices.autoSelect		= ha.add(
 				new CBDashboardChooser<Integer>("Auto:")
-				.setTiming(CBGameMode.preGame, 50)
+				.setTiming(CBGameMode.preGame, 0)
 				.addDefault("one", 1)
 				.addChoice("two", 2)
+				);
+
+		devices.autoSelect		= ha.add(
+				new CBDashboardChooser<Integer>("FieldPosition:")
+				.setTiming(CBGameMode.preGame, 0)
+				.addDefault("left", 1)
+				.addChoice("middle", 2)
+				.addChoice("right", 3)
 				);
 
 		// Co-processor Vision System
 		devices.visionPipeline	 = ha.add(
 				new CBContourReport("GRIP/mynewreport")
-				.setTiming(CBGameMode.anyPeriodic, 5)
+				.setTiming(CBGameMode.anyPeriodic, 0)
 				);
 
-		
-		//
-		// Data Initialization
-		//
-		// Initialize data stores
-		// The drive and general data stores are separated 
-		// since the drive stores will most likely be 
-		// pre-built and the general ones will handle 
-		// custom data requirements. 
-		// 
-		driveRequestData 	= new CBStdDriveRequestData();
-		driveControlData	= new CBStdDriveControlData();
-		customRequestData	= new SHCustomRequestData();
-		customControlData	= new SHCustomControlData();
-		logicData 			= new CBLogicData();
 
-		
 		//
 		// Input Mapper Initialization
 		//
@@ -240,17 +246,24 @@ public class Robot extends Cyborg {
 						new CBPIDErrorCorrection()
 						.setConstants(new double[]{-0.025,0.0,0.0})
 						.setOutputLimits(-0.3, 0.3)
-						.setTarget(120.0)
+						// targets shouldn't be set here unless
+						// they are inherently fixed
+						//.setTarget(160.0)   
 						)
 				.setYTracker(
 						new CBPIDErrorCorrection()
 						.setConstants(new double[]{ 0.025,0.0,0.0})
 						.setOutputLimits(-0.3, 0.3)
-						.setTarget(180.0)
+						// targets shouldn't be set here unless
+						// they are inherently fixed
+						//.setTarget(90.0)
 						)
 				);
 
-		this.setAutonomous(new SHAutonomous(this));
+		this.setAutonomous(
+				new SHAutonomous(this)
+				.setFireTarget(160, 10, 90, 20)
+				);
 
 	}
 

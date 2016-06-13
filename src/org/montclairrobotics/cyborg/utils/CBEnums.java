@@ -18,7 +18,11 @@ public class CBEnums {
 		 */
 		Speed,
 		/**
-		 * Conflict: indicates an error due to mixed modes
+		 * Position: position in standard units 
+		 */
+		Position,
+		/**
+		 * Conflict: indicates an error due to mixed speed controller modes
 		 */
 		Conflict
 		};

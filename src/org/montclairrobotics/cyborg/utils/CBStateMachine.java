@@ -7,6 +7,9 @@ public abstract class CBStateMachine<T> {
 	protected T nextState;
 	protected int cycles; 
 	private long stateStartTime;
+	/**
+	 * Duration of the current state in seconds.
+	 */
 	protected double stateDuration;
 	protected boolean loop;
 	protected CBStateMachineLoopMode loopMode = CBStateMachineLoopMode.OneShot;
@@ -34,15 +37,16 @@ public abstract class CBStateMachine<T> {
 		loop = true;
 		while(loop) {
 			nextState=currentState;
+			stateDuration = (new Date().getTime()-stateStartTime)/1000.0;
 			calcNextState();
 			loop = currentState!=nextState;
 			if(loop) {
 				cycles = 0;
 				stateStartTime = new Date().getTime();
+				stateDuration = 0;
 				doTransition();
 			}
 			currentState=nextState;
-			stateDuration = (new Date().getTime()-stateStartTime)/1000.0;
 			doCurrentState();
 			cycles++;
 			loop = loop && (loopMode == CBStateMachineLoopMode.Looping);

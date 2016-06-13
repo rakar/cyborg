@@ -4,12 +4,11 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.behaviors.CBBehavior;
 import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
+import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 import org.usfirst.frc.team555.robot.Robot;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHCustomBehavior extends CBBehavior {
 
@@ -20,6 +19,7 @@ public class SHCustomBehavior extends CBBehavior {
 	CBErrorCorrection xTracker;
 	CBErrorCorrection yTracker;
 	SHFireControlSM fireControl; 
+	CBEdgeTrigger autoSteerEdgeTrigger;
 
 	enum SHFireControlStates { Idle, SpinUp, AtSpeed, Fire, Intake };
 	public class SHFireControlSM extends CBStateMachine<SHFireControlStates> {
@@ -91,6 +91,7 @@ public class SHCustomBehavior extends CBBehavior {
 			if(nextState==SHFireControlStates.Idle) {
 				ccd.ShootOut.set(CBTriStateValue.low);
 				ccd.SpinSpeed = 0.0;
+				this.fireReqPending = false;
 				//exit();
 			}
 			if(nextState==SHFireControlStates.Intake) {
@@ -100,7 +101,8 @@ public class SHCustomBehavior extends CBBehavior {
 			}
 			if(nextState==SHFireControlStates.Fire) {
 				ccd.ShootOut.set(CBTriStateValue.high);
-				SmartDashboard.putNumber("CycleCheck", cycleCheck);
+				this.fireReqPending = false;
+				//SmartDashboard.putNumber("CycleCheck", cycleCheck);
 				//exit();
 			}
 		}
@@ -113,6 +115,7 @@ public class SHCustomBehavior extends CBBehavior {
 	public SHCustomBehavior(Robot robot) {
 		super(robot);
 		fireControl = new SHFireControlSM();
+		autoSteerEdgeTrigger = new CBEdgeTrigger();
 	}
 	
 	public void update() {
@@ -122,7 +125,12 @@ public class SHCustomBehavior extends CBBehavior {
 
 		fireControl.update();
 		
-		if(crd.autoSteer) {
+		autoSteerEdgeTrigger.update(crd.autoSteer);
+		if(autoSteerEdgeTrigger.getRisingEdge()) {
+			xTracker.setTarget(crd.autoSteerX);
+			yTracker.setTarget(crd.autoSteerY);
+		}
+		if(autoSteerEdgeTrigger.getState()) {
 			dcd.rotation = 0;
 			dcd.direction.setXY(0, 0);
 			dcd.active=true;
@@ -146,5 +154,4 @@ public class SHCustomBehavior extends CBBehavior {
 		yTracker = tracker;
 		return this;
 	}
-	
 }

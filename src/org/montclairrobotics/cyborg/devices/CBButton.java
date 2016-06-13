@@ -3,18 +3,21 @@ package org.montclairrobotics.cyborg.devices;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
 
-public class CBButton extends CBJoystickIndex implements CBDevice {
-	
-	private CBEdgeTrigger edgeTrigger = new CBEdgeTrigger();
-	private boolean state;
+import edu.wpi.first.wpilibj.Joystick;
+
+public class CBButton extends CBEdgeTrigger implements CBDevice {
+
+	private CBJoystickIndex stickIndex;
+	private Joystick joystick;
 
 	public CBButton(int stickID, int index) {
-		super(stickID, index);
+		super();
+		stickIndex = new CBJoystickIndex(stickID, index);
+		joystick = Cyborg.hardwareAdapter.getJoystick(stickIndex.stickID);
 	}
-	
-	public CBButton setEdgeDuration(int duration) {
-		edgeTrigger.setEdgeDuration(duration);
-		return this;
+
+	public boolean isDefined() {
+		return stickIndex.isDefined();
 	}
 
 	@Override
@@ -23,24 +26,10 @@ public class CBButton extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		state = Cyborg.hardwareAdapter.getJoystick(stickID).getRawButton(index);
-		edgeTrigger.update(state);
+		update(joystick.getRawButton(stickIndex.index));
 	}
 
 	@Override
 	public void controlUpdate() {
 	}
-	
-	public boolean getButtonState() {
-		return state;
-	}
-
-	public boolean getButtonPress() {
-		return edgeTrigger.getRisingEdge();
-	}
-
-	public boolean getButtonRelease() {
-		return edgeTrigger.getFallingEdge();
-	}
-
 }
