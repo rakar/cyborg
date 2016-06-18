@@ -1,5 +1,7 @@
 package org.montclairrobotics.cyborg.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Generalized 2D Vector
  * Includes Cartesian and Polar conversions and utilities  
@@ -110,9 +112,10 @@ public class CB2DVector {
 	}
 	
 	public CB2DVector scaledRotate(double degrees, double scale) {
-		double radians = (Math.PI*degrees/180)*scale;
+		double radians = (Math.PI*degrees/180.0)*scale;
 		double xp = x*Math.cos(radians) - y*Math.sin(radians);
 		double yp = y*Math.cos(radians) + x*Math.sin(radians);
+		//SmartDashboard.putString("rotate", xp +":"+yp);
 		return new CB2DVector(xp,yp);
 	}
 	

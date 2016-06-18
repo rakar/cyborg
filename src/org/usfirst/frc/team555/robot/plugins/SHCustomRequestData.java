@@ -23,4 +23,10 @@ public class SHCustomRequestData extends CBCustomRequestData {
 	public int selectedSide = -1;
 	public double targetX = -1;
 	public double targetY = -1;
+	
+	public boolean pidTuneEnable = false;
+	public boolean pidTuneCycle = false;
+	
+	public double leftDriveEncoder;
+	public double rightDriveEncoder;
 }

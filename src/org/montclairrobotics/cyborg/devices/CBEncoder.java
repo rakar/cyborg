@@ -189,7 +189,7 @@ public class CBEncoder implements CBDevice, CBSource{
 	}
 	
 	public int getEncodingScale() {
-		return getEncodingScale();
+		return encoder.getEncodingScale();
 	}
 	
 	public int getFPGAIndex() {
@@ -201,7 +201,7 @@ public class CBEncoder implements CBDevice, CBSource{
 	}
 	
 	public double getRate() {
-		return getRate();
+		return encoder.getRate();
 	}
 	
 	public int getEdges() {

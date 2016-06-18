@@ -2,6 +2,8 @@ package org.montclairrobotics.cyborg.assemblies;
 
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * 
  * @author rich
@@ -12,7 +14,7 @@ import org.montclairrobotics.cyborg.devices.CBSpeedController;
  *
  */
 public class CBVictorArrayController extends CBSpeedControllerArrayController { 
-
+	double currentPower;
 
 	public CBVictorArrayController() {
 	}
@@ -31,7 +33,10 @@ public class CBVictorArrayController extends CBSpeedControllerArrayController {
 				System.out.println("Error: Drive mode=Speed, but CBErrorCorrection or CBEncoder not set.");
 				target = 0;
 			} else {
-				target  += errorCorrection.setTarget(target).update(encoder.getRate());
+				double encoderRate = encoder.getRate();
+				currentPower += errorCorrection.setTarget(target).update(encoderRate);
+				SmartDashboard.putNumber("currentPower::", currentPower);
+				target = currentPower;
 			}
 			break;
 		case Conflict:

@@ -2,6 +2,8 @@ package org.montclairrobotics.cyborg.utils;
 
 import java.util.Date;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class CBPIDErrorCorrection implements CBErrorCorrection {
 	private double minIn,maxIn,minOut,maxOut;
 	private double[] k;
@@ -67,7 +69,7 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	@Override
 	public CBErrorCorrection setTarget()
 	{
-		return setTarget(0.0,true);
+		return setTarget(0.0,false);
 	}
 	
 	/* (non-Javadoc)
@@ -76,7 +78,7 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	@Override
 	public CBErrorCorrection setTarget(double t)
 	{
-		return setTarget(t,true);
+		return setTarget(t,false);
 	}
 	
 	/* (non-Javadoc)
@@ -169,11 +171,15 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 		prevError=error;
 		if (lastUpdate == 0) {
 			lastUpdate = new Date().getTime();
+			out=0;
+			//SmartDashboard.putNumber("LastUpdate::", lastUpdate);
 		} else {
 			thisUpdate = new Date().getTime();
 			timeSpan =  (thisUpdate-lastUpdate)/1000.0;
+			//SmartDashboard.putNumber("TimeSpan::", timeSpan);
 			in=source;
 			out = calculate(source);
+			lastUpdate = thisUpdate;
 		}
 		return out;
 	}

@@ -6,6 +6,8 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public abstract class CBDriveController extends CBRobotController {
 
 	protected ArrayList<CBDriveModule> driveModules = new ArrayList<>();
@@ -36,6 +38,7 @@ public abstract class CBDriveController extends CBRobotController {
 		} else {
 			if (driveModule.getDriveMode()!=driveMode) {
 				driveMode = CBDriveMode.Conflict;
+				SmartDashboard.putString("Drivemode","Conflict");
 			}
 		}
 	}

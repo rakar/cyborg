@@ -34,10 +34,10 @@ public class SHAutonomous extends CBAutonomous {
 				}
 				break;
 			case armdown:
-				if(stateDuration>3) nextState = AutoAIState.drive;
+				if(secondsInState>3) nextState = AutoAIState.drive;
 				break;
 			case drive:
-				if(stateDuration>3) nextState = AutoAIState.turnToTower;
+				if(secondsInState>3) nextState = AutoAIState.turnToTower;
 				break;
 			case turnToTower:
 				if(crd.targetX>20 && crd.targetX<280) nextState = AutoAIState.alignToTarget;

@@ -6,6 +6,8 @@ import org.montclairrobotics.cyborg.data.CBDifferentialDriveControlData;
 import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
 import org.montclairrobotics.cyborg.utils.CB2DVector;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class CBDifferentialDriveController extends CBDriveController {
 
 	
@@ -52,10 +54,11 @@ public class CBDifferentialDriveController extends CBDriveController {
 		{
 			CB2DVector pos = module.getPosition();
 			CB2DVector targetPosition = 
-					pos.scaledRotate(rotation, controlPeriod)
-					.scaledTranslate(direction, controlPeriod);
+					pos.scaledRotate(rotation, 1) 
+					.scaledTranslate(direction, 1); 
 			CB2DVector diff = pos.sub(targetPosition);
 			res = module.getOrientationVector().dot(diff);
+			SmartDashboard.putNumber("speed::", res);
 		}
 			break;
 		case Conflict:

@@ -17,6 +17,9 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	CBButton halfDownButton;
 	CBButton halfUpButton;
 	CBButton autoSteerButton;
+	CBButton pidTuneEnableButton = null;
+	CBButton pidTuneCycleButton = null;
+	
 	CBPov spinPov;
 	
 	public SHOperatorMapper(Robot robot) {
@@ -30,6 +33,11 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		crd.ArmUp = armUpButton.getRisingEdge();
 		crd.ArmHalfUp = halfUpButton.getRisingEdge();
 		crd.ArmDown = armDownButton.getRisingEdge(); 
+		
+		if (pidTuneEnableButton!=null){
+			crd.pidTuneEnable = pidTuneEnableButton.getState(); 
+			crd.pidTuneCycle = pidTuneCycleButton.getState(); 
+		}
 
 		crd.fireShooter.set(shootButton.getRisingEdge(),shootButton.getFallingEdge());
 		
@@ -71,6 +79,12 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	
 	public SHOperatorMapper setSpinPOV(CBDeviceId povId) {
 		spinPov = Cyborg.hardwareAdapter.getPOV(povId);
+		return this;
+	}
+	
+	public SHOperatorMapper setTuneButtons(CBDeviceId enableId, CBDeviceId cycleId) {
+		this.pidTuneCycleButton = Cyborg.hardwareAdapter.getButton(cycleId);
+		this.pidTuneEnableButton = Cyborg.hardwareAdapter.getButton(enableId);
 		return this;
 	}
 }

@@ -32,6 +32,9 @@ import edu.wpi.first.wpilibj.SPI;
  */
 public class Robot extends Cyborg {
 	
+	final static int driveStickId = 1;
+	final static int operStickId = 0;
+	
 	//
 	// List Custom Hardware Devices...
 	// This should include all of the active devices
@@ -50,7 +53,8 @@ public class Robot extends Cyborg {
 			gyroLockButton, autoSteerButton,
 			spinPov,
 			autoSelect,
-			visionPipeline
+			visionPipeline,
+			pidTuneEnable, pidTuneCycle
 			;
 	}
 	private SHDevices devices = new SHDevices();
@@ -96,24 +100,33 @@ public class Robot extends Cyborg {
 		devices.driveMotorRight1	= ha.add(new CBTalon(1));
 		devices.driveMotorRight2	= ha.add(new CBTalon(3));
 
-		devices.driveEncoderLeft 	= ha.add(new CBEncoder(1,2,EncodingType.k4X,10.0/1600));
-		devices.driveEncoderRight 	= ha.add(new CBEncoder(3,4,EncodingType.k4X,10.0/1600));
+		devices.driveEncoderLeft 	= ha.add(
+				new CBEncoder(0,1,EncodingType.k4X,4*47.0/4226)
+				.setReverseDirection(false)
+				);
+		devices.driveEncoderRight 	= ha.add(
+				new CBEncoder(3,4,EncodingType.k4X,4*47.0/4226)
+				.setReverseDirection(false)
+				);
 
 		
 		// Driver's Station Controls	
-		devices.forwardAxis 	= ha.add(new CBAxis(0, 1).setDeadzone(0.1));
-		devices.rotationAxis 	= ha.add(new CBAxis(0, 0).setDeadzone(0.1));
-		//devices.forward2Axis 	= ha.add(new CBAxis(1, 1)); // for Tank drive
+		devices.forwardAxis 	= ha.add(new CBAxis(driveStickId, 1).setDeadzone(0.1));
+		devices.rotationAxis 	= ha.add(new CBAxis(driveStickId, 0).setDeadzone(0.1));
+		//devices.forward2Axis 	= ha.add(new CBAxis(operStickId, 1)); // for Tank drive
 
-		devices.gyroLockButton 	= ha.add(new CBButton(0, 1));
-		devices.autoSteerButton	= ha.add(new CBButton(0, 3));
+		devices.gyroLockButton 	= ha.add(new CBButton(driveStickId, 1));
+		devices.autoSteerButton	= ha.add(new CBButton(driveStickId, 3));
 
-		devices.shootButton 	= ha.add(new CBButton(1, 1));
-		devices.armUpButton 	= ha.add(new CBButton(1, 5));
-		devices.armMidButton 	= ha.add(new CBButton(1, 3));
-		devices.armDownButton 	= ha.add(new CBButton(1, 4));
+		devices.shootButton 	= ha.add(new CBButton(operStickId, 1));
+		devices.armUpButton 	= ha.add(new CBButton(operStickId, 5));
+		devices.armMidButton 	= ha.add(new CBButton(operStickId, 3));
+		devices.armDownButton 	= ha.add(new CBButton(operStickId, 4));
+		
+		devices.pidTuneEnable	= ha.add(new CBButton(driveStickId, 4));
+		devices.pidTuneCycle	= ha.add(new CBButton(driveStickId, 5));
 
-		devices.spinPov 		= ha.add(new CBPov(1, 0));
+		devices.spinPov 		= ha.add(new CBPov(operStickId, 0));
 
 		devices.autoSelect		= ha.add(
 				new CBDashboardChooser<Integer>("Auto:")
@@ -155,6 +168,7 @@ public class Robot extends Cyborg {
 				new CBArcadeDriveMapper(this)
 				.setAxes(devices.forwardAxis, null, devices.rotationAxis) // No strafe axis
 				.setGyroLockButton(devices.gyroLockButton)
+				.setAxisScales(0, 40, 90) // no strafe, 40 inches/second, 90 degrees/second
 				);
 
 		// Use teleOp mappers for operator mapping
@@ -166,6 +180,7 @@ public class Robot extends Cyborg {
 				.setAutoSteerButton(devices.autoSteerButton)
 				.setShootButton(devices.shootButton)
 				.setSpinPOV(devices.spinPov)
+				.setTuneButtons(devices.pidTuneEnable, devices.pidTuneCycle)
 				);
 		
 		// Use custom mappers for sensor/full-time mapping
@@ -174,6 +189,7 @@ public class Robot extends Cyborg {
 				.setAutoChooser(devices.autoSelect)
 				.setContourRpt(devices.visionPipeline)
 				.setGyroLockSource(devices.navx)
+				.setDriveEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
 				);
 
 		
@@ -186,13 +202,13 @@ public class Robot extends Cyborg {
 						new CBDriveModule(new CB2DVector(-15,0), 0)
 						.addSpeedControllerArray(
 								new CBVictorArrayController()
-								.setDriveMode(CBDriveMode.Power)
+								.setDriveMode(CBDriveMode.Speed)
 								.addSpeedController(devices.driveMotorLeft1)
 								.addSpeedController(devices.driveMotorLeft2)
 								.setEncoder(devices.driveEncoderLeft)
 								.setErrorCorrection(
 										new CBPIDErrorCorrection()
-										.setConstants(new double[]{.9,0,.9})
+										.setConstants(new double[]{-0.08,0,0})
 										)
 								)
 						)
@@ -200,13 +216,13 @@ public class Robot extends Cyborg {
 						new CBDriveModule(new CB2DVector( 15,0), 180)
 						.addSpeedControllerArray(
 								new CBVictorArrayController()
-								.setDriveMode(CBDriveMode.Power)
+								.setDriveMode(CBDriveMode.Speed)
 								.addSpeedController(devices.driveMotorRight1)
 								.addSpeedController(devices.driveMotorRight2)
 								.setEncoder(devices.driveEncoderRight)
 								.setErrorCorrection(
 										new CBPIDErrorCorrection()
-										.setConstants(new double[]{.9,0,.9})
+										.setConstants(new double[]{-0.08,0,0})
 										)
 								)
 						)
@@ -244,23 +260,27 @@ public class Robot extends Cyborg {
 				new SHCustomBehavior(this)
 				.setXTracker(
 						new CBPIDErrorCorrection()
-						.setConstants(new double[]{-0.025,0.0,0.0})
-						.setOutputLimits(-0.3, 0.3)
+						.setConstants(new double[]{5.0,0.0,0.0})
+						.setOutputLimits(-45, 45)
 						// targets shouldn't be set here unless
 						// they are inherently fixed
 						//.setTarget(160.0)   
 						)
 				.setYTracker(
 						new CBPIDErrorCorrection()
-						.setConstants(new double[]{ 0.025,0.0,0.0})
-						.setOutputLimits(-0.3, 0.3)
+						.setConstants(new double[]{0.0,0.0,0.0})
+						.setOutputLimits(-20, 20)
 						// targets shouldn't be set here unless
 						// they are inherently fixed
 						//.setTarget(90.0)
 						)
 				);
+		//this.addBehavior(
+		//		new SHPIDTuner(this)
+		//		);
+		
 
-		this.setAutonomous(
+		this.addAutonomous(
 				new SHAutonomous(this)
 				.setFireTarget(160, 10, 90, 20)
 				);

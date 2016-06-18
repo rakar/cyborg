@@ -10,6 +10,8 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 import org.usfirst.frc.team555.robot.Robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class SHCustomBehavior extends CBBehavior {
 
 	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
@@ -55,7 +57,7 @@ public class SHCustomBehavior extends CBBehavior {
 				}
 				break;
 			case Fire:
-				if(stateDuration>.4) {
+				if(secondsInState>.4) {
 					nextState = SHFireControlStates.Idle;
 				}
 				break;
@@ -69,7 +71,7 @@ public class SHCustomBehavior extends CBBehavior {
 				}
 				break;
 			case SpinUp:
-				if (stateDuration>.6) {
+				if (secondsInState>.6) {
 					nextState=SHFireControlStates.AtSpeed;
 				}
 				break;

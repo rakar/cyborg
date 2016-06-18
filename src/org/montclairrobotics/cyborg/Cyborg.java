@@ -44,7 +44,7 @@ public abstract class Cyborg extends IterativeRobot {
 	// Logic Layer
 	private ArrayList<CBRule> rules = new ArrayList<>();
 	private ArrayList<CBBehavior> behaviors = new ArrayList<>();
-	private CBAutonomous autonomous;
+	private ArrayList<CBAutonomous> autonomice = new ArrayList<>();
 	
 	public static int gameMode=0;
 	public NetworkTable table;
@@ -82,8 +82,8 @@ public abstract class Cyborg extends IterativeRobot {
 		return this;
 	}
 	
-	public Cyborg setAutonomous(CBAutonomous autonomous) {
-		this.autonomous = autonomous;
+	public Cyborg addAutonomous(CBAutonomous autonomous) {
+		this.autonomice.add(autonomous);
 		return this;
 	}
 	
@@ -113,7 +113,7 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void autonomousInit() {
 		gameMode = CBGameMode.autonomousInit;
-		autonomous.init();
+		for(CBAutonomous auto:this.autonomice) auto.init();
     }
 
 	@Override
@@ -127,7 +127,7 @@ public abstract class Cyborg extends IterativeRobot {
 		for(CBCustomMapper m:this.customMappers) m.update(); 
 
 		// Autonomous Control
-		autonomous.update();
+		for(CBAutonomous auto:this.autonomice) auto.update();
 
 		// Let the robot do it's thing...
 		robotControl();

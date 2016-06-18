@@ -5,9 +5,12 @@ import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
+import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
 import org.usfirst.frc.team555.robot.Robot;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHSensorMapper extends CBCustomMapper {
 	Robot robot;
@@ -18,6 +21,8 @@ public class SHSensorMapper extends CBCustomMapper {
 	CBDashboardChooser<Integer> autoSide;
 	CBContourReport contourRpt;
 	CBNavXYawSource navxYawSource;
+	CBEncoder leftEncoder;
+	CBEncoder rightEncoder;
 
 	public SHSensorMapper(Robot robot) {
 		super(robot);
@@ -36,6 +41,12 @@ public class SHSensorMapper extends CBCustomMapper {
 		drd.gyroLockSource = navxYawSource.get();
 		crd.targetX = contourRpt.centerX;
 		crd.targetY = contourRpt.centerY;
+		if(leftEncoder!=null) {
+			crd.leftDriveEncoder = leftEncoder.getRate();
+			crd.rightDriveEncoder = rightEncoder.getRate();
+			SmartDashboard.putNumber("LeftEncoderGet:", crd.leftDriveEncoder);
+			SmartDashboard.putNumber("RightEncoderGet:", crd.rightDriveEncoder);
+		}
 	}
 
 	public SHSensorMapper setGyroLockSource(CBDeviceId navxId) {
@@ -57,6 +68,12 @@ public class SHSensorMapper extends CBCustomMapper {
 
 	public SHSensorMapper setContourRpt(CBDeviceId contourRpt) {
 		this.contourRpt = Cyborg.hardwareAdapter.getContourReport(contourRpt);
+		return this;
+	}
+
+	public SHSensorMapper setDriveEncoders(CBDeviceId leftEncoder, CBDeviceId rightEncoder) {
+		this.leftEncoder = Cyborg.hardwareAdapter.getEncoder(leftEncoder);
+		this.rightEncoder = Cyborg.hardwareAdapter.getEncoder(rightEncoder);
 		return this;
 	}
 
