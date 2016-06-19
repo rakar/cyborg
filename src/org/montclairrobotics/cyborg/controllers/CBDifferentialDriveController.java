@@ -34,7 +34,7 @@ public class CBDifferentialDriveController extends CBDriveController {
 
 			} else {
 				
-				System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
+				System.out.println("Error: Invalid DriveControlData for DifferentialDriveController");
 				
 			}
 		}
@@ -54,9 +54,9 @@ public class CBDifferentialDriveController extends CBDriveController {
 		{
 			CB2DVector pos = module.getPosition();
 			CB2DVector targetPosition = 
-					pos.scaledRotate(rotation, 1) 
-					.scaledTranslate(direction, 1); 
-			CB2DVector diff = pos.sub(targetPosition);
+					pos.rotate(rotation) 
+					 .translate(direction); 
+			CB2DVector diff = targetPosition.sub(pos);
 			res = module.getOrientationVector().dot(diff);
 			SmartDashboard.putNumber("speed::", res);
 		}

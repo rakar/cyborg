@@ -1,6 +1,11 @@
 package org.montclairrobotics.cyborg.utils;
 
 public interface CBErrorCorrection {
+	
+	public enum CBOnTargetMode {Zero, HoldValue};
+	
+	CBErrorCorrection setOnTargetMode(CBOnTargetMode mode);
+	CBOnTargetMode getOnTargetMode();
 
 	/**
 	 * @param minIn the minimum input, or 0 to ignore. Use with maxIn to "wrap" the values, 
@@ -49,6 +54,8 @@ public interface CBErrorCorrection {
 
 	double getError();
 
-	double getOut();
+	double getCorrection();
 
+	double getOut();
+	
 }

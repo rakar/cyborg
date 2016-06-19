@@ -12,6 +12,9 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	private double totalError, prevError, error;
 	private long   lastUpdate, thisUpdate; 
 	private double timeSpan;
+	private double holdValue;
+	private double correction;
+	private CBOnTargetMode onTargetMode = CBOnTargetMode.Zero;
 
 	/**
 	 * @param P the Proportional Constant
@@ -21,6 +24,12 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	public CBPIDErrorCorrection()
 	{
 		//this.k = k;
+	}
+	
+	@Override
+	public CBErrorCorrection setOnTargetMode(CBOnTargetMode mode) {
+		this.onTargetMode = mode;
+		return this;
 	}
 	
 	/* (non-Javadoc)
@@ -104,6 +113,7 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 		prevError=0.0;
 		totalError=0.0;
 		lastUpdate = 0;
+		holdValue = 0;
 		return this;
 	}
 		
@@ -112,7 +122,7 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 		return this;
 	}
 		
-	protected double calculate(double actual)
+	protected double calculateCorrection(double actual)
 	{
 		double P = k[0];
 		double I = k[1];
@@ -149,16 +159,6 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 		double correction = P * error + I * totalError +
 	             D * (error - prevError); //+ calculateFeedForward();
 
-		// moved into update to make calculate "update free"
-		// prevError = error;
-		
-		// Clamp output
-		if(minOut!=0 || maxOut!=0)
-		{
-			if (correction > maxOut) correction=maxOut;
-			else if (correction < minOut) correction=minOut;
-		}
-		
 		return correction;
 	}
 	
@@ -168,19 +168,33 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	@Override
 	public double update(double source)
 	{
+		thisUpdate = new Date().getTime();
 		prevError=error;
+		in=source;
 		if (lastUpdate == 0) {
-			lastUpdate = new Date().getTime();
-			out=0;
-			//SmartDashboard.putNumber("LastUpdate::", lastUpdate);
+			timeSpan = 0;
+			correction = 0;
 		} else {
-			thisUpdate = new Date().getTime();
 			timeSpan =  (thisUpdate-lastUpdate)/1000.0;
-			//SmartDashboard.putNumber("TimeSpan::", timeSpan);
-			in=source;
-			out = calculate(source);
-			lastUpdate = thisUpdate;
+			correction = calculateCorrection(source);
 		}
+		switch(onTargetMode) {
+		case HoldValue:
+			holdValue+=correction;
+			out = holdValue;
+			break;
+		case Zero:
+			out = correction;
+			break;
+		}
+		// Clamp output
+		if(minOut!=0 || maxOut!=0)
+		{
+			if (out > maxOut) out=maxOut;
+			else if (out < minOut) out=minOut;
+		}
+		
+		lastUpdate = thisUpdate;
 		return out;
 	}
 	
@@ -208,5 +222,18 @@ public class CBPIDErrorCorrection implements CBErrorCorrection {
 	public double getOut()
 	{
 		return out;
+	}
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.utils.CBErrorCorrection#getOut()
+	 */
+	@Override
+	public double getCorrection()
+	{
+		return correction;
+	}
+	
+	@Override
+	public CBOnTargetMode getOnTargetMode() {
+		return onTargetMode;
 	}
 }

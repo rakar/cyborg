@@ -262,16 +262,18 @@ public class Robot extends Cyborg {
 						new CBPIDErrorCorrection()
 						.setConstants(new double[]{5.0,0.0,0.0})
 						.setOutputLimits(-45, 45)
-						// targets shouldn't be set here unless
-						// they are inherently fixed
+						// Targets shouldn't be set here unless
+						// they are inherently fixed.
+						// Instead these were moved to CustomRequestData.
 						//.setTarget(160.0)   
 						)
 				.setYTracker(
 						new CBPIDErrorCorrection()
 						.setConstants(new double[]{0.0,0.0,0.0})
 						.setOutputLimits(-20, 20)
-						// targets shouldn't be set here unless
-						// they are inherently fixed
+						// Targets shouldn't be set here unless
+						// they are inherently fixed.
+						// Instead these were moved to CustomRequestData.
 						//.setTarget(90.0)
 						)
 				);

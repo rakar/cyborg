@@ -1,6 +1,7 @@
 package org.montclairrobotics.cyborg.assemblies;
 
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.utils.CBErrorCorrection.CBOnTargetMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,28 +25,40 @@ public class CBVictorArrayController extends CBSpeedControllerArrayController {
 	 */
 	@Override
 	public CBSpeedControllerArrayController update(double target) {
+		double outputValue = 0;
+		
 		switch(driveMode) {
 		case Power:
-			//target = target; //*direction;
+			outputValue = target;
 			break;
 		case Speed:
 			if(errorCorrection==null || encoder==null){
 				System.out.println("Error: Drive mode=Speed, but CBErrorCorrection or CBEncoder not set.");
-				target = 0;
+				outputValue = 0;
 			} else {
 				double encoderRate = encoder.getRate();
-				currentPower += errorCorrection.setTarget(target).update(encoderRate);
-				SmartDashboard.putNumber("currentPower::", currentPower);
-				target = currentPower;
+				if(errorCorrection.getOnTargetMode()==CBOnTargetMode.HoldValue) {
+					currentPower = errorCorrection.setTarget(target).update(encoderRate);
+				} else {
+					currentPower += errorCorrection.setTarget(target).update(encoderRate);
+				}
+				outputValue = currentPower;
+			}
+			break;
+		case Position:
+			if(errorCorrection==null || encoder==null){
+				System.out.println("Error: Drive mode=Position, but CBErrorCorrection or CBEncoder not set.");
+				target = 0;
+			} else {
+				outputValue = errorCorrection.setTarget(target).update(encoder.getDistance());
 			}
 			break;
 		case Conflict:
-		default:
-			target = 0;
+			outputValue = 0;
 			break;
 		}
 
-		for(CBSpeedController l:speedControllers) l.set(target*direction);
+		for(CBSpeedController l:speedControllers) l.set(outputValue*direction);
 
 		return this;
 	}

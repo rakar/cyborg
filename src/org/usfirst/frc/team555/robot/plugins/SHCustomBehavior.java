@@ -10,8 +10,6 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 import org.usfirst.frc.team555.robot.Robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SHCustomBehavior extends CBBehavior {
 
 	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
