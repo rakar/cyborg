@@ -34,14 +34,14 @@ public class CBEncoder implements CBDevice, CBSource{
 		}
 	}
 
-	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, double distancePerPulse) {
-		encoder = new Encoder(aChannel, bChannel, false, encodingType);
+	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, boolean reversed, double distancePerPulse) {
+		encoder = new Encoder(aChannel, bChannel, reversed, encodingType);
 		setTickConversion(encodingType);
 		setDistancePerPulse(distancePerPulse);
 	}
 	
-	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, double distancePerPulse) {
-		encoder = new Encoder(aSource, bSource, false, encodingType);
+	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, boolean reversed, double distancePerPulse) {
+		encoder = new Encoder(aSource, bSource, reversed, encodingType);
 		setTickConversion(encodingType);
 		setDistancePerPulse(distancePerPulse);
 	}
@@ -181,11 +181,11 @@ public class CBEncoder implements CBDevice, CBSource{
 	}
 	
 	public boolean getDirection() {
-		return getDirection();
+		return encoder.getDirection();
 	}
 	
 	public double getDistance() {
-		return getDistance()+offsetDistance;
+		return encoder.getDistance()+offsetDistance;
 	}
 	
 	public int getEncodingScale() {

@@ -29,4 +29,8 @@ public class SHCustomRequestData extends CBCustomRequestData {
 	
 	public double leftDriveEncoder;
 	public double rightDriveEncoder;
+	public double leftDriveEncoderSpeed;
+	public double rightDriveEncoderSpeed;
+	public boolean rightDriveEncoderDir;
+	public boolean leftDriveEncoderDir;
 }

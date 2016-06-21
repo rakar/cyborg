@@ -23,6 +23,7 @@ import org.montclairrobotics.cyborg.utils.*;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.usfirst.frc.team555.robot.plugins.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
@@ -62,7 +63,6 @@ public class Robot extends Cyborg {
 	@Override
 	public void cyborgInit() {
 
-		
 		//
 		// Data Initialization
 		//
@@ -101,12 +101,10 @@ public class Robot extends Cyborg {
 		devices.driveMotorRight2	= ha.add(new CBTalon(3));
 
 		devices.driveEncoderLeft 	= ha.add(
-				new CBEncoder(0,1,EncodingType.k4X,4*47.0/4226)
-				.setReverseDirection(false)
+				new CBEncoder(0, 1, EncodingType.k4X, true, 4*47.0/4226)
 				);
 		devices.driveEncoderRight 	= ha.add(
-				new CBEncoder(3,4,EncodingType.k4X,4*47.0/4226)
-				.setReverseDirection(false)
+				new CBEncoder(3, 4, EncodingType.k4X, true, 4*47.0/4226)
 				);
 
 		
@@ -208,7 +206,7 @@ public class Robot extends Cyborg {
 								.setEncoder(devices.driveEncoderLeft)
 								.setErrorCorrection(
 										new CBPIDErrorCorrection()
-										.setConstants(new double[]{-0.08,0,0})
+										.setConstants(new double[]{0.08,0,0})
 										)
 								)
 						)
@@ -222,7 +220,7 @@ public class Robot extends Cyborg {
 								.setEncoder(devices.driveEncoderRight)
 								.setErrorCorrection(
 										new CBPIDErrorCorrection()
-										.setConstants(new double[]{-0.08,0,0})
+										.setConstants(new double[]{0.08,0,0})
 										)
 								)
 						)

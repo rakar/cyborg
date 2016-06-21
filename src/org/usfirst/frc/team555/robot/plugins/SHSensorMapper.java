@@ -42,10 +42,14 @@ public class SHSensorMapper extends CBCustomMapper {
 		crd.targetX = contourRpt.centerX;
 		crd.targetY = contourRpt.centerY;
 		if(leftEncoder!=null) {
-			crd.leftDriveEncoder = leftEncoder.getRate();
-			crd.rightDriveEncoder = rightEncoder.getRate();
+			crd.leftDriveEncoder = leftEncoder.get();
+			crd.rightDriveEncoder = rightEncoder.get();
+			crd.leftDriveEncoderSpeed = leftEncoder.getRate();
+			crd.rightDriveEncoderSpeed = rightEncoder.getRate();
 			SmartDashboard.putNumber("LeftEncoderGet:", crd.leftDriveEncoder);
 			SmartDashboard.putNumber("RightEncoderGet:", crd.rightDriveEncoder);
+			SmartDashboard.putNumber("LeftEncoderSpeed:", crd.leftDriveEncoderSpeed);
+			SmartDashboard.putNumber("RightEncoderSpeed:", crd.rightDriveEncoderSpeed);
 		}
 	}
 
