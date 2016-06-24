@@ -272,7 +272,7 @@ public class Robot extends Cyborg {
 						// Targets shouldn't be set here unless
 						// they are inherently fixed.
 						// Instead these were moved to CustomRequestData.
-						//.setTarget(90.0)
+						//.setTarget(200.0)
 						)
 				);
 		//this.addBehavior(

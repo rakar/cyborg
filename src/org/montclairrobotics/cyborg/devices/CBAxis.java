@@ -7,6 +7,7 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	double deadzone;
 	double smoothing;
 	double lastValue;
+	double scale; 
 
 	public CBAxis(int stickID, int index) {
 		super(stickID, index);
@@ -14,6 +15,11 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	
 	public CBAxis setDeadzone(double deadzone){
 		this.deadzone = deadzone;
+		return this;
+	}
+
+	public CBAxis setScale(double scale){
+		this.scale = scale;
 		return this;
 	}
 
@@ -29,7 +35,7 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	@Override
 	public void senseUpdate() {
 		if(this.isDefined()) {
-			value = Cyborg.hardwareAdapter.getJoystick(stickID).getRawAxis(index);
+			value = scale * Cyborg.hardwareAdapter.getJoystick(stickID).getRawAxis(index);
 		} else {
 			value = 0;
 		}

@@ -44,7 +44,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 		crd.autoSteer = autoSteerButton.getState();
 		if(crd.autoSteer) {
 			crd.autoSteerX=160;
-			crd.autoSteerY= 90;
+			crd.autoSteerY=200;
 		}
 
 		int pov = spinPov.get();
