@@ -129,8 +129,8 @@ public class Robot extends Cyborg {
 		devices.autoSelect		= ha.add(
 				new CBDashboardChooser<Integer>("Auto:")
 				.setTiming(CBGameMode.preGame, 0)
-				.addDefault("one", 1)
-				.addChoice("two", 2)
+				.addDefault("HalfUp", 1)
+				.addChoice("Down", 2)
 				);
 
 		devices.autoSelect		= ha.add(
@@ -282,7 +282,7 @@ public class Robot extends Cyborg {
 
 		this.addAutonomous(
 				new SHAutonomous(this)
-				.setFireTarget(160, 10, 90, 20)
+				.setFireTarget(160, 10, 200, 20)
 				);
 
 	}

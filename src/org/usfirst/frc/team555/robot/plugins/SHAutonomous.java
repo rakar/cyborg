@@ -37,7 +37,7 @@ public class SHAutonomous extends CBAutonomous {
 				if(secondsInState>3) nextState = AutoAIState.drive;
 				break;
 			case drive:
-				if(secondsInState>3) nextState = AutoAIState.turnToTower;
+				if(secondsInState>10) nextState = AutoAIState.turnToTower;
 				break;
 			case turnToTower:
 				if(crd.targetX>20 && crd.targetX<280) nextState = AutoAIState.alignToTarget;
@@ -72,15 +72,15 @@ public class SHAutonomous extends CBAutonomous {
 					crd.ArmDown = true;
 				}
 			} else if(currentState==AutoAIState.armdown && nextState==AutoAIState.drive) {
-				drd.direction.setXY(0.0, 0.5);
+				drd.direction.setXY(0.0, 30); // forward at 30 frames per second
 				drd.rotation = 0.0;
 				drd.gyroLock = true;
 				drd.active = true;
 			} else if(currentState==AutoAIState.drive && nextState==AutoAIState.turnToTower) {
 				drd.direction.setXY(0.0, 0.0);
 				drd.rotation = 0.0;
-				if(crd.selectedSide==0) drd.rotation = -0.3;
-				if(crd.selectedSide==2) drd.rotation =  0.3;
+				if(crd.selectedSide==0) drd.rotation = -30;
+				if(crd.selectedSide==2) drd.rotation =  30;
 				drd.gyroLock = false;
 				drd.active = true;
 			} else if(nextState==AutoAIState.alignToTarget) {
