@@ -88,10 +88,19 @@ public class CBHardwareAdapter extends CBModule {
 	public CBAxis getAxis(CBDeviceId id) {
 		return (CBAxis)getDevice(id);
 	}
+	
+	public CBAxis getDefaultedAxis(CBDeviceId id) {
+		return CBAxis.getDefaulted((CBAxis)getDevice(id));
+	}
 		
 	public CBButton getButton(CBDeviceId id) {
 		return (CBButton)getDevice(id);
 	}
+
+	public CBButton getDefaultedButton(CBDeviceId id) {
+		return CBButton.getDefaulted((CBButton)getDevice(id));
+	}
+	
 		
 	public CBContourReport getContourReport(CBDeviceId id) {
 		return (CBContourReport)getDevice(id);

@@ -4,6 +4,7 @@ import org.montclairrobotics.cyborg.Cyborg;
 
 public class CBAxis extends CBJoystickIndex implements CBDevice {
 	double value;
+	double rawValue;
 	double deadzone;
 	double smoothing;
 	double lastValue;
@@ -11,6 +12,14 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 	public CBAxis(int stickID, int index) {
 		super(stickID, index);
+	}
+	
+	public CBAxis(CBJoystickIndex joystickIndex) {
+		this(joystickIndex.stickID, joystickIndex.index);
+	}
+	
+	public static CBAxis getDefaulted(CBAxis axis) {
+		return (axis!=null)?axis:new CBAxis(CBJoystickIndex.undefined());
 	}
 	
 	public CBAxis setDeadzone(double deadzone){
@@ -34,11 +43,26 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
+		double res;
+		
 		if(this.isDefined()) {
-			value = scale * Cyborg.hardwareAdapter.getJoystick(stickID).getRawAxis(index);
+			rawValue = scale * Cyborg.hardwareAdapter.getJoystick(stickID).getRawAxis(index);
 		} else {
-			value = 0;
+			rawValue = 0;
 		}
+		
+		res = rawValue;
+		if(smoothing!=0) {
+			//
+			// adjust smooting so 0 smoothing implies rawValue and smoothing of 1 implies no change
+			//
+			//res = lastValue + (rawValue - lastValue)*smoothing;
+			res = res - ( res - lastValue ) * smoothing;
+		}
+		lastValue = res;
+		
+		if(Math.abs(res)<deadzone) res = 0.0;
+		value = res;
 	}
 
 	@Override
@@ -46,17 +70,11 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	}
 	
 	public double get() {
-		double res = value;
-		if(smoothing!=0) {
-			res = lastValue + (res - lastValue)*smoothing;
-		}
-		if(Math.abs(res)<deadzone) res = 0.0;
-		lastValue = value;
-		return res;
+		return value;
 	}
 	
 	public double getRaw() {
 		return value;
 	}
-
+	
 }

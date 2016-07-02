@@ -15,6 +15,14 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 		stickIndex = new CBJoystickIndex(stickID, index);
 		joystick = Cyborg.hardwareAdapter.getJoystick(stickIndex.stickID);
 	}
+	
+	public CBButton(CBJoystickIndex joystickIndex) {
+		this(joystickIndex.stickID, joystickIndex.index);
+	}
+	
+	public static CBButton getDefaulted(CBButton button) {
+		return (button!=null)?button:new CBButton(CBJoystickIndex.undefined());
+	}
 
 	public boolean isDefined() {
 		return stickIndex.isDefined();
@@ -26,7 +34,9 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		update(joystick.getRawButton(stickIndex.index));
+		if (isDefined()) {
+			update(joystick.getRawButton(stickIndex.index));
+		}
 	}
 
 	@Override

@@ -58,7 +58,7 @@ public class CBVictorArrayController extends CBSpeedControllerArrayController {
 			break;
 		}
 
-		for(CBSpeedController l:speedControllers) l.set(outputValue*direction);
+		for(CBSpeedController sc:speedControllers) sc.set(outputValue*direction);
 
 		return this;
 	}
