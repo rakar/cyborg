@@ -51,14 +51,8 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 			rawValue = 0;
 		}
 		
-		res = rawValue;
-		if(smoothing!=0) {
-			//
-			// adjust smooting so 0 smoothing implies rawValue and smoothing of 1 implies no change
-			//
-			//res = lastValue + (rawValue - lastValue)*smoothing;
-			res = res - ( res - lastValue ) * smoothing;
-		}
+		// smoothing: 0 => none, 1 => no change 
+		res = rawValue - ( rawValue - lastValue ) * smoothing;
 		lastValue = res;
 		
 		if(Math.abs(res)<deadzone) res = 0.0;

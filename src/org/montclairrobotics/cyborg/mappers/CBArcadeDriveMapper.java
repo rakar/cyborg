@@ -10,7 +10,7 @@ import org.montclairrobotics.cyborg.devices.CBJoystickIndex;
 public class CBArcadeDriveMapper extends CBTeleOpMapper {
 	private CBAxis fwdAxis, strAxis, rotAxis;
 	private CBButton gyroLock; 
-	double  xScale, yScale, rScale;
+	private double  xScale, yScale, rScale;
 
 	public CBArcadeDriveMapper(Cyborg robot) {
 		super(robot);
@@ -21,12 +21,15 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		fwdAxis = Cyborg.hardwareAdapter.getDefaultedAxis(fwdDeviceID);
 		strAxis = Cyborg.hardwareAdapter.getDefaultedAxis(strDeviceID);
 		rotAxis = Cyborg.hardwareAdapter.getDefaultedAxis(rotDeviceID);
+		
 		// Force gyroLock to undefined even though we may set it later ("InitHeavy/RunLight")
 		gyroLock = new CBButton(CBJoystickIndex.undefined()); 
 
+		// Set default scale
 		xScale = 1;
 		yScale = 1; 
 		rScale = 1;
+		
 		return this;
 	}
 
