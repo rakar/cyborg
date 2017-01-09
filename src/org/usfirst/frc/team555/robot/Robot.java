@@ -294,7 +294,7 @@ public class Robot extends Cyborg {
 
 		this.addAutonomous(
 				new SHAutonomous(this)
-				.setFireTarget(160, 10, 200, 20)
+				.setFireTarget(160, 200, 10, 20)
 				);
 
 	}

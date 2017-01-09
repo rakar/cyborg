@@ -83,23 +83,23 @@ public class SHCustomBehavior extends CBBehavior {
 		
 		@Override
 		public void doTransition() {
-			if(nextState == SHFireControlStates.SpinUp) {
+			if(isTransitionTo(SHFireControlStates.SpinUp)) {
 				ccd.SpinSpeed = 0.6;
 				cycleCheck=0;
 				//exit();
 			}
-			if(nextState==SHFireControlStates.Idle) {
+			if(isTransitionTo(SHFireControlStates.Idle)) {
 				ccd.ShootOut.set(CBTriStateValue.low);
 				ccd.SpinSpeed = 0.0;
 				this.fireReqPending = false;
 				//exit();
 			}
-			if(nextState==SHFireControlStates.Intake) {
+			if(isTransitionTo(SHFireControlStates.Intake)) {
 				ccd.SpinSpeed = -0.4;
 				this.fireReqPending = false;
 				//exit();
 			}
-			if(nextState==SHFireControlStates.Fire) {
+			if(isTransitionTo(SHFireControlStates.Fire)) {
 				ccd.ShootOut.set(CBTriStateValue.high);
 				this.fireReqPending = false;
 				//SmartDashboard.putNumber("CycleCheck", cycleCheck);

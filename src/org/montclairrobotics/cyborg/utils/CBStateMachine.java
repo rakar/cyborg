@@ -30,6 +30,18 @@ public abstract class CBStateMachine<T> {
 		return this;
 	}
 	
+	public boolean isTransition(T from, T to) {
+		return (currentState==from && nextState==to);
+	}
+	
+	public boolean isTransitionFrom(T from) {
+		return (currentState==from);
+	}
+	
+	public boolean isTransitionTo(T to) {
+		return (nextState==to);
+	}
+	
 	public void update() {
 		if(stateStartTime==0) {
 			stateStartTime = new Date().getTime();

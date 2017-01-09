@@ -1,14 +1,15 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
-import edu.wpi.first.wpilibj.CANTalon.MotionProfileStatus;
-import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
-import edu.wpi.first.wpilibj.CANTalon.TrajectoryPoint;
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.FeedbackDeviceStatus;
+import com.ctre.CANTalon.MotionProfileStatus;
+import com.ctre.CANTalon.StatusFrameRate;
+import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.CANTalon.TrajectoryPoint;
+import com.ctre.CanTalonJNI.param_t;
+
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.hal.CanTalonJNI.param_t;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class CBCANTalon implements CBSpeedController {

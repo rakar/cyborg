@@ -27,7 +27,6 @@ public class SHSensorMapper extends CBCustomMapper {
 	public SHSensorMapper(Robot robot) {
 		super(robot);
 		this.robot = robot;	
-		//this.grd = (SHCustomRequestData) Cyborg.customRequestData;
 	}
 
 	@Override

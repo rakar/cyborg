@@ -4,17 +4,16 @@ import org.montclairrobotics.cyborg.CBAutonomous;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
+import org.montclairrobotics.cyborg.utils.CBTarget2D;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 import org.usfirst.frc.team555.robot.Robot;
 
 public class SHAutonomous extends CBAutonomous {
 	Robot robot;
+	SHCustomRequestData   crd; // = (SHCustomRequestData)Cyborg.customRequestData;
+	CBStdDriveRequestData drd; // = (CBStdDriveRequestData)Cyborg.driveRequestData;;
 	CBStateMachine<AutoAIState> sm;
-	double fireTargetX;
-	double fireTargetY;
-	double fireRangeX;
-	double fireRangeY;
-	int fireCount = 0;
+	CBTarget2D fireTarget;
 
 	enum AutoAIState {start,armdown,drive,turnToTower, alignToTarget, fire, done}
 	public class SHAutoAISM extends CBStateMachine<AutoAIState> {
@@ -30,29 +29,32 @@ public class SHAutonomous extends CBAutonomous {
 			switch(currentState) {
 			case start:
 				if (crd.selectedAuto>0) {
-					nextState = AutoAIState.armdown;
+					setState(AutoAIState.armdown);
 				}
 				break;
 			case armdown:
-				if(secondsInState>3) nextState = AutoAIState.drive;
+				if(secondsInState>3) setState(AutoAIState.drive);
 				break;
 			case drive:
-				if(secondsInState>10) nextState = AutoAIState.turnToTower;
+				if(secondsInState>10) setState(AutoAIState.turnToTower);
 				break;
 			case turnToTower:
-				if(crd.targetX>20 && crd.targetX<280) nextState = AutoAIState.alignToTarget;
+				if(crd.targetX>20 && crd.targetX<280) {
+					fireTarget.update(false);
+					setState(AutoAIState.alignToTarget);
+				}
 				break;
 			case alignToTarget:
-				if(Math.abs(crd.targetX-fireTargetX)<fireRangeX 
-						&& Math.abs(crd.targetY-fireTargetY)<fireRangeY) {
-					fireCount++;
-				} else {
-					fireCount = 0;
-				}
-				if(fireCount>25) nextState = AutoAIState.fire;
+				//if(Math.abs(crd.targetX-fireTargetX)<fireRangeX 
+				//		&& Math.abs(crd.targetY-fireTargetY)<fireRangeY) {
+				//	fireCount++;
+				//} else {
+				//	fireCount = 0;
+				//}
+				if(fireTarget.getTrueCount()>25) setState(AutoAIState.fire);
 				break;
 			case fire:
-				nextState = AutoAIState.done;
+				setState(AutoAIState.done);
 				break;
 			case done:
 				break;
@@ -63,34 +65,32 @@ public class SHAutonomous extends CBAutonomous {
 		
 		@Override
 		public void doTransition() {
-
-
-			if(currentState==AutoAIState.start && nextState==AutoAIState.armdown) {
+			if(isTransition(AutoAIState.start, AutoAIState.armdown)) {
 				if (crd.selectedAuto==1) {
 					crd.ArmHalfUp = true;
 				} else {
 					crd.ArmDown = true;
 				}
-			} else if(currentState==AutoAIState.armdown && nextState==AutoAIState.drive) {
+			} else if(isTransition(AutoAIState.armdown, AutoAIState.drive)) {
 				drd.direction.setXY(0.0, 30); // forward at 30 frames per second
 				drd.rotation = 0.0;
 				drd.gyroLock = true;
 				drd.active = true;
-			} else if(currentState==AutoAIState.drive && nextState==AutoAIState.turnToTower) {
+			} else if(isTransition(AutoAIState.drive, AutoAIState.turnToTower)) {
 				drd.direction.setXY(0.0, 0.0);
 				drd.rotation = 0.0;
 				if(crd.selectedSide==0) drd.rotation = -30;
 				if(crd.selectedSide==2) drd.rotation =  30;
 				drd.gyroLock = false;
 				drd.active = true;
-			} else if(nextState==AutoAIState.alignToTarget) {
-				crd.autoSteerX = fireTargetX;
-				crd.autoSteerY = fireTargetY;
+			} else if(isTransitionTo(AutoAIState.alignToTarget)) {
+				crd.autoSteerX = fireTarget.getXPosition();
+				crd.autoSteerY = fireTarget.getYPosition();
 				crd.autoSteer = true;
-			} else if(nextState==AutoAIState.fire) {
+			} else if(isTransitionTo(AutoAIState.fire)) {
 				crd.autoSteer = false;
 				crd.fireShooter.set(CBTriStateValue.high);
-			} else if(nextState==AutoAIState.done) {
+			} else if(isTransitionTo(AutoAIState.done)) {
 				crd.fireShooter.set(CBTriStateValue.nil);
 			}
 		}
@@ -102,14 +102,14 @@ public class SHAutonomous extends CBAutonomous {
 
 	public SHAutonomous(Robot robot) {
 		this.robot = robot;
+		crd = (SHCustomRequestData)Cyborg.customRequestData;
+		drd = (CBStdDriveRequestData)Cyborg.driveRequestData;
 		sm = new SHAutoAISM();
+		fireTarget = new CBTarget2D();
 	}
 	
-	public SHAutonomous setFireTarget(double x, double xRange, double y, double yRange) {
-		this.fireTargetX = x;
-		this.fireTargetY = y;
-		this.fireRangeX = xRange;
-		this.fireRangeY = yRange;
+	public SHAutonomous setFireTarget(double x, double y, double xRange, double yRange) {
+		fireTarget.setTarget(x, y, xRange, yRange);
 		return this;
 	}
 
@@ -120,6 +120,7 @@ public class SHAutonomous extends CBAutonomous {
 
 	@Override
 	public void update() {
+		fireTarget.update(crd.targetX,crd.targetY);
 		sm.update();
 	}	
 }

@@ -9,10 +9,14 @@ public class CBEdgeTrigger {
 	private int pulseCount;
 	private boolean risingEdgePulse = false;
 	private boolean fallingEdgePulse = false;
+	private int countTrue;
+	private int countFalse;
 
 	public CBEdgeTrigger setInitialState(boolean value) {
 		this.state = value;
 		this.toggle = value;
+		countTrue = 0;
+		countFalse = 0;
 		return this;
 	}
 
@@ -51,6 +55,15 @@ public class CBEdgeTrigger {
 		}
 		
 		state = value;
+		
+		if(state) {
+			countTrue++;
+			countFalse=0;
+		} else {
+			countTrue=0;
+			countFalse++;
+		}
+		
 		return this;
 	}
 
@@ -76,5 +89,11 @@ public class CBEdgeTrigger {
 
 	public boolean getFallingEdgePulse() {
 		return fallingEdgePulse;
+	}
+	public int getTrueCount() {
+		return countTrue;
+	}
+	public int getFalseCount() {
+		return countFalse;
 	}
 }
