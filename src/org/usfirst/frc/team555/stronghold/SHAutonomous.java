@@ -1,4 +1,4 @@
-package org.usfirst.frc.team555.robot.plugins;
+package org.usfirst.frc.team555.stronghold;
 
 import org.montclairrobotics.cyborg.CBAutonomous;
 import org.montclairrobotics.cyborg.Cyborg;
@@ -6,10 +6,9 @@ import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTarget2D;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
-import org.usfirst.frc.team555.robot.Robot;
 
 public class SHAutonomous extends CBAutonomous {
-	Robot robot;
+	SHRobot robot;
 	SHCustomRequestData   crd; // = (SHCustomRequestData)Cyborg.customRequestData;
 	CBStdDriveRequestData drd; // = (CBStdDriveRequestData)Cyborg.driveRequestData;;
 	CBStateMachine<AutoAIState> sm;
@@ -100,7 +99,7 @@ public class SHAutonomous extends CBAutonomous {
 		}
 	}
 
-	public SHAutonomous(Robot robot) {
+	public SHAutonomous(SHRobot robot) {
 		this.robot = robot;
 		crd = (SHCustomRequestData)Cyborg.customRequestData;
 		drd = (CBStdDriveRequestData)Cyborg.driveRequestData;

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team555.robot.plugins;
+package org.usfirst.frc.team555.stronghold;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.behaviors.CBBehavior;

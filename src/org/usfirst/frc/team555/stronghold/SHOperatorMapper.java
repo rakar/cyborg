@@ -1,14 +1,14 @@
-package org.usfirst.frc.team555.robot.plugins;
+package org.usfirst.frc.team555.stronghold;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
-import org.usfirst.frc.team555.robot.Robot;
+
 
 public class SHOperatorMapper extends CBTeleOpMapper {
-	Robot robot;
+	SHRobot robot;
 	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
 	
 	CBButton shootButton;
@@ -22,7 +22,7 @@ public class SHOperatorMapper extends CBTeleOpMapper {
 	
 	CBPov spinPov;
 	
-	public SHOperatorMapper(Robot robot) {
+	public SHOperatorMapper(SHRobot robot) {
 		super(robot);
 		this.robot = robot;
 	}

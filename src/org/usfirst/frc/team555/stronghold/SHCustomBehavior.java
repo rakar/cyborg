@@ -1,4 +1,4 @@
-package org.usfirst.frc.team555.robot.plugins;
+package org.usfirst.frc.team555.stronghold;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.behaviors.CBBehavior;
@@ -8,7 +8,6 @@ import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
-import org.usfirst.frc.team555.robot.Robot;
 
 public class SHCustomBehavior extends CBBehavior {
 
@@ -112,7 +111,7 @@ public class SHCustomBehavior extends CBBehavior {
 		}
 	}
 
-	public SHCustomBehavior(Robot robot) {
+	public SHCustomBehavior(SHRobot robot) {
 		super(robot);
 		fireControl = new SHFireControlSM();
 		autoSteerEdgeTrigger = new CBEdgeTrigger();

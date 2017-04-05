@@ -1,14 +1,13 @@
-package org.usfirst.frc.team555.robot.plugins;
+package org.usfirst.frc.team555.stronghold;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
 import org.montclairrobotics.cyborg.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
-import org.usfirst.frc.team555.robot.Robot;
 
 public class SHCustomController extends CBRobotController {
-	Robot robot;
+	SHRobot robot;
 	SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
 
 	CBSolenoid armValve;
@@ -16,7 +15,7 @@ public class SHCustomController extends CBRobotController {
 	CBSolenoid shootValve;
 	CBSpeedControllerArrayController spinArray;
 
-	public SHCustomController(Robot robot) {
+	public SHCustomController(SHRobot robot) {
 		super(robot);
 		this.robot = robot;
 	}

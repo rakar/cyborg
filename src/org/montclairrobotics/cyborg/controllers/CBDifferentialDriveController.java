@@ -20,9 +20,9 @@ public class CBDifferentialDriveController extends CBDriveController {
 		if(Cyborg.driveControlData.active) {
 			if(Cyborg.driveControlData instanceof CBDifferentialDriveControlData) {
 
-				CBDifferentialDriveControlData status = (CBDifferentialDriveControlData)Cyborg.driveControlData;
-				driveModules.get(0).update(status.leftPower);
-				driveModules.get(1).update(status.rightPower);
+				CBDifferentialDriveControlData dcd = (CBDifferentialDriveControlData)Cyborg.driveControlData;
+				driveModules.get(0).update(dcd.leftPower);
+				driveModules.get(1).update(dcd.rightPower);
 	
 			} else if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
 				

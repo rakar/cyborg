@@ -1,4 +1,4 @@
-package org.usfirst.frc.team555.robot.plugins;
+package org.usfirst.frc.team555.stronghold;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
@@ -8,12 +8,11 @@ import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
-import org.usfirst.frc.team555.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHSensorMapper extends CBCustomMapper {
-	Robot robot;
+	SHRobot robot;
 	CBStdDriveRequestData drd = (CBStdDriveRequestData) Cyborg.driveRequestData;
 	SHCustomRequestData crd = (SHCustomRequestData) Cyborg.customRequestData;
 
@@ -24,7 +23,7 @@ public class SHSensorMapper extends CBCustomMapper {
 	CBEncoder leftEncoder;
 	CBEncoder rightEncoder;
 
-	public SHSensorMapper(Robot robot) {
+	public SHSensorMapper(SHRobot robot) {
 		super(robot);
 		this.robot = robot;	
 	}
