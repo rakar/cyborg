@@ -7,8 +7,6 @@ import com.ctre.CANTalon.MotionProfileStatus;
 import com.ctre.CANTalon.StatusFrameRate;
 import com.ctre.CANTalon.TalonControlMode;
 import com.ctre.CANTalon.TrajectoryPoint;
-import com.ctre.CanTalonJNI.param_t;
-
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.tables.ITable;
 
@@ -302,9 +300,9 @@ public class CBCANTalon implements CBSpeedController {
 		return talon.getP();
 	}
 	
-	public double getParameter(param_t paramEnum) {
-		return talon.getParameter(paramEnum);
-	}
+	//public double getParameter(param_t paramEnum) {
+	//	return talon.getParameter(paramEnum);
+	//}
 	
 	public PIDSourceType getPIDSourceType() {
 		return talon.getPIDSourceType();
@@ -528,10 +526,10 @@ public class CBCANTalon implements CBSpeedController {
 		return this;
 	}
 	
-	public CBCANTalon setParameter(param_t paramEnum, double value) {
-		talon.setParameter(paramEnum, value);
-		return this;
-	}
+	//public CBCANTalon setParameter(ParamEnum paramEnum, double value) {
+	//	talon.setParameter(paramEnum, value);
+	//	return this;
+	//}
 	
 	public CBCANTalon setPID(double p, double i, double d) {
 		talon.setPID(p, i, d);

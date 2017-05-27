@@ -7,7 +7,6 @@ import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
-import org.montclairrobotics.cyborg.utils.CBErrorCorrection.CBOnTargetMode;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBEncoderScheme;
 

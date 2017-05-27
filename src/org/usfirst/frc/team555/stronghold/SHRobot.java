@@ -23,7 +23,6 @@ import org.montclairrobotics.cyborg.utils.*;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
@@ -53,7 +52,7 @@ public class SHRobot extends Cyborg {
 			shootButton, armUpButton, armMidButton, armDownButton,
 			gyroLockButton, autoSteerButton,
 			spinPov,
-			autoSelect,
+			autoSelect,autoPosition,
 			visionPipeline,
 			pidTuneEnable, pidTuneCycle
 			;
@@ -72,11 +71,11 @@ public class SHRobot extends Cyborg {
 		// pre-built and the custom ones will handle 
 		// robot specific data requirements. 
 		// 
-		driveRequestData 	= new CBStdDriveRequestData();
-		driveControlData	= new CBStdDriveControlData();
-		customRequestData	= new SHCustomRequestData();
-		customControlData	= new SHCustomControlData();
-		logicData 			= new CBLogicData();
+		requestData	= new SHCustomRequestData();
+		controlData	= new SHCustomControlData();
+		logicData 	= new CBLogicData();
+		requestData.driveData = new CBStdDriveRequestData();
+		controlData.driveData = new CBStdDriveControlData();
 
 		
 		// Configure Hardware Adapter
@@ -145,7 +144,7 @@ public class SHRobot extends Cyborg {
 				.addChoice("Down", 2)
 				);
 
-		devices.autoSelect		= ha.add(
+		devices.autoPosition	= ha.add(
 				new CBDashboardChooser<Integer>("FieldPosition:")
 				.setTiming(CBGameMode.preGame, 0)
 				.addDefault("left", 1)

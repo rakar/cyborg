@@ -3,13 +3,10 @@ package org.usfirst.frc.team555.steamworks;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
-import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
-import org.usfirst.frc.team555.stronghold.SHOperatorMapper;
 
 public class SWOperatorMapper extends CBTeleOpMapper {
-	SWRobot robot;
-	SWCustomRequestData crd = (SWCustomRequestData)Cyborg.customRequestData;
+	SWRequestData rd = (SWRequestData)Cyborg.requestData;
 	
 	CBButton gearAutoOpenButton;
 	CBButton gearAutoCloseButton;
@@ -22,18 +19,17 @@ public class SWOperatorMapper extends CBTeleOpMapper {
 
 	public SWOperatorMapper(SWRobot robot) {
 		super(robot);
-		this.robot = robot;
 	}
 
 	@Override
 	public void update() {
-		crd.gearAutoClose = gearAutoCloseButton.getState();
-		crd.gearAutoOpen = gearAutoOpenButton.getState();
-		crd.gearManualLeftClose = gearManualLeftCloseButton.getState();
-		crd.gearManualLeftOpen = gearManualLeftOpenButton.getState();
-		crd.gearManualRightClose = gearManualRightCloseButton.getState();
-		crd.gearManualRightOpen = gearManualRightOpenButton.getState();
-		crd.climb = climbButton.getState();
+		rd.gearAutoClose = gearAutoCloseButton.getState();
+		rd.gearAutoOpen = gearAutoOpenButton.getState();
+		rd.gearManualLeftClose = gearManualLeftCloseButton.getState();
+		rd.gearManualLeftOpen = gearManualLeftOpenButton.getState();
+		rd.gearManualRightClose = gearManualRightCloseButton.getState();
+		rd.gearManualRightOpen = gearManualRightOpenButton.getState();
+		rd.climb = climbButton.getState();
 	}
 	
 	public SWOperatorMapper setGearAutoOpenButton(CBDeviceId buttonId) {

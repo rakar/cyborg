@@ -1,7 +1,5 @@
 package org.montclairrobotics.cyborg.utils;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * Generalized 2D Vector
  * Includes Cartesian and Polar conversions and utilities  

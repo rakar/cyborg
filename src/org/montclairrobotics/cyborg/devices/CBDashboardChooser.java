@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CBDashboardChooser<T> implements CBDevice {
 	String name;
-	SendableChooser chooser;
+	SendableChooser<T> chooser;
 	CBTimingController timer;
 	private T selected;
 	
 	public CBDashboardChooser(String name) {
 		this.name = name;
 		timer = new CBTimingController();
-		chooser = new SendableChooser();
+		chooser = new SendableChooser<T>();
 		selected = null;
 	}
 	
@@ -39,7 +39,6 @@ public class CBDashboardChooser<T> implements CBDevice {
 	
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void senseUpdate() {
 		if(chooser!=null) {
 			selected = (T)chooser.getSelected();

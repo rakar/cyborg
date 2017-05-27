@@ -14,8 +14,8 @@ public class CBTankDriveBehavior extends CBBehavior {
 	public void update() {
 		super.update();
 		
-		CBTankDriveRequestData drd = (CBTankDriveRequestData)Cyborg.driveRequestData;
-		CBDifferentialDriveControlData dcd = (CBDifferentialDriveControlData)Cyborg.driveControlData;
+		CBTankDriveRequestData drd = (CBTankDriveRequestData)Cyborg.requestData.driveData;
+		CBDifferentialDriveControlData dcd = (CBDifferentialDriveControlData)Cyborg.controlData.driveData;
 		
 		// Copy simple Tank drive command info
 		dcd.leftPower = drd.leftPower;

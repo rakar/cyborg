@@ -14,14 +14,14 @@ public class CBSwerveDriveController extends CBDriveController {
 
 	@Override
 	public void update() {
-		if(Cyborg.driveControlData.active) {
-			if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
+		if(Cyborg.controlData.driveData.active) {
+			if(Cyborg.controlData.driveData instanceof CBStdDriveControlData) {
 				
-				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
+				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
 				for(CBDriveModule dm:driveModules) {
 					updateModule(
 							(CBSwerveDriveModule)dm, dcd.direction, dcd.rotation,
-							dcd.orbitOffset, dcd.orbitMode, dcd.steerOnly
+							dcd.orbitOffset, dcd.steerOnly
 							);
 				}				
 
@@ -34,15 +34,13 @@ public class CBSwerveDriveController extends CBDriveController {
 	}
 
 	protected void updateModule(CBSwerveDriveModule module, CB2DVector direction, double rotation,
-			CB2DVector orbitOffset, boolean orbitMode, boolean steerOnly) {
+			CB2DVector orbitOffset, boolean steerOnly) {
 		
 		// Calculate the effective offset
 		// based on the offset from standard center
 		// and the orbit offset
 		CB2DVector effectiveOffset = new CB2DVector(module.getPosition()); 
-		if (orbitMode) {
-			effectiveOffset = effectiveOffset.sub(orbitOffset); 
-		}
+		effectiveOffset = effectiveOffset.sub(orbitOffset); 
 		
 		// Calculate the target position for this module,
 		// in other words calculate the position this module should be at by the next cycle

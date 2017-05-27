@@ -13,13 +13,13 @@ public class CBMecanumDriveController extends CBDriveController {
 
 	@Override
 	public void update() {
-		if(Cyborg.driveControlData.active) {
-			if(Cyborg.driveControlData instanceof CBStdDriveControlData) {
+		if(Cyborg.controlData.driveData.active) {
+			if(Cyborg.controlData.driveData instanceof CBStdDriveControlData) {
 				// TODO: Implement, like, mecanum calculation, 
 				// asymmetric configurations require an overall "group" calculation 
 				// instead of a "single" module calculation
 				
-				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
+				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
 				for(CBDriveModule dm:driveModules) {
 					double power = calculate(dm, dcd.direction, dcd.rotation);
 					dm.update(power);

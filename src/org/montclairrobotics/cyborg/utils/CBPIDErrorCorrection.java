@@ -2,8 +2,6 @@ package org.montclairrobotics.cyborg.utils;
 
 import java.util.Date;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class CBPIDErrorCorrection implements CBErrorCorrection {
 	private double minIn,maxIn,minOut,maxOut;
 	private double[] k;

@@ -28,22 +28,22 @@ public class CBStdDriveRequestData extends CBDriveRequestData {
 	 * 
 	 * false - no correction is calculated or applied.
 	 */
-	public boolean gyroLock;
+	public boolean gyroLockActive;
 	
 	/**
 	 * Feedback value for rotation correction. This should be
 	 * loaded by an appropriate sensor mapper.
 	 */
-	public double gyroLockSource;
+	public double gyroLockValue;
 
 	/**
-	 * When using Swerve drive trains there are times when 
+	 * When using drive trains such as Swerve there are times when 
 	 * there is a need to rotate the wheels to a particular
 	 * vector without actually driving in that direction. 
 	 * One example of this is when controlling the robot in 
 	 * autonomous, it is more accurate to turn the wheels without 
-	 * driving and then when the maxError gets below a certain
-	 * threshold, drive along that axis. In order to do this
+	 * driving and then when the wheels have fully aligned (maxError gets below a certain
+	 * threshold,) drive along that vector. In order to do this
 	 * the vector needs to be requested, but no translation 
 	 * is desired. This flag is used to suppress the speed
 	 * output of the Swerve controller. 

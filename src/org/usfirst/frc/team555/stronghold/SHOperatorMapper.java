@@ -9,7 +9,7 @@ import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
 
 public class SHOperatorMapper extends CBTeleOpMapper {
 	SHRobot robot;
-	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
+	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.requestData;
 	
 	CBButton shootButton;
 	CBButton armDownButton;

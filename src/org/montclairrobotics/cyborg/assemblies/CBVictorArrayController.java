@@ -3,8 +3,6 @@ package org.montclairrobotics.cyborg.assemblies;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection.CBOnTargetMode;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * 
  * @author rich

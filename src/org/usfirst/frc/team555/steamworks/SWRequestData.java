@@ -1,8 +1,8 @@
 package org.usfirst.frc.team555.steamworks;
 
-import org.montclairrobotics.cyborg.data.CBCustomRequestData;
+import org.montclairrobotics.cyborg.data.CBRequestData;
 
-public class SWCustomRequestData extends CBCustomRequestData {
+public class SWRequestData extends CBRequestData {
 	
 	// Operator
 	public boolean gearAutoClose;
@@ -20,5 +20,11 @@ public class SWCustomRequestData extends CBCustomRequestData {
 	public double rightDriveEncoderSpeed;
 	public boolean rightDriveEncoderDir;
 	public boolean leftDriveEncoderDir;
+	public boolean leftOpenSwitch;
+	public boolean leftCloseSwitch;
+	public boolean rightOpenSwitch;
+	public boolean rightCloseSwitch;
+	
 	public int selectedAuto = -1;
+	public int selectedAlliance = -1;
 }

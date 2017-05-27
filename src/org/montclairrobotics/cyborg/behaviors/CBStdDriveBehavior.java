@@ -14,8 +14,8 @@ public class CBStdDriveBehavior extends CBBehavior {
 
 	public CBStdDriveBehavior(Cyborg robot) {
 		super(robot);
-		drd = (CBStdDriveRequestData)Cyborg.driveRequestData;
-		dcd = (CBStdDriveControlData)Cyborg.driveControlData;
+		drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
+		dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
 		gyroLockState = new CBEdgeTrigger();
 	}
 
@@ -33,10 +33,10 @@ public class CBStdDriveBehavior extends CBBehavior {
 			dcd.direction.copy(drd.direction);
 			dcd.rotation = drd.rotation;
 
-			gyroLockState.update(drd.gyroLock);
+			gyroLockState.update(drd.gyroLockActive);
 			if(gyroLockTracker!=null) {
-				if(gyroLockState.getRisingEdge()) gyroLockTracker.setTarget(drd.gyroLockSource);
-				if(gyroLockState.getState()) dcd.rotation = gyroLockTracker.update(drd.gyroLockSource);
+				if(gyroLockState.getRisingEdge()) gyroLockTracker.setTarget(drd.gyroLockValue);
+				if(gyroLockState.getState()) dcd.rotation = gyroLockTracker.update(drd.gyroLockValue);
 			}
 
 			//

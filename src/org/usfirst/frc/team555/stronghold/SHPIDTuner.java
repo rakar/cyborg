@@ -12,9 +12,9 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHPIDTuner extends CBBehavior {
-	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
-	SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
-	CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
+	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.requestData;
+	SHCustomControlData ccd = (SHCustomControlData)Cyborg.controlData;
+	CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
 	
 	CBEdgeTrigger tuneEnableEdgeTrigger;
 	CBEdgeTrigger tuneCycleEdgeTrigger;

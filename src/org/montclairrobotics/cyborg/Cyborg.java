@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.behaviors.CBBehavior;
 import org.montclairrobotics.cyborg.controllers.CBRobotController;
-import org.montclairrobotics.cyborg.data.CBCustomControlData;
-import org.montclairrobotics.cyborg.data.CBCustomRequestData;
-import org.montclairrobotics.cyborg.data.CBDriveControlData;
-import org.montclairrobotics.cyborg.data.CBDriveRequestData;
+import org.montclairrobotics.cyborg.data.CBControlData;
+import org.montclairrobotics.cyborg.data.CBRequestData;
 import org.montclairrobotics.cyborg.data.CBLogicData;
 import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
 import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
@@ -27,10 +25,10 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	// Data Stores
 	// Data Stores represent high-level meaningful messages
-	public static CBDriveRequestData driveRequestData;
-	public static CBDriveControlData driveControlData;
-	public static CBCustomRequestData customRequestData;
-	public static CBCustomControlData customControlData;
+	//public static CBDriveRequestData driveRequestData;
+	//public static CBDriveControlData driveControlData;
+	public static CBRequestData requestData;
+	public static CBControlData controlData;
 	public static CBLogicData logicData;
 
 	

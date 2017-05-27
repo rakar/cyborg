@@ -11,9 +11,9 @@ import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 
 public class SHCustomBehavior extends CBBehavior {
 
-	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.customRequestData;
-	SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
-	CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.driveControlData;
+	SHCustomRequestData crd = (SHCustomRequestData)Cyborg.requestData;
+	SHCustomControlData ccd = (SHCustomControlData)Cyborg.controlData;
+	CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
 	
 	CBErrorCorrection xTracker;
 	CBErrorCorrection yTracker;
@@ -30,8 +30,8 @@ public class SHCustomBehavior extends CBBehavior {
 		
 		public SHFireControlSM() {
 			super(SHFireControlStates.Idle);
-			grd = (SHCustomRequestData) Cyborg.customRequestData;
-			drd =(CBStdDriveRequestData) Cyborg.driveRequestData;
+			grd = (SHCustomRequestData) Cyborg.requestData;
+			drd =(CBStdDriveRequestData) Cyborg.requestData.driveData;
 		}
 		
 		@Override

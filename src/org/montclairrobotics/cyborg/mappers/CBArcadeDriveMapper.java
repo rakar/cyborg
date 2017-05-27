@@ -47,15 +47,15 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 
 	@Override
 	public void update() {
-		if(Cyborg.driveRequestData instanceof CBStdDriveRequestData) {
-			CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.driveRequestData;
+		if(Cyborg.requestData.driveData instanceof CBStdDriveRequestData) {
+			CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
 
 			drd.active = true;
 			drd.direction.setXY(xScale*strAxis.get(), yScale*fwdAxis.get()); 
 			drd.rotation = rScale*rotAxis.get(); 
-			drd.gyroLock = gyroLock.getState();
+			drd.gyroLockActive = gyroLock.getState();
 		} else {
-			Cyborg.driveRequestData.active = false; // If we don't know what type of request it is shut down drive
+			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
 		}
 	}
 }

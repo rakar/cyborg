@@ -3,7 +3,6 @@ package org.usfirst.frc.team555.steamworks;
 import org.montclairrobotics.cyborg.*;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
 import org.montclairrobotics.cyborg.assemblies.CBSrxArrayController;
-import org.montclairrobotics.cyborg.assemblies.CBVictorArrayController;
 import org.montclairrobotics.cyborg.behaviors.*;
 import org.montclairrobotics.cyborg.controllers.CBDifferentialDriveController;
 import org.montclairrobotics.cyborg.data.CBLogicData;
@@ -12,20 +11,16 @@ import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
 import org.montclairrobotics.cyborg.devices.CBCANTalon;
-import org.montclairrobotics.cyborg.devices.CBContourReport;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
+import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBTalon;
 import org.montclairrobotics.cyborg.mappers.CBArcadeDriveMapper;
 import org.montclairrobotics.cyborg.devices.CBNavX;
-import org.montclairrobotics.cyborg.devices.CBPov;
-import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.utils.*;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
 /**
@@ -45,7 +40,7 @@ public class SWRobot extends Cyborg {
 	private class Devices {
 		private CBDeviceId
 			// input
-			autoSelect,
+			autoSelect,autoAlliance,
 			navx,
 			gearAutoOpenButton,
 			gearAutoCloseButton,
@@ -55,7 +50,9 @@ public class SWRobot extends Cyborg {
 			gearManualRightCloseButton,
 			climbButton,
 			forwardAxis, rotationAxis,
-			gyroLockButton, spinPov,
+			gyroLockButton, //spinPov,
+			leftOpenSwitch, leftCloseSwitch,
+			rightOpenSwitch, rightCloseSwitch,
 			// output
 			driveMotorLeft1, driveMotorLeft2,
 			driveMotorRight1, driveMotorRight2,		
@@ -78,14 +75,18 @@ public class SWRobot extends Cyborg {
 		// pre-built and the custom ones will handle 
 		// robot specific data requirements. 
 		// 
-		driveRequestData 	= new CBStdDriveRequestData();
-		driveControlData	= new CBStdDriveControlData();
-		customRequestData	= new SWCustomRequestData();
-		customControlData	= new SWCustomControlData();
-		logicData 			= new CBLogicData();
-
+		//driveRequestData 	= new CBStdDriveRequestData();
+		//driveControlData	= new CBStdDriveControlData();
+		requestData	= new SWRequestData();
+		controlData	= new SWControlData();
+		logicData 	= new CBLogicData();
 		
+		requestData.driveData = new CBStdDriveRequestData();
+		controlData.driveData = new CBStdDriveControlData();
+
+		//
 		// Configure Hardware Adapter
+		//
 		Cyborg.hardwareAdapter = 
 				new CBHardwareAdapter(this)
 				.setJoystickCount(2);
@@ -127,6 +128,11 @@ public class SWRobot extends Cyborg {
 		devices.gearManualRightOpenButton	= ha.add(new CBButton(operStickId, 5));
 		devices.gearManualRightCloseButton	= ha.add(new CBButton(operStickId, 6));
 		devices.climbButton					= ha.add(new CBButton(operStickId, 7));
+		
+		devices.leftCloseSwitch		= ha.add(new CBDigitalInput(0));
+		devices.leftOpenSwitch		= ha.add(new CBDigitalInput(1));
+		devices.rightCloseSwitch 	= ha.add(new CBDigitalInput(6));
+		devices.rightOpenSwitch 	= ha.add(new CBDigitalInput(7));
 
 
 		//devices.spinPov 		= ha.add(new CBPov(operStickId, 0));
@@ -134,9 +140,17 @@ public class SWRobot extends Cyborg {
 		devices.autoSelect		= ha.add(
 				new CBDashboardChooser<Integer>("Auto:")
 				.setTiming(CBGameMode.preGame, 0)
-				.addDefault("Center", 1)
+				.addDefault("Select", -1)
+				.addChoice("Center", 1)
 				.addChoice("Left", 2)
 				.addChoice("Right", 3)
+				);
+		devices.autoAlliance	= ha.add(
+				new CBDashboardChooser<Integer>("Alliance:")
+				.setTiming(CBGameMode.preGame, 0)
+				.addDefault("Select", -1)
+				.addChoice("Red", 1)
+				.addChoice("Blue", 2)
 				);
 
 		// Output devices
@@ -177,7 +191,6 @@ public class SWRobot extends Cyborg {
 				.setGyroLockButton(devices.gyroLockButton)
 				.setAxisScales(0, 40, 90) // no strafe, 40 inches/second, 90 degrees/second
 				);
-
 		// Use teleOp mappers for operator mapping
 		this.addTeleOpMapper(
 				new SWOperatorMapper(this)
@@ -194,8 +207,10 @@ public class SWRobot extends Cyborg {
 		this.addCustomMapper(
 				new SWSensorMapper(this)
 				.setAutoChooser(devices.autoSelect)
+				
 				.setGyroLockSource(devices.navx)
 				.setDriveEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
+				.setLimitSwitches(devices.leftOpenSwitch, devices.leftCloseSwitch, devices.rightOpenSwitch, devices.rightCloseSwitch)
 				);
 
 		
@@ -234,19 +249,23 @@ public class SWRobot extends Cyborg {
 						)
 				);
 				
-		//this.addRobotController(
-		//		new SHCustomController(this)
-		//		.setSpinArray(
-		//				new CBVictorArrayController()
-		//				.addSpeedController(devices.shooterLeftMotor)
-		//				.addSpeedController(devices.shooterRightMotor)
-		//				.setDriveMode(CBDriveMode.Power)
-		//				)
-		//		.setArmValve(devices.armMainValve)
-		//		.setHalfValve(devices.armHalfValve)
-		//		.setShootValve(devices.shooterValve)
-		//		);
-
+		this.addRobotController(
+				new SWManipulatorController(this)
+				.setClimbMotors(
+						new CBSrxArrayController()
+						.setDriveMode(CBDriveMode.Power)
+						.addSpeedController(devices.climbMotorLeft)
+						.addSpeedController(devices.climbMotorRight).setReversed(true)
+						)
+				.setLeftMotor(new CBSrxArrayController()
+						.setDriveMode(CBDriveMode.Power)
+						.addSpeedController(devices.gearMotorLeft)
+						)
+				.setRightMotor(new CBSrxArrayController()
+						.setDriveMode(CBDriveMode.Power)
+						.addSpeedController(devices.gearMotorRight)
+						)
+				);
 		
 		//
 		// Behavior Processors
@@ -259,35 +278,10 @@ public class SWRobot extends Cyborg {
 						.setInputLimits(-180, 180) // assumes navx source in degrees
 						)
 				);
-		// this.addBehavior(
-		//		new CBTankDriveBehaviorProcessor(this)
-		//		);
-		//this.addBehavior(
-		//		new SHCustomBehavior(this)
-		//		.setXTracker(
-		//				new CBPIDErrorCorrection()
-		//				.setConstants(new double[]{5.0,0.0,0.0})
-		//				.setOutputLimits(-45, 45)
-		//				// Targets shouldn't be set here unless
-		//				// they are inherently fixed.
-		//				// Instead these were moved to CustomRequestData.
-		//				//.setTarget(160.0)   
-		//				)
-		//		.setYTracker(
-		//				new CBPIDErrorCorrection()
-		//				.setConstants(new double[]{0.0,0.0,0.0})
-		//				.setOutputLimits(-20, 20)
-		//				// Targets shouldn't be set here unless
-		//				// they are inherently fixed.
-		//				// Instead these were moved to CustomRequestData.
-		//				//.setTarget(200.0)
-		//				)
-		//		);
-		//this.addBehavior(
-		//		new SHPIDTuner(this)
-		//		);
+		this.addBehavior(
+				new SWManipulatorBehavior(this)
+				);
 		
-
 		//this.addAutonomous(
 		//		new SHAutonomous(this)
 		//		.setFireTarget(160, 200, 10, 20)

@@ -16,8 +16,8 @@ public class SHAutonomous extends CBAutonomous {
 
 	enum AutoAIState {start,armdown,drive,turnToTower, alignToTarget, fire, done}
 	public class SHAutoAISM extends CBStateMachine<AutoAIState> {
-		SHCustomRequestData   crd = (SHCustomRequestData)Cyborg.customRequestData;
-		CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.driveRequestData;;
+		SHCustomRequestData   crd = (SHCustomRequestData)Cyborg.requestData;
+		CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
 		
 		public SHAutoAISM() {
 			super(AutoAIState.start);
@@ -73,14 +73,14 @@ public class SHAutonomous extends CBAutonomous {
 			} else if(isTransition(AutoAIState.armdown, AutoAIState.drive)) {
 				drd.direction.setXY(0.0, 30); // forward at 30 frames per second
 				drd.rotation = 0.0;
-				drd.gyroLock = true;
+				drd.gyroLockActive = true;
 				drd.active = true;
 			} else if(isTransition(AutoAIState.drive, AutoAIState.turnToTower)) {
 				drd.direction.setXY(0.0, 0.0);
 				drd.rotation = 0.0;
 				if(crd.selectedSide==0) drd.rotation = -30;
 				if(crd.selectedSide==2) drd.rotation =  30;
-				drd.gyroLock = false;
+				drd.gyroLockActive = false;
 				drd.active = true;
 			} else if(isTransitionTo(AutoAIState.alignToTarget)) {
 				crd.autoSteerX = fireTarget.getXPosition();
@@ -101,8 +101,8 @@ public class SHAutonomous extends CBAutonomous {
 
 	public SHAutonomous(SHRobot robot) {
 		this.robot = robot;
-		crd = (SHCustomRequestData)Cyborg.customRequestData;
-		drd = (CBStdDriveRequestData)Cyborg.driveRequestData;
+		crd = (SHCustomRequestData)Cyborg.requestData;
+		drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
 		sm = new SHAutoAISM();
 		fireTarget = new CBTarget2D();
 	}

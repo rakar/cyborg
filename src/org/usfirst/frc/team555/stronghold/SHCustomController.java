@@ -8,7 +8,7 @@ import org.montclairrobotics.cyborg.devices.CBSolenoid;
 
 public class SHCustomController extends CBRobotController {
 	SHRobot robot;
-	SHCustomControlData ccd = (SHCustomControlData)Cyborg.customControlData;
+	SHCustomControlData ccd = (SHCustomControlData)Cyborg.controlData;
 
 	CBSolenoid armValve;
 	CBSolenoid halfValve;

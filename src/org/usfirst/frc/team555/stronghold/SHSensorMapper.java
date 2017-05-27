@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SHSensorMapper extends CBCustomMapper {
 	SHRobot robot;
-	CBStdDriveRequestData drd = (CBStdDriveRequestData) Cyborg.driveRequestData;
-	SHCustomRequestData crd = (SHCustomRequestData) Cyborg.customRequestData;
+	CBStdDriveRequestData drd = (CBStdDriveRequestData) Cyborg.requestData.driveData;
+	SHCustomRequestData crd = (SHCustomRequestData) Cyborg.requestData;
 
 	CBDashboardChooser<Integer> autoChooser;
 	CBDashboardChooser<Integer> autoSide;
@@ -36,7 +36,7 @@ public class SHSensorMapper extends CBCustomMapper {
 		if(autoSide!=null)
 			crd.selectedSide = autoSide.getSelected();
 		
-		drd.gyroLockSource = navxYawSource.get();
+		drd.gyroLockValue = navxYawSource.get();
 		crd.targetX = contourRpt.centerX;
 		crd.targetY = contourRpt.centerY;
 		if(leftEncoder!=null) {
