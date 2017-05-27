@@ -75,8 +75,6 @@ public class SWRobot extends Cyborg {
 		// pre-built and the custom ones will handle 
 		// robot specific data requirements. 
 		// 
-		//driveRequestData 	= new CBStdDriveRequestData();
-		//driveControlData	= new CBStdDriveControlData();
 		requestData	= new SWRequestData();
 		controlData	= new SWControlData();
 		logicData 	= new CBLogicData();
@@ -159,9 +157,9 @@ public class SWRobot extends Cyborg {
 		devices.driveMotorRight1	= ha.add(new CBCANTalon(1));
 		devices.driveMotorRight2	= ha.add(new CBCANTalon(2));
 		devices.gearMotorLeft		= ha.add(new CBCANTalon(5));
-		devices.gearMotorRight		= ha.add(new CBCANTalon(6));
+		devices.gearMotorRight		= ha.add(new CBCANTalon(6).setInverted(true));
 		devices.climbMotorLeft		= ha.add(new CBCANTalon(7));
-		devices.climbMotorRight		= ha.add(new CBCANTalon(8));
+		devices.climbMotorRight		= ha.add(new CBCANTalon(8).setInverted(true));
 
 		
 		// Co-processor Vision System
@@ -207,7 +205,7 @@ public class SWRobot extends Cyborg {
 		this.addCustomMapper(
 				new SWSensorMapper(this)
 				.setAutoChooser(devices.autoSelect)
-				
+				.setAllianceChooser(devices.autoAlliance)
 				.setGyroLockSource(devices.navx)
 				.setDriveEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
 				.setLimitSwitches(devices.leftOpenSwitch, devices.leftCloseSwitch, devices.rightOpenSwitch, devices.rightCloseSwitch)
@@ -255,16 +253,10 @@ public class SWRobot extends Cyborg {
 						new CBSrxArrayController()
 						.setDriveMode(CBDriveMode.Power)
 						.addSpeedController(devices.climbMotorLeft)
-						.addSpeedController(devices.climbMotorRight).setReversed(true)
+						.addSpeedController(devices.climbMotorRight)
 						)
-				.setLeftMotor(new CBSrxArrayController()
-						.setDriveMode(CBDriveMode.Power)
-						.addSpeedController(devices.gearMotorLeft)
-						)
-				.setRightMotor(new CBSrxArrayController()
-						.setDriveMode(CBDriveMode.Power)
-						.addSpeedController(devices.gearMotorRight)
-						)
+				.setLeftMotor(ha.getSpeedController(devices.gearMotorLeft))
+				.setRightMotor(ha.getSpeedController(devices.gearMotorRight))
 				);
 		
 		//

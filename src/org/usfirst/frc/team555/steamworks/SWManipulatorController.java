@@ -3,15 +3,17 @@ package org.usfirst.frc.team555.steamworks;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
 import org.montclairrobotics.cyborg.controllers.CBRobotController;
+import org.montclairrobotics.cyborg.devices.CBSpeedController;
 
 public class SWManipulatorController extends CBRobotController {
 
 	SWControlData cd;
 	double climbPower = 1.0;
 	double gearPower = 0.5;
+	
 	CBSpeedControllerArrayController climbMotors;
-	CBSpeedControllerArrayController leftMotor;
-	CBSpeedControllerArrayController rightMotor;
+	CBSpeedController leftMotor;
+	CBSpeedController rightMotor;
 	
 	
 	public SWManipulatorController(Cyborg robot) {
@@ -23,16 +25,9 @@ public class SWManipulatorController extends CBRobotController {
 	public void update() {
 		super.update();
 		
-		if (cd.climb) {
-			climbMotors.update(climbPower);
-		} else {
-			climbMotors.update(0);
-		}
-		
-		if(cd.gearLeftOpen.isHigh()) leftMotor.update(gearPower);
-		if(cd.gearLeftOpen.isLow()) leftMotor.update(-gearPower);
-		if(cd.gearRightOpen.isHigh()) rightMotor.update(gearPower);
-		if(cd.gearRightOpen.isLow()) rightMotor.update(-gearPower);
+		climbMotors.update(cd.climb?climbPower:0);
+		leftMotor.set((double)cd.gearLeftOpen.select(gearPower, -gearPower, 0));
+		rightMotor.set((double)cd.gearRightOpen.select(gearPower, -gearPower, 0));
 	}
 	
 	public SWManipulatorController setClimbMotors(CBSpeedControllerArrayController motorArray) {
@@ -40,12 +35,12 @@ public class SWManipulatorController extends CBRobotController {
 		return this;
 	}
 	
-	public SWManipulatorController setLeftMotor(CBSpeedControllerArrayController motorArray) {
+	public SWManipulatorController setLeftMotor(CBSpeedController motorArray) {
 		leftMotor = motorArray;
 		return this;
 	}
 
-	public SWManipulatorController setRightMotor(CBSpeedControllerArrayController motorArray) {
+	public SWManipulatorController setRightMotor(CBSpeedController motorArray) {
 		rightMotor = motorArray;
 		return this;
 	}

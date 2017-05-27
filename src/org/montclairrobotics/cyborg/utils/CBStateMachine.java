@@ -14,6 +14,11 @@ public abstract class CBStateMachine<T> {
 	protected boolean loop;
 	protected CBStateMachineLoopMode loopMode = CBStateMachineLoopMode.OneShot;
 	
+	/**
+	 * The state machine loop modes control whether the machine can transition multiple states in a single update
+	 * If this state is set to Looping doTransition() and doCurrentState() will be called for each transition, 
+	 * but those transitions will be invisible outside of what this class and any overridden methods do. 
+	 */
 	enum CBStateMachineLoopMode {OneShot, Looping};
 	
 	protected CBStateMachine(T start) {
@@ -71,8 +76,8 @@ public abstract class CBStateMachine<T> {
 		return this;
 	}
 	
-	protected void calcNextState() {};
-	protected void doTransition() {};
-	protected void doCurrentState() {};
+	protected abstract void calcNextState();
+	protected abstract void doTransition();
+	protected abstract void doCurrentState();
 	
 }
