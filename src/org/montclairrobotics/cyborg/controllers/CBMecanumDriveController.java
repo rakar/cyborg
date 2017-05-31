@@ -1,11 +1,14 @@
 package org.montclairrobotics.cyborg.controllers;
 
+import java.util.ArrayList;
+
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
 import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
 import org.montclairrobotics.cyborg.utils.CB2DVector;
 
 public class CBMecanumDriveController extends CBDriveController {
+	protected ArrayList<CBDriveModule> driveModules = new ArrayList<>();
 
 	public CBMecanumDriveController(Cyborg robot) {
 		super(robot);
@@ -63,7 +66,9 @@ public class CBMecanumDriveController extends CBDriveController {
 	}
 	
 	public CBMecanumDriveController addDriveModule(CBDriveModule driveModule) {
-		return (CBMecanumDriveController)super.addDriveModule(driveModule);
+		driveModules.add(driveModule);
+		updateDriveMode(driveModule);
+		return this;
 	}
 
 	@Override

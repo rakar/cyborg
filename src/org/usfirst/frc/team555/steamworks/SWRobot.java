@@ -168,6 +168,43 @@ public class SWRobot extends Cyborg {
 		//		.setTiming(CBGameMode.anyPeriodic, 0)
 		//		);
 
+		
+		// 
+		// Create Drivetrain controller
+		// This controller will also be used by the Sensor Mapper
+		// 
+		CBDifferentialDriveController driveTrainController = 
+			new CBDifferentialDriveController(this)
+				.addDriveModule(
+					new CBDriveModule(new CB2DVector(-13.75,0), 0)
+					.addSpeedControllerArray(
+							new CBSrxArrayController()
+							.setDriveMode(CBDriveMode.Speed)
+							.addSpeedController(devices.driveMotorLeft1)
+							.addSpeedController(devices.driveMotorLeft2)
+							.setEncoder(devices.driveEncoderLeft)
+							.setErrorCorrection(
+									new CBPIDErrorCorrection()
+									.setConstants(new double[]{0.08,0,0})
+									)
+							)
+					)
+				.addDriveModule(
+					new CBDriveModule(new CB2DVector( 13.75,0), 180)
+					.addSpeedControllerArray(
+							new CBSrxArrayController()
+							.setDriveMode(CBDriveMode.Speed)
+							.addSpeedController(devices.driveMotorRight1)
+							.addSpeedController(devices.driveMotorRight2)
+							.setEncoder(devices.driveEncoderRight)
+							.setErrorCorrection(
+									new CBPIDErrorCorrection()
+									.setConstants(new double[]{0.08,0,0})
+									)
+							)
+					);
+
+		
 
 		//
 		// Input Mapper Initialization
@@ -207,7 +244,8 @@ public class SWRobot extends Cyborg {
 				.setAutoChooser(devices.autoSelect)
 				.setAllianceChooser(devices.autoAlliance)
 				.setGyroLockSource(devices.navx)
-				.setDriveEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
+				.setDrivetrain(driveTrainController)
+				//.setDriveEncoders(devices.driveEncoderLeft, devices.driveEncoderRight)
 				.setLimitSwitches(devices.leftOpenSwitch, devices.leftCloseSwitch, devices.rightOpenSwitch, devices.rightCloseSwitch)
 				);
 
@@ -215,37 +253,7 @@ public class SWRobot extends Cyborg {
 		//
 		// Output Controller Initialization
 		//
-		this.addRobotController(
-				new CBDifferentialDriveController(this)
-				.addDriveModule(
-						new CBDriveModule(new CB2DVector(-13.75,0), 0)
-						.addSpeedControllerArray(
-								new CBSrxArrayController()
-								.setDriveMode(CBDriveMode.Speed)
-								.addSpeedController(devices.driveMotorLeft1)
-								.addSpeedController(devices.driveMotorLeft2)
-								.setEncoder(devices.driveEncoderLeft)
-								.setErrorCorrection(
-										new CBPIDErrorCorrection()
-										.setConstants(new double[]{0.08,0,0})
-										)
-								)
-						)
-				.addDriveModule(
-						new CBDriveModule(new CB2DVector( 13.75,0), 180)
-						.addSpeedControllerArray(
-								new CBSrxArrayController()
-								.setDriveMode(CBDriveMode.Speed)
-								.addSpeedController(devices.driveMotorRight1)
-								.addSpeedController(devices.driveMotorRight2)
-								.setEncoder(devices.driveEncoderRight)
-								.setErrorCorrection(
-										new CBPIDErrorCorrection()
-										.setConstants(new double[]{0.08,0,0})
-										)
-								)
-						)
-				);
+		this.addRobotController(driveTrainController);
 				
 		this.addRobotController(
 				new SWManipulatorController(this)

@@ -14,12 +14,12 @@ public class SWRequestData extends CBRequestData {
 	public boolean climb;
 	
 	// Sensors 
-	public double leftDriveEncoder;
-	public double rightDriveEncoder;
-	public double leftDriveEncoderSpeed;
-	public double rightDriveEncoderSpeed;
-	public boolean rightDriveEncoderDir;
-	public boolean leftDriveEncoderDir;
+	//public double leftDriveEncoder;
+	//public double rightDriveEncoder;
+	//public double leftDriveEncoderSpeed;
+	//public double rightDriveEncoderSpeed;
+	//public boolean rightDriveEncoderDir;
+	//public boolean leftDriveEncoderDir;
 	public boolean leftOpenSwitch;
 	public boolean leftCloseSwitch;
 	public boolean rightOpenSwitch;
@@ -27,4 +27,6 @@ public class SWRequestData extends CBRequestData {
 	
 	public int selectedAuto = -1;
 	public int selectedAlliance = -1;
+	
+	
 }

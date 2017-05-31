@@ -73,4 +73,11 @@ public abstract class CBSpeedControllerArrayController {
 
 	public abstract double get();
 
+	public boolean canProvideFeedback() {
+		return encoder!=null;
+	}
+	
+	public double getFeedbackDistance() {
+		return encoder==null?0:encoder.getDistance();
+	}
 }

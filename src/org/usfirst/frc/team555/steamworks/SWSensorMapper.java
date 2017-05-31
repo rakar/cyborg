@@ -1,14 +1,13 @@
 package org.usfirst.frc.team555.steamworks;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.controllers.CBDriveController;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBDashboardChooser;
 import org.montclairrobotics.cyborg.devices.CBDeviceId;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
-import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBNavXYawSource;
 import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SWSensorMapper extends CBCustomMapper {
 	SWRobot robot;
@@ -18,8 +17,9 @@ public class SWSensorMapper extends CBCustomMapper {
 	CBDashboardChooser<Integer> autoChooser;
 	CBDashboardChooser<Integer> allianceChooser;
 	CBNavXYawSource navxYawSource;
-	CBEncoder leftEncoder;
-	CBEncoder rightEncoder;
+	//CBEncoder leftEncoder;
+	//CBEncoder rightEncoder;
+	CBDriveController drivetrainController; 
 	CBDigitalInput leftOpenSwitch;
 	CBDigitalInput leftCloseSwitch;
 	CBDigitalInput rightOpenSwitch;
@@ -40,16 +40,18 @@ public class SWSensorMapper extends CBCustomMapper {
 		
 		drd.gyroLockValue = navxYawSource.get();
 		
-		if(leftEncoder!=null) {
-			rd.leftDriveEncoder = leftEncoder.get();
-			rd.rightDriveEncoder = rightEncoder.get();
-			rd.leftDriveEncoderSpeed = leftEncoder.getRate();
-			rd.rightDriveEncoderSpeed = rightEncoder.getRate();
-			SmartDashboard.putNumber("LeftEncoderGet:", rd.leftDriveEncoder);
-			SmartDashboard.putNumber("RightEncoderGet:", rd.rightDriveEncoder);
-			SmartDashboard.putNumber("LeftEncoderSpeed:", rd.leftDriveEncoderSpeed);
-			SmartDashboard.putNumber("RightEncoderSpeed:", rd.rightDriveEncoderSpeed);
-		}	
+		//if(leftEncoder!=null) {
+		//	rd.leftDriveEncoder = leftEncoder.get();
+		//	rd.rightDriveEncoder = rightEncoder.get();
+		//	rd.leftDriveEncoderSpeed = leftEncoder.getRate();
+		//	rd.rightDriveEncoderSpeed = rightEncoder.getRate();
+		//	SmartDashboard.putNumber("LeftEncoderGet:", rd.leftDriveEncoder);
+		//	SmartDashboard.putNumber("RightEncoderGet:", rd.rightDriveEncoder);
+		//	SmartDashboard.putNumber("LeftEncoderSpeed:", rd.leftDriveEncoderSpeed);
+		//	SmartDashboard.putNumber("RightEncoderSpeed:", rd.rightDriveEncoderSpeed);
+		//}	
+		
+		
 		
 		if(leftOpenSwitch!=null) {
 			rd.leftOpenSwitch 	= leftOpenSwitch.get();
@@ -76,9 +78,14 @@ public class SWSensorMapper extends CBCustomMapper {
 		return this;
 	}
 
-	public SWSensorMapper setDriveEncoders(CBDeviceId leftEncoder, CBDeviceId rightEncoder) {
-		this.leftEncoder = Cyborg.hardwareAdapter.getEncoder(leftEncoder);
-		this.rightEncoder = Cyborg.hardwareAdapter.getEncoder(rightEncoder);
+	//public SWSensorMapper setDriveEncoders(CBDeviceId leftEncoder, CBDeviceId rightEncoder) {
+	//	this.leftEncoder = Cyborg.hardwareAdapter.getEncoder(leftEncoder);
+	//	this.rightEncoder = Cyborg.hardwareAdapter.getEncoder(rightEncoder);
+	//	return this;
+	//}
+	
+	public SWSensorMapper setDrivetrain(CBDriveController driveTrainController) {
+		this.drivetrainController = driveTrainController;
 		return this;
 	}
 	

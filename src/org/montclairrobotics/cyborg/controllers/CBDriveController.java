@@ -1,9 +1,11 @@
 package org.montclairrobotics.cyborg.controllers;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBDriveModule;
+import org.montclairrobotics.cyborg.utils.CB2DVector;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,13 +16,23 @@ public abstract class CBDriveController extends CBRobotController {
 	protected CBDriveMode driveMode;
 	protected double controlPeriod = 1/50.0;
 	
+	public class CBDriveFeedback {
+		public CB2DVector translation;
+		public double rotation;
+		public Duration timespan; 
+	}
+	
+	public interface CBDrivetrainFeedbackProvider {
+		public boolean canProvideFeedback();
+		public CBDriveFeedback getFeedback();
+	}
 
 	public CBDriveController(Cyborg robot) {
 		super(robot);
 	}
 
 	public CBDriveController addDriveModule(CBDriveModule driveModule) {
-		driveModules.add(driveModule);
+		if(driveModules!=null) driveModules.add(driveModule);
 		updateDriveMode(driveModule);
 		return this;
 	}
@@ -68,5 +80,9 @@ public abstract class CBDriveController extends CBRobotController {
 		this.controlPeriod = controlPeriod;
 		return this;
 	}
-
+	
+	public boolean canProvideFeedback() {
+		return false;
+	}
+	
 }

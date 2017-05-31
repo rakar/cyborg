@@ -13,6 +13,7 @@ public class CBDriveModule {
 	private double orientationRadians;
 	private CB2DVector orientationVector;
 	private CBDriveMode driveMode=null;
+	private CBSpeedControllerArrayController feedbackArray = null;
 	
 	public CBDriveModule() {
 	}
@@ -38,6 +39,10 @@ public class CBDriveModule {
 			}
 		}
 		controllerArrays.add(controllerArray);
+		
+		if(feedbackArray==null && controllerArray.encoder!=null) {
+			feedbackArray = controllerArray;
+		}		
 		return this;
 	}
 
@@ -88,5 +93,13 @@ public class CBDriveModule {
 	 */
 	public CBDriveMode getDriveMode() {
 		return driveMode;
+	}
+	
+	public boolean canProvideFeedback() {
+		return feedbackArray!=null;
+	}
+	
+	public double getFeedbackDistance() {
+		return feedbackArray==null?0:feedbackArray.getFeedbackDistance();
 	}
 }
