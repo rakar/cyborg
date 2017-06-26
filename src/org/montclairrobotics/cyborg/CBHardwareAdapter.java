@@ -11,6 +11,7 @@ import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBNavX;
+import org.montclairrobotics.cyborg.devices.CBPDB;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
@@ -101,7 +102,6 @@ public class CBHardwareAdapter extends CBModule {
 		return CBButton.getDefaulted((CBButton)getDevice(id));
 	}
 	
-		
 	public CBContourReport getContourReport(CBDeviceId id) {
 		return (CBContourReport)getDevice(id);
 	}
@@ -132,6 +132,10 @@ public class CBHardwareAdapter extends CBModule {
 
 	public CBSolenoid getSolenoidValve(CBDeviceId id) {
 		return (CBSolenoid)getDevice(id);
+	}
+	
+	public CBPDB getPDB(CBDeviceId id) {
+		return (CBPDB)getDevice(id);
 	}
 	
 }
