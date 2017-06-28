@@ -9,65 +9,78 @@ import org.montclairrobotics.cyborg.utils.CB2DVector;
 
 public class CBMecanumDriveController extends CBDriveController {
 	protected ArrayList<CBDriveModule> driveModules = new ArrayList<>();
+	protected ArrayList<Double> momentArms = new ArrayList<>();
+	protected ArrayList<Double> vTrans = new ArrayList<>();
+	protected ArrayList<Double> vCorr = new ArrayList<>();
+	protected double tErr;
+	protected double minMA = Double.MAX_VALUE;
+	protected ArrayList<Double> vTheta = new ArrayList<>();
+	protected ArrayList<Double> vTotal = new ArrayList<>();
+	protected double maxAbsV;
+	protected double qtrPi = Math.PI/4.0;
+	protected double halfPi = Math.PI/2.0;
+	protected int dmCount = 0;
+	protected CBStdDriveControlData dcd=null;
+	
 
 	public CBMecanumDriveController(Cyborg robot) {
 		super(robot);
+		if(Cyborg.controlData.driveData instanceof CBStdDriveControlData) {
+			dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
+		} else {
+			System.out.println("Error: Invalid DriveControlData type for CBMecanumDriveController");
+		}
 	}
 
 	@Override
 	public void update() {
 		if(Cyborg.controlData.driveData.active) {
-			if(Cyborg.controlData.driveData instanceof CBStdDriveControlData) {
-				// TODO: Implement, like, mecanum calculation, 
-				// asymmetric configurations require an overall "group" calculation 
-				// instead of a "single" module calculation
-				
-				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
-				for(CBDriveModule dm:driveModules) {
-					double power = calculate(dm, dcd.direction, dcd.rotation);
-					dm.update(power);
-				}				
-
-			} else {
-				
-				System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
-				
-			}
+			calculate();
+			for(int i=0;i<dmCount;i++) {
+				CBDriveModule dm = driveModules.get(i);
+				dm.update(vTotal.get(i));
+			}				
 		}
 	}
 
-	// TODO: Implement, like, Mecanum calculation, the below is differential man!!!
-	protected double calculate(CBDriveModule module, CB2DVector direction, double rotation) {
-		double res = 0;
+	protected void calculate() {
+		double theta = dcd.direction.getAngleRad()-qtrPi;
+		double vd = dcd.direction.getMag();
+		tErr = 0;
+		for(int i=0;i<dmCount;i++) {
+			double vtrans = vd*Math.cos(theta-i*halfPi);
+			vTrans.set(i, vtrans);
+			tErr+=momentArms.get(i)*vtrans;
+			double vtheta = 4.0*dcd.rotation*minMA;
+			vTheta.set(i,vtheta);
+		}				
+		maxAbsV=0;
+		for(int i=0;i<dmCount;i++) {
+			double vtotal = vTrans.get(i)+(vTheta.get(i)-tErr)/4.0*momentArms.get(i);
+			vTotal.set(i, vtotal);
+			double absV = Math.abs(vtotal);
+			if (absV>maxAbsV) maxAbsV=absV;
+		}		
+		if(maxAbsV>1.0) {
+			for(int i=0;i<dmCount;i++) {
+				vTotal.set(i,vTotal.get(i)/maxAbsV);
+			}
+		}
 
-		switch (driveMode) {
-		case Power:
-		{
-			CB2DVector diff = new CB2DVector(0,direction.getY()+Math.signum(module.getPosition().getX())*rotation);
-			res = module.getOrientationVector().dot(diff);
-		}
-			break;
-		case Speed:
-		{
-			CB2DVector pos = module.getPosition();
-			CB2DVector targetPosition = 
-					pos.scaledRotate(rotation, controlPeriod)
-					.scaledTranslate(direction, controlPeriod);
-			CB2DVector diff = pos.sub(targetPosition);
-			res = module.getOrientationVector().dot(diff);
-		}
-			break;
-		case Conflict:
-		default:
-			break;
-		}
-				
-		return res;
 	}
 	
 	public CBMecanumDriveController addDriveModule(CBDriveModule driveModule) {
 		driveModules.add(driveModule);
 		updateDriveMode(driveModule);
+		CB2DVector pos = driveModule.getPosition();
+		double ma = pos.getMag() * Math.cos(Math.atan2(Math.abs(pos.getX()), Math.abs(pos.getY())) - qtrPi);
+		momentArms.add(ma);
+		vTrans.add(0.0);
+		vCorr.add(0.0);
+		vTheta.add(0.0);
+		vTotal.add(0.0);
+		dmCount++;
+		if(ma<minMA) minMA=ma;
 		return this;
 	}
 
