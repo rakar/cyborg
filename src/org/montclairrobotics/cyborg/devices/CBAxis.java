@@ -2,7 +2,10 @@ package org.montclairrobotics.cyborg.devices;
 
 import org.montclairrobotics.cyborg.Cyborg;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public class CBAxis extends CBJoystickIndex implements CBDevice {
+	Joystick joystick;
 	double value;
 	double rawValue;
 	double deadzone;
@@ -12,6 +15,7 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 	public CBAxis(int stickID, int index) {
 		super(stickID, index);
+		joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
 	}
 	
 	public CBAxis(CBJoystickIndex joystickIndex) {
@@ -46,7 +50,7 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 		double res;
 		
 		if(this.isDefined()) {
-			rawValue = scale * Cyborg.hardwareAdapter.getJoystick(stickID).getRawAxis(index);
+			rawValue = scale * joystick.getRawAxis(index);
 		} else {
 			rawValue = 0;
 		}

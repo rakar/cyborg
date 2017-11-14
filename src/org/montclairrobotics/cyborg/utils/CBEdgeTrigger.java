@@ -1,5 +1,7 @@
 package org.montclairrobotics.cyborg.utils;
-
+/*
+ * Perform edge detection and extension on a boolean data stream.
+ */
 public class CBEdgeTrigger {
 	private boolean state = false;
 	private boolean toggle = false;

@@ -20,8 +20,6 @@ public class CBDigitalInput extends DigitalInput implements CBDevice{
 
 	@Override
 	public void configure() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
