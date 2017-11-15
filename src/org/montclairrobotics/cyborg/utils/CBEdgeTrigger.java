@@ -92,9 +92,11 @@ public class CBEdgeTrigger {
 	public boolean getFallingEdgePulse() {
 		return fallingEdgePulse;
 	}
+	
 	public int getTrueCount() {
 		return countTrue;
 	}
+	
 	public int getFalseCount() {
 		return countFalse;
 	}
