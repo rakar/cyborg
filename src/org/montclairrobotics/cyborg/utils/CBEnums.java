@@ -50,7 +50,7 @@ public class CBEnums {
 	 * {@link #SpeedController}
 	 */
 	public enum CBEncoderScheme {
-		/*
+		/**
 		 * None: No encoder used
 		 */
 		None,

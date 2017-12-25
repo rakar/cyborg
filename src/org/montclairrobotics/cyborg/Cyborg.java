@@ -6,6 +6,13 @@ import org.montclairrobotics.cyborg.behaviors.CBBehavior;
 import org.montclairrobotics.cyborg.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.data.CBControlData;
 import org.montclairrobotics.cyborg.data.CBRequestData;
+import org.montclairrobotics.cyborg.devices.CBAxisList;
+import org.montclairrobotics.cyborg.devices.CBBuilder;
+import org.montclairrobotics.cyborg.devices.CBButtonList;
+import org.montclairrobotics.cyborg.devices.CBCANBus;
+import org.montclairrobotics.cyborg.devices.CBDIOBus;
+import org.montclairrobotics.cyborg.devices.CBPDBSlots;
+import org.montclairrobotics.cyborg.devices.CBStickList;
 import org.montclairrobotics.cyborg.data.CBLogicData;
 import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
 import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
@@ -22,7 +29,29 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public abstract class Cyborg extends IterativeRobot {
 
 	public static CBHardwareAdapter hardwareAdapter;
-	
+
+	// Build control system
+    public CBCANBus canBus = new CBCANBus();
+    public CBPDBSlots pdbSlots = new CBPDBSlots();
+    public CBDIOBus dioBus = new CBDIOBus();
+    public CBStickList stickList = new CBStickList();
+    public CBAxisList axisList = new CBAxisList(stickList);
+    public CBButtonList buttonList = new CBButtonList(stickList);
+    
+    public CBBuilder builder = new CBBuilder()
+    		.setCANBus(canBus)
+    		.setPDBSlots(pdbSlots)
+    		.setDIOBus(dioBus)
+    		.setStickList(stickList)
+    		.setAxisList(axisList)
+    		.setButtonList(buttonList);
+    		
+    
+    
+    
+    
+    
+
 	// Data Stores
 	// Data Stores represent high-level meaningful messages
 	//public static CBDriveRequestData driveRequestData;

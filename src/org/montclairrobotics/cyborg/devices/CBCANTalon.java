@@ -14,9 +14,18 @@ public class CBCANTalon implements CBSpeedController {
 	CANTalon talon;
 	int channel;
 	
-	public CBCANTalon(int channel) {
+	//public CBCANTalon(int channel) {
+	//	this.talon = new CANTalon(channel);
+	//	this.channel = channel;
+	//}
+	
+	private CBCANTalon(CBPortID<CBCANBus> port) {
+		channel = port.get();
 		this.talon = new CANTalon(channel);
-		this.channel = channel;
+	}
+	
+	public static CBCANTalon build(CBPortID<CBCANBus> port) {
+		return new CBCANTalon(port);
 	}
 
 	@Override

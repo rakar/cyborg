@@ -46,6 +46,13 @@ public abstract class CBSpeedControllerArrayController {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController#addSpeedController(org.montclairrobotics.cyborg.devices.CBSpeedController)
+	 */
+	public CBSpeedControllerArrayController addSpeedController(CBSpeedController speedController) {
+		speedControllers.add(speedController);
+		return this;
+	}
 
 	public abstract CBSpeedControllerArrayController update(double target);
 
@@ -59,6 +66,11 @@ public abstract class CBSpeedControllerArrayController {
 
 	public CBSpeedControllerArrayController setEncoder(CBDeviceId encoderId) {
 		this.encoder = Cyborg.hardwareAdapter.getEncoder(encoderId);
+		return this;
+	}
+	
+	public CBSpeedControllerArrayController setEncoder(CBEncoder encoder) {
+		this.encoder = encoder;
 		return this;
 	}
 	

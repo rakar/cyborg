@@ -33,6 +33,24 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		return this;
 	}
 
+	public CBArcadeDriveMapper setAxes(CBAxis fwdAxis, CBAxis strAxis, CBAxis rotAxis) {
+		// Undefined axes will return 0 deflection. ("InitHeavy/RunLight")
+		this.fwdAxis = fwdAxis;
+		this.strAxis = fwdAxis;
+		this.rotAxis = fwdAxis;
+		
+		// Force gyroLock to undefined even though we may set it later ("InitHeavy/RunLight")
+		gyroLock = new CBButton(CBJoystickIndex.undefined()); 
+
+		// Set default scale
+		xScale = 1;
+		yScale = 1; 
+		rScale = 1;
+		
+		return this;
+	}
+
+
 	public CBArcadeDriveMapper setGyroLockButton(CBDeviceId buttonDeviceID) {
 		this.gyroLock = Cyborg.hardwareAdapter.getDefaultedButton(buttonDeviceID);
 		return this;
