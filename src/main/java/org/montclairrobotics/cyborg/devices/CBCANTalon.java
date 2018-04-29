@@ -1,21 +1,15 @@
 package org.montclairrobotics.cyborg.devices;
 
-import com.ctre.CANTalon;
-import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.FeedbackDeviceStatus;
-import com.ctre.CANTalon.MotionProfileStatus;
-import com.ctre.CANTalon.StatusFrameRate;
-import com.ctre.CANTalon.TalonControlMode;
-import com.ctre.CANTalon.TrajectoryPoint;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class CBCANTalon implements CBSpeedController {
-	CANTalon talon;
+	TalonSRX talon;
 	int channel;
 	
 	public CBCANTalon(int channel) {
-		this.talon = new CANTalon(channel);
+		this.talon = new TalonSRX(channel);
 		this.channel = channel;
 	}
 
@@ -54,7 +48,7 @@ public class CBCANTalon implements CBSpeedController {
 	}
 
 	/**
-	 * {@link edu.wpi.first.wpilibj.CANTalon#changeControlMode}
+	 * {@link edu.wpi.first.wpilibj.TalonSRX#changeControlMode}
 	 */
 	public CBCANTalon changeControlMode(TalonControlMode controlMode) {
 		talon.changeControlMode(controlMode);
@@ -62,7 +56,7 @@ public class CBCANTalon implements CBSpeedController {
 	}
 	
 	/**
-	 * {@link edu.wpi.first.wpilibj.CANTalon#changeMotionControlFramePeriod}
+	 * {@link edu.wpi.first.wpilibj.TalonSRX#changeMotionControlFramePeriod}
 	 */
 	public CBCANTalon changeMotionControlFramePeriod(int periodMs) {
 		talon.changeMotionControlFramePeriod(periodMs);
