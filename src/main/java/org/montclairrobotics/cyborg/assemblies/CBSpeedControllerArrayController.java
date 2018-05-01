@@ -10,6 +10,14 @@ import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBEncoderScheme;
 
+/**
+ * Base class for an array of speed controllers regulated as a unit with a
+ * single feedback (encoder) device. If more than one speed controller
+ * is used in an Advanced mode, then the first controller is considered
+ * to be the lead controller and all others will be considered followers.
+ * @author rich
+ */
+
 public abstract class CBSpeedControllerArrayController {
 	protected ArrayList<CBSpeedController> speedControllers = new ArrayList<>();
 	
