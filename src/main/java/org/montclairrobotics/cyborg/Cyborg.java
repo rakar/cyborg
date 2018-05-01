@@ -16,8 +16,11 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
+ * Framework specific replacement for IterativeRobot. This class
+ * is overridden to produce the main robot control class. This class
+ * "hijacks" the standard IterativeRobot interface and performs the
+ * appropriate Cyborg operations instead.
  * @author rich
- *
  */
 public abstract class Cyborg extends IterativeRobot {
 
@@ -34,10 +37,10 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
-	private ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<CBTeleOpMapper>();
-	private ArrayList<CBCustomMapper> customMappers = new ArrayList<CBCustomMapper>();
+	private ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<>();
+	private ArrayList<CBCustomMapper> customMappers = new ArrayList<>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
-	private ArrayList<CBRobotController> robotControllers = new ArrayList<CBRobotController>();
+	private ArrayList<CBRobotController> robotControllers = new ArrayList<>();
 	
 	// Logic Layer
 	private ArrayList<CBRule> rules = new ArrayList<>();
@@ -137,7 +140,6 @@ public abstract class Cyborg extends IterativeRobot {
     public final void teleopInit() {
 		gameMode = CBGameMode.teleopInit;
 		runStatistics.teleopInitUpdate();
-		
     }
 
 	/**
@@ -149,22 +151,19 @@ public abstract class Cyborg extends IterativeRobot {
 		runStatistics.teleopPeriodicUpdate();
 		
 		SmartDashboard.putNumber("cyclesPERsecond", runStatistics.averageCycles);
-		
-		// TODO: Kill this diagnostic
-		double[] ys = table.getNumberArray("mynewreport/centerX",new double[0]);
-		if (ys.length>0) {
-			SmartDashboard.putNumber("y0", ys[0]);
-		}
-		//
-		
+
 		// Update input interfaces
 		hardwareAdapter.senseUpdate();
 		
 		// Update Input Mappers
+        // Since we're in teleOp, update all input mappers
+        // (in auto, we only update the customMappers)
 		for(CBTeleOpMapper m:this.teleOpMappers) m.update(); 
-		for(CBCustomMapper  m:this.customMappers)  m.update(); 
+		for(CBCustomMapper m:this.customMappers) m.update();
 
 		// Let the robot do it's thing...
+        // from here on out, the code is identical between
+        // teleOp and auto modes.
 		robotControl();
     }
 	
@@ -196,7 +195,6 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update output interfaces
 		hardwareAdapter.controlUpdate();
-
 	}
 
     /**
@@ -211,7 +209,6 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update Input Mappers
 		//for(CBGeneralMapper m:this.generalMappers) m.update(); 
-
     }
 
     /**
@@ -226,8 +223,5 @@ public abstract class Cyborg extends IterativeRobot {
 		
 		// Update Input Mappers
 		//for(CBGeneralMapper m:this.generalMappers) m.update(); 
-
     }
-
-	
 }

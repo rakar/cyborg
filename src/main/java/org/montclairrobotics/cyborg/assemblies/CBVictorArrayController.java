@@ -4,13 +4,10 @@ import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection.CBOnTargetMode;
 
 /**
- * 
- * @author rich
- * 
  * Controls an array of speed controllers. If more than one speed controller
  * is used in an Advanced mode, then the first controller is considered 
  * to be the lead controller and all others will be considered followers.  
- *
+ * @author rich
  */
 public class CBVictorArrayController extends CBSpeedControllerArrayController { 
 	double currentPower;
@@ -35,6 +32,7 @@ public class CBVictorArrayController extends CBSpeedControllerArrayController {
 				outputValue = 0;
 			} else {
 				double encoderRate = encoder.getRate();
+				// rich - this looks backwards.
 				if(errorCorrection.getOnTargetMode()==CBOnTargetMode.HoldValue) {
 					currentPower = errorCorrection.setTarget(target).update(encoderRate);
 				} else {
