@@ -3,7 +3,7 @@ package org.montclairrobotics.cyborg.assemblies;
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.devices.CBDeviceId;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
@@ -41,7 +41,7 @@ public abstract class CBSpeedControllerArrayController {
 	/* (non-Javadoc)
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController#addSpeedController(org.montclairrobotics.cyborg.devices.CBSpeedController)
 	 */
-	public CBSpeedControllerArrayController addSpeedController(CBDeviceId controllerId) {
+	public CBSpeedControllerArrayController addSpeedController(CBDeviceID controllerId) {
 		speedControllers.add(Cyborg.hardwareAdapter.getSpeedController(controllerId));
 		return this;
 	}
@@ -57,7 +57,7 @@ public abstract class CBSpeedControllerArrayController {
 	}
 	
 
-	public CBSpeedControllerArrayController setEncoder(CBDeviceId encoderId) {
+	public CBSpeedControllerArrayController setEncoder(CBDeviceID encoderId) {
 		this.encoder = Cyborg.hardwareAdapter.getEncoder(encoderId);
 		return this;
 	}

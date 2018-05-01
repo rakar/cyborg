@@ -22,11 +22,11 @@ public class CBEncoder implements CBDevice, CBSource{
 	
 	public class CBIndexEntry {
 		CBDigitalInput trigger;
-		CBDeviceId triggerId;
+		CBDeviceID triggerId;
 		boolean activeState;
 		double distance;
 		
-		public CBIndexEntry(CBDeviceId triggerId, boolean activeState, double distance) {
+		public CBIndexEntry(CBDeviceID triggerId, boolean activeState, double distance) {
 			this.triggerId = triggerId;
 			this.activeState = activeState;
 			this.distance = distance;
@@ -116,7 +116,7 @@ public class CBEncoder implements CBDevice, CBSource{
 		return this;
 	}
 	
-	public CBEncoder removeIndexEntry(CBDeviceId triggerId) {
+	public CBEncoder removeIndexEntry(CBDeviceID triggerId) {
 		int trg = -1;
 		for(int i=0;i<indexEntries.size();i++) {
 			if(indexEntries.get(i).triggerId==triggerId) {
@@ -154,16 +154,6 @@ public class CBEncoder implements CBDevice, CBSource{
 
 	public CBEncoder setSamplesToAverage(int samplesToAverage) {
 		encoder.setSamplesToAverage(samplesToAverage);
-		return this;
-	}
-	
-	public CBEncoder startLiveWindowMode() {
-		encoder.startLiveWindowMode();
-		return this;
-	}
-	
-	public CBEncoder stopLiveWindowMode() {
-		encoder.stopLiveWindowMode();
 		return this;
 	}
 	
@@ -215,22 +205,10 @@ public class CBEncoder implements CBDevice, CBSource{
 	public int getSamplesToAverage() {
 		return encoder.getSamplesToAverage();
 	}
-	
-	public String getSmartDashboardType() {
-		return encoder.getSmartDashboardType();
-	}
+
 	
 	public boolean getStopped() {
 		return encoder.getStopped();
-	}
-	
-	public ITable getTable() {
-		return encoder.getTable();
-	}
-	
-	public CBEncoder initTable(ITable subtable) {
-		encoder.initTable(subtable);
-		return this;
 	}
 	
 	// have to hijack this since our offset system 
