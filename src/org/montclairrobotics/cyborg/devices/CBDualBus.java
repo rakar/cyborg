@@ -3,26 +3,38 @@ package org.montclairrobotics.cyborg.devices;
 //public class CBMatrixObjectMap {
 import java.util.HashMap;
 
-public class CBDualBus<T> {
+public class CBDualBus<T,R> {
     private HashMap<Integer, CBDualID<T>> ports = new HashMap<Integer,CBDualID<T>>();
+    private int min;
     private int max;
-    private CBBus bus;
+	private CBBus<R> bus;
 
-    public CBDualBus(int max, CBBus bus) {
+    public CBDualBus(int min, int max, CBBus<R> bus) {
+    	this.min = min;
         this.max = max;
         this.bus = bus;
     }
+    
     @SuppressWarnings("unchecked")
     public T add(CBDeviceEnum device, CBDeviceEnum row, int col) {
-    	//
-    	// TODO: this check is messed up, it needs to check the value not the ordinal
-    	// 
-    	//int key = bus.get(device).get()*max+col;
-        if (ports.containsKey(device.ordinal())) {
-            //throw Invalid Bus Config Error
+    	
+    	int rowPort = bus.get(row).get();
+    	boolean err = col<min || col>max;
+        if (!err) {
+        	for(CBDualID<T> d:ports.values()) {
+    			if (d.getA()==rowPort && d.getB()==col) {
+    				err=true;
+    				break;
+    			}
+        	}
         }
-        else {
-            ports.put(device.ordinal(), new CBDualID<T>(bus.get(device).get(), col));
+       	if (!err && ports.containsKey(device.ordinal())) {
+       		err=true;
+       	}
+        if(err) {
+        	//throw new Exception("Invalid Bus Configuration");
+        } else {
+            ports.put(device.ordinal(), new CBDualID<T>(rowPort, col));
         }
         return (T)this;
     }

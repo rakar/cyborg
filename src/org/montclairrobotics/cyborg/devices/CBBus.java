@@ -10,15 +10,25 @@ public class CBBus<T> {
         this.min=min;
         this.max=max;
     }
+
     @SuppressWarnings("unchecked")
     public T add(CBDeviceEnum device, int port ) {
-    	//
-    	// TODO: this check is messed up, it needs to check the value not the ordinal
-    	// 
-        if (port<min || port>max || ports.containsKey(device.ordinal())) {
-            //throw Invalid Bus Config Error
+    	boolean err = port<min || port>max;
+        if (!err) {
+        	for(CBPortID<T> p:ports.values()) {
+    			if (p.get()==port) {
+    				err=true;
+    				break;
+    			}
+        	}
         }
-        else {
+       	if (!err && ports.containsKey(device.ordinal())) {
+       		err=true;
+       	}
+        if(err) {
+        	// throw Invalid Bus Configuration
+        	// throw new Exception("Invalid Bus Configuration");
+        } else {
             ports.put(device.ordinal(),new CBPortID<T>(port));
         }
         return (T)this;

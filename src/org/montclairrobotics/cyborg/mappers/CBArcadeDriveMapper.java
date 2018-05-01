@@ -51,8 +51,8 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 	}
 
 
-	public CBArcadeDriveMapper setGyroLockButton(CBDeviceId buttonDeviceID) {
-		this.gyroLock = Cyborg.hardwareAdapter.getDefaultedButton(buttonDeviceID);
+	public CBArcadeDriveMapper setGyroLockButton(CBButton button) {
+		this.gyroLock = button; //Cyborg.hardwareAdapter.getDefaultedButton(buttonDeviceID);
 		return this;
 	}
 
