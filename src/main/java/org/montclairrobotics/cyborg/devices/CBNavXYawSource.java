@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.utils.CBSource;
 public class CBNavXYawSource implements CBSource {
 	private CBNavX navx;
 	
-	public CBNavXYawSource(CBDeviceId navxDeviceID) {
+	public CBNavXYawSource(CBDeviceID navxDeviceID) {
 		this.navx = Cyborg.hardwareAdapter.getNavX(navxDeviceID);
 	}
 	

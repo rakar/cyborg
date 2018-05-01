@@ -65,21 +65,8 @@ public class CBTalon implements CBSpeedController {
 		return talon.getPosition();
 	}
 	
-	public String getSmartDashboardType() {
-		return talon.getSmartDashboardType();
-	}
-	
 	public double getSpeed() {
 		return talon.getSpeed();
-	}
-	
-	public ITable getTable() {
-		return talon.getTable();
-	}
-	
-	public CBTalon initTable(ITable subtable) {
-		talon.initTable(subtable);
-		return this;
 	}
 	
 	public boolean isAlive() {
@@ -106,23 +93,8 @@ public class CBTalon implements CBSpeedController {
 		return this;
 	}
 	
-	public CBTalon startLiveWindowMode() {
-		talon.startLiveWindowMode();
-		return this;
-	}
-	
-	public CBTalon stopLiveWindowMode() {
-		talon.stopLiveWindowMode();
-		return this;
-	}
-	
 	public String toString()  {
 		return talon.toString();
-	}
-	
-	public CBTalon updateTable() {
-		talon.updateTable();
-		return this;
 	}
 
 	@Override

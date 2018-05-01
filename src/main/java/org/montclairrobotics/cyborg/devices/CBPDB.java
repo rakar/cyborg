@@ -35,14 +35,6 @@ public class CBPDB implements CBDevice {
 		return pdb.getCurrent(channel);
 	}
 	
-	public String getSmartDashboardType() {
-		return pdb.getSmartDashboardType();
-	}
-	
-	public ITable getTable() {
-		return pdb.getTable();
-	}
-	
 	public double getTemperature() {
 		return pdb.getTemperature();
 	}

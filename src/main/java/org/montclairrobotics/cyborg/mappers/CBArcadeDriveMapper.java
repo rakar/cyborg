@@ -4,7 +4,7 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
-import org.montclairrobotics.cyborg.devices.CBDeviceId;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBJoystickIndex;
 
 public class CBArcadeDriveMapper extends CBTeleOpMapper {
@@ -16,7 +16,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		super(robot);
 	}
 
-	public CBArcadeDriveMapper setAxes(CBDeviceId fwdDeviceID, CBDeviceId strDeviceID, CBDeviceId rotDeviceID) {
+	public CBArcadeDriveMapper setAxes(CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
 		// Undefined axes will return 0 deflection. ("InitHeavy/RunLight")
 		fwdAxis = Cyborg.hardwareAdapter.getDefaultedAxis(fwdDeviceID);
 		strAxis = Cyborg.hardwareAdapter.getDefaultedAxis(strDeviceID);
@@ -33,7 +33,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		return this;
 	}
 
-	public CBArcadeDriveMapper setGyroLockButton(CBDeviceId buttonDeviceID) {
+	public CBArcadeDriveMapper setGyroLockButton(CBDeviceID buttonDeviceID) {
 		this.gyroLock = Cyborg.hardwareAdapter.getDefaultedButton(buttonDeviceID);
 		return this;
 	}
