@@ -1,5 +1,8 @@
 package org.montclairrobotics.cyborg.devices;
 
+/**
+ * Represents a generic speed controller.
+ */
 public interface CBSpeedController extends CBDevice {
  
 	CBSpeedController pidWrite(double output);

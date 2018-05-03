@@ -1,5 +1,9 @@
 package org.montclairrobotics.cyborg;
 
+/**
+ * Defines the constants used to indicate the different
+ * modes of operation in the iterative robot model.
+ */
 public class CBGameMode {
 	public final static int robotInit = 1;
 	public final static int disabledInit = 2;

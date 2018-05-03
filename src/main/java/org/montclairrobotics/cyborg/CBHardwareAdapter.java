@@ -19,7 +19,11 @@ import org.montclairrobotics.cyborg.utils.CBModule;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-
+/**
+ * Main device catalog
+ * Created devices are stored here and then accessed via
+ * CBDeviceID objects.
+ */
 public class CBHardwareAdapter extends CBModule {
 
 	private int joystickCount;
