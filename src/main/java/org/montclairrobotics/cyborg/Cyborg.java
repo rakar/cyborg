@@ -2,6 +2,8 @@ package org.montclairrobotics.cyborg;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import org.montclairrobotics.cyborg.behaviors.CBBehavior;
 import org.montclairrobotics.cyborg.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.data.CBControlData;
@@ -12,7 +14,6 @@ import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.utils.CBRunStatistics;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -95,7 +96,7 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void robotInit() {        	
 		gameMode = CBGameMode.robotInit;
-		table = NetworkTable.getTable("GRIP");
+		table = NetworkTableInstance.getDefault().getTable("GRIP");
 
 		cyborgInit();
 		

@@ -1,8 +1,8 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import org.montclairrobotics.cyborg.utils.CBTimingController;
-
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class CBContourReport implements CBDevice{
 	NetworkTable table;
@@ -22,7 +22,7 @@ public class CBContourReport implements CBDevice{
 	public CBContourReport(String key) {
 		baseKey = key;
 		timer = new CBTimingController();
-		table = NetworkTable.getTable(baseKey);
+		table = NetworkTableInstance.getDefault().getTable(baseKey);
 	}
 	
 	public CBContourReport setTiming(int mode, int delay) {
@@ -33,12 +33,12 @@ public class CBContourReport implements CBDevice{
 	@Override
 	public void senseUpdate() {
 		if(timer.update()) {
-			area = table.getNumberArray("area", new double[0]);
+			area = table.getEntry("area").getDoubleArray(new double[0]);
 			if (area.length>0) {
-				widthArray = table.getNumberArray("width", new double[0]);
-				heightArray = table.getNumberArray("height", new double[0]);
-				centerXArray = table.getNumberArray("centerX", new double[0]);
-				centerYArray = table.getNumberArray("centerY", new double[0]);
+				widthArray = table.getEntry("width").getDoubleArray(new double[0]);
+				heightArray = table.getEntry("height").getDoubleArray(new double[0]);
+				centerXArray = table.getEntry("centerX").getDoubleArray(new double[0]);
+				centerYArray = table.getEntry("centerY").getDoubleArray(new double[0]);
 			} else {
 				if (widthArray.length>0) {
 					widthArray =  new double[0];
