@@ -7,6 +7,7 @@ public class CBTarget2D extends CBEdgeTrigger {
 	double yRange;
 	double xPosition;
 	double yPosition;
+	boolean active;
 
 	public CBTarget2D() {
 		xPosition = 0;
@@ -20,6 +21,15 @@ public class CBTarget2D extends CBEdgeTrigger {
 		this.yRange = yRange;
 		return this;
 	}
+
+	public CBTarget2D setActive(boolean active) {
+		this.active = active;
+		return this;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
 	
 	public CBTarget2D setPosition(double x, double y){
 		xPosition = x;
@@ -30,8 +40,8 @@ public class CBTarget2D extends CBEdgeTrigger {
 	public CBTarget2D update(double x, double y) {
 		xPosition = x;
 		yPosition = y;
-		super.update(Math.abs(xTarget-xPosition)<xRange 
-				&& Math.abs(yTarget-yPosition)<yRange);
+		super.update(active && (Math.abs(xTarget-xPosition)<xRange
+				&& Math.abs(yTarget-yPosition)<yRange));
 		return this;
 	}
 	
