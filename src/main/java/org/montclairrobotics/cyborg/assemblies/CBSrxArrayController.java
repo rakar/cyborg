@@ -1,5 +1,8 @@
 package org.montclairrobotics.cyborg.assemblies;
 
+/**
+ * Represents an SRX controller array. Currently missing implementation!!!
+ */
 public class CBSrxArrayController extends CBSpeedControllerArrayController {
 
 	public CBSrxArrayController() {
@@ -17,5 +20,4 @@ public class CBSrxArrayController extends CBSpeedControllerArrayController {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

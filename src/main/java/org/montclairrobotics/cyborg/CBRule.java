@@ -2,16 +2,21 @@ package org.montclairrobotics.cyborg;
 
 import org.montclairrobotics.cyborg.utils.CBModule;
 
+/**
+ * Base class of all Rule behaviors. These are meant to
+ * "pre-screen" requtest data before they are seen by
+ * behaviors.
+ */
 public class CBRule extends CBModule {
 
 	public CBRule(Cyborg robot) {
 		super(robot);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Called in every update period.
+	 */
 	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
