@@ -34,13 +34,13 @@ public class CBLinearController extends CBRobotController {
 
 
     public class CBLinearControlData {
-        public boolean RequestUp;
-        public boolean RequestDown;
-        public CBTarget1D Target;
-        public CBTarget1D TopMargin;
-        public CBTarget1D BottomMargin;
-        public CBTarget1D TopEncoderLimit;
-        public CBTarget1D BottomEncoderLimit;
+        public boolean requestUp;
+        public boolean requestDown;
+        public CBTarget1D target;
+        public CBTarget1D topMargin;
+        public CBTarget1D bottomMargin;
+        public CBTarget1D topEncoderLimit;
+        public CBTarget1D bottomEncoderLimit;
         public double slowUp;
         public double slowDown;
         public double normUp;
@@ -89,13 +89,13 @@ public class CBLinearController extends CBRobotController {
                     if (!goDown) nextState = CBLinearControlStates.Idle;
                     else if (goDown
                             // there is no bottom margin, so just do it normally
-                            && (!cd.BottomMargin.isActive()
+                            && (!cd.bottomMargin.isActive()
                             // or (there is one
                             // and the encoder is clean
                             // and we are above the margin
-                            || (cd.BottomMargin.isActive()
+                            || (cd.bottomMargin.isActive()
                             && encoderClean
-                            && cd.BottomMargin.isAboveTarget(encoder.getDistance())))) {
+                            && cd.bottomMargin.isAboveTarget(encoder.getDistance())))) {
                         nextState = CBLinearControlStates.DownNorm;
                     }
                     break;
@@ -103,13 +103,13 @@ public class CBLinearController extends CBRobotController {
                     if (!goUp) nextState = CBLinearControlStates.Idle;
                     else if (goUp
                             // there is no top margin, so just do it normally
-                            && (!cd.TopMargin.isActive()
+                            && (!cd.topMargin.isActive()
                             // or (there is one
                             // and the encoder is clean
                             // and we are below the margin
-                            || (cd.TopMargin.isActive()
+                            || (cd.topMargin.isActive()
                             && encoderClean
-                            && cd.TopMargin.isBelowTarget(encoder.getDistance())))) {
+                            && cd.topMargin.isBelowTarget(encoder.getDistance())))) {
                         nextState = CBLinearControlStates.UpNorm;
                     }
                     break;
@@ -119,9 +119,9 @@ public class CBLinearController extends CBRobotController {
                             // (there is bottom margin
                             // and the encoder is clean
                             // and we are below the margin
-                            && (cd.BottomMargin.isActive()
+                            && (cd.bottomMargin.isActive()
                             && encoderClean
-                            && cd.BottomMargin.isBelowTarget(encoder.getDistance()))) {
+                            && cd.bottomMargin.isBelowTarget(encoder.getDistance()))) {
                         nextState = CBLinearControlStates.DownSlow;
                     }
                     break;
@@ -131,9 +131,9 @@ public class CBLinearController extends CBRobotController {
                             // (there is top margin
                             // and the encoder is clean
                             // and we are above the margin
-                            && (cd.TopMargin.isActive()
+                            && (cd.topMargin.isActive()
                             && encoderClean
-                            && cd.TopMargin.isAboveTarget(encoder.getDistance()))) {
+                            && cd.topMargin.isAboveTarget(encoder.getDistance()))) {
                         nextState = CBLinearControlStates.DownSlow;
                     }
                     break;
@@ -155,24 +155,24 @@ public class CBLinearController extends CBRobotController {
                     speedControllerArray.update(0); // full stop
                     break;
                 case AtTop:
-                    if (!encoderClean && encoder != null && cd.TopEncoderLimit.isActive()) {
-                        encoder.setDistance(cd.TopEncoderLimit.getXPosition());
+                    if (!encoderClean && encoder != null && cd.topEncoderLimit.isActive()) {
+                        encoder.setDistance(cd.topEncoderLimit.getXPosition());
                         encoderClean = true;
                     }
                     speedControllerArray.update(0); // full stop
                     break;
                 case AtBottom:
-                    if (!encoderClean && encoder != null && cd.BottomEncoderLimit.isActive()) {
-                        encoder.setDistance(cd.BottomEncoderLimit.getXPosition());
+                    if (!encoderClean && encoder != null && cd.bottomEncoderLimit.isActive()) {
+                        encoder.setDistance(cd.bottomEncoderLimit.getXPosition());
                         encoderClean = true;
                     }
                     speedControllerArray.update(0); // full stop
                     break;
                 case DownSlow: {
                     double speed = 0;
-                    if (cd.RequestDown) {
+                    if (cd.requestDown) {
                         speed = cd.slowDown;
-                    } else if (cd.Target.isActive()) {
+                    } else if (cd.target.isActive()) {
                         speed = errorCorrection.getOut();
                         if (Math.abs(speed) > Math.abs(cd.slowDown)) {
                             speed = cd.slowDown;
@@ -183,9 +183,9 @@ public class CBLinearController extends CBRobotController {
                 break;
                 case UpSlow: {
                     double speed = 0;
-                    if (cd.RequestUp) {
+                    if (cd.requestUp) {
                         speed = cd.slowUp;
-                    } else if (cd.Target.isActive()) {
+                    } else if (cd.target.isActive()) {
                         speed = errorCorrection.getOut();
                         if (Math.abs(speed) > Math.abs(cd.slowUp)) {
                             speed = cd.slowUp;
@@ -196,9 +196,9 @@ public class CBLinearController extends CBRobotController {
                 break;
                 case DownNorm: {
                     double speed = 0;
-                    if (cd.RequestDown) {
+                    if (cd.requestDown) {
                         speed = cd.normDown;
-                    } else if (cd.Target.isActive()) {
+                    } else if (cd.target.isActive()) {
                         speed = errorCorrection.getOut();
                     }
                     speedControllerArray.update(speed);
@@ -206,9 +206,9 @@ public class CBLinearController extends CBRobotController {
                 break;
                 case UpNorm: {
                     double speed = 0;
-                    if (cd.RequestUp) {
+                    if (cd.requestUp) {
                         speed = cd.normUp;
-                    } else if (cd.Target.isActive()) {
+                    } else if (cd.target.isActive()) {
                         speed = errorCorrection.getOut();
                     }
                     speedControllerArray.update(speed);
@@ -269,13 +269,13 @@ public class CBLinearController extends CBRobotController {
     }
 
     public void update() {
-        topLimit = (topLimitSwitch != null && topLimitSwitch.get()) || (cd.TopEncoderLimit.isActive() && encoderClean && cd.TopEncoderLimit.isAboveTarget(encoder.getDistance()));
-        bottomLimit = (bottomLimitSwitch != null && bottomLimitSwitch.get()) || (cd.BottomEncoderLimit.isActive() && encoderClean && encoder.getDistance() <= cd.BottomEncoderLimit.getXPosition());
-        goUp = !topLimit && (cd.RequestUp || (encoderClean && cd.Target.isBelowTarget(encoder.getDistance())));
-        goDown = !bottomLimit && (cd.RequestDown || (encoderClean && cd.Target.isAboveTarget(encoder.getDistance())));
+        topLimit = (topLimitSwitch != null && topLimitSwitch.get()) || (cd.topEncoderLimit.isActive() && encoderClean && cd.topEncoderLimit.isAboveTarget(encoder.getDistance()));
+        bottomLimit = (bottomLimitSwitch != null && bottomLimitSwitch.get()) || (cd.bottomEncoderLimit.isActive() && encoderClean && encoder.getDistance() <= cd.bottomEncoderLimit.getXPosition());
+        goUp = !topLimit && (cd.requestUp || (encoderClean && cd.target.isBelowTarget(encoder.getDistance())));
+        goDown = !bottomLimit && (cd.requestDown || (encoderClean && cd.target.isAboveTarget(encoder.getDistance())));
         if (errorCorrection != null) {
-            if (cd.Target.isActive()) {
-                errorCorrection.setTarget(cd.Target.getXPosition());
+            if (cd.target.isActive()) {
+                errorCorrection.setTarget(cd.target.getXPosition());
                 errorCorrection.update(encoder.getDistance());
             }
         }
