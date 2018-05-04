@@ -52,4 +52,11 @@ public class CBTarget2D extends CBEdgeTrigger {
 	public double getYPosition() {
 		return yPosition;
 	}
+
+    public boolean isOnTarget(double value) {
+        return (active
+                && value>=(xTarget-xRange) && value<=(xTarget+xRange)
+                && value>=(yTarget-yRange) && value<=(yTarget+yRange));
+    }
+
 }

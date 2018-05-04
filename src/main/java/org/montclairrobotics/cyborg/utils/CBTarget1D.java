@@ -39,6 +39,18 @@ public class CBTarget1D extends CBEdgeTrigger {
     public double getXPosition() {
         return xPosition;
     }
+
+    public boolean isAboveTarget(double value) {
+        return (active && value>(xTarget+xRange));
+    }
+
+    public boolean isOnTarget(double value) {
+        return (active && value>=(xTarget-xRange) && value<=(xTarget+xRange));
+    }
+
+    public boolean isBelowTarget(double value) {
+        return (active && value<(xTarget-xRange));
+    }
 }
 
 

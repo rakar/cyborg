@@ -19,6 +19,7 @@ public class CBEncoder implements CBDevice, CBSource{
 	private int offsetEdges;
 	private double offsetDistance;
 	private ArrayList<CBIndexEntry> indexEntries = new ArrayList<>();
+
 	
 	public class CBIndexEntry {
 		CBDigitalInput trigger;
