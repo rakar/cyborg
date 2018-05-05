@@ -50,9 +50,9 @@ public class CBDifferentialDriveController extends CBDriveController implements 
 					dm.update(power);
 				}	
 			} else {
-				
-				System.out.println("Error: Invalid DriveControlData for DifferentialDriveController");
-				
+				String msg = "Error: Invalid DriveControlData for DifferentialDriveController";
+				System.out.println(msg);
+				throw new RuntimeException(msg);
 			}
 		}
 

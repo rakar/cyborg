@@ -27,7 +27,8 @@ public class CBSwerveDriveController extends CBDriveController {
 
 			} else {
 				
-				System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
+				//System.out.println("Error: Invalid DriveControlStatus for DifferentialDriveController");
+				throw new RuntimeException("Error: Invalid DriveControlStatus for CBSwerveDriveController");
 				
 			}
 		}

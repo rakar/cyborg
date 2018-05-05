@@ -50,7 +50,8 @@ public abstract class CBDriveController extends CBRobotController {
 		} else {
 			if (driveModule.getDriveMode()!=driveMode) {
 				driveMode = CBDriveMode.Conflict;
-				SmartDashboard.putString("Drivemode","Conflict");
+				//SmartDashboard.putString("Drivemode","Conflict");
+				throw new RuntimeException("Drivemode Conflict");
 			}
 		}
 	}

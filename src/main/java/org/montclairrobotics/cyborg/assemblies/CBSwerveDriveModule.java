@@ -16,8 +16,9 @@ public class CBSwerveDriveModule extends CBDriveModule {
 	
 	@Override
 	public CBDriveModule update(double target) {
-		System.out.println("Error: update(double taget) not valid for CBSwerveModule."); 
-		return this;
+		//System.out.println("Error: update(double taget) not valid for CBSwerveModule.");
+		throw new RuntimeException("Error: update(double taget) not valid for CBSwerveModule.");
+		//return this;
 	}
 	
 	private double shortAngle(double angle) {
