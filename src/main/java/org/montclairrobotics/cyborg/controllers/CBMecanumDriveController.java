@@ -28,7 +28,8 @@ public class CBMecanumDriveController extends CBDriveController {
 		if(Cyborg.controlData.driveData instanceof CBStdDriveControlData) {
 			dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
 		} else {
-			System.out.println("Error: Invalid DriveControlData type for CBMecanumDriveController");
+			//System.out.println("Error: Invalid DriveControlData type for CBMecanumDriveController");
+			throw new RuntimeException("Error: Invalid DriveControlData type for CBMecanumDriveController");
 		}
 	}
 

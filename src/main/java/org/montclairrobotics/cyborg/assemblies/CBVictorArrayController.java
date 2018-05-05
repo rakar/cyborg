@@ -28,8 +28,9 @@ public class CBVictorArrayController extends CBSpeedControllerArrayController {
 			break;
 		case Speed:
 			if(errorCorrection==null || encoder==null){
-				System.out.println("Error: Drive mode=Speed, but CBErrorCorrection or CBEncoder not set.");
-				outputValue = 0;
+				//System.out.println("Error: Drive mode=Speed, but CBErrorCorrection or CBEncoder not set.");
+				throw new RuntimeException("Error: Drive mode=Speed, but CBErrorCorrection or CBEncoder not set.");
+				//outputValue = 0;
 			} else {
 				double encoderRate = encoder.getRate();
 				// rich - this looks backwards.
@@ -43,8 +44,9 @@ public class CBVictorArrayController extends CBSpeedControllerArrayController {
 			break;
 		case Position:
 			if(errorCorrection==null || encoder==null){
-				System.out.println("Error: Drive mode=Position, but CBErrorCorrection or CBEncoder not set.");
-				target = 0;
+				//System.out.println("Error: Drive mode=Position, but CBErrorCorrection or CBEncoder not set.");
+				throw new RuntimeException("Error: Drive mode=Position, but CBErrorCorrection or CBEncoder not set.");
+				//target = 0;
 			} else {
 				outputValue = errorCorrection.setTarget(target).update(encoder.getDistance());
 			}
