@@ -11,7 +11,8 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	double deadzone;
 	double smoothing;
 	double lastValue;
-	double scale; 
+	double scale;
+
 
 	public CBAxis(int stickID, int index) {
 		super(stickID, index);
@@ -47,26 +48,28 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		double res;
-		
-		if(this.isDefined()) {
-			rawValue = scale * joystick.getRawAxis(index);
-		} else {
-			rawValue = 0;
-		}
-		
-		// smoothing: 0 => none, 1 => no change 
-		res = rawValue - ( rawValue - lastValue ) * smoothing;
-		lastValue = res;
-		
-		if(Math.abs(res)<deadzone) res = 0.0;
-		value = res;
+		value = senseUpdate(joystick.getRawAxis(index));
 	}
 
 	@Override
 	public void controlUpdate() {
 	}
-	
+
+	@Override
+	public void configureSim() {
+
+	}
+
+	@Override
+	public void senseUpdateSim() {
+		value = senseUpdate(Cyborg.simLink.Axis[stickID][index]);
+	}
+
+	@Override
+	public void controlUpdateSim() {
+
+	}
+
 	public double get() {
 		return value;
 	}
@@ -74,5 +77,23 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	public double getRaw() {
 		return value;
 	}
-	
+
+
+	private double senseUpdate(double src) {
+		double res;
+
+		if(this.isDefined()) {
+			rawValue = scale * src;
+		} else {
+			rawValue = 0;
+		}
+
+		// smoothing: 0 => none, 1 => no change
+		res = rawValue - ( rawValue - lastValue ) * smoothing;
+		lastValue = res;
+
+		if(Math.abs(res)<deadzone) res = 0.0;
+		return res;
+
+	}
 }

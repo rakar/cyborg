@@ -252,4 +252,20 @@ public class CBEncoder implements CBDevice, CBSource{
 		
 	}
 
+	@Override
+	public void configureSim() {
+
+	}
+
+	@Override
+	public void senseUpdateSim() {
+
+	}
+
+	@Override
+	public void controlUpdateSim() {
+
+	}
+
+
 }
