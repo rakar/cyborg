@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public abstract class Cyborg extends IterativeRobot {
 
 	public static CBHardwareAdapter hardwareAdapter;
+	public static boolean simulationActive;
+	public static CBSimLink simLink;
 	
 	// Data Stores
 	// Data Stores represent high-level meaningful messages
@@ -34,6 +36,7 @@ public abstract class Cyborg extends IterativeRobot {
 	public static CBRequestData requestData;
 	public static CBControlData controlData;
 	public static CBLogicData logicData;
+
 
 	
 	// Mapper/Controller Queues

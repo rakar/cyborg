@@ -49,9 +49,24 @@ public class CBNavX implements CBDevice {
 		
 	}
 
-	@Override
+    @Override
 	public void configure() {
 		// TODO Auto-generated method stub
 		
-	}	    
+	}
+    @Override
+    public void configureSim() {
+
+    }
+
+    @Override
+    public void senseUpdateSim() {
+
+    }
+
+    @Override
+    public void controlUpdateSim() {
+
+    }
+
 }
