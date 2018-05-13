@@ -77,7 +77,7 @@ public class CBHardwareAdapter extends CBModule {
 	 */
 	public CBHardwareAdapter setJoystickCount(int count) {
 		for(int i=joystickCount;i<count;i++) {
-			joysticks.add(new Joystick(i));
+			joysticks.add(new Joystick(i+1));
 		}
 		while(joysticks.size()>count) {
 			joysticks.remove(count);
