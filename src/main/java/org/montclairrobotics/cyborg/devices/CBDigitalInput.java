@@ -1,9 +1,11 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.simulation.CBSimDigitalInput;
 
-// TODO: this needs an improved implementation (hijack) so that simulation can report simulated values.
-public class CBDigitalInput extends DigitalInput implements CBDevice{
+public class CBDigitalInput extends CBSimDigitalInput
+		implements CBDevice{
+
 
 	public CBDigitalInput(int channel) {
 		super(channel);
@@ -22,5 +24,4 @@ public class CBDigitalInput extends DigitalInput implements CBDevice{
 	@Override
 	public void configure() {
 	}
-
 }
