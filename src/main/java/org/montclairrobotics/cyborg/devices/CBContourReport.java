@@ -70,27 +70,7 @@ public class CBContourReport implements CBDevice{
 	}
 
 	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-		senseUpdate(); // either way we're pulling data from network tables
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
-	@Override
 	public void configure() {
 		// TODO Auto-generated method stub
-		
 	}
-	
-	
-	
-
 }

@@ -251,21 +251,4 @@ public class CBEncoder implements CBDevice, CBSource{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
-
 }

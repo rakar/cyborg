@@ -17,22 +17,6 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void controlUpdate() {
-
-	}
-
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
 	}
 
 	public int get() {
@@ -42,7 +26,5 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 	@Override
 	public void configure() {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

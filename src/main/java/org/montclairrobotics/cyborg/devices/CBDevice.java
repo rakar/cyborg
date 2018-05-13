@@ -26,24 +26,4 @@ public interface CBDevice {
 	 */
     void controlUpdate();
 
-	/**
-	 * Called by the framework to do initial configuration
-	 * of simulation after all of the devices are created.
-	 */
-	void configureSim();
-
-	/**
-	 * Called by the framework to do input functionality at
-	 * the beginning of each simulation periodic call.
-	 * Sense data can be made available to mappers.
-	 */
-	void senseUpdateSim();
-
-	/**
-	 * Called by the framework do do output functionality at
-	 * the end of each simulation periodic call
-	 * to update hardware devices.
-	 */
-	void controlUpdateSim();
-
 }

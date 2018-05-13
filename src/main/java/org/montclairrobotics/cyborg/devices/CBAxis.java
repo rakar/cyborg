@@ -55,21 +55,6 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	public void controlUpdate() {
 	}
 
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-		value = senseUpdate(Cyborg.simLink.Axis[stickID][index]);
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
 	public double get() {
 		return value;
 	}
@@ -94,6 +79,5 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 		if(Math.abs(res)<deadzone) res = 0.0;
 		return res;
-
 	}
 }

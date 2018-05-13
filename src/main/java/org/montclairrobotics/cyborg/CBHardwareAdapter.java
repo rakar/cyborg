@@ -36,39 +36,21 @@ public class CBHardwareAdapter extends CBModule {
 	}
 	
 	public void configure() {
-		if(!Cyborg.simulationActive) {
-			for (CBDevice d : devices) {
-				d.configure();
-			}
-		} else {
-			for (CBDevice d : devices) {
-				d.configureSim();
-			}
-		}
-	}
+        for (CBDevice d : devices) {
+            d.configure();
+        }
+    }
 		
 	public void senseUpdate() {
-		if(!Cyborg.simulationActive) {
-			for (CBDevice d : devices) {
-				d.senseUpdate();
-			}
-		} else {
-			for (CBDevice d : devices) {
-				d.senseUpdateSim();
-			}
-		}
-	}
+        for (CBDevice d : devices) {
+            d.senseUpdate();
+        }
+    }
 	
 	public void controlUpdate() {
-		if(!Cyborg.simulationActive) {
-			for (CBDevice d : devices) {
-				d.controlUpdate();
-			}
-		} else {
-			for (CBDevice d : devices) {
-				d.controlUpdateSim();
-			}
-		}
+        for (CBDevice d : devices) {
+            d.controlUpdate();
+        }
 	}
 	
 	

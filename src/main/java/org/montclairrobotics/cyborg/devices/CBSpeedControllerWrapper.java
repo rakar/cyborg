@@ -89,21 +89,6 @@ public class CBSpeedControllerWrapper implements CBDevice, CBSpeedController{
 		
 	}
 
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
 	/* (non-Javadoc)
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#configure()
 	 */

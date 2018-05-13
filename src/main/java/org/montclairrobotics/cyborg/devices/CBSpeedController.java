@@ -21,14 +21,9 @@ public interface CBSpeedController extends CBDevice {
 
 	CBSpeedController stopMotor();
 
-	void senseUpdate();
+	//void senseUpdate();
 
-	void controlUpdate();
+	//void controlUpdate();
 
-	void configure();
-	void senseUpdateSim();
-	void controlUpdateSim();
-	void configureSim();
-
-
+	//void configure();
 }
