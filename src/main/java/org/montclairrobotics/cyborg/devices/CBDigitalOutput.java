@@ -19,21 +19,6 @@ public class CBDigitalOutput extends DigitalOutput implements CBDevice {
 	}
 
 	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
-	@Override
 	public void configure() {
 		
 	}

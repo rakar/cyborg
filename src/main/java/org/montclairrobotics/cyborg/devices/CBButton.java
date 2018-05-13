@@ -42,20 +42,4 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	@Override
 	public void controlUpdate() {
 	}
-
-	@Override
-	public void configureSim() {
-	}
-
-	@Override
-	public void senseUpdateSim() {
-		if (isDefined()) {
-			update(Cyborg.simLink.Buttons[stickIndex.stickID][stickIndex.index]);
-		}
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
 }

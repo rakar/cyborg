@@ -102,21 +102,6 @@ public class CBTalon implements CBSpeedController {
 	}
 
 	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
 	public void senseUpdate() {
 	}
 

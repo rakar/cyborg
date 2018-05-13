@@ -61,20 +61,4 @@ public class CBPDB implements CBDevice {
 	public void controlUpdate() {
 		// TODO Auto-generated method stub
 	}
-
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
 }

@@ -20,21 +20,6 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	}
 
-	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
 	public int get() {
 		return state;
 	}

@@ -71,22 +71,6 @@ public class CBTalonSRX implements CBSpeedController {
 
 	}
 
-	@Override
-	public void senseUpdateSim() {
-
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
-	@Override
-	public void configureSim() {
-
-	}
-
-
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
 		return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);
 	}

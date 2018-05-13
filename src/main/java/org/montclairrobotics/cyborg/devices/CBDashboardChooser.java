@@ -51,21 +51,6 @@ public class CBDashboardChooser<T> implements CBDevice {
 	}
 
 	@Override
-	public void configureSim() {
-
-	}
-
-	@Override
-	public void senseUpdateSim() {
-		senseUpdate();
-	}
-
-	@Override
-	public void controlUpdateSim() {
-
-	}
-
-	@Override
 	public void configure() {
 		SmartDashboard.putData(this.name, chooser);		
 	}
