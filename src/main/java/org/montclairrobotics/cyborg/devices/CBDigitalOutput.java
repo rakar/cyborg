@@ -1,8 +1,8 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
+import org.montclairrobotics.cyborg.simulation.CBSimDigitalOutput;
 
-public class CBDigitalOutput extends DigitalOutput implements CBDevice {
+public class CBDigitalOutput extends CBSimDigitalOutput implements CBDevice {
 
 	public CBDigitalOutput(int channel) {
 		super(channel);

@@ -3,10 +3,11 @@ package org.montclairrobotics.cyborg.devices;
 import org.montclairrobotics.cyborg.Cyborg;
 
 import edu.wpi.first.wpilibj.Joystick;
+import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
 
 public class CBAxis extends CBJoystickIndex implements CBDevice {
-	CBSimJoystick joystick;
+	CBIJoystick joystick;
 	double value;
 	double rawValue;
 	double deadzone;

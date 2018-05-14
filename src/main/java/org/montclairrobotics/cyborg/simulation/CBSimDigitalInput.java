@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class CBSimDigitalInput implements Sendable {
+public class CBSimDigitalInput implements CBIDigitalInput {
 
     public class CBSimDigitalInputData {
-        String subsystem,name;
+        String subsystem, name;
         int channel;
         boolean value;
 
@@ -20,83 +20,50 @@ public class CBSimDigitalInput implements Sendable {
     CBSimDigitalInputData simData;
     DigitalInput digitalInput;
 
-    public CBSimDigitalInput (int channel){
-        if(Cyborg.simulationActive) {
-            simData = new CBSimDigitalInputData(channel);
-            Cyborg.simLink.DIs[channel] = simData;
-        } else {
-            digitalInput = new DigitalInput(channel);
-        }
+    public CBSimDigitalInput(int channel) {
+        simData = new CBSimDigitalInputData(channel);
+        Cyborg.simLink.DIs[channel] = simData;
     }
 
+    @Override
     public boolean get() {
-        if(Cyborg.simulationActive) {
-            return simData.value;
-        } else {
-            return digitalInput.get();
-        }
+        return simData.value;
     }
 
-    public int getChannel(){
-        if(Cyborg.simulationActive) {
-            return simData.channel;
-        } else {
-            return digitalInput.getChannel();
-        }
+    @Override
+    public int getChannel() {
+        return simData.channel;
     }
 
     @Override
     public String getName() {
-        if(Cyborg.simulationActive) {
-            return simData.name;
-        } else {
-            return digitalInput.getName();
-        }
+        return simData.name;
     }
 
     @Override
     public void setName(String name) {
-        if(Cyborg.simulationActive) {
-            simData.name=name;
-        } else {
-            digitalInput.setName(name);
-        }
+        simData.name = name;
     }
 
     @Override
     public void setName(String subsystem, String name) {
-        if(Cyborg.simulationActive) {
-            simData.name=name;
-            simData.subsystem = subsystem;
-        } else {
-            digitalInput.setName(subsystem, name);
-        }
+        simData.name = name;
+        simData.subsystem = subsystem;
     }
 
     @Override
     public String getSubsystem() {
-        if(Cyborg.simulationActive) {
-            return simData.subsystem;
-        } else {
-            return digitalInput.getSubsystem();
-        }
+        return simData.subsystem;
     }
 
     @Override
     public void setSubsystem(String subsystem) {
-        if(Cyborg.simulationActive) {
-            simData.subsystem=subsystem;
-        } else {
-            digitalInput.setSubsystem(subsystem);
-        }
+        simData.subsystem = subsystem;
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        if(Cyborg.simulationActive) {
-            //
-        } else {
-            digitalInput.initSendable(builder);
-        }
-    };
+        builder.setSmartDashboardType("Digital Input");
+        builder.addBooleanProperty("Value", this::get, null);
+    }
 }

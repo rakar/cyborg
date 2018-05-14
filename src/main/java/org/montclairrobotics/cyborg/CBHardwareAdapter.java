@@ -15,7 +15,9 @@ import org.montclairrobotics.cyborg.devices.CBPDB;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
+import org.montclairrobotics.cyborg.simulation.CBWPIJoystick;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,7 +30,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class CBHardwareAdapter extends CBModule {
 
 	private int joystickCount;
-	private ArrayList<CBSimJoystick> joysticks = new ArrayList<>();
+	private ArrayList<CBIJoystick> joysticks = new ArrayList<>();
 
 	private ArrayList<CBDevice> devices = new ArrayList<>();
 	
@@ -60,7 +62,12 @@ public class CBHardwareAdapter extends CBModule {
 	 */
 	public CBHardwareAdapter setJoystickCount(int count) {
 		for(int i=joystickCount;i<count;i++) {
-			joysticks.add(new CBSimJoystick(i+1));
+		    if(Cyborg.simulationActive) {
+                joysticks.add(new CBSimJoystick(i));
+            } else {
+                joysticks.add(new CBWPIJoystick(i+1));
+            }
+
 		}
 		while(joysticks.size()>count) {
 			joysticks.remove(count);
@@ -73,7 +80,7 @@ public class CBHardwareAdapter extends CBModule {
 		return joystickCount;
 	}
 	
-	public CBSimJoystick getJoystick(int index) {
+	public CBIJoystick getJoystick(int index) {
 		return joysticks.get(index);
 	}	
 

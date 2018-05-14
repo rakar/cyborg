@@ -1,6 +1,7 @@
 package org.montclairrobotics.cyborg.devices;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
 import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
 
@@ -9,7 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class CBButton extends CBEdgeTrigger implements CBDevice {
 
 	private CBJoystickIndex stickIndex;
-	private CBSimJoystick joystick;
+	private CBIJoystick joystick;
 
 	public CBButton(int stickID, int index) {
 		super();
