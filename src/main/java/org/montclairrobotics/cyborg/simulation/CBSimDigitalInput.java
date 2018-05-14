@@ -11,6 +11,10 @@ public class CBSimDigitalInput implements Sendable {
         String subsystem,name;
         int channel;
         boolean value;
+
+        public CBSimDigitalInputData(int channel) {
+            this.channel = channel;
+        }
     }
 
     CBSimDigitalInputData simData;
@@ -18,9 +22,8 @@ public class CBSimDigitalInput implements Sendable {
 
     public CBSimDigitalInput (int channel){
         if(Cyborg.simulationActive) {
-            simData = new CBSimDigitalInputData();
+            simData = new CBSimDigitalInputData(channel);
             Cyborg.simLink.DIs[channel] = simData;
-            simData.channel = channel;
         } else {
             digitalInput = new DigitalInput(channel);
         }

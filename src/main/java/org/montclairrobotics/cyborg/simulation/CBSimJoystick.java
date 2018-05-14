@@ -16,7 +16,8 @@ public class CBSimJoystick {
         public CBEdgeTrigger[] button = new CBEdgeTrigger[16];
         public int[] pov = new int[4];
 
-        public CBSimJoystickData() {
+        public CBSimJoystickData(int port) {
+            this.port = port;
             for(int i=0;i<16;i++) {
                 button[i] = new CBEdgeTrigger();
             }
@@ -25,9 +26,10 @@ public class CBSimJoystick {
 
     public CBSimJoystick(int port) {
         if(Cyborg.simulationActive) {
-            simData = new CBSimJoystickData();
+            simData = new CBSimJoystickData(port);
+            Cyborg.simLink.joysticks[port] = simData;
         } else {
-            joystick = new Joystick(port);
+            joystick = new Joystick(port+1);
         }
     }
 
