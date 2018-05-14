@@ -7,7 +7,10 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	public CBPov(int stickID, int index) {
 		super(stickID, index);
-		// TODO Auto-generated constructor stub
+	}
+
+	public int get() {
+		return state;
 	}
 
 	@Override
@@ -17,17 +20,9 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void controlUpdate() {
-
-	}
-
-	public int get() {
-		return state;
 	}
 
 	@Override
 	public void configure() {
-		// TODO Auto-generated method stub
-		
 	}
-
 }

@@ -15,6 +15,7 @@ import org.montclairrobotics.cyborg.devices.CBPDB;
 import org.montclairrobotics.cyborg.devices.CBPov;
 import org.montclairrobotics.cyborg.devices.CBSolenoid;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
+import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -27,7 +28,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class CBHardwareAdapter extends CBModule {
 
 	private int joystickCount;
-	private ArrayList<Joystick> joysticks = new ArrayList<>(); 
+	private ArrayList<CBSimJoystick> joysticks = new ArrayList<>();
 
 	private ArrayList<CBDevice> devices = new ArrayList<>();
 	
@@ -36,39 +37,21 @@ public class CBHardwareAdapter extends CBModule {
 	}
 	
 	public void configure() {
-		if(!Cyborg.simulationActive) {
-			for (CBDevice d : devices) {
-				d.configure();
-			}
-		} else {
-			for (CBDevice d : devices) {
-				d.configureSim();
-			}
-		}
+        for (CBDevice d : devices) {
+            d.configure();
+        }
 	}
 		
 	public void senseUpdate() {
-		if(!Cyborg.simulationActive) {
-			for (CBDevice d : devices) {
-				d.senseUpdate();
-			}
-		} else {
-			for (CBDevice d : devices) {
-				d.senseUpdateSim();
-			}
-		}
+        for (CBDevice d : devices) {
+            d.senseUpdate();
+        }
 	}
 	
 	public void controlUpdate() {
-		if(!Cyborg.simulationActive) {
-			for (CBDevice d : devices) {
-				d.controlUpdate();
-			}
-		} else {
-			for (CBDevice d : devices) {
-				d.controlUpdateSim();
-			}
-		}
+        for (CBDevice d : devices) {
+            d.controlUpdate();
+        }
 	}
 	
 	
@@ -77,7 +60,7 @@ public class CBHardwareAdapter extends CBModule {
 	 */
 	public CBHardwareAdapter setJoystickCount(int count) {
 		for(int i=joystickCount;i<count;i++) {
-			joysticks.add(new Joystick(i+1));
+			joysticks.add(new CBSimJoystick(i+1));
 		}
 		while(joysticks.size()>count) {
 			joysticks.remove(count);
@@ -90,7 +73,7 @@ public class CBHardwareAdapter extends CBModule {
 		return joystickCount;
 	}
 	
-	public Joystick getJoystick(int index) {
+	public CBSimJoystick getJoystick(int index) {
 		return joysticks.get(index);
 	}	
 

@@ -12,6 +12,7 @@ public class CBSimDigitalInput implements Sendable {
         int channel;
         boolean value;
     }
+
     CBSimDigitalInputData simData;
     DigitalInput digitalInput;
 
