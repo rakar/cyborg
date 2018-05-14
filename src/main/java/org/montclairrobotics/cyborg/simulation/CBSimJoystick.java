@@ -6,7 +6,6 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
 
 public class CBSimJoystick implements CBIJoystick {
-    Joystick joystick;
     CBSimJoystickData simData;
 
     public class CBSimJoystickData {

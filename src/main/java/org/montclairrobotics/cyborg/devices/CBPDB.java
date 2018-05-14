@@ -2,19 +2,31 @@ package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.tables.ITable;
+import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.simulation.CBIPDB;
+import org.montclairrobotics.cyborg.simulation.CBSimPDB;
+import org.montclairrobotics.cyborg.simulation.CBWPIPDB;
 
 public class CBPDB implements CBDevice {
 	int canID;
-	PowerDistributionPanel pdb;
+	CBIPDB pdb;
 
 	public CBPDB() {
 		canID=0;
-		pdb = new PowerDistributionPanel();
+		if(Cyborg.simulationActive) {
+			pdb = new CBSimPDB();
+		} else {
+			pdb = new CBWPIPDB();
+		}
 	}
 
 	public CBPDB(int CanID) {
-		canID = CanID;		
-		pdb = new PowerDistributionPanel(canID);
+		canID = CanID;
+		if(Cyborg.simulationActive) {
+			pdb = new CBSimPDB(CanID);
+		} else {
+			pdb = new CBWPIPDB(CanID);
+		}
 	}
 	
 	public CBPDB clearStickyFaults() {
@@ -26,10 +38,10 @@ public class CBPDB implements CBDevice {
 		return pdb.equals(obj);
 	}
 	
-	public CBPDB free() {
-		pdb.free();
-		return this;
-	}
+	//public CBPDB free() {
+	//	pdb.free();
+	//	return this;
+	//}
 	
 	public double getCurrent(int channel) {
 		return pdb.getCurrent(channel);
@@ -49,16 +61,13 @@ public class CBPDB implements CBDevice {
 	
 	@Override
 	public void configure() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void senseUpdate() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void controlUpdate() {
-		// TODO Auto-generated method stub
 	}
 }
