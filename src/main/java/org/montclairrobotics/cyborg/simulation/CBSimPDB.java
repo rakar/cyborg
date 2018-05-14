@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
- * Class for getting voltage, current, temperature, power and energy from the Power Distribution
+ * Class for getting voltage, current, temperature, speed and energy from the Power Distribution
  * Panel over CAN.
  */
 public class CBSimPDB extends SensorBase implements CBIPDB {
@@ -84,13 +84,13 @@ public class CBSimPDB extends SensorBase implements CBIPDB {
     }
 
     /**
-     * Query the total power drawn from the monitored PDP channels.
+     * Query the total speed drawn from the monitored PDP channels.
      *
-     * @return the total power in Watts
+     * @return the total speed in Watts
      */
     @Override
     public double getTotalPower() {
-        // TODO: do the whole power calculation thing
+        // TODO: do the whole speed calculation thing
         return 0;
     }
 
