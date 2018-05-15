@@ -23,7 +23,6 @@ public class CBSolenoid extends Solenoid implements CBDevice {
 	@Override
 	public void senseUpdate() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -34,7 +33,5 @@ public class CBSolenoid extends Solenoid implements CBDevice {
 	@Override
 	public void configure() {
 		// TODO Auto-generated method stub
-		
 	}
-	
 }

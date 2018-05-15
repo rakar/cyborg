@@ -72,10 +72,5 @@ public class CBContourReport implements CBDevice{
 	@Override
 	public void configure() {
 		// TODO Auto-generated method stub
-		
 	}
-	
-	
-	
-
 }

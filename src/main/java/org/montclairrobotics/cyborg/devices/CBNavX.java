@@ -40,18 +40,15 @@ public class CBNavX implements CBDevice {
 	@Override
 	public void senseUpdate() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void controlUpdate() {
 		// TODO Auto-generated method stub
-		
 	}
 
     @Override
 	public void configure() {
 		// TODO Auto-generated method stub
-		
 	}
 }

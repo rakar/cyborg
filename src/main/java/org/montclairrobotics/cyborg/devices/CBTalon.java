@@ -82,7 +82,7 @@ public class CBTalon implements CBDevice {
 		talon.setExpiration(timeout);
 		return this;
 	}
-	
+
 	public CBTalon setPosition(double pos) {
 		talon.setPosition(pos);
 		return this;
