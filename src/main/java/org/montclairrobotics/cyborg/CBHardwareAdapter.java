@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class CBHardwareAdapter extends CBModule {
 
+    public static final int joystickLimit=6;
 	private int joystickCount;
 	private ArrayList<CBIJoystick> joysticks = new ArrayList<>();
 
@@ -36,6 +37,14 @@ public class CBHardwareAdapter extends CBModule {
 	
 	public CBHardwareAdapter(Cyborg robot) {
 		super(robot);
+        for(int i=joystickCount;i<joystickLimit;i++) {
+            if(Cyborg.simulationActive) {
+                joysticks.add(new CBSimJoystick(i));
+            } else {
+                joysticks.add(new CBWPIJoystick(i+1));
+            }
+        }
+        joystickCount = joystickLimit;
 	}
 	
 	public void configure() {
@@ -60,7 +69,9 @@ public class CBHardwareAdapter extends CBModule {
 	/*
 	 * Getters/Setters
 	 */
+	@Deprecated
 	public CBHardwareAdapter setJoystickCount(int count) {
+	    /*
 		for(int i=joystickCount;i<count;i++) {
 		    if(Cyborg.simulationActive) {
                 joysticks.add(new CBSimJoystick(i));
@@ -73,6 +84,7 @@ public class CBHardwareAdapter extends CBModule {
 			joysticks.remove(count);
 		}
 		joystickCount=count;
+		*/
 		return this;
 	}
 	
