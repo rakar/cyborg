@@ -41,6 +41,7 @@ public class CBHardwareAdapter extends CBModule {
 			joysticks.add(new Joystick(i+1));
 			System.out.printf("Joystick[%d] type: %d",i,joysticks.get(i).getType());
 		}
+		joystickCount = joysticks.size();
 	}
 	
 	public void configure() {
