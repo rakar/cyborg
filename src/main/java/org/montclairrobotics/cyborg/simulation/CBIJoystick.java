@@ -66,6 +66,13 @@ public interface CBIJoystick {
     double getDirectionRadians();
 
     double getDirectionDegrees();
+    /**
+     * Get the type of the HID.
+     *
+     * @return the type of the HID.
+     */
+    GenericHID.HIDType getType();
+
 
     /**
      * Represents an analog axis on a joystick.

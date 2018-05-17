@@ -43,8 +43,9 @@ public class CBHardwareAdapter extends CBModule {
             } else {
                 joysticks.add(new CBWPIJoystick(i+1));
             }
+            System.out.printf("\nJoystick[%d] type: %s",i,joysticks.get(i).getType().name());
         }
-        joystickCount = joystickLimit;
+        joystickCount = joysticks.size();
 	}
 	
 	public void configure() {
@@ -64,8 +65,7 @@ public class CBHardwareAdapter extends CBModule {
             d.controlUpdate();
         }
 	}
-	
-	
+
 	/*
 	 * Getters/Setters
 	 */

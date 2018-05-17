@@ -3,6 +3,9 @@ package org.montclairrobotics.cyborg.devices;
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.simulation.CBIEncoder;
+import org.montclairrobotics.cyborg.simulation.CBSimEncoder;
+import org.montclairrobotics.cyborg.simulation.CBWPIEncoder;
 import org.montclairrobotics.cyborg.utils.CBSource;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -12,7 +15,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 public class CBEncoder implements CBDevice, CBSource{
-	private Encoder encoder;
+	private CBIEncoder encoder;
 	private int edgesPerPulse;
 	private double distancePerPulse;
 	private int offsetPulses;
@@ -35,13 +38,21 @@ public class CBEncoder implements CBDevice, CBSource{
 	}
 
 	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, boolean reversed, double distancePerPulse) {
-		encoder = new Encoder(aChannel, bChannel, reversed, encodingType);
+		if(Cyborg.simulationActive) {
+			encoder = new CBSimEncoder(aChannel, bChannel, reversed, encodingType);
+		} else {
+			encoder = new CBWPIEncoder(aChannel, bChannel, reversed, encodingType);
+		}
 		setTickConversion(encodingType);
 		setDistancePerPulse(distancePerPulse);
 	}
 	
 	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, boolean reversed, double distancePerPulse) {
-		encoder = new Encoder(aSource, bSource, reversed, encodingType);
+		if(Cyborg.simulationActive) {
+			encoder = new CBSimEncoder(aSource, bSource, reversed, encodingType);
+		} else {
+			encoder = new CBWPIEncoder(aSource, bSource, reversed, encodingType);
+		}
 		setTickConversion(encodingType);
 		setDistancePerPulse(distancePerPulse);
 	}
@@ -89,27 +100,6 @@ public class CBEncoder implements CBDevice, CBSource{
 		return this;
 	}
 
-	// hijack indexing to allow for multiple indexes with non-zero distances
-	//public CBEncoder setIndexChannel(DigitalSource source) {
-	//	encoder.setIndexSource(source);
-	//	return this;
-	//}
-
-	//public CBEncoder setIndexChannel(int indexChannel) {
-	//	encoder.setIndexSource(indexChannel);
-	//	return this;
-	//}
-
-	//public CBEncoder setIndexChannel(DigitalSource source, IndexingType indexingType) {
-	//	encoder.setIndexSource(source, indexingType);
-	//	return this;
-	//}
-
-	//public CBEncoder setIndexChannel(int indexChannel, IndexingType indexingType) {
-	//	encoder.setIndexSource(indexChannel, indexingType);
-	//	return this;
-	//}
-	
 	public CBEncoder addIndexEntry(CBIndexEntry indexEntry) {
 		removeIndexEntry(indexEntry.triggerId);
 		indexEntries.add(indexEntry);
@@ -162,10 +152,6 @@ public class CBEncoder implements CBDevice, CBSource{
 		return this;
 	}
 	
-	public void free() {
-		encoder.free();
-	}
-	
 	public double get() {
 		return encoder.get()+offsetPulses;
 	}
@@ -180,10 +166,6 @@ public class CBEncoder implements CBDevice, CBSource{
 	
 	public int getEncodingScale() {
 		return encoder.getEncodingScale();
-	}
-	
-	public int getFPGAIndex() {
-		return encoder.getFPGAIndex();
 	}
 	
 	public PIDSourceType getPIDSourceType() {

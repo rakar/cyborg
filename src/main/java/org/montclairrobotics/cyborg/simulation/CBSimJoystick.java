@@ -188,4 +188,9 @@ public class CBSimJoystick implements CBIJoystick {
         return Math.toDegrees(getDirectionRadians());
     }
 
+    @Override
+    public GenericHID.HIDType getType() {
+        return GenericHID.HIDType.kHIDJoystick;
+    }
+
 }

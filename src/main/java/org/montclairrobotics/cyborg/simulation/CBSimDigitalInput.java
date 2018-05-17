@@ -18,7 +18,6 @@ public class CBSimDigitalInput implements CBIDigitalInput {
     }
 
     CBSimDigitalInputData simData;
-    DigitalInput digitalInput;
 
     public CBSimDigitalInput(int channel) {
         simData = new CBSimDigitalInputData(channel);
