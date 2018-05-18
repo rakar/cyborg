@@ -16,7 +16,11 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 
 	public CBAxis(int stickID, int index) {
 		super(stickID, index);
-		joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
+		if(stickID>=0) {
+			joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
+		} else {
+			joystick = null;
+		}
 	}
 	
 	public CBAxis(CBJoystickIndex joystickIndex) {

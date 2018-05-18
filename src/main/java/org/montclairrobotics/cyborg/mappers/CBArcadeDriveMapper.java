@@ -1,5 +1,6 @@
 package org.montclairrobotics.cyborg.mappers;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
@@ -54,6 +55,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 			drd.direction.setXY(xScale*strAxis.get(), yScale*fwdAxis.get()); 
 			drd.rotation = rScale*rotAxis.get(); 
 			drd.gyroLockActive = gyroLock.getState();
+			SmartDashboard.putNumber("Mapper speed:", drd.direction.getY());
 		} else {
 			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
 		}

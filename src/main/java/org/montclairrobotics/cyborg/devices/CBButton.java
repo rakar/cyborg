@@ -13,7 +13,11 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	public CBButton(int stickID, int index) {
 		super();
 		stickIndex = new CBJoystickIndex(stickID, index);
-		joystick = Cyborg.hardwareAdapter.getJoystick(stickIndex.stickID);
+		if(stickID>=0) {
+			joystick = Cyborg.hardwareAdapter.getJoystick(stickIndex.stickID);
+		} else {
+			joystick = null;
+		}
 	}
 	
 	public CBButton(CBJoystickIndex joystickIndex) {
