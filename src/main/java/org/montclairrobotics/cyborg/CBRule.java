@@ -7,7 +7,7 @@ import org.montclairrobotics.cyborg.utils.CBModule;
  * "pre-screen" requtest data before they are seen by
  * behaviors.
  */
-public class CBRule extends CBModule {
+public abstract class CBRule extends CBModule {
 
 	public CBRule(Cyborg robot) {
 		super(robot);
@@ -18,5 +18,4 @@ public class CBRule extends CBModule {
 	 */
 	public void update() {
 	}
-
 }

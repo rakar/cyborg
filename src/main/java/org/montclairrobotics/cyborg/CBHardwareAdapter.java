@@ -38,12 +38,7 @@ public class CBHardwareAdapter extends CBModule {
 		// create all the joysticks we can
 		// whether they're real or not
 		for(int i=0;i<joystickLimit;i++) {
-		    System.err.printf("\nJoystick inti: %d",i);
-			joysticks.add(new Joystick(i+1));
-            System.err.printf("\njoysticks.size()%d\n",joysticks.size());
-			if(i<joysticks.size()) {
-				//System.out.printf("Joystick[%d] type: %d", i, joysticks.get(i).getType().value);
-			}
+			joysticks.add(new Joystick(i));
 		}
 		joystickCount = joysticks.size();
 	}
@@ -65,8 +60,7 @@ public class CBHardwareAdapter extends CBModule {
             d.controlUpdate();
         }
 	}
-	
-	
+
 	/*
 	 * Getters/Setters
 	 */
