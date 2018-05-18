@@ -109,10 +109,13 @@ public class CBDifferentialDriveController extends CBDriveController implements 
 				
 		return res;
 	}
-	
+
+	@Override
 	public CBDifferentialDriveController addDriveModule(CBDriveModule driveModule) {
-		if(!canProvideFeedback) canProvideFeedback = driveModule.canProvideFeedback();
-		return (CBDifferentialDriveController)super.addDriveModule(driveModule);
+	    throw new RuntimeException("\nCBDifferentialDriveController does not support addDriveModule.\nUse addLeftDriveModule and addRightDriveModule instead.\n");
+	    //return this;
+		//if(!canProvideFeedback) canProvideFeedback = driveModule.canProvideFeedback();
+		//return (CBDifferentialDriveController)super.addDriveModule(driveModule);
 	}
 
 	@Override

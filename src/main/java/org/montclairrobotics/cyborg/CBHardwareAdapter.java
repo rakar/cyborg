@@ -43,7 +43,7 @@ public class CBHardwareAdapter extends CBModule {
             if(Cyborg.simulationActive) {
                 joysticks.add(new CBSimJoystick(i));
             } else {
-                joysticks.add(new CBWPIJoystick(i+1));
+                joysticks.add(new CBWPIJoystick(i));
             }
             //System.out.printf("\nJoystick[%d] type: %s",i,joysticks.get(i).getType().name());
         }
