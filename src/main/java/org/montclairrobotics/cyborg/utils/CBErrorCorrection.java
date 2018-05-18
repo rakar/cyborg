@@ -2,7 +2,7 @@ package org.montclairrobotics.cyborg.utils;
 
 public interface CBErrorCorrection {
 	
-	public enum CBOnTargetMode {Zero, HoldValue};
+	enum CBOnTargetMode {Zero, HoldValue};
 	
 	CBErrorCorrection setOnTargetMode(CBOnTargetMode mode);
 	CBOnTargetMode getOnTargetMode();

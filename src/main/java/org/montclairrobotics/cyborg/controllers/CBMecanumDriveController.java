@@ -31,6 +31,8 @@ public class CBMecanumDriveController extends CBDriveController {
 			//System.out.println("Error: Invalid DriveControlData type for CBMecanumDriveController");
 			throw new RuntimeException("Error: Invalid DriveControlData type for CBMecanumDriveController");
 		}
+		System.err.println("Warning: CBMecanumDriveController implementation experimental.");
+
 	}
 
 	@Override

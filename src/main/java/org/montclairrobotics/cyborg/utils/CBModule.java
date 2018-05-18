@@ -2,7 +2,7 @@ package org.montclairrobotics.cyborg.utils;
 
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class CBModule {
+public abstract class CBModule {
 	public Cyborg robot;
 	
 	public CBModule(Cyborg robot) {

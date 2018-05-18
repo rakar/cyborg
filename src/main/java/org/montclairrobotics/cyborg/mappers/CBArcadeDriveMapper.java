@@ -58,6 +58,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 			SmartDashboard.putNumber("Mapper speed:", drd.direction.getY());
 		} else {
 			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
+            throw new RuntimeException("Unknown Cyborg.requestData.driveData type in CBArcadeDriveMapper.");
 		}
 	}
 }

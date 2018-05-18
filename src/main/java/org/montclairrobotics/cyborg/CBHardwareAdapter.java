@@ -72,6 +72,7 @@ public class CBHardwareAdapter extends CBModule {
 	 */
 	@Deprecated
 	public CBHardwareAdapter setJoystickCount(int count) {
+	    System.err.println("CBHardwareAdapter.setJoystickCount is not currently implemented and need not be used.");
 		/*
 		for(int i=joystickCount;i<count;i++) {
 			joysticks.add(new Joystick(i+1));
