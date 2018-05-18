@@ -8,4 +8,8 @@ public class CBSimLink {
     //public double[][] Axis = new double[6][16];
     public CBSimDigitalInput.CBSimDigitalInputData[] DIs = new CBSimDigitalInput.CBSimDigitalInputData[26];
     public CBSimJoystick.CBSimJoystickData[] joysticks = new CBSimJoystick.CBSimJoystickData[6];
+
+    public CBSimLink() {
+        throw new RuntimeException("CBSimLink is a placeholder and is not yet implemented.");
+    }
 }

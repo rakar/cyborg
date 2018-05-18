@@ -73,10 +73,11 @@ public class CBDifferentialDriveController extends CBDriveController implements 
 			// This needs to be worked up from the bottom so that all reverses, orientations, etc. 
 			// are included so that it all lines up. 
 			// this should be in the robot frame.
-			Instant current = Instant.now();
-			feedback.timespan = Duration.between(lastUpdateTime,current);
-			feedback.translation = new CB2DVector(0,(leftTranslation+rightTranslation)/driveModules.size());
-			//feedback.rotation = (rightTranslation-leftTranslation)/
+			//if(lastUpdateTime==null) lastUpdateTime = Instant.now();
+			//Instant current = Instant.now();
+			//feedback.timespan = Duration.between(lastUpdateTime,current);
+			//feedback.translation = new CB2DVector(0,(leftTranslation+rightTranslation)/driveModules.size());
+			////feedback.rotation = (rightTranslation-leftTranslation)/
 		}
 	}
 	

@@ -8,6 +8,7 @@ public class CBSwerveDriveModule extends CBDriveModule {
 
 	public CBSwerveDriveModule() {
 		// TODO Auto-generated constructor stub
+		System.err.println("Warning: Swerve Drive implementation experimental.");
 	}
 
 	public CBSwerveDriveModule(CB2DVector position, double orientation) {

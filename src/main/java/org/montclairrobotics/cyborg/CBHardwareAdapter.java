@@ -37,13 +37,15 @@ public class CBHardwareAdapter extends CBModule {
 	
 	public CBHardwareAdapter(Cyborg robot) {
 		super(robot);
+        // create all the joysticks we can
+        // whether they're real or not
         for(int i=joystickCount;i<joystickLimit;i++) {
             if(Cyborg.simulationActive) {
                 joysticks.add(new CBSimJoystick(i));
             } else {
                 joysticks.add(new CBWPIJoystick(i+1));
             }
-            System.out.printf("\nJoystick[%d] type: %s",i,joysticks.get(i).getType().name());
+            //System.out.printf("\nJoystick[%d] type: %s",i,joysticks.get(i).getType().name());
         }
         joystickCount = joysticks.size();
 	}
@@ -71,7 +73,8 @@ public class CBHardwareAdapter extends CBModule {
 	 */
 	@Deprecated
 	public CBHardwareAdapter setJoystickCount(int count) {
-	    /*
+	    System.err.println("CBHardwareAdapter.setJoystickCount is not currently implemented and need not be used.");
+		/*
 		for(int i=joystickCount;i<count;i++) {
 		    if(Cyborg.simulationActive) {
                 joysticks.add(new CBSimJoystick(i));
