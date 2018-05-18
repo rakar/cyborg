@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class CBHardwareAdapter extends CBModule {
 
-    public static final int joystickLimit=6;
+	public static final int joystickLimit = 6;
 	private int joystickCount;
 	private ArrayList<CBIJoystick> joysticks = new ArrayList<>();
 
