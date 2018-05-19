@@ -201,9 +201,6 @@ public abstract class Cyborg extends IterativeRobot {
 		hardwareAdapter.controlUpdate();
 	}
 
-    /**
-     * This function is called periodically during disabled 
-     */
 	@Override
     public final void disabledInit() {
 		gameMode = CBGameMode.disabledInit;
