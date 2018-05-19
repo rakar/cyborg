@@ -10,7 +10,7 @@ public class CBSwerveDriveController extends CBDriveController {
 
 	public CBSwerveDriveController(Cyborg robot) {
 		super(robot);
-		System.err.println("Warning: CBSwerveDriveController implementation experimental.");
+		System.err.println("Warning: CBSwerveDriveController implementation is highly experimental.");
 	}
 
 	@Override

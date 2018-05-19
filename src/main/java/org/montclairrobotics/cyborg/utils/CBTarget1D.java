@@ -8,6 +8,7 @@ public class CBTarget1D extends CBEdgeTrigger {
 
     public CBTarget1D() {
         xPosition = 0;
+        active = false;
     }
 
     public CBTarget1D setTarget(double xTarget, double xRange) {
@@ -32,13 +33,26 @@ public class CBTarget1D extends CBEdgeTrigger {
 
     public CBTarget1D update(double x) {
         xPosition = x;
-        super.update(active && (Math.abs(xTarget - xPosition) < xRange));
+        super.update(active && isOnTarget(xPosition));
         return this;
     }
 
     public double getXPosition() {
         return xPosition;
     }
+
+    public boolean isAboveTarget(double value) {
+        return (active && value>(xTarget+xRange));
+    }
+
+    public boolean isOnTarget(double value) {
+        return (active && value>=(xTarget-xRange) && value<=(xTarget+xRange));
+    }
+
+    public boolean isBelowTarget(double value) {
+        return (active && value<(xTarget-xRange));
+    }
+
 }
 
 

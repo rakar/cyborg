@@ -18,5 +18,4 @@ public abstract class CBRule extends CBModule {
 	 */
 	public void update() {
 	}
-
 }

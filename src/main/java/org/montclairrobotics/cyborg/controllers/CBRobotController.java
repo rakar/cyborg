@@ -6,7 +6,7 @@ package org.montclairrobotics.cyborg.controllers;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
-public class CBRobotController extends CBModule {
+public abstract class CBRobotController extends CBModule {
 
 	public CBRobotController(Cyborg robot) {
 		super(robot);
