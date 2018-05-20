@@ -7,7 +7,7 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class CBTalonSRX implements CBSpeedController {
+public class CBTalonSRX implements CBDevice, CBSpeedController {
 	TalonSRX talon;
 	int channel;
 	

@@ -2,19 +2,8 @@ package org.montclairrobotics.cyborg;
 
 
 import java.util.ArrayList;
-import org.montclairrobotics.cyborg.devices.CBAxis;
-import org.montclairrobotics.cyborg.devices.CBButton;
-import org.montclairrobotics.cyborg.devices.CBContourReport;
-import org.montclairrobotics.cyborg.devices.CBDevice;
-import org.montclairrobotics.cyborg.devices.CBDeviceID;
-import org.montclairrobotics.cyborg.devices.CBDigitalInput;
-import org.montclairrobotics.cyborg.devices.CBDigitalOutput;
-import org.montclairrobotics.cyborg.devices.CBEncoder;
-import org.montclairrobotics.cyborg.devices.CBNavX;
-import org.montclairrobotics.cyborg.devices.CBPDB;
-import org.montclairrobotics.cyborg.devices.CBPov;
-import org.montclairrobotics.cyborg.devices.CBSolenoid;
-import org.montclairrobotics.cyborg.devices.CBSpeedController;
+
+import org.montclairrobotics.cyborg.devices.*;
 import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
 import org.montclairrobotics.cyborg.simulation.CBWPIJoystick;
@@ -145,13 +134,15 @@ public class CBHardwareAdapter extends CBModule {
 		return (CBEncoder)getDevice(id);
 	}
 
-	public CBSpeedController getSpeedController(CBDeviceID id) {
-		return (CBSpeedController)getDevice(id);
-	}
-	
-	public CBNavX getNavX(CBDeviceID id){
-		return (CBNavX)getDevice(id);
-	}
+    public CBNavX getNavX(CBDeviceID id){
+        return (CBNavX)getDevice(id);
+    }
+
+    public CBNavXYawSource getNavXYawSource(CBDeviceID id){ return (CBNavXYawSource)getDevice(id); }
+
+    public CBPDB getPDB(CBDeviceID id) {
+        return (CBPDB)getDevice(id);
+    }
 
 	public CBPov getPOV(CBDeviceID id) {
 		return (CBPov)getDevice(id);
@@ -160,9 +151,13 @@ public class CBHardwareAdapter extends CBModule {
 	public CBSolenoid getSolenoidValve(CBDeviceID id) {
 		return (CBSolenoid)getDevice(id);
 	}
-	
-	public CBPDB getPDB(CBDeviceID id) {
-		return (CBPDB)getDevice(id);
-	}
-	
+
+    public CBSpeedController getSpeedController(CBDeviceID id) {
+        return (CBSpeedController)getDevice(id);
+    }
+
+    public CBTalon getTalon(CBDeviceID id) { return (CBTalon)getDevice(id); }
+
+    public CBTalonSRX getTalonSRX(CBDeviceID id) { return (CBTalonSRX)getDevice(id);}
+
 }

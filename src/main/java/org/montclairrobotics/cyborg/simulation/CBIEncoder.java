@@ -5,41 +5,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public interface CBIEncoder extends Sendable, CounterBase, PIDSource {
 
-    int getEncodingScale();
+    //int getEncodingScale();
 
     int getRaw();
 
-    int get();
+    //int get();
 
     void reset();
 
-    void setMaxPeriod(double maxPeriod);
+    //void setMaxPeriod(double maxPeriod);
 
-    boolean getStopped();
+    //boolean getStopped();
 
-    boolean getDirection();
+    //boolean getDirection();
 
-    double getDistance();
+    //double getDistance();
 
-    double getRate();
+    //double getRate();
 
-    void setMinRate(double minRate);
+    //void setMinRate(double minRate);
 
-    void setDistancePerPulse(double distancePerPulse);
+    //void setDistancePerPulse(double distancePerPulse);
 
-    double getDistancePerPulse();
+    //double getDistancePerPulse();
 
-    void setReverseDirection(boolean reverseDirection);
+    //void setReverseDirection(boolean reverseDirection);
 
-    void setSamplesToAverage(int samplesToAverage);
+    //void setSamplesToAverage(int samplesToAverage);
 
-    int getSamplesToAverage();
+    //int getSamplesToAverage();
 
     void setPIDSourceType(PIDSourceType pidSource);
-
-    @Override
     PIDSourceType getPIDSourceType();
-
     double pidGet();
 
     @Override
