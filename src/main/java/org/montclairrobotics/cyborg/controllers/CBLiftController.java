@@ -59,9 +59,6 @@ public class CBLiftController extends CBRobotController {
     CBEncoder encoder;
     CBSpeedControllerArrayController speedControllerArray;
 
-
-
-
     enum CBLiftControlStates {Start, Idle, AtTop, AtBottom, DownSlow, UpSlow, DownNorm, UpNorm};
 
     private class CBLiftStateMachine extends CBStateMachine<CBLiftControlStates> {
@@ -109,7 +106,7 @@ public class CBLiftController extends CBRobotController {
                             // and we are above the margin
                             || (cd.bottomMargin.isActive()
                             && encoderClean
-                            && cd.bottomMargin.isAboveTarget(encoder.getDistance())))) {
+                            && cd.bottomMargin.isAboveTarget()))) {
                         nextState = CBLiftControlStates.DownNorm;
                     }
                     break;
@@ -123,7 +120,7 @@ public class CBLiftController extends CBRobotController {
                             // and we are below the margin
                             || (cd.topMargin.isActive()
                             && encoderClean
-                            && cd.topMargin.isBelowTarget(encoder.getDistance())))) {
+                            && cd.topMargin.isBelowTarget()))) {
                         nextState = CBLiftControlStates.UpNorm;
                     }
                     break;
@@ -135,7 +132,7 @@ public class CBLiftController extends CBRobotController {
                             // and we are below the margin
                             && (cd.bottomMargin.isActive()
                             && encoderClean
-                            && cd.bottomMargin.isBelowTarget(encoder.getDistance()))) {
+                            && cd.bottomMargin.isBelowTarget())) {
                         nextState = CBLiftControlStates.DownSlow;
                     }
                     break;
@@ -147,7 +144,7 @@ public class CBLiftController extends CBRobotController {
                             // and we are above the margin
                             && (cd.topMargin.isActive()
                             && encoderClean
-                            && cd.topMargin.isAboveTarget(encoder.getDistance()))) {
+                            && cd.topMargin.isAboveTarget())) {
                         nextState = CBLiftControlStates.DownSlow;
                     }
                     break;
@@ -156,6 +153,15 @@ public class CBLiftController extends CBRobotController {
 
         @Override
         public void doTransition() {
+            if(isTransitionFrom(CBLiftControlStates.Start)) {
+                encoderClean = false;
+                // if there are now limit switches, we need to assume
+                // that the lift is in initial conditions
+                if (topLimitSwitch==null && bottomLimitSwitch==null) {
+                    encoder.reset();
+                    encoderClean = true;
+                }
+            }
         }
 
         @Override
@@ -163,8 +169,6 @@ public class CBLiftController extends CBRobotController {
             //SmartDashboard.putString("do Current State:", currentState.name());
             switch (currentState) {
                 case Start:
-                    // be really explicit
-                    encoderClean = false;
                     break;
                 case Idle:
                     speedControllerArray.update(0); // full stop
@@ -291,18 +295,29 @@ public class CBLiftController extends CBRobotController {
     @Override
     public void update() {
         //SmartDashboard.putString("LIft controller update", "Hi");
+        double liftHeight = encoder.getDistance();
+        cd.topEncoderLimit.update(liftHeight);
+        cd.topMargin.update(liftHeight);
+        cd.bottomMargin.update(liftHeight);
+        cd.bottomEncoderLimit.update(liftHeight);
+        cd.target.update(liftHeight);
 
         if (cd!=null) {
             //SmartDashboard.putString("LIft controller update", "not null");
+            //if(bottomLimitSwitch==null) {
+            //    SmartDashboard.putBoolean("encoderClean", encoderClean);
+            //}
 
-            topLimit = (topLimitSwitch != null && topLimitSwitch.get()) || (encoder != null && cd.topEncoderLimit.isActive() && encoderClean && cd.topEncoderLimit.isAboveTarget(encoder.getDistance()));
-            bottomLimit = (bottomLimitSwitch != null && bottomLimitSwitch.get()) || (encoder != null && cd.bottomEncoderLimit.isActive() && encoderClean && cd.bottomEncoderLimit.isBelowTarget(encoder.getDistance()));
-            goUp = !topLimit && (cd.requestUp || (encoder != null && encoderClean && cd.target.isBelowTarget(encoder.getDistance())));
-            goDown = !bottomLimit && (cd.requestDown || (encoder != null && encoderClean && cd.target.isAboveTarget(encoder.getDistance())));
+            topLimit = (topLimitSwitch != null && topLimitSwitch.get())
+                    || (encoder != null && cd.topEncoderLimit.isActive() && encoderClean && cd.topEncoderLimit.isAboveTarget());
+            bottomLimit = (bottomLimitSwitch != null && bottomLimitSwitch.get())
+                    || (encoder != null && cd.bottomEncoderLimit.isActive() && encoderClean && cd.bottomEncoderLimit.isBelowTarget());
+            goUp = !topLimit && (cd.requestUp || (encoder != null && encoderClean && cd.target.isBelowTarget()));
+            goDown = !bottomLimit && (cd.requestDown || (encoder != null && encoderClean && cd.target.isAboveTarget()));
             if (errorCorrection != null) {
                 if (cd.target.isActive()) {
-                    errorCorrection.setTarget(cd.target.getXPosition());
-                    errorCorrection.update(encoder.getDistance());
+                    errorCorrection.setTarget(cd.target.getXTarget());
+                    errorCorrection.update(liftHeight);
                 }
             }
             sm.update();

@@ -22,122 +22,122 @@ public class CBSrxEncoder implements CBIEncoder {
         }
     }
 
-    @Override
+    //@Override
     public int getEncodingScale() {
         return encoderScale;
     }
 
-    @Override
+    //@Override
     public int getRaw() {
         return reversedMultiplier * srx.getSelectedSensorPosition(0);
     }
 
-    @Override
+    //@Override
     public int get() {
         return getRaw()/getEncodingScale();
     }
 
-    @Override
+    //@Override
     public void reset() {
         srx.setSelectedSensorPosition(0,0,10);
     }
 
-    @Override
+    //@Override
     public double getPeriod() {
         return 0;
     }
 
-    @Override
+    //@Override
     public void setMaxPeriod(double maxPeriod) {
 
     }
 
-    @Override
+    //@Override
     public boolean getStopped() {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean getDirection() {
         return false;
     }
 
-    @Override
+    //@Override
     public double getDistance() {
         return get()*getDistancePerPulse();
     }
 
-    @Override
+    //@Override
     public double getRate() {
         return 0;
     }
 
-    @Override
+    //@Override
     public void setMinRate(double minRate) {
 
     }
 
-    @Override
+    //@Override
     public void setDistancePerPulse(double distancePerPulse) {
         this.distancePerPulse = distancePerPulse;
     }
 
-    @Override
+    //@Override
     public double getDistancePerPulse() {
         return distancePerPulse;
     }
 
-    @Override
+    //@Override
     public void setReverseDirection(boolean reverseDirection) {
         this.reversed = reverseDirection;
         this.reversedMultiplier = reverseDirection?-1:1;
     }
 
-    @Override
+    //@Override
     public void setSamplesToAverage(int samplesToAverage) {
 
     }
 
-    @Override
+    //@Override
     public int getSamplesToAverage() {
         return 0;
     }
 
-    @Override
+    //@Override
     public void setPIDSourceType(PIDSourceType pidSource) {
     }
 
-    @Override
+    //@Override
     public PIDSourceType getPIDSourceType() {
         return null;
     }
 
-    @Override
+    //@Override
     public double pidGet() {
         return 0;
     }
 
-    @Override
+    //@Override
     public String getName() {
         return null;
     }
 
-    @Override
+    //@Override
     public void setName(String name) {
 
     }
 
-    @Override
+    //@Override
     public String getSubsystem() {
         return null;
     }
 
-    @Override
+    //@Override
     public void setSubsystem(String subsystem) {
 
     }
 
-    @Override
+    //@Override
     public void initSendable(SendableBuilder builder) {
 
     }

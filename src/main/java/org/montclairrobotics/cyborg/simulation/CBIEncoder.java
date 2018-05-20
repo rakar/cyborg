@@ -3,7 +3,7 @@ package org.montclairrobotics.cyborg.simulation;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
-public interface CBIEncoder extends Sendable, CounterBase, PIDSource {
+public interface CBIEncoder {
 
     //int getEncodingScale();
 
@@ -35,6 +35,7 @@ public interface CBIEncoder extends Sendable, CounterBase, PIDSource {
 
     //int getSamplesToAverage();
 
+    /*
     void setPIDSourceType(PIDSourceType pidSource);
     PIDSourceType getPIDSourceType();
     double pidGet();
@@ -52,4 +53,5 @@ public interface CBIEncoder extends Sendable, CounterBase, PIDSource {
             this.value = value;
         }
     }
+    */
 }

@@ -18,34 +18,34 @@ public class CBDigitalInput implements CBDevice{
         }
 	}
 
-    boolean get(){
+    public boolean get(){
 	    return digitalInput.get();
     }
 
-    int getChannel(){
+    public int getChannel(){
 	    return digitalInput.getChannel();
     }
 
-    String getName(){
+    public String getName(){
 	    return digitalInput.getName();
     }
 
-    void setName(String name) {
+    public void setName(String name) {
 	    digitalInput.setName(name);
     }
 
     //@Override
     //void setName(String subsystem, String name);
 
-    String getSubsystem() {
+    public String getSubsystem() {
 	    return digitalInput.getSubsystem();
     }
 
-    void setSubsystem(String subsystem) {
+    public void setSubsystem(String subsystem) {
 	    digitalInput.setSubsystem(subsystem);
     }
 
-    void initSendable(SendableBuilder builder) {
+    public void initSendable(SendableBuilder builder) {
 	    digitalInput.initSendable(builder);
     }
 

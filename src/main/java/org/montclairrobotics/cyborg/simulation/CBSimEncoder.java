@@ -1,10 +1,8 @@
 package org.montclairrobotics.cyborg.simulation;
 
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalSource;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.hal.EncoderJNI;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class CBSimEncoder implements CBIEncoder {
     CBSimEncoderData simData;
@@ -12,7 +10,7 @@ public class CBSimEncoder implements CBIEncoder {
     public class CBSimEncoderData {
         int channelA, channelB;
         DigitalSource sourceA, sourceB;
-        int ticks;
+        int edges;
         boolean reverseDirection;
         int encodingScale;
         double period;
@@ -20,7 +18,7 @@ public class CBSimEncoder implements CBIEncoder {
         boolean stopped;
         boolean lastDirection;
         double distancePerPulse;
-        EncodingType encodingType;
+        CounterBase.EncodingType encodingType;
         double rate;
         double minRate;
         int samplesToAverage;
@@ -28,7 +26,7 @@ public class CBSimEncoder implements CBIEncoder {
     }
 
     public CBSimEncoder(final int channelA, final int channelB, boolean reverseDirection,
-                        final EncodingType encodingType) {
+                        final CounterBase.EncodingType encodingType) {
         simData.channelA = channelA;
         simData.channelB = channelB;
         simData.reverseDirection = reverseDirection;
@@ -36,31 +34,37 @@ public class CBSimEncoder implements CBIEncoder {
     }
 
     public CBSimEncoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection,
-                        final EncodingType encodingType) {
-
+                        final CounterBase.EncodingType encodingType) {
+        simData.sourceA = sourceA;
+        simData.sourceB = sourceB;
+        simData.reverseDirection = reverseDirection;
+        simData.encodingType = encodingType;
     }
 
 
-    @Override
-    public int getEncodingScale() {
-        return simData.encodingScale;
-    }
+    //@Override
+    //public int getEncodingScale() {
+    //    return simData.encodingScale;
+    //}
 
     @Override
     public int getRaw() {
-        return simData.ticks;
-    }
-
-    @Override
-    public int get() {
-        return simData.ticks/simData.encodingScale;
+        return simData.edges;
     }
 
     @Override
     public void reset() {
-        simData.ticks = 0;
+        simData.edges = 0;
     }
 
+    /*
+    @Override
+    public int get() {
+        return simData.edges/simData.encodingScale;
+    }
+    */
+
+    /*
     @Override
     public double getPeriod() {
         return simData.period;
@@ -176,4 +180,5 @@ public class CBSimEncoder implements CBIEncoder {
         builder.addDoubleProperty("Distance per Tick", this::getDistancePerPulse, null);
 
     }
+    */
 }
