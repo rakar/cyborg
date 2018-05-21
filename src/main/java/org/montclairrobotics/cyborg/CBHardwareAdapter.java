@@ -4,12 +4,7 @@ package org.montclairrobotics.cyborg;
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.devices.*;
-import org.montclairrobotics.cyborg.simulation.CBIJoystick;
-import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
-import org.montclairrobotics.cyborg.simulation.CBWPIJoystick;
 import org.montclairrobotics.cyborg.utils.CBModule;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * Main device catalog
@@ -20,7 +15,7 @@ public class CBHardwareAdapter extends CBModule {
 
 	public static final int joystickLimit = 6;
 	private int joystickCount;
-	private ArrayList<CBIJoystick> joysticks = new ArrayList<>();
+	private ArrayList<CBJoystick> joysticks = new ArrayList<>();
 
 	private ArrayList<CBDevice> devices = new ArrayList<>();
 	
@@ -29,13 +24,8 @@ public class CBHardwareAdapter extends CBModule {
         // create all the joysticks we can
         // whether they're real or not
         for(int i=joystickCount;i<joystickLimit;i++) {
-            if(Cyborg.simulationActive) {
-                joysticks.add(new CBSimJoystick(i));
-            } else {
-                joysticks.add(new CBWPIJoystick(i));
-            }
-            //System.out.printf("\nJoystick[%d] type: %s",i,joysticks.get(i).getType().name());
-        }
+			joysticks.add(new CBJoystick(i));
+		}
         joystickCount = joysticks.size();
 	}
 	
@@ -63,20 +53,6 @@ public class CBHardwareAdapter extends CBModule {
 	@Deprecated
 	public CBHardwareAdapter setJoystickCount(int count) {
 	    System.err.println("CBHardwareAdapter.setJoystickCount is not currently implemented and need not be used.");
-		/*
-		for(int i=joystickCount;i<count;i++) {
-		    if(Cyborg.simulationActive) {
-                joysticks.add(new CBSimJoystick(i));
-            } else {
-                joysticks.add(new CBWPIJoystick(i+1));
-            }
-
-		}
-		while(joysticks.size()>count) {
-			joysticks.remove(count);
-		}
-		joystickCount=count;
-		*/
 		return this;
 	}
 	
@@ -84,10 +60,9 @@ public class CBHardwareAdapter extends CBModule {
 		return joystickCount;
 	}
 	
-	public CBIJoystick getJoystick(int index) {
+	public CBJoystick getJoystick(int index) {
 		return joysticks.get(index);
 	}	
-
 
 	public CBDeviceID add(CBDevice device) {
 		CBDeviceID id = new CBDeviceID();
@@ -159,5 +134,4 @@ public class CBHardwareAdapter extends CBModule {
     public CBTalon getTalon(CBDeviceID id) { return (CBTalon)getDevice(id); }
 
     public CBTalonSRX getTalonSRX(CBDeviceID id) { return (CBTalonSRX)getDevice(id);}
-
 }
