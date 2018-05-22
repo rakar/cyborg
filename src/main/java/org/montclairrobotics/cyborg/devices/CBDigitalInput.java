@@ -57,4 +57,5 @@ public class CBDigitalInput implements CBDevice{
 
 	public void configure() {
 	}
+
 }

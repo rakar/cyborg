@@ -6,11 +6,12 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import org.montclairrobotics.cyborg.Cyborg;
 
-public class CBTalonSRX implements CBDevice, CBSpeedController {
+public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	TalonSRX talon;
 	int channel;
-	
+
 	public CBTalonSRX(int channel) {
 		this.talon = new TalonSRX(channel);
 		this.channel = channel;

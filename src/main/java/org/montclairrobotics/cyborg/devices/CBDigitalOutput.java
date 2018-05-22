@@ -1,11 +1,21 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.simulation.CBIDigitalOutput;
 import org.montclairrobotics.cyborg.simulation.CBSimDigitalOutput;
+import org.montclairrobotics.cyborg.simulation.CBWPIDigitalOutput;
 
-public class CBDigitalOutput extends CBSimDigitalOutput implements CBDevice {
+public class CBDigitalOutput implements CBDevice {
+	CBIDigitalOutput digitalOutput;
 
 	public CBDigitalOutput(int channel) {
-		super(channel);
+		if(Cyborg.simulationActive) {
+			digitalOutput = new CBSimDigitalOutput(channel);
+		} else {
+			digitalOutput = new CBWPIDigitalOutput(channel);
+		}
 	}
 
 	@Override
@@ -23,4 +33,28 @@ public class CBDigitalOutput extends CBSimDigitalOutput implements CBDevice {
 		
 	}
 
+	@Override
+	public String getName() {
+		return digitalOutput.getName();
+	}
+
+	@Override
+	public void setName(String name) {
+		digitalOutput.setName(name);
+	}
+
+	@Override
+	public String getSubsystem() {
+		return digitalOutput.getSubsystem();
+	}
+
+	@Override
+	public void setSubsystem(String subsystem) {
+		digitalOutput.setSubsystem(subsystem);
+	}
+
+	@Override
+	public void initSendable(SendableBuilder builder) {
+		digitalOutput.initSendable(builder);
+	}
 }

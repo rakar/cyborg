@@ -2,10 +2,15 @@ package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class CBSpeedControllerWrapper implements CBDevice, CBSpeedController{
 
-	private SpeedController controller; 
-	
+public class CBSpeedControllerWrapper extends CBSpeedController implements CBDevice{
+
+	private SpeedController controller;
+
+	CBPDB pdb;
+	int pdbChannel;
+	CBSpeedControllerFaultCriteria faultCriteria;
+
 	public CBSpeedControllerWrapper(SpeedController controller) {
 		this.controller = controller;
 	}
@@ -70,7 +75,7 @@ public class CBSpeedControllerWrapper implements CBDevice, CBSpeedController{
 		controller.stopMotor();
 		return this;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#senseUpdate()
 	 */

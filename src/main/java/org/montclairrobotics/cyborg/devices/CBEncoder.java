@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.simulation.CBIEncoder;
 import org.montclairrobotics.cyborg.simulation.CBSimEncoder;
@@ -17,7 +16,7 @@ import org.montclairrobotics.cyborg.simulation.CBSrxEncoder;
 import org.montclairrobotics.cyborg.simulation.CBWPIEncoder;
 import org.montclairrobotics.cyborg.utils.CBSource;
 
-public class CBEncoder implements CBDevice, CBSource, Sendable {
+public class CBEncoder implements CBDevice, CBSource {
 	private CBIEncoder encoder;
 	private int edgeValue =0;
 	private int pulseValue = 0;
@@ -73,7 +72,7 @@ public class CBEncoder implements CBDevice, CBSource, Sendable {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        //TODO: implement initSendable
+        //TODO: implement CBEncoder initSendable
     }
 
     public class CBIndexEntry {

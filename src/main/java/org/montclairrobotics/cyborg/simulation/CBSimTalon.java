@@ -1,5 +1,7 @@
 package org.montclairrobotics.cyborg.simulation;
 
+import org.montclairrobotics.cyborg.Cyborg;
+
 public class CBSimTalon implements CBITalon {
     CBSimTalonData simData;
 
@@ -23,6 +25,7 @@ public class CBSimTalon implements CBITalon {
 
     public CBSimTalon(int pwm) {
         simData = new CBSimTalonData(pwm);
+        Cyborg.simLink.pwmSpeedControllers.add(simData);
     }
 
     @Override

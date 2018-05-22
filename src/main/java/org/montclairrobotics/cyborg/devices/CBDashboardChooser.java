@@ -1,12 +1,13 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.utils.CBTimingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CBDashboardChooser<T> implements CBDevice {
-	String name;
+	String name,subsystem;
 	SendableChooser<T> chooser;
 	CBTimingController timer;
 	private T selected;
@@ -55,4 +56,28 @@ public class CBDashboardChooser<T> implements CBDevice {
 		SmartDashboard.putData(this.name, chooser);		
 	}
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name=name;
+    }
+
+    @Override
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+
+    }
 }

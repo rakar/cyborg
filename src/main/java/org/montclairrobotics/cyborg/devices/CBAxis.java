@@ -1,5 +1,6 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -7,7 +8,9 @@ import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
 
 public class CBAxis extends CBJoystickIndex implements CBDevice {
-	CBIJoystick joystick;
+	String name,subsystem;
+
+	CBJoystick joystick;
 	double value;
 	double rawValue;
 	double deadzone;
@@ -78,5 +81,31 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
 	
 	public double getRaw() {
 		return value;
+	}
+
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name=name;
+	}
+
+	@Override
+	public String getSubsystem() {
+		return subsystem;
+	}
+
+	@Override
+	public void setSubsystem(String subsystem) {
+		this.subsystem = subsystem;
+	}
+
+	@Override
+	public void initSendable(SendableBuilder builder) {
+
 	}
 }

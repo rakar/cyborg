@@ -38,6 +38,8 @@ public class CBSimDigitalOutput extends SendableBase implements CBIDigitalOutput
      */
     public CBSimDigitalOutput(int channel) {
         simData = new CBSimDigitalOutputData(channel);
+        Cyborg.simLink.digitalOutputs.add(simData);
+
     }
 
     /**

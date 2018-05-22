@@ -2,9 +2,11 @@ package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.utils.CBTimingController;
 
 public class CBContourReport implements CBDevice{
+	String name,subsystem;
 	NetworkTable table;
 	String baseKey;
 	CBTimingController timer;
@@ -73,4 +75,30 @@ public class CBContourReport implements CBDevice{
 	public void configure() {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name=name;
+	}
+
+	@Override
+	public String getSubsystem() {
+		return subsystem;
+	}
+
+	@Override
+	public void setSubsystem(String subsystem) {
+		this.subsystem = subsystem;
+	}
+
+	@Override
+	public void initSendable(SendableBuilder builder) {
+
+	}
+
 }

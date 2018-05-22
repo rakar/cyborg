@@ -21,7 +21,7 @@ public class CBSimDigitalInput implements CBIDigitalInput {
 
     public CBSimDigitalInput(int channel) {
         simData = new CBSimDigitalInputData(channel);
-        Cyborg.simLink.DIs[channel] = simData;
+        Cyborg.simLink.digitalInputs.add(simData);
     }
 
     @Override

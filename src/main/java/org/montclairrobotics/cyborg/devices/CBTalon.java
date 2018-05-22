@@ -1,13 +1,11 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.tables.ITable;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.simulation.CBITalon;
 import org.montclairrobotics.cyborg.simulation.CBSimTalon;
 import org.montclairrobotics.cyborg.simulation.CBWPITalon;
 
-public class CBTalon implements CBDevice {
+public class CBTalon extends CBSpeedController implements CBDevice {
 	CBITalon talon;
 	int pwmPort;
 
@@ -53,7 +51,6 @@ public class CBTalon implements CBDevice {
 		return this;
 	}
 
-	
 	public String getDescription() {
 		return talon.getDescription();
 	}
