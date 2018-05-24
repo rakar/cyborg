@@ -247,7 +247,7 @@ public class CBLiftController extends CBRobotController {
         sm = new CBLiftStateMachine();
     }
 
-    public CBLiftController setData(CBLiftControllerData data) {
+    public CBLiftController setControlData(CBLiftControllerData data) {
         cd = data;
         return this;
     }
