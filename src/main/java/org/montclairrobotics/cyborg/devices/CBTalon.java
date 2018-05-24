@@ -102,4 +102,14 @@ public class CBTalon extends CBSpeedController implements CBDevice {
 
 	public void controlUpdate() {
 	}
+
+	@Override
+	public String getName() {
+		String name = super.getName();
+		if(name=="") {
+			name = "PWM:"+Integer.toString(pwmPort)+" PDB:"+Integer.toString(pdbChannel);
+		}
+		return name;
+	}
+
 }

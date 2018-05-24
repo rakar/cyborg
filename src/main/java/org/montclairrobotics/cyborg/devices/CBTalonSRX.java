@@ -72,6 +72,16 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 
 	}
 
+	@Override
+	public String getName() {
+		String name = super.getName();
+		if(name=="") {
+			name = "CAN:"+Integer.toString(channel)+" PDB:"+Integer.toString(pdbChannel);
+		}
+		return name;
+	}
+
+
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
 		return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);
 	}
@@ -173,7 +183,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	 * @param mode
 	 * @param outputValue
 	 *            The setpoint value, as described above.
-	 * @see #SelectProfileSlot to choose between the two sets of gains.
+	 * //@see #SelectProfileSlot to choose between the two sets of gains.
 	 */
 	public void set(ControlMode mode, double outputValue) {
 		talon.set(mode, outputValue);

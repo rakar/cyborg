@@ -1,6 +1,8 @@
 package org.montclairrobotics.cyborg.mappers;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBSpeedController;
 import org.montclairrobotics.cyborg.devices.CBSpeedControllerFault;
 
@@ -13,6 +15,11 @@ public class CBMotorMonitorMapper extends CBCustomMapper {
         super(robot);
     }
 
+    public CBMotorMonitorMapper add(CBDeviceID controller) {
+        add(Cyborg.hardwareAdapter.getSpeedController(controller));
+        return this;
+    }
+
     public CBMotorMonitorMapper add(CBSpeedController controller) {
         controllers.add(controller);
         return this;
@@ -20,9 +27,20 @@ public class CBMotorMonitorMapper extends CBCustomMapper {
 
     @Override
     public void update() {
+        String[] status = new String[controllers.size()];
+        int i = 0;
         for(CBSpeedController controller: controllers) {
             CBSpeedControllerFault fault = controller.getSpeedControllerFault();
-            controller.getActualCurrent();
+            double current = controller.getActualCurrent();
+            String name = controller.getName();
+            String value;
+            if (fault==null) {
+                value = Double.toString(current);
+            } else {
+                value = fault.errMsg;
+            }
+            status[i] = name +" "+value;
         }
+        SmartDashboard.putStringArray("MotorMonitor", status);
     }
 }
