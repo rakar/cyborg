@@ -13,7 +13,6 @@ public class CBTankDriveBehavior extends CBBehavior {
 
 
 	public CBTankDriveBehavior(Cyborg robot) {
-
 		super(robot);
 		setRequestData((CBTankDriveRequestData)Cyborg.requestData.driveData);
 		setControlData((CBDifferentialDriveControlData)Cyborg.controlData.driveData);
