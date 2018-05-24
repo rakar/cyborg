@@ -17,7 +17,7 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 
 	public CBArcadeDriveMapper(Cyborg robot) {
 		super(robot);
-		driveRequestData = Cyborg.requestData.driveData;
+		setRequestData(Cyborg.requestData.driveData);
 	}
 
 	public CBArcadeDriveMapper setAxes(CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
