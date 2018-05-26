@@ -18,13 +18,21 @@ public class CBContourReport implements CBDevice{
 	public int largest = -1;
 	public double centerX = -1;
 	public double centerY = -1;
-	
-	
-	
+
+
 	public CBContourReport(String key) {
+		this(key,"","");
+	}
+
+	public CBContourReport(String key, String name) {
+		this(key,"",name);
+	}
+
+	public CBContourReport(String key, String subsystem, String name) {
 		baseKey = key;
 		timer = new CBTimingController();
 		table = NetworkTableInstance.getDefault().getTable(baseKey);
+		setName(subsystem, name);
 	}
 	
 	public CBContourReport setTiming(int mode, int delay) {

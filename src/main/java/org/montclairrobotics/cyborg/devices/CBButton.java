@@ -13,7 +13,28 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	private CBJoystickIndex stickIndex;
 	private CBJoystick joystick;
 
-	public CBButton(int stickID, int index) {
+
+	public CBButton(CBJoystickIndex joystickIndex) {
+		this(joystickIndex.stickID, joystickIndex.index, "", "");
+	}
+
+	public CBButton(CBJoystickIndex joystickIndex, String name) {
+		this(joystickIndex.stickID, joystickIndex.index, "", name);
+	}
+
+	public CBButton(CBJoystickIndex joystickIndex, String subsystem, String name) {
+		this(joystickIndex.stickID, joystickIndex.index, subsystem, name);
+	}
+
+    public CBButton(int stickID, int index) {
+        this(stickID, index, "", "");
+    }
+
+    public CBButton(int stickID, int index, String name) {
+        this(stickID, index, "", name);
+    }
+
+    public CBButton(int stickID, int index, String subsystem, String name) {
 		super();
 		stickIndex = new CBJoystickIndex(stickID, index);
 		if(stickID>=0) {
@@ -21,10 +42,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 		} else {
 			joystick = null;
 		}
-	}
-	
-	public CBButton(CBJoystickIndex joystickIndex) {
-		this(joystickIndex.stickID, joystickIndex.index);
+		setName(subsystem, name);
 	}
 	
 	public static CBButton getDefaulted(CBButton button) {

@@ -44,6 +44,12 @@ public class CBDigitalOutput implements CBDevice {
 	}
 
 	@Override
+	public void setName(String subsystem, String name) {
+		setName(name);
+		setSubsystem(subsystem);
+	}
+
+	@Override
 	public String getSubsystem() {
 		return digitalOutput.getSubsystem();
 	}

@@ -13,8 +13,17 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	int channel;
 
 	public CBTalonSRX(int channel) {
+		this(channel,"","CAN:"+Integer.toString(channel)+" PDB:"+Integer.toString(channel));
+	}
+
+	public CBTalonSRX(int channel, String name) {
+	    this(channel,"",name);
+    }
+
+	public CBTalonSRX(int channel, String subsystem, String name) {
 		this.talon = new TalonSRX(channel);
 		this.channel = channel;
+		setName(subsystem, name);
 	}
 
 	@Override
@@ -72,6 +81,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 
 	}
 
+	/*
 	@Override
 	public String getName() {
 		String name = super.getName();
@@ -80,7 +90,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 		}
 		return name;
 	}
-
+	*/
 
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
 		return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);

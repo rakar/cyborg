@@ -34,8 +34,10 @@ public class CBDigitalInput implements CBDevice{
 	    digitalInput.setName(name);
     }
 
-    //@Override
-    //void setName(String subsystem, String name);
+    public void setName(String subsystem, String name) {
+	    setName(name);
+	    setSubsystem(subsystem);
+    }
 
     public String getSubsystem() {
 	    return digitalInput.getSubsystem();
