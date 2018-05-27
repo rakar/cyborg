@@ -19,38 +19,22 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
     double scale;
 
 
-    public CBAxis(int stickID, int index) {
-        this(stickID, index, "", "");
-    }
-
-    public CBAxis(int stickID, int index, String name) {
-        this(stickID, index, "", name);
-    }
-
     public CBAxis(CBJoystickIndex joystickIndex) {
-        this(joystickIndex.stickID, joystickIndex.index, "", "");
-    }
-
-    public CBAxis(CBJoystickIndex joystickIndex, String name) {
-        this(joystickIndex.stickID, joystickIndex.index, "", name);
-    }
-
-    public CBAxis(CBJoystickIndex joystickIndex, String subsystem, String name) {
-        this(joystickIndex.stickID, joystickIndex.index, subsystem, name);
+        this(joystickIndex.stickID, joystickIndex.index);
     }
 
     public static CBAxis getDefaulted(CBAxis axis) {
         return (axis != null) ? axis : new CBAxis(CBJoystickIndex.undefined());
     }
 
-    public CBAxis(int stickID, int index, String subsystem, String name) {
+    public CBAxis(int stickID, int index) {
         super(stickID, index);
         if (stickID >= 0) {
             joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
         } else {
             joystick = null;
         }
-        setName(subsystem, name);
+        //setName(subsystem, name);
     }
 
     public CBAxis setDeadzone(double deadzone) {
@@ -109,6 +93,16 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    public CBAxis setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBAxis setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
     }
 
     @Override

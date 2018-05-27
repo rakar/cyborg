@@ -51,7 +51,19 @@ public class CBDigitalInput implements CBDevice{
 	    digitalInput.initSendable(builder);
     }
 
-	public void senseUpdate() {
+    public CBDigitalInput setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBDigitalInput setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+
+
+    public void senseUpdate() {
 	}
 
 	public void controlUpdate() {

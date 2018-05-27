@@ -63,4 +63,15 @@ public class CBDigitalOutput implements CBDevice {
 	public void initSendable(SendableBuilder builder) {
 		digitalOutput.initSendable(builder);
 	}
+
+	public CBDigitalOutput setDeviceName(String name) {
+		setName(name);
+		return this;
+	}
+
+	public CBDigitalOutput setDeviceName(String subsystem, String name) {
+		setName(subsystem, name);
+		return this;
+	}
+
 }

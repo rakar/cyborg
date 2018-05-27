@@ -56,4 +56,14 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	}
 
+	public CBPov setDeviceName(String name) {
+		setName(name);
+		return this;
+	}
+
+	public CBPov setDeviceName(String subsystem, String name) {
+		setName(subsystem, name);
+		return this;
+	}
+
 }

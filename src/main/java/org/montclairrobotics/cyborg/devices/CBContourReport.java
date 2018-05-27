@@ -21,18 +21,10 @@ public class CBContourReport implements CBDevice{
 
 
 	public CBContourReport(String key) {
-		this(key,"","");
-	}
-
-	public CBContourReport(String key, String name) {
-		this(key,"",name);
-	}
-
-	public CBContourReport(String key, String subsystem, String name) {
 		baseKey = key;
 		timer = new CBTimingController();
 		table = NetworkTableInstance.getDefault().getTable(baseKey);
-		setName(subsystem, name);
+		//setName(subsystem, name);
 	}
 	
 	public CBContourReport setTiming(int mode, int delay) {
@@ -107,6 +99,16 @@ public class CBContourReport implements CBDevice{
 	@Override
 	public void initSendable(SendableBuilder builder) {
 
+	}
+
+	public CBContourReport setDeviceName(String name) {
+		setName(name);
+		return this;
+	}
+
+	public CBContourReport setDeviceName(String subsystem, String name) {
+		setName(subsystem, name);
+		return this;
 	}
 
 }

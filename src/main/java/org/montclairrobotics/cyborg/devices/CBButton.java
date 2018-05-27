@@ -15,26 +15,11 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 
 
 	public CBButton(CBJoystickIndex joystickIndex) {
-		this(joystickIndex.stickID, joystickIndex.index, "", "");
+		this(joystickIndex.stickID, joystickIndex.index);
 	}
 
-	public CBButton(CBJoystickIndex joystickIndex, String name) {
-		this(joystickIndex.stickID, joystickIndex.index, "", name);
-	}
-
-	public CBButton(CBJoystickIndex joystickIndex, String subsystem, String name) {
-		this(joystickIndex.stickID, joystickIndex.index, subsystem, name);
-	}
 
     public CBButton(int stickID, int index) {
-        this(stickID, index, "", "");
-    }
-
-    public CBButton(int stickID, int index, String name) {
-        this(stickID, index, "", name);
-    }
-
-    public CBButton(int stickID, int index, String subsystem, String name) {
 		super();
 		stickIndex = new CBJoystickIndex(stickID, index);
 		if(stickID>=0) {
@@ -42,7 +27,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 		} else {
 			joystick = null;
 		}
-		setName(subsystem, name);
+		//setName(subsystem, name);
 	}
 	
 	public static CBButton getDefaulted(CBButton button) {
@@ -78,7 +63,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 		this.name=name;
 	}
 
-	@Override
+    @Override
 	public String getSubsystem() {
 		return subsystem;
 	}
@@ -92,5 +77,15 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	public void initSendable(SendableBuilder builder) {
 
 	}
+
+    public CBButton setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBButton setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
 
 }

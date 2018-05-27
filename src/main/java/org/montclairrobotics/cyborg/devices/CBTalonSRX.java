@@ -6,24 +6,14 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import org.montclairrobotics.cyborg.Cyborg;
 
 public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	TalonSRX talon;
-	int channel;
+	int canChannel;
 
-	public CBTalonSRX(int channel) {
-		this(channel,"","CAN:"+Integer.toString(channel)+" PDB:"+Integer.toString(channel));
-	}
-
-	public CBTalonSRX(int channel, String name) {
-	    this(channel,"",name);
-    }
-
-	public CBTalonSRX(int channel, String subsystem, String name) {
-		this.talon = new TalonSRX(channel);
-		this.channel = channel;
-		setName(subsystem, name);
+	public CBTalonSRX(int canChannel) {
+		this.talon = new TalonSRX(canChannel);
+		this.canChannel = canChannel;
 	}
 
 	@Override
@@ -66,7 +56,27 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 		return null;
 	}
 
-	@Override
+    public CBTalonSRX setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBTalonSRX setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+    @Override
+    public String getName() {
+        String name = super.getName();
+        if (name=="") {
+            return "CAN:" + Integer.toString(canChannel) + " PDB:" + Integer.toString(pdbChannel);
+        } else {
+            return name;
+        }
+    }
+
+    @Override
 	public void senseUpdate() {
 
 	}
@@ -86,7 +96,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	public String getName() {
 		String name = super.getName();
 		if(name=="") {
-			name = "CAN:"+Integer.toString(channel)+" PDB:"+Integer.toString(pdbChannel);
+			name = "CAN:"+Integer.toString(canChannel)+" PDB:"+Integer.toString(pdbChannel);
 		}
 		return name;
 	}

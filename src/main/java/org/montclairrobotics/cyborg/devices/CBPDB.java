@@ -98,4 +98,15 @@ public class CBPDB implements CBDevice {
 	public void initSendable(SendableBuilder builder) {
 
 	}
+
+	public CBPDB setDeviceName(String name) {
+		setName(name);
+		return this;
+	}
+
+	public CBPDB setDeviceName(String subsystem, String name) {
+		setName(subsystem, name);
+		return this;
+	}
+
 }

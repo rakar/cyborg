@@ -10,21 +10,12 @@ public class CBTalon extends CBSpeedController implements CBDevice {
 	int pwmPort;
 
 	public CBTalon(int pwmPort) {
-		this(pwmPort,"","PWM:"+Integer.toString(pwmPort)+" PDB:"+Integer.toString(pwmPort));
-	}
-
-	public CBTalon(int pwmPort, String name) {
-	    this(pwmPort,"", name);
-    }
-
-	public CBTalon(int pwmPort, String subsystem, String name) {
 		this.pwmPort = pwmPort;
 		if(Cyborg.simulationActive) {
 			talon = new CBSimTalon(pwmPort);
 		} else {
 			talon = new CBWPITalon(pwmPort);
 		}
-		setName(subsystem, name);
 	}
 
 
@@ -99,8 +90,28 @@ public class CBTalon extends CBSpeedController implements CBDevice {
 		talon.setSafetyEnabled(enabled);
 		return this;
 	}
-	
-	public String toString()  {
+
+	@Override
+	public String getName() {
+        String name = super.getName();
+	    if (name=="") {
+            return "PWM:" + Integer.toString(pwmPort) + " PDB:" + Integer.toString(pdbChannel);
+        } else {
+	        return name;
+        }
+    }
+
+    public CBTalon setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBTalon setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+    public String toString()  {
 		return talon.toString();
 	}
 
@@ -112,5 +123,4 @@ public class CBTalon extends CBSpeedController implements CBDevice {
 
 	public void controlUpdate() {
 	}
-
 }

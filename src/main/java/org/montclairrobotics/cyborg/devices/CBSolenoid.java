@@ -104,6 +104,17 @@ public class CBSolenoid implements CBDevice {
 		builder.addBooleanProperty("Value", this::get, this::set);
 	}
 
+	public CBSolenoid setDeviceName(String name) {
+		setName(name);
+		return this;
+	}
+
+	public CBSolenoid setDeviceName(String subsystem, String name) {
+		setName(subsystem, name);
+		return this;
+	}
+
+
 
 	@Override
 	public void senseUpdate() {

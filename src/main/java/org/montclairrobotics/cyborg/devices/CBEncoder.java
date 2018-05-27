@@ -75,6 +75,18 @@ public class CBEncoder implements CBDevice, CBSource {
         //TODO: implement CBEncoder initSendable
     }
 
+    public CBEncoder setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBEncoder setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+
+
     public class CBIndexEntry {
 		CBDigitalInput trigger;
 		CBDeviceID triggerId;

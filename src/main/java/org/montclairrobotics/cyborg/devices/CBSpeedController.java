@@ -75,5 +75,14 @@ public abstract class CBSpeedController implements CBDevice {
 
     }
 
+    public CBSpeedController setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBSpeedController setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
 
 }

@@ -77,4 +77,15 @@ public class CBNavX implements CBDevice {
     public void initSendable(SendableBuilder builder) {
 
     }
+
+    public CBNavX setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBNavX setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
 }
