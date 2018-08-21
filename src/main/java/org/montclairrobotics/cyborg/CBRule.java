@@ -4,8 +4,9 @@ import org.montclairrobotics.cyborg.utils.CBModule;
 
 /**
  * Base class of all Rule behaviors. These are meant to
- * "pre-screen" requtest data before they are seen by
+ * "pre-screen" request data before they are seen by
  * behaviors.
+ * @author rich kopelow
  */
 public abstract class CBRule extends CBModule {
 

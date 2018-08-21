@@ -2,11 +2,21 @@ package org.montclairrobotics.cyborg.utils;
 
 import java.util.Date;
 
+/**
+ * Abstract State Machine class
+ * Housing the framework/basis of a state machine.
+ * To create a new state machine code must be provided for:
+ * calcNextState() - determine if what the next state should be
+ * doTransition() - perform any functions based on transitions from one state to another
+ * doCurrentState() - perform any functions based on the current state
+ * @param <T> enum of states
+ */
 public abstract class CBStateMachine<T> {
 	protected T currentState;
 	protected T nextState;
 	protected int cyclesInState; 
 	private long stateStartTime;
+
 	/**
 	 * Duration of the current state in seconds.
 	 */

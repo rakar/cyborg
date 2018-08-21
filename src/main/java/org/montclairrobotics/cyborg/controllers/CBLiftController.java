@@ -11,34 +11,44 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
 
 /**
  * Implements a Lift or Linear controller.
- * The Lift to travel between a "bottom" and "top".
+ * The Lift travels between a "bottom" and "top".
+ *
  * If an encoder exists, up is assumed to have higher values.
- * Limit switches can be present at the bottom and or top.
+ * Limit switches can be present at the bottom and/or top.
+ *
  * Encoder Limits may also be set. If one or more of these are set
  * they will act as soft limits and will be used as reset values
- * when either limit switch is activated.
+ * if and when the associated limit switch is activated.
+ *
  * Margins or slow zones may also be set if an encoder is configured.
  * If the lift is below
  * the bottom margin height and moving downward, it will revert
  * to the "slow down" speed or power. Likewise if the lift is above
  * the top margin and moving upward, it will revert to the
  * "slow up" speed or power.
- * When an encoder is used, it's value is assumed to be incorrect
- * until the bottom limit switch is triggered or the top limit
- * switch has been triggered and there is a top encoder limit to
- * provide a top limit encoder value.
+ *
+ * When an encoder is used and at least one limit switch is used,
+ * the encoder's value is assumed to be incorrect until one
+ * of the limit switches is triggered and the encoder reset.
+ * If the top limit switch is triggered and there is an
+ * active top encoder limit, the encoder is reset to that
+ * value and the encoder is considered valid.
  * When the bottom limit switch is triggered the encoder is reset to 0
- * and if a bottom encoder limit is active, the encoder is set to that
- * value.
- * All limits, margins, and targets are set to values matching the encoder
+ * or if a bottom encoder limit is active, the encoder is set to that
+ * value and then the encoder is considered valid.
+
+ * All limits, margins, and targets use the encoder
  * getDistance values.
+ *
  * The lift controller must be attached to a CBLiftControllerData object
  * using the setData method. This data object contains all of the soft
  * limits, margins, and targets, as well as the normal and slow speed values,
- * and the up and down request values. These up and down request values
+ * and the up/down request values. These up and down request values
  * are used to control the lift.
+ *
  * Additionally, if the target is set active
- * the lift will move to the desired height.
+ * the lift will move to the desired height, overriding the
+ * up/down requests.
  */
 public class CBLiftController extends CBRobotController {
 
@@ -103,7 +113,7 @@ public class CBLiftController extends CBRobotController {
                             && (!cd.bottomMargin.isActive()
                             // or (there is one
                             // and the encoder is clean
-                            // and we are above the margin
+                            // and we are above the margin)
                             || (cd.bottomMargin.isActive()
                             && encoderClean
                             && cd.bottomMargin.isAboveTarget()))) {
@@ -155,7 +165,7 @@ public class CBLiftController extends CBRobotController {
         public void doTransition() {
             if(isTransitionFrom(CBLiftControlStates.Start)) {
                 encoderClean = false;
-                // if there are now limit switches, we need to assume
+                // if there are no limit switches, we need to assume
                 // that the lift is in initial conditions
                 if (topLimitSwitch==null && bottomLimitSwitch==null) {
                     encoder.reset();
@@ -295,14 +305,14 @@ public class CBLiftController extends CBRobotController {
     @Override
     public void update() {
         //SmartDashboard.putString("LIft controller update", "Hi");
-        double liftHeight = encoder.getDistance();
-        cd.topEncoderLimit.update(liftHeight);
-        cd.topMargin.update(liftHeight);
-        cd.bottomMargin.update(liftHeight);
-        cd.bottomEncoderLimit.update(liftHeight);
-        cd.target.update(liftHeight);
-
         if (cd!=null) {
+            double liftHeight = encoder.getDistance();
+            cd.topEncoderLimit.update(liftHeight);
+            cd.topMargin.update(liftHeight);
+            cd.bottomMargin.update(liftHeight);
+            cd.bottomEncoderLimit.update(liftHeight);
+            cd.target.update(liftHeight);
+
             //SmartDashboard.putString("LIft controller update", "not null");
             //if(bottomLimitSwitch==null) {
             //    SmartDashboard.putBoolean("encoderClean", encoderClean);
@@ -322,7 +332,7 @@ public class CBLiftController extends CBRobotController {
             }
             sm.update();
         } else {
-            System.err.println("\nLinearController cd is null...");
+            System.err.println("\nCBLiftController cd is null...");
         }
     }
 }

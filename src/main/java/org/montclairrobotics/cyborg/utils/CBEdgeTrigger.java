@@ -1,6 +1,7 @@
 package org.montclairrobotics.cyborg.utils;
-/*
+/**
  * Perform edge detection and extension on a boolean data stream.
+ * @author Rich Kopelow
  */
 public class CBEdgeTrigger {
 	private boolean state = false;
@@ -14,6 +15,13 @@ public class CBEdgeTrigger {
 	private int countTrue;
 	private int countFalse;
 
+    /**
+     * In cases where initial state may not be 0/false,
+     * this method can be used to avoid false trigger on
+     * initial 1/true state.
+     * @param value initial value
+     * @return current object
+     */
 	public CBEdgeTrigger setInitialState(boolean value) {
 		this.state = value;
 		this.toggle = value;
@@ -22,11 +30,21 @@ public class CBEdgeTrigger {
 		return this;
 	}
 
+    /**
+     * Specify the duration of pulse extension.
+     * @param pulseDuration duration of the output pulse
+     * @return current object
+     */
 	public CBEdgeTrigger setPulseDuration(int pulseDuration) {
 		this.pulseDuration = pulseDuration;
 		return this;
 	}
 
+    /**
+     * Process a signal sample and update all values
+     * @param value input signal
+     * @return current object
+     */
 	public CBEdgeTrigger update(boolean value) {
 
 		risingEdge=false;
@@ -69,34 +87,66 @@ public class CBEdgeTrigger {
 		return this;
 	}
 
+    /**
+     * Return most recently updated signal value
+     * @return state
+     */
 	public boolean getState() {
 		return state;
 	}
 
+    /**
+     * Output that is toggled with each rising edge
+     * @return true for toggle
+     */
 	public boolean getToggle() {
 		return toggle;
 	}
 
+    /**
+     * True for rising edge last update
+     * @return true for risingEdge
+     */
 	public boolean getRisingEdge() {
 		return risingEdge;
 	}
 
+    /**
+     * True for falling edge last update
+     * @return true for falling edge
+     */
 	public boolean getFallingEdge() {
 		return fallingEdge;
 	}
 
+    /**
+     * True for pulseDuration after rising edge
+     * @return true for elongated rising edge
+     */
 	public boolean getRisingEdgePulse() {
 		return risingEdgePulse;
 	}
 
+    /**
+     * True for pulseDuration after falling edge
+     * @return true for elongated falling edge
+     */
 	public boolean getFallingEdgePulse() {
 		return fallingEdgePulse;
 	}
-	
+
+    /**
+     * Number of samples signal held true
+     * @return duration of true
+     */
 	public int getTrueCount() {
 		return countTrue;
 	}
-	
+
+    /**
+     * Number of samples signal held false
+     * @return
+     */
 	public int getFalseCount() {
 		return countFalse;
 	}

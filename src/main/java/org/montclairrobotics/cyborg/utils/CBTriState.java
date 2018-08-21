@@ -2,7 +2,7 @@ package org.montclairrobotics.cyborg.utils;
 
 public class CBTriState {
 
-	public enum CBTriStateValue {low, nil, high};
+	public enum CBTriStateValue {low, nil, high}
 	
 	private CBTriStateValue value=CBTriStateValue.nil;
 	

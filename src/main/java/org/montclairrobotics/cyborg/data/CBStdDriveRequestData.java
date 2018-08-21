@@ -42,7 +42,8 @@ public class CBStdDriveRequestData extends CBDriveRequestData {
 	 * vector without actually driving in that direction. 
 	 * One example of this is when controlling the robot in 
 	 * autonomous, it is more accurate to turn the wheels without 
-	 * driving and then when the wheels have fully aligned (maxError gets below a certain
+	 * driving and then when the wheels have fully aligned
+	 * (maxError gets below a certain
 	 * threshold,) drive along that vector. In order to do this
 	 * the vector needs to be requested, but no translation 
 	 * is desired. This flag is used to suppress the speed

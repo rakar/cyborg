@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * Main device catalog
  * Created devices are stored here and then accessed via
  * CBDeviceID objects.
+ * @author Rich Kopelow
  */
 public class CBHardwareAdapter extends CBModule {
 

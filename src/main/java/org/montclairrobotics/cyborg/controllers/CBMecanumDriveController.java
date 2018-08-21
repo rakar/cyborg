@@ -69,7 +69,6 @@ public class CBMecanumDriveController extends CBDriveController {
 				vTotal.set(i,vTotal.get(i)/maxAbsV);
 			}
 		}
-
 	}
 	
 	public CBMecanumDriveController addDriveModule(CBDriveModule driveModule) {
