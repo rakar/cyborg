@@ -1,29 +1,88 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.Cyborg;
+
 /**
  * Represents a generic speed controller.
  */
-public interface CBSpeedController extends CBDevice {
- 
-	CBSpeedController pidWrite(double output);
+public abstract class CBSpeedController implements CBDevice {
+    String name,subsystem;
+    protected CBPDB pdb;
+    protected int pdbChannel;
+    protected CBSpeedControllerFaultCriteria faultCriteria;
 
-	double get();
+    public abstract CBSpeedController pidWrite(double output);
+
+    public abstract double get();
 
 	//CBSpeedController set(double speed, byte syncGroup);
 
-	CBSpeedController set(double speed);
+    public abstract CBSpeedController set(double speed);
 
-	CBSpeedController setInverted(boolean isInverted);
+    public abstract CBSpeedController setInverted(boolean isInverted);
 
-	boolean getInverted();
+    public abstract boolean getInverted();
 
-	CBSpeedController disable();
+    public abstract CBSpeedController disable();
 
-	CBSpeedController stopMotor();
+    public abstract CBSpeedController stopMotor();
 
-	//void senseUpdate();
+    public double getActualCurrent() {
+        if(pdb==null) throw new RuntimeException("Power Source not configured for SpeedController "+getName());
+        return pdb.getCurrent(pdbChannel);
+    }
 
-	//void controlUpdate();
+    public CBSpeedController setPowerSource(CBDeviceID pdb, int channel) {
+        this.pdb = Cyborg.hardwareAdapter.getPDB(pdb);
+        this.pdbChannel = channel;
+        return this;
+    }
 
-	//void configure();
+    public CBSpeedController setSpeedControllerFaultCriteria(CBSpeedControllerFaultCriteria criteria){
+        this.faultCriteria = criteria;
+        return this;
+    }
+
+    public CBSpeedControllerFault getSpeedControllerFault() {
+        if(faultCriteria== null || pdb==null) return null;
+        return faultCriteria.check(getActualCurrent(),this.get());
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+
+    }
+
+    public CBSpeedController setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBSpeedController setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
 }

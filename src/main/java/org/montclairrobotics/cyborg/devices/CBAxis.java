@@ -1,5 +1,6 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -7,76 +8,115 @@ import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
 
 public class CBAxis extends CBJoystickIndex implements CBDevice {
-	CBIJoystick joystick;
-	double value;
-	double rawValue;
-	double deadzone;
-	double smoothing;
-	double lastValue;
-	double scale;
+    String name, subsystem;
+
+    CBJoystick joystick;
+    double value;
+    double rawValue;
+    double deadzone;
+    double smoothing;
+    double lastValue;
+    double scale;
 
 
-	public CBAxis(int stickID, int index) {
-		super(stickID, index);
-		if(stickID>=0) {
-			joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
-		} else {
-			joystick = null;
-		}
-	}
-	
-	public CBAxis(CBJoystickIndex joystickIndex) {
-		this(joystickIndex.stickID, joystickIndex.index);
-	}
-	
-	public static CBAxis getDefaulted(CBAxis axis) {
-		return (axis!=null)?axis:new CBAxis(CBJoystickIndex.undefined());
-	}
-	
-	public CBAxis setDeadzone(double deadzone){
-		this.deadzone = deadzone;
-		return this;
-	}
+    public CBAxis(CBJoystickIndex joystickIndex) {
+        this(joystickIndex.stickID, joystickIndex.index);
+    }
 
-	public CBAxis setScale(double scale){
-		this.scale = scale;
-		return this;
-	}
+    public static CBAxis getDefaulted(CBAxis axis) {
+        return (axis != null) ? axis : new CBAxis(CBJoystickIndex.undefined());
+    }
 
-	public CBAxis setSmoothing(double smoothing){
-		this.smoothing = smoothing;
-		return this;
-	}
+    public CBAxis(int stickID, int index) {
+        super(stickID, index);
+        if (stickID >= 0) {
+            joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
+        } else {
+            joystick = null;
+        }
+        //setName(subsystem, name);
+    }
 
-	@Override
-	public void configure() {
-	}
+    public CBAxis setDeadzone(double deadzone) {
+        this.deadzone = deadzone;
+        return this;
+    }
 
-	@Override
-	public void senseUpdate() {
-		lastValue = value;
+    public CBAxis setScale(double scale) {
+        this.scale = scale;
+        return this;
+    }
 
-		if(this.isDefined()) {
-			rawValue = scale * joystick.getRawAxis(index);
-		} else {
-			rawValue = 0;
-		}
+    public CBAxis setSmoothing(double smoothing) {
+        this.smoothing = smoothing;
+        return this;
+    }
 
-		// smoothing: 0 => none, 1 => no change
-		value = rawValue - ( rawValue - lastValue ) * smoothing;
+    @Override
+    public void configure() {
+    }
 
-		if(Math.abs(value)<deadzone) value = 0.0;
-	}
+    @Override
+    public void senseUpdate() {
+        lastValue = value;
 
-	@Override
-	public void controlUpdate() {
-	}
+        if (this.isDefined()) {
+            rawValue = scale * joystick.getRawAxis(index);
+        } else {
+            rawValue = 0;
+        }
 
-	public double get() {
-		return value;
-	}
-	
-	public double getRaw() {
-		return value;
-	}
+        // smoothing: 0 => none, 1 => no change
+        value = rawValue - (rawValue - lastValue) * smoothing;
+
+        if (Math.abs(value) < deadzone) value = 0.0;
+    }
+
+    @Override
+    public void controlUpdate() {
+    }
+
+    public double get() {
+        return value;
+    }
+
+    public double getRaw() {
+        return value;
+    }
+
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public CBAxis setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBAxis setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+    @Override
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+
+    }
 }

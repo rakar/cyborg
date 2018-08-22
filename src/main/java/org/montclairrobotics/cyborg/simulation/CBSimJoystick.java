@@ -25,7 +25,7 @@ public class CBSimJoystick implements CBIJoystick {
 
     public CBSimJoystick(int port) {
         simData = new CBSimJoystickData(port);
-        Cyborg.simLink.joysticks[port] = simData;
+        Cyborg.simLink.joysticks.add(simData);
     }
 
     @Override

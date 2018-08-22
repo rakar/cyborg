@@ -1,6 +1,7 @@
 package org.montclairrobotics.cyborg.mappers;
 
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.data.CBDriveRequestData;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.data.CBTankDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
@@ -12,14 +13,31 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 	private CBAxis right;
 	private double deadzone = 0.0;
 	private CBButton gyroLock=null;
+	private CBStdDriveRequestData sdrd;
+	private CBTankDriveRequestData tdrd;
 	
 
 	public CBTankDriveMapper(Cyborg robot, CBDeviceID leftDeviceID, CBDeviceID rightDeviceID) {
 		super(robot);
 		this.left = Cyborg.hardwareAdapter.getAxis(leftDeviceID);
 		this.right = Cyborg.hardwareAdapter.getAxis(rightDeviceID);
+		setRequestData(Cyborg.requestData.driveData);
 	}
-	
+
+	public CBTankDriveMapper setRequestData(CBDriveRequestData data) {
+	    sdrd = null;
+	    tdrd = null;
+		if(data instanceof CBStdDriveRequestData ) {
+			sdrd = (CBStdDriveRequestData)data;
+		} else if (data instanceof CBTankDriveRequestData) {
+			tdrd = (CBTankDriveRequestData)data;
+		} else {
+			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
+			throw new RuntimeException("Unknown driveRequestData type in CBTankDriveMapper.");
+		}
+		return this;
+	}
+
 	public CBTankDriveMapper setDeadZone(double deadzone) {
 		this.deadzone = deadzone;
 		return this;
@@ -38,35 +56,25 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 		if(left!=null && left.isDefined()) leftStick = -left.get();
 		if(right!=null && right.isDefined()) rightStick = right.get();
 
-		
 		// Implement dead zone
 		if(Math.abs( leftStick)<deadzone)  leftStick=0.0;
 		if(Math.abs(rightStick)<deadzone) rightStick=0.0;
 		
-		if(Cyborg.requestData.driveData instanceof CBStdDriveRequestData) {
-			
-			CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
+		if(sdrd!=null) {
 			double velocity = (leftStick+rightStick)/2.0;// Average stick value "forward"
 			double rotation = leftStick - velocity;
 
-			drd.active = true;
-			drd.direction.setXY(0, velocity); 
-			drd.rotation = rotation; 
+			sdrd.active = true;
+			sdrd.direction.setXY(0, velocity);
+			sdrd.rotation = rotation;
 
 			if(gyroLock!=null && gyroLock.isDefined()) {
-				drd.gyroLockActive = gyroLock.getState();
+				sdrd.gyroLockActive = gyroLock.getState();
 			}
-			
-		} else if (Cyborg.requestData.driveData instanceof CBTankDriveRequestData) {
-			
-			CBTankDriveRequestData drd = (CBTankDriveRequestData)Cyborg.requestData.driveData;
-			drd.leftPower = leftStick; 
-			drd.rightPower = rightStick; 
-			drd.active = true;
-		
-		} else {
-			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
-			throw new RuntimeException("Unknown Cyborg.requestData.driveData type in CBTankDriveMapper.");
+		} else if (tdrd!=null) {
+			tdrd.leftPower = leftStick;
+			tdrd.rightPower = rightStick;
+			tdrd.active = true;
 		}
 	}
 }

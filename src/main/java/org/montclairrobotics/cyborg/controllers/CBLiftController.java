@@ -10,29 +10,29 @@ import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBStateMachine;
 
 /**
- * Implements a Lift or Linear controller.
- * The Lift travels between a "bottom" and "top".
+ * Implements a Lift or "Back and Forth" controller which
+ * would typically be linear, but could also be rotational.
+ * For example one or two lifts might be used to control a set
+ * of jaws. The Lift travels between a conceptual "bottom" and "top".
  *
- * If an encoder exists, up is assumed to have higher values.
+ * If an encoder exists, up is assumed to have higher distance values.
+ *
  * Limit switches can be present at the bottom and/or top.
  *
  * Encoder Limits may also be set. If one or more of these are set
- * they will act as soft limits and will be used as reset values
- * if and when the associated limit switch is activated.
+ * they will act as soft limits and will be used as encoder reset values
+ * when either limit switch is activated.
  *
  * Margins or slow zones may also be set if an encoder is configured.
- * If the lift is below
- * the bottom margin height and moving downward, it will revert
- * to the "slow down" speed or power. Likewise if the lift is above
- * the top margin and moving upward, it will revert to the
+ * If the lift is below the bottom margin height and moving downward,
+ * it will revert to the "slow down" speed or power. Likewise if the
+ * lift is above the top margin and moving upward, it will revert to the
  * "slow up" speed or power.
  *
- * When an encoder is used and at least one limit switch is used,
- * the encoder's value is assumed to be incorrect until one
- * of the limit switches is triggered and the encoder reset.
- * If the top limit switch is triggered and there is an
- * active top encoder limit, the encoder is reset to that
- * value and the encoder is considered valid.
+ * When an encoder is used, it's value is assumed to be incorrect
+ * until the bottom limit switch is triggered or the top limit
+ * switch has been triggered and there is a top encoder limit to
+ * provide a top limit encoder value.
  * When the bottom limit switch is triggered the encoder is reset to 0
  * or if a bottom encoder limit is active, the encoder is set to that
  * value and then the encoder is considered valid.
@@ -41,7 +41,7 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
  * getDistance values.
  *
  * The lift controller must be attached to a CBLiftControllerData object
- * using the setData method. This data object contains all of the soft
+ * using the setControlData method. This data object contains all of the soft
  * limits, margins, and targets, as well as the normal and slow speed values,
  * and the up/down request values. These up and down request values
  * are used to control the lift.

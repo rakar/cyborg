@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.Cyborg;
 
 /**
  * Class for getting voltage, current, temperature, speed and energy from the Power Distribution
@@ -32,6 +33,7 @@ public class CBSimPDB extends SensorBase implements CBIPDB {
     public CBSimPDB(int module) {
         simData = new CBSimPDBData(module);
         setName("PowerDistributionPanel", module);
+        Cyborg.simLink.pdbs.add(simData);
     }
 
     /**

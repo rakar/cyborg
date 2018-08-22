@@ -1,13 +1,11 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.tables.ITable;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.simulation.CBITalon;
 import org.montclairrobotics.cyborg.simulation.CBSimTalon;
 import org.montclairrobotics.cyborg.simulation.CBWPITalon;
 
-public class CBTalon implements CBDevice {
+public class CBTalon extends CBSpeedController implements CBDevice {
 	CBITalon talon;
 	int pwmPort;
 
@@ -19,6 +17,7 @@ public class CBTalon implements CBDevice {
 			talon = new CBWPITalon(pwmPort);
 		}
 	}
+
 
 	public CBTalon pidWrite(double output) {
 		talon.pidWrite(output);
@@ -53,7 +52,6 @@ public class CBTalon implements CBDevice {
 		return this;
 	}
 
-	
 	public String getDescription() {
 		return talon.getDescription();
 	}
@@ -92,8 +90,28 @@ public class CBTalon implements CBDevice {
 		talon.setSafetyEnabled(enabled);
 		return this;
 	}
-	
-	public String toString()  {
+
+	@Override
+	public String getName() {
+        String name = super.getName();
+	    if (name=="") {
+            return "PWM:" + Integer.toString(pwmPort) + " PDB:" + Integer.toString(pdbChannel);
+        } else {
+	        return name;
+        }
+    }
+
+    public CBTalon setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBTalon setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+    public String toString()  {
 		return talon.toString();
 	}
 

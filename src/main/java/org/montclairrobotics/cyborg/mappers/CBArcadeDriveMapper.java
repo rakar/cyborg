@@ -2,6 +2,7 @@ package org.montclairrobotics.cyborg.mappers;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.data.CBDriveRequestData;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.devices.CBAxis;
 import org.montclairrobotics.cyborg.devices.CBButton;
@@ -12,9 +13,11 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 	private CBAxis fwdAxis, strAxis, rotAxis;
 	private CBButton gyroLock; 
 	private double  xScale, yScale, rScale;
+	private CBDriveRequestData driveRequestData;
 
 	public CBArcadeDriveMapper(Cyborg robot) {
 		super(robot);
+		setRequestData(Cyborg.requestData.driveData);
 	}
 
 	public CBArcadeDriveMapper setAxes(CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
@@ -34,6 +37,11 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		return this;
 	}
 
+	public CBArcadeDriveMapper setRequestData(CBDriveRequestData data) {
+		driveRequestData = data;
+		return this;
+	}
+
 	public CBArcadeDriveMapper setGyroLockButton(CBDeviceID buttonDeviceID) {
 		this.gyroLock = Cyborg.hardwareAdapter.getDefaultedButton(buttonDeviceID);
 		return this;
@@ -48,17 +56,16 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 
 	@Override
 	public void update() {
-		if(Cyborg.requestData.driveData instanceof CBStdDriveRequestData) {
-			CBStdDriveRequestData drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
-
+		if(driveRequestData instanceof CBStdDriveRequestData) {
+			CBStdDriveRequestData drd = (CBStdDriveRequestData)driveRequestData;
 			drd.active = true;
 			drd.direction.setXY(xScale*strAxis.get(), yScale*fwdAxis.get()); 
 			drd.rotation = rScale*rotAxis.get(); 
 			drd.gyroLockActive = gyroLock.getState();
 			SmartDashboard.putNumber("Mapper speed:", drd.direction.getY());
 		} else {
-			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
-            throw new RuntimeException("Unknown Cyborg.requestData.driveData type in CBArcadeDriveMapper.");
+			driveRequestData.active = false; // If we don't know what type of request it is shut down drive
+            throw new RuntimeException("Unknown driveRequestData type in CBArcadeDriveMapper.");
 		}
 	}
 }

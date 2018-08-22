@@ -7,13 +7,13 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class CBTalonSRX implements CBDevice, CBSpeedController {
+public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	TalonSRX talon;
-	int channel;
-	
-	public CBTalonSRX(int channel) {
-		this.talon = new TalonSRX(channel);
-		this.channel = channel;
+	int canChannel;
+
+	public CBTalonSRX(int canChannel) {
+		this.talon = new TalonSRX(canChannel);
+		this.canChannel = canChannel;
 	}
 
 	@Override
@@ -56,7 +56,27 @@ public class CBTalonSRX implements CBDevice, CBSpeedController {
 		return null;
 	}
 
-	@Override
+    public CBTalonSRX setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBTalonSRX setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
+    @Override
+    public String getName() {
+        String name = super.getName();
+        if (name=="") {
+            return "CAN:" + Integer.toString(canChannel) + " PDB:" + Integer.toString(pdbChannel);
+        } else {
+            return name;
+        }
+    }
+
+    @Override
 	public void senseUpdate() {
 
 	}
@@ -70,6 +90,17 @@ public class CBTalonSRX implements CBDevice, CBSpeedController {
 	public void configure() {
 
 	}
+
+	/*
+	@Override
+	public String getName() {
+		String name = super.getName();
+		if(name=="") {
+			name = "CAN:"+Integer.toString(canChannel)+" PDB:"+Integer.toString(pdbChannel);
+		}
+		return name;
+	}
+	*/
 
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
 		return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);
@@ -172,7 +203,7 @@ public class CBTalonSRX implements CBDevice, CBSpeedController {
 	 * @param mode
 	 * @param outputValue
 	 *            The setpoint value, as described above.
-	 * @see #SelectProfileSlot to choose between the two sets of gains.
+	 * //@see #SelectProfileSlot to choose between the two sets of gains.
 	 */
 	public void set(ControlMode mode, double outputValue) {
 		talon.set(mode, outputValue);

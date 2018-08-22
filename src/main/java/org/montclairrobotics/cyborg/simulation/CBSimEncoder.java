@@ -3,6 +3,7 @@ package org.montclairrobotics.cyborg.simulation;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import org.montclairrobotics.cyborg.Cyborg;
 
 public class CBSimEncoder implements CBIEncoder {
     CBSimEncoderData simData;
@@ -27,18 +28,22 @@ public class CBSimEncoder implements CBIEncoder {
 
     public CBSimEncoder(final int channelA, final int channelB, boolean reverseDirection,
                         final CounterBase.EncodingType encodingType) {
+        simData = new CBSimEncoderData();
         simData.channelA = channelA;
         simData.channelB = channelB;
         simData.reverseDirection = reverseDirection;
         simData.encodingType = encodingType;
+        Cyborg.simLink.encoders.add(simData);
     }
 
     public CBSimEncoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection,
                         final CounterBase.EncodingType encodingType) {
+        simData = new CBSimEncoderData();
         simData.sourceA = sourceA;
         simData.sourceB = sourceB;
         simData.reverseDirection = reverseDirection;
         simData.encodingType = encodingType;
+        Cyborg.simLink.encoders.add(simData);
     }
 
 

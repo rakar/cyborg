@@ -1,5 +1,6 @@
 package org.montclairrobotics.cyborg.devices;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.simulation.CBIJoystick;
 import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
@@ -8,11 +9,17 @@ import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class CBButton extends CBEdgeTrigger implements CBDevice {
-
+	String name,subsystem;
 	private CBJoystickIndex stickIndex;
-	private CBIJoystick joystick;
+	private CBJoystick joystick;
 
-	public CBButton(int stickID, int index) {
+
+	public CBButton(CBJoystickIndex joystickIndex) {
+		this(joystickIndex.stickID, joystickIndex.index);
+	}
+
+
+    public CBButton(int stickID, int index) {
 		super();
 		stickIndex = new CBJoystickIndex(stickID, index);
 		if(stickID>=0) {
@@ -20,10 +27,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 		} else {
 			joystick = null;
 		}
-	}
-	
-	public CBButton(CBJoystickIndex joystickIndex) {
-		this(joystickIndex.stickID, joystickIndex.index);
+		//setName(subsystem, name);
 	}
 	
 	public static CBButton getDefaulted(CBButton button) {
@@ -48,4 +52,40 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	@Override
 	public void controlUpdate() {
 	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name=name;
+	}
+
+    @Override
+	public String getSubsystem() {
+		return subsystem;
+	}
+
+	@Override
+	public void setSubsystem(String subsystem) {
+		this.subsystem = subsystem;
+	}
+
+	@Override
+	public void initSendable(SendableBuilder builder) {
+
+	}
+
+    public CBButton setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public CBButton setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
+
 }
