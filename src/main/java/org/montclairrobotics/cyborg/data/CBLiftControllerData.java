@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg.controllers;
+package org.montclairrobotics.cyborg.data;
 
 import org.montclairrobotics.cyborg.utils.CBTarget1D;
 

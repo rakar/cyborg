@@ -1,8 +1,8 @@
 package org.montclairrobotics.cyborg.controllers;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
+import org.montclairrobotics.cyborg.data.CBLiftControllerData;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
