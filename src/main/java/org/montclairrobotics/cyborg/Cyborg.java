@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import org.montclairrobotics.cyborg.behaviors.CBAutonomous;
 import org.montclairrobotics.cyborg.behaviors.CBBehavior;
+import org.montclairrobotics.cyborg.behaviors.CBRule;
 import org.montclairrobotics.cyborg.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.data.CBControlData;
 import org.montclairrobotics.cyborg.data.CBRequestData;
@@ -31,14 +33,10 @@ public abstract class Cyborg extends IterativeRobot {
 	
 	// Data Stores
 	// Data Stores represent high-level meaningful messages
-	//public static CBDriveRequestData driveRequestData;
-	//public static CBDriveControlData driveControlData;
 	public static CBRequestData requestData;
 	public static CBControlData controlData;
 	public static CBLogicData logicData;
 
-
-	
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
 	private ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<>();

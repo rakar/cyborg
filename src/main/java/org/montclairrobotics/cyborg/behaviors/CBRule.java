@@ -1,5 +1,6 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.behaviors;
 
+import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
 /**

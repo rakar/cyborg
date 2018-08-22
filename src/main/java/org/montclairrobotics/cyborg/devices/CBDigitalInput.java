@@ -9,7 +9,6 @@ import org.montclairrobotics.cyborg.simulation.CBWPIDigitalInput;
 public class CBDigitalInput implements CBDevice{
     CBIDigitalInput digitalInput;
 
-
 	public CBDigitalInput(int channel) {
 		if(Cyborg.simulationActive) {
             digitalInput = new CBSimDigitalInput(channel);
