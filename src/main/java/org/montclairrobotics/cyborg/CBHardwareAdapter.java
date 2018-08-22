@@ -30,7 +30,7 @@ public class CBHardwareAdapter extends CBModule {
         joystickCount = joysticks.size();
 	}
 	
-	public void configure() {
+	public void init() {
         for (CBDevice d : devices) {
             d.configure();
         }

@@ -4,7 +4,8 @@ import org.montclairrobotics.cyborg.Cyborg;
 
 public abstract class CBModule {
 	public Cyborg robot;
-	private boolean isActive;
+	protected boolean isActive;
+	protected boolean initialized;
 
 	public boolean IsActive() {
 		return isActive;
@@ -18,4 +19,12 @@ public abstract class CBModule {
 		this.robot = robot;
 	}
 
+	public void moduleInit() {
+	    if (!initialized) {
+	        init();
+	        initialized = true;
+        }
+    }
+
+	public abstract void init();
 }

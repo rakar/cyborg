@@ -9,6 +9,9 @@ public abstract class CBCustomMapper extends CBModule {
 		super(robot);
 	}
 
-	public abstract void update();
+	public void init() {
+	}
 
+	public void update() {
+	}
 }

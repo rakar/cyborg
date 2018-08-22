@@ -12,16 +12,9 @@ public abstract class CBAutonomous extends CBModule {
         super(robot);
     }
 
-	/**
-	 * Called during AutonomousInit
-	 * Used to initialize autonomous code
-	 */
-	public abstract void init();
+    public void init() {
+    }
 
-	/**
-	 * Called during AutonomousPeriodic
-	 * Used for main autonomous code
-	 */
-	public abstract void update();
-
+    public void update() {
+    }
 }

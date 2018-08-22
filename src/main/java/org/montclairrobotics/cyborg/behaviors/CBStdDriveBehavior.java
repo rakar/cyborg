@@ -19,6 +19,7 @@ public class CBStdDriveBehavior extends CBBehavior {
 		gyroLockState = new CBEdgeTrigger();
 	}
 
+
 	public CBStdDriveBehavior setRequestData(CBStdDriveRequestData data) {
 		drd = data;
 		return this;

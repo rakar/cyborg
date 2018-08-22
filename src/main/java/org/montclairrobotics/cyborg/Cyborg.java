@@ -98,129 +98,109 @@ public abstract class Cyborg extends IterativeRobot {
     public final void robotInit() {        	
 		gameMode = CBGameMode.robotInit;
 		table = NetworkTableInstance.getDefault().getTable("GRIP");
-
 		cyborgInit();
-		
 	}
-    
-	public abstract void cyborgTestInit();
-	public abstract void cyborgTestPeriodic();
+
+	private void moduleInit() {
+        // Init input interfaces
+        hardwareAdapter.moduleInit();
+
+        // Init Input Mappers
+        for (CBTeleOpMapper m : this.teleOpMappers) m.moduleInit();
+        for (CBCustomMapper m : this.customMappers) m.moduleInit();
+
+        // Init Rule and Behavior Processors
+        for (CBRule m : this.rules) m.moduleInit();
+        for (CBAutonomous auto : this.autonomice) auto.moduleInit();
+        for (CBBehavior m : this.behaviors) m.moduleInit();
+
+        // Init Output Controllers
+        for (CBRobotController m : this.robotControllers) m.moduleInit();
+    }
+
+    private void robotUpdate() {
+        // Update input interfaces
+        hardwareAdapter.senseUpdate();
+
+        // Update Input Mappers
+        if(gameMode==CBGameMode.teleopPeriodic) {
+            for (CBTeleOpMapper m : this.teleOpMappers) m.update();
+        }
+        for(CBCustomMapper m:this.customMappers) m.update();
+
+        // Update Rule and Behavior Processors
+        for(CBRule m:this.rules) m.update();
+        if(gameMode==CBGameMode.autonomousPeriodic) {
+            for (CBAutonomous auto : this.autonomice) auto.update();
+        }
+        for(CBBehavior m:this.behaviors) m.update();
+
+        // Update Output Controllers
+        for(CBRobotController m:this.robotControllers) m.update();
+
+        // Update output interfaces
+        hardwareAdapter.controlUpdate();
+    }
+
 
     public abstract void cyborgInit();
-	//public abstract void cyborgDisabledInit();
-	//public abstract void cyborgDisabledPeriodic();
-    public abstract void cyborgTeleopInit();
-    
-    
-    
+	public abstract void cyborgDisabledInit();
+    public abstract void cyborgAutonomousInit();
+	public abstract void cyborgTeleopInit();
+	public abstract void cyborgTestInit();
+
+
 	@Override
     public final void autonomousInit() {
 		gameMode = CBGameMode.autonomousInit;
-		for(CBAutonomous auto:this.autonomice) auto.init();
+		cyborgAutonomousInit();
+		//for(CBAutonomous auto:this.autonomice) auto.init();
+        moduleInit();
     }
 
-	@Override
     public final void autonomousPeriodic() {
 		gameMode = CBGameMode.autonomousPeriodic;
-
-		// Update input interfaces
-		hardwareAdapter.senseUpdate();		
-
-		// Update Input Mappers
-		for(CBCustomMapper m:this.customMappers) m.update(); 
-
-		// Autonomous Control
-		for(CBAutonomous auto:this.autonomice) auto.update();
-
-		// Let the robot do it's thing...
-		robotControl();
+		robotUpdate();
     }
 
-    
 	
 	@Override
     public final void teleopInit() {
 		gameMode = CBGameMode.teleopInit;
+		cyborgTeleopInit();
 		runStatistics.teleopInitUpdate();
+		moduleInit();
     }
-
-	/**
-     * This function is called periodically during operator control
-     */
 	@Override
     public final void teleopPeriodic() {
 		gameMode = CBGameMode.teleopPeriodic;		
 		runStatistics.teleopPeriodicUpdate();
-		
 		SmartDashboard.putNumber("cyclesPERsecond", runStatistics.averageCycles);
 
-		// Update input interfaces
-		hardwareAdapter.senseUpdate();
-		
-		// Update Input Mappers
-        // Since we're in teleOp, update all input mappers
-        // (in auto, we only update the customMappers)
-		for(CBTeleOpMapper m:this.teleOpMappers) m.update(); 
-		for(CBCustomMapper m:this.customMappers) m.update();
-
-		// Let the robot do it's thing...
-        // from here on out, the code is identical between
-        // teleOp and auto modes.
-		robotControl();
+		robotUpdate();
     }
-	
-	
+
 	
 	@Override
 	public final void testInit() {
 		gameMode = CBGameMode.testInit;
 		cyborgTestInit();
 	}
-    
-    /**
-     * This function is called periodically during test mode
-     */
 	@Override
     public final void testPeriodic() {
 		gameMode = CBGameMode.testPeriodic;
-		cyborgTestPeriodic();
+        robotUpdate();
     }
 
-
-	private void robotControl() {
-		// Update Rule and Behavior Processors 
-		for(CBRule m:this.rules) m.update(); 
-		for(CBBehavior m:this.behaviors) m.update(); 
-				
-		// Update Output Controllers
-		for(CBRobotController m:this.robotControllers) m.update(); 
-		
-		// Update output interfaces
-		hardwareAdapter.controlUpdate();
-	}
 
 	@Override
     public final void disabledInit() {
 		gameMode = CBGameMode.disabledInit;
-		
-		// Update input interfaces
-		//hardwareAdapter.senseUpdate();
-		
-		// Update Input Mappers
-		//for(CBGeneralMapper m:this.generalMappers) m.update(); 
+		cyborgDisabledInit();
     }
-
-    /**
-     * This function is called periodically during disabled 
-     */
 	@Override
     public final void disabledPeriodic() {
 		gameMode = CBGameMode.disabledPeriodic;
-		
-		// Update input interfaces
-		//hardwareAdapter.senseUpdate();
-		
-		// Update Input Mappers
-		//for(CBGeneralMapper m:this.generalMappers) m.update(); 
+        robotUpdate();
     }
 }

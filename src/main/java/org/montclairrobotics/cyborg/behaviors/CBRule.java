@@ -15,9 +15,9 @@ public abstract class CBRule extends CBModule {
 		super(robot);
 	}
 
-	/**
-	 * Called in every update period.
-	 */
+	public void init() {
+	}
+
 	public void update() {
 	}
 }
