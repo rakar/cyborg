@@ -122,7 +122,7 @@ public class CBEncoder implements CBDevice, CBSource, Sendable {
         setTickConversion(EncodingType.k4X);
         setDistancePerPulse(distancePerPulse);
 	}
-	
+
 	private void setTickConversion(EncodingType encodingType) {
 		switch(encodingType) {
 		case k1X:
@@ -193,7 +193,7 @@ public class CBEncoder implements CBDevice, CBSource, Sendable {
 		return this;
 	}
 	*/
-	
+
 	public CBEncoder setDistancePerPulse(double distancePerPulse) {
 		if (distancePerPulse==0) distancePerPulse=1;
 		this.distancePerPulse = distancePerPulse;
