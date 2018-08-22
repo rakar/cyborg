@@ -150,14 +150,24 @@ public abstract class Cyborg extends IterativeRobot {
 	public abstract void cyborgTestInit();
 
 
+    @Override
+    public final void disabledInit() {
+        gameMode = CBGameMode.disabledInit;
+        cyborgDisabledInit();
+    }
+    @Override
+    public final void disabledPeriodic() {
+        gameMode = CBGameMode.disabledPeriodic;
+        robotUpdate();
+    }
+
+
 	@Override
     public final void autonomousInit() {
 		gameMode = CBGameMode.autonomousInit;
 		cyborgAutonomousInit();
-		//for(CBAutonomous auto:this.autonomice) auto.init();
         moduleInit();
     }
-
     public final void autonomousPeriodic() {
 		gameMode = CBGameMode.autonomousPeriodic;
 		robotUpdate();
@@ -176,7 +186,6 @@ public abstract class Cyborg extends IterativeRobot {
 		gameMode = CBGameMode.teleopPeriodic;		
 		runStatistics.teleopPeriodicUpdate();
 		SmartDashboard.putNumber("cyclesPERsecond", runStatistics.averageCycles);
-
 		robotUpdate();
     }
 
@@ -189,18 +198,6 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void testPeriodic() {
 		gameMode = CBGameMode.testPeriodic;
-        robotUpdate();
-    }
-
-
-	@Override
-    public final void disabledInit() {
-		gameMode = CBGameMode.disabledInit;
-		cyborgDisabledInit();
-    }
-	@Override
-    public final void disabledPeriodic() {
-		gameMode = CBGameMode.disabledPeriodic;
         robotUpdate();
     }
 }
