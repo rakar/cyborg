@@ -27,7 +27,9 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		rotAxis = Cyborg.hardwareAdapter.getDefaultedAxis(rotDeviceID);
 		
 		// Force gyroLock to undefined even though we may set it later ("InitHeavy/RunLight")
-		gyroLock = new CBButton(CBJoystickIndex.undefined()); 
+		if(gyroLock==null) {
+			gyroLock = new CBButton(CBJoystickIndex.undefined());
+		}
 
 		// Set default scale
 		xScale = 1;
