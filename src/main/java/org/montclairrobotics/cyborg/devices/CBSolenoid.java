@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class CBSolenoid implements CBDevice {
+public class CBSolenoid extends CBDeviceInit {
 	String name, subsystem;
 	Solenoid solenoid;
 
@@ -127,7 +127,7 @@ public class CBSolenoid implements CBDevice {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 		// TODO Auto-generated method stub
 	}
 }

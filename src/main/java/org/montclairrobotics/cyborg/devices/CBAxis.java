@@ -17,6 +17,7 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
     double smoothing;
     double lastValue;
     double scale;
+    protected boolean initialized;
 
 
     public CBAxis(CBJoystickIndex joystickIndex) {
@@ -52,8 +53,15 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
         return this;
     }
 
+    public void deviceInit() {
+        if (!initialized) {
+            init();
+            initialized = true;
+        }
+    }
+
     @Override
-    public void configure() {
+    public void init() {
     }
 
     @Override

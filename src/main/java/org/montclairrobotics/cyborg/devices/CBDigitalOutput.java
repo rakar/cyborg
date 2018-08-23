@@ -7,11 +7,11 @@ import org.montclairrobotics.cyborg.simulation.CBIDigitalOutput;
 import org.montclairrobotics.cyborg.simulation.CBSimDigitalOutput;
 import org.montclairrobotics.cyborg.simulation.CBWPIDigitalOutput;
 
-public class CBDigitalOutput implements CBDevice {
+public class CBDigitalOutput extends CBDeviceInit implements CBIDigitalOutput {
 	CBIDigitalOutput digitalOutput;
 
 	public CBDigitalOutput(int channel) {
-		if(Cyborg.simulationActive) {
+		if (Cyborg.simulationActive) {
 			digitalOutput = new CBSimDigitalOutput(channel);
 		} else {
 			digitalOutput = new CBWPIDigitalOutput(channel);
@@ -20,17 +20,17 @@ public class CBDigitalOutput implements CBDevice {
 
 	@Override
 	public void senseUpdate() {
-		
+
 	}
 
 	@Override
 	public void controlUpdate() {
-		
+
 	}
 
 	@Override
-	public void configure() {
-		
+	public void init() {
+
 	}
 
 	@Override
@@ -57,6 +57,21 @@ public class CBDigitalOutput implements CBDevice {
 	@Override
 	public void setSubsystem(String subsystem) {
 		digitalOutput.setSubsystem(subsystem);
+	}
+
+	@Override
+	public void set(boolean value) {
+		digitalOutput.set(value);
+	}
+
+	@Override
+	public boolean get() {
+		return digitalOutput.get();
+	}
+
+	@Override
+	public int getChannel() {
+		return digitalOutput.getChannel();
 	}
 
 	@Override

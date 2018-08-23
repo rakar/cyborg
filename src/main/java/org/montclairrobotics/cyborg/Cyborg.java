@@ -99,6 +99,7 @@ public abstract class Cyborg extends IterativeRobot {
 		gameMode = CBGameMode.robotInit;
 		table = NetworkTableInstance.getDefault().getTable("GRIP");
 		cyborgInit();
+		moduleInit();
 	}
 
 	private void moduleInit() {
@@ -154,6 +155,7 @@ public abstract class Cyborg extends IterativeRobot {
     public final void disabledInit() {
         gameMode = CBGameMode.disabledInit;
         cyborgDisabledInit();
+        moduleInit();
     }
     @Override
     public final void disabledPeriodic() {
@@ -194,6 +196,7 @@ public abstract class Cyborg extends IterativeRobot {
 	public final void testInit() {
 		gameMode = CBGameMode.testInit;
 		cyborgTestInit();
+		moduleInit();
 	}
 	@Override
     public final void testPeriodic() {

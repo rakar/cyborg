@@ -6,12 +6,12 @@ import org.montclairrobotics.cyborg.utils.CBTimingController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CBDashboardChooser<T> implements CBDevice {
+public class CBDashboardChooser<T> extends CBDeviceInit {
 	String name,subsystem;
 	SendableChooser<T> chooser;
 	CBTimingController timer;
 	private T selected;
-	
+
 	public CBDashboardChooser(String name) {
 		this.name = name;
 		timer = new CBTimingController();
@@ -52,7 +52,7 @@ public class CBDashboardChooser<T> implements CBDevice {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 		SmartDashboard.putData(this.name, chooser);		
 	}
 

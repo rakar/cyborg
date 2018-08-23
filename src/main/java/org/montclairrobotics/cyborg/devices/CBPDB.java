@@ -8,19 +8,14 @@ import org.montclairrobotics.cyborg.simulation.CBIPDB;
 import org.montclairrobotics.cyborg.simulation.CBSimPDB;
 import org.montclairrobotics.cyborg.simulation.CBWPIPDB;
 
-public class CBPDB implements CBDevice {
+public class CBPDB extends CBDeviceInit {
 	String name, subsystem;
 
 	int canID;
 	CBIPDB pdb;
 
 	public CBPDB() {
-		canID = 0;
-		if (Cyborg.simulationActive) {
-			pdb = new CBSimPDB();
-		} else {
-			pdb = new CBWPIPDB();
-		}
+		this(0);
 	}
 
 	public CBPDB(int CanID) {
@@ -63,7 +58,7 @@ public class CBPDB implements CBDevice {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 	}
 
 	@Override

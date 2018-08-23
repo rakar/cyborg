@@ -13,6 +13,14 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	private CBJoystickIndex stickIndex;
 	private CBJoystick joystick;
 
+	protected boolean initialized;
+	public void deviceInit() {
+		if (!initialized) {
+			init();
+			initialized = true;
+		}
+	}
+
 
 	public CBButton(CBJoystickIndex joystickIndex) {
 		this(joystickIndex.stickID, joystickIndex.index);
@@ -39,7 +47,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 	}
 
 	@Override

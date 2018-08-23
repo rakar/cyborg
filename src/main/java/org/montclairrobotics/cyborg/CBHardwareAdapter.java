@@ -32,7 +32,7 @@ public class CBHardwareAdapter extends CBModule {
 	
 	public void init() {
         for (CBDevice d : devices) {
-            d.configure();
+            d.deviceInit();
         }
 	}
 		
@@ -69,7 +69,8 @@ public class CBHardwareAdapter extends CBModule {
 		CBDeviceID id = new CBDeviceID();
 		id.ordinal = devices.size();
 		devices.add(device);
-		device.configure();
+		device.init();
+		initialized = false;
 		return id;
 	}
 	
@@ -97,7 +98,7 @@ public class CBHardwareAdapter extends CBModule {
 	public CBContourReport getContourReport(CBDeviceID id) {
 		return (CBContourReport)getDevice(id);
 	}
-		
+
 	public CBDigitalInput getDigitalInput(CBDeviceID id) {
 		return (CBDigitalInput)getDevice(id);
 	}

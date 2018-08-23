@@ -11,23 +11,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public interface CBDevice extends Sendable {
 
 	/**
-	 * Called by the framework to do initial configuration
+	 * Called by framework to do one-time init.
+	 * This routine when implemented is responsible to
+	 * only call init() once.
+	 */
+	public void deviceInit();
+
+	/**
+	 * Called by deviceInit() to do initial configuration
 	 * after all of the devices are created.
 	 */
-    public abstract void configure();
+    public void init();
 
 	/**
 	 * Called by the framework to do input functionality at
 	 * the beginning of each periodic call. Sense data can
 	 * be made available to mappers.
 	 */
-	public abstract void senseUpdate();
+	public void senseUpdate();
 
 	/**
 	 * Called by the framework do do output functionality at
 	 * the end of each periodic call to update hardware devices.
 	 */
-	public abstract void controlUpdate();
+	public void controlUpdate();
 
 
 }

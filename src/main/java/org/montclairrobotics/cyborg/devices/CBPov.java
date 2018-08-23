@@ -8,6 +8,13 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 	private int state;
 	private CBJoystick joystick;
 
+	protected boolean initialized;
+	public void deviceInit() {
+		if (!initialized) {
+			init();
+			initialized = true;
+		}
+	}
 
 	public CBPov(int stickID, int index) {
 		super(stickID, index);
@@ -28,7 +35,7 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.utils.CBTimingController;
 
-public class CBContourReport implements CBDevice{
+public class CBContourReport extends CBDeviceInit{
 	String name,subsystem;
 	NetworkTable table;
 	String baseKey;
@@ -18,7 +18,6 @@ public class CBContourReport implements CBDevice{
 	public int largest = -1;
 	public double centerX = -1;
 	public double centerY = -1;
-
 
 	public CBContourReport(String key) {
 		baseKey = key;
@@ -72,7 +71,7 @@ public class CBContourReport implements CBDevice{
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 		// TODO Auto-generated method stub
 	}
 

@@ -16,7 +16,7 @@ import org.montclairrobotics.cyborg.simulation.CBSrxEncoder;
 import org.montclairrobotics.cyborg.simulation.CBWPIEncoder;
 import org.montclairrobotics.cyborg.utils.CBSource;
 
-public class CBEncoder implements CBDevice, CBSource {
+public class CBEncoder extends CBDeviceInit implements CBSource {
 	private CBIEncoder encoder;
 	private int edgeValue =0;
 	private int pulseValue = 0;
@@ -360,6 +360,6 @@ public class CBEncoder implements CBDevice, CBSource {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 	}
 }

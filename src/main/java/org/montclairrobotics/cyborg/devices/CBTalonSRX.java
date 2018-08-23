@@ -87,7 +87,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	}
 
 	@Override
-	public void configure() {
+	public void init() {
 
 	}
 

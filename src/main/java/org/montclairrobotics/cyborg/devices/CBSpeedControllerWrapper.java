@@ -95,10 +95,10 @@ public class CBSpeedControllerWrapper extends CBSpeedController implements CBDev
 	}
 
 	/* (non-Javadoc)
-	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#configure()
+	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#init()
 	 */
 	@Override
-	public void configure() {
+	public void init() {
 		// TODO Auto-generated method stub
 		
 	}
