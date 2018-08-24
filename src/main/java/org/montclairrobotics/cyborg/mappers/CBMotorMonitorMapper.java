@@ -8,7 +8,7 @@ import org.montclairrobotics.cyborg.devices.CBSpeedControllerFault;
 
 import java.util.ArrayList;
 
-public class CBMotorMonitorMapper extends CBCustomMapper {
+public class CBMotorMonitorMapper extends CBSensorMapper {
     ArrayList<CBSpeedController> controllers = new ArrayList();
 
     public CBMotorMonitorMapper(Cyborg robot) {

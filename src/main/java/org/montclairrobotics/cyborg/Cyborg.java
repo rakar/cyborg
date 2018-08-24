@@ -11,7 +11,7 @@ import org.montclairrobotics.cyborg.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.data.CBControlData;
 import org.montclairrobotics.cyborg.data.CBRequestData;
 import org.montclairrobotics.cyborg.data.CBLogicData;
-import org.montclairrobotics.cyborg.mappers.CBCustomMapper;
+import org.montclairrobotics.cyborg.mappers.CBSensorMapper;
 import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.utils.CBRunStatistics;
 
@@ -40,7 +40,7 @@ public abstract class Cyborg extends IterativeRobot {
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
 	private ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<>();
-	private ArrayList<CBCustomMapper> customMappers = new ArrayList<>();
+	private ArrayList<CBSensorMapper> sensorMappers = new ArrayList<>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
 	private ArrayList<CBRobotController> robotControllers = new ArrayList<>();
 	
@@ -65,8 +65,8 @@ public abstract class Cyborg extends IterativeRobot {
 		return this;
 	}
 	
-	public Cyborg addCustomMapper(CBCustomMapper mapper) {
-		customMappers.add(mapper);
+	public Cyborg addCustomMapper(CBSensorMapper mapper) {
+		sensorMappers.add(mapper);
 		return this;
 	}
 	
@@ -108,7 +108,7 @@ public abstract class Cyborg extends IterativeRobot {
 
         // Init Input Mappers
         for (CBTeleOpMapper m : this.teleOpMappers) m.moduleInit();
-        for (CBCustomMapper m : this.customMappers) m.moduleInit();
+        for (CBSensorMapper m : this.sensorMappers) m.moduleInit();
 
         // Init Rule and Behavior Processors
         for (CBRule m : this.rules) m.moduleInit();
@@ -127,7 +127,7 @@ public abstract class Cyborg extends IterativeRobot {
         if(gameMode==CBGameMode.teleopPeriodic) {
             for (CBTeleOpMapper m : this.teleOpMappers) m.update();
         }
-        for(CBCustomMapper m:this.customMappers) m.update();
+        for(CBSensorMapper m:this.sensorMappers) m.update();
 
         // Update Rule and Behavior Processors
         for(CBRule m:this.rules) m.update();
