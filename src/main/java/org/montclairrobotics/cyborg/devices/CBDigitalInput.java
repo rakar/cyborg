@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.simulation.CBIDigitalInput;
 import org.montclairrobotics.cyborg.simulation.CBSimDigitalInput;
 import org.montclairrobotics.cyborg.simulation.CBWPIDigitalInput;
 
-public class CBDigitalInput extends CBDeviceInit implements CBIDigitalInput{
+public class CBDigitalInput implements CBIDigitalInput, CBDevice{
     CBIDigitalInput digitalInput;
 
 	public CBDigitalInput(int channel) {
@@ -60,15 +60,25 @@ public class CBDigitalInput extends CBDeviceInit implements CBIDigitalInput{
         return this;
     }
 
+    @Override
+    public CBDeviceControl getDeviceControl() {
+        return deviceControl;
+    }
 
+    CBDeviceControl deviceControl = new CBDeviceControl() {
+        @Override
+        void init() {
 
-    public void senseUpdate() {
-	}
+        }
 
-	public void controlUpdate() {
-	}
+        @Override
+        void senseUpdate() {
 
-	public void init() {
-	}
+        }
 
+        @Override
+        void controlUpdate() {
+
+        }
+    };
 }

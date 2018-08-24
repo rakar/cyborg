@@ -1,12 +1,11 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.hal.SolenoidJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class CBSolenoid extends CBDeviceInit {
+public class CBSolenoid implements CBDevice {
 	String name, subsystem;
 	Solenoid solenoid;
 
@@ -114,20 +113,25 @@ public class CBSolenoid extends CBDeviceInit {
 		return this;
 	}
 
-
-
 	@Override
-	public void senseUpdate() {
-		// TODO Auto-generated method stub
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
 	}
 
-	@Override
-	public void controlUpdate() {
-		// TODO Auto-generated method stub
-	}
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		void init() {
 
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-	}
+		}
+
+		@Override
+		void senseUpdate() {
+
+		}
+
+		@Override
+		void controlUpdate() {
+
+		}
+	};
 }

@@ -115,12 +115,25 @@ public class CBTalon extends CBSpeedController implements CBDevice {
 		return talon.toString();
 	}
 
-	public void init() {
+	@Override
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
 	}
 
-	public void senseUpdate() {
-	}
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		void init() {
 
-	public void controlUpdate() {
-	}
+		}
+
+		@Override
+		void senseUpdate() {
+
+		}
+
+		@Override
+		void controlUpdate() {
+
+		}
+	};
 }

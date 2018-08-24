@@ -16,7 +16,7 @@ import org.montclairrobotics.cyborg.simulation.CBSrxEncoder;
 import org.montclairrobotics.cyborg.simulation.CBWPIEncoder;
 import org.montclairrobotics.cyborg.utils.CBSource;
 
-public class CBEncoder extends CBDeviceInit implements CBSource {
+public class CBEncoder implements CBSource, CBDevice {
 	private CBIEncoder encoder;
 	private int edgeValue =0;
 	private int pulseValue = 0;
@@ -87,7 +87,7 @@ public class CBEncoder extends CBDeviceInit implements CBSource {
 
 
 
-    public class CBIndexEntry {
+	public class CBIndexEntry {
 		CBDigitalInput trigger;
 		CBDeviceID triggerId;
 		boolean activeState;
@@ -316,50 +316,57 @@ public class CBEncoder extends CBDeviceInit implements CBSource {
 		lastUpdate=currentTimeMillis();
 		return this;
 	}
-	
+
 	@Override
-	public void senseUpdate() {
-	    this.lastEdgeValue = edgeValue;
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
+	}
+
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		public void init() {
+		}
+
+		@Override
+		public void senseUpdate() {
+			lastEdgeValue = edgeValue;
 
 
-	    this.edgeValue = reversedScale*encoder.getRaw();
-	    this.pulseValue = edgeValue /edgesPerPulse;
-	    this.distanceValue = pulseValue*distancePerPulse;
-	    offEdgeValue = edgeValue+offsetEdges;
-	    offPulseValue = offEdgeValue/edgesPerPulse;
-	    offDistanceValue = offPulseValue*distancePerPulse;
+			edgeValue = reversedScale*encoder.getRaw();
+			pulseValue = edgeValue /edgesPerPulse;
+			distanceValue = pulseValue*distancePerPulse;
+			offEdgeValue = edgeValue+offsetEdges;
+			offPulseValue = offEdgeValue/edgesPerPulse;
+			offDistanceValue = offPulseValue*distancePerPulse;
 
-        //SmartDashboard.putNumber("sense encoder edges", edgeValue);
-        //SmartDashboard.putNumber("sense encoder offsetEdges", offsetEdges);
-        //SmartDashboard.putNumber("sense encoder offEdgeVal", offEdgeValue);
+			//SmartDashboard.putNumber("sense encoder edges", edgeValue);
+			//SmartDashboard.putNumber("sense encoder offsetEdges", offsetEdges);
+			//SmartDashboard.putNumber("sense encoder offEdgeVal", offEdgeValue);
 
-        long now = currentTimeMillis();
-	    if(lastUpdate==0) {
-	        ms=0;
-        } else {
-	        ms = now-lastUpdate;
-        }
-        lastUpdate = now;
+			long now = currentTimeMillis();
+			if(lastUpdate==0) {
+				ms=0;
+			} else {
+				ms = now-lastUpdate;
+			}
+			lastUpdate = now;
 
-        if(ms==0) {
-	        pulseRate = 0;
-        } else {
-            pulseRate = (pulseValue - lastPulseValue) * 1000 / ms;
-        }
-	    speed = pulseRate*distancePerPulse;
+			if(ms==0) {
+				pulseRate = 0;
+			} else {
+				pulseRate = (pulseValue - lastPulseValue) * 1000 / ms;
+			}
+			speed = pulseRate*distancePerPulse;
 
-		for(CBIndexEntry i:indexEntries) {
-			if(i.trigger.get()==i.activeState) {
-				setDistance(i.distance);
+			for(CBIndexEntry i:indexEntries) {
+				if(i.trigger.get()==i.activeState) {
+					setDistance(i.distance);
+				}
 			}
 		}
-	}
 
-	@Override
-	public void controlUpdate() {
-	}
-
-	@Override
-	public void init() {
-	}
+		@Override
+		public void controlUpdate() {
+		}
+	};
 }

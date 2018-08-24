@@ -11,6 +11,7 @@ import org.montclairrobotics.cyborg.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.data.CBControlData;
 import org.montclairrobotics.cyborg.data.CBRequestData;
 import org.montclairrobotics.cyborg.data.CBLogicData;
+import org.montclairrobotics.cyborg.devices.CBHardwareAdapter;
 import org.montclairrobotics.cyborg.mappers.CBSensorMapper;
 import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.utils.CBRunStatistics;

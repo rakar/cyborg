@@ -1,9 +1,9 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.devices;
 
 
 import java.util.ArrayList;
 
-import org.montclairrobotics.cyborg.devices.*;
+import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.utils.CBModule;
 
 /**
@@ -32,19 +32,19 @@ public class CBHardwareAdapter extends CBModule {
 	
 	public void init() {
         for (CBDevice d : devices) {
-            d.deviceInit();
+            d.getDeviceControl().deviceInit();
         }
 	}
 		
 	public void senseUpdate() {
         for (CBDevice d : devices) {
-            d.senseUpdate();
+            d.getDeviceControl().senseUpdate();
         }
 	}
 	
 	public void controlUpdate() {
         for (CBDevice d : devices) {
-            d.controlUpdate();
+            d.getDeviceControl().controlUpdate();
         }
 	}
 
@@ -69,7 +69,7 @@ public class CBHardwareAdapter extends CBModule {
 		CBDeviceID id = new CBDeviceID();
 		id.ordinal = devices.size();
 		devices.add(device);
-		device.init();
+		//device.getDeviceControl().deviceInit(); // I don't think this should happen with the other init calls.
 		initialized = false;
 		return id;
 	}

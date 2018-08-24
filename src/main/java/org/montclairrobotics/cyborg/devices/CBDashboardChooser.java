@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.utils.CBTimingController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CBDashboardChooser<T> extends CBDeviceInit {
+public class CBDashboardChooser<T> implements CBDevice {
 	String name,subsystem;
 	SendableChooser<T> chooser;
 	CBTimingController timer;
@@ -39,23 +39,6 @@ public class CBDashboardChooser<T> extends CBDeviceInit {
 	}
 	
 
-	@Override
-	public void senseUpdate() {
-		if(chooser!=null) {
-			selected = (T)chooser.getSelected();
-		}
-	}
-
-	@Override
-	public void controlUpdate() {
-		
-	}
-
-	@Override
-	public void init() {
-		SmartDashboard.putData(this.name, chooser);		
-	}
-
     @Override
     public String getName() {
         return name;
@@ -80,4 +63,28 @@ public class CBDashboardChooser<T> extends CBDeviceInit {
     public void initSendable(SendableBuilder builder) {
 
     }
+
+	@Override
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
+	}
+
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		public void init() {
+			SmartDashboard.putData(name, chooser);
+		}
+
+		@Override
+		public void senseUpdate() {
+			if(chooser!=null) {
+				selected = chooser.getSelected();
+			}
+		}
+
+		@Override
+		public void controlUpdate() {
+
+		}
+	};
 }

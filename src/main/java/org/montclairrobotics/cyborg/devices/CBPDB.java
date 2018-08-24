@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.simulation.CBIPDB;
 import org.montclairrobotics.cyborg.simulation.CBSimPDB;
 import org.montclairrobotics.cyborg.simulation.CBWPIPDB;
 
-public class CBPDB extends CBDeviceInit {
+public class CBPDB implements CBDevice {
 	String name, subsystem;
 
 	private int canID;
@@ -56,18 +56,6 @@ public class CBPDB extends CBDeviceInit {
 	}
 
 	@Override
-	public void init() {
-	}
-
-	@Override
-	public void senseUpdate() {
-	}
-
-	@Override
-	public void controlUpdate() {
-	}
-
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -102,4 +90,25 @@ public class CBPDB extends CBDeviceInit {
 		return this;
 	}
 
+    @Override
+    public CBDeviceControl getDeviceControl() {
+        return deviceControl;
+    }
+
+    CBDeviceControl deviceControl = new CBDeviceControl() {
+        @Override
+        void init() {
+
+        }
+
+        @Override
+        void senseUpdate() {
+
+        }
+
+        @Override
+        void controlUpdate() {
+
+        }
+    };
 }

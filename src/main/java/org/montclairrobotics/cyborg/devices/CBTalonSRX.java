@@ -76,21 +76,6 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
         }
     }
 
-    @Override
-	public void senseUpdate() {
-
-	}
-
-	@Override
-	public void controlUpdate() {
-
-	}
-
-	@Override
-	public void init() {
-
-	}
-
 	/*
 	@Override
 	public String getName() {
@@ -1076,4 +1061,26 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
 	public ControlMode getControlMode() {
 		return talon.getControlMode();
 	}
+
+	@Override
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
+	}
+
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		void init() {
+
+		}
+
+		@Override
+		void senseUpdate() {
+
+		}
+
+		@Override
+		void controlUpdate() {
+
+		}
+	};
 }

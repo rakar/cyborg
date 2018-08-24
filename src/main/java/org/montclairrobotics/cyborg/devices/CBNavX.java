@@ -5,7 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
-public class CBNavX extends CBDeviceInit {
+public class CBNavX implements CBDevice {
     String name, subsystem;
 
     // AHRS reference from wherever NavXGyro is initialized 
@@ -38,20 +38,6 @@ public class CBNavX extends CBDeviceInit {
         ahrs.zeroYaw();
     }
 
-    @Override
-    public void senseUpdate() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void controlUpdate() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void init() {
-        // TODO Auto-generated method stub
-    }
 
     @Override
     public String getName() {
@@ -88,4 +74,25 @@ public class CBNavX extends CBDeviceInit {
         return this;
     }
 
+    @Override
+    public CBDeviceControl getDeviceControl() {
+        return deviceControl;
+    }
+
+    CBDeviceControl deviceControl = new CBDeviceControl() {
+        @Override
+        void init() {
+
+        }
+
+        @Override
+        void senseUpdate() {
+
+        }
+
+        @Override
+        void controlUpdate() {
+
+        }
+    };
 }

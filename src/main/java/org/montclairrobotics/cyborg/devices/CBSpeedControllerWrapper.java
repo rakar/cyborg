@@ -76,31 +76,27 @@ public class CBSpeedControllerWrapper extends CBSpeedController implements CBDev
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#senseUpdate()
-	 */
 	@Override
-	public void senseUpdate() {
-		// TODO Auto-generated method stub
-		
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#controlUpdate()
-	 */
-	@Override
-	public void controlUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		void init() {
 
-	/* (non-Javadoc)
-	 * @see org.montclairrobotics.cyborg.devices.CBSpeedController#init()
-	 */
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+		}
+
+		@Override
+		void senseUpdate() {
+
+		}
+
+		@Override
+		void controlUpdate() {
+
+		}
+	};
+
+
 }

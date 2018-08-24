@@ -7,7 +7,7 @@ import org.montclairrobotics.cyborg.Cyborg;
 /**
  * Represents a generic speed controller.
  */
-public abstract class CBSpeedController extends CBDeviceInit {
+public abstract class CBSpeedController implements CBDevice {
     String name,subsystem;
     protected CBPDB pdb;
     protected int pdbChannel;

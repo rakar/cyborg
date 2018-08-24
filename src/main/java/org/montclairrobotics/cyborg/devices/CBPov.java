@@ -8,14 +8,6 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 	private int state;
 	private CBJoystick joystick;
 
-	protected boolean initialized;
-	public void deviceInit() {
-		if (!initialized) {
-			init();
-			initialized = true;
-		}
-	}
-
 	public CBPov(int stickID, int index) {
 		super(stickID, index);
 		joystick = Cyborg.hardwareAdapter.getJoystick(stickID);
@@ -23,19 +15,6 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	public int get() {
 		return state;
-	}
-
-	@Override
-	public void senseUpdate() {
-		state = joystick.getPOV(index);
-	}
-
-	@Override
-	public void controlUpdate() {
-	}
-
-	@Override
-	public void init() {
 	}
 
 	@Override
@@ -60,7 +39,6 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 
 	@Override
 	public void initSendable(SendableBuilder builder) {
-
 	}
 
 	public CBPov setDeviceName(String name) {
@@ -73,4 +51,23 @@ public class CBPov extends CBJoystickIndex implements CBDevice {
 		return this;
 	}
 
+	@Override
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
+	}
+
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		public void init() {
+		}
+
+		@Override
+		public void senseUpdate() {
+			state = joystick.getPOV(index);
+		}
+
+		@Override
+		public void controlUpdate() {
+		}
+	};
 }

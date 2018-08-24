@@ -1,13 +1,12 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.simulation.CBIDigitalOutput;
 import org.montclairrobotics.cyborg.simulation.CBSimDigitalOutput;
 import org.montclairrobotics.cyborg.simulation.CBWPIDigitalOutput;
 
-public class CBDigitalOutput extends CBDeviceInit implements CBIDigitalOutput {
+public class CBDigitalOutput implements CBIDigitalOutput, CBDevice {
 	CBIDigitalOutput digitalOutput;
 
 	public CBDigitalOutput(int channel) {
@@ -16,21 +15,6 @@ public class CBDigitalOutput extends CBDeviceInit implements CBIDigitalOutput {
 		} else {
 			digitalOutput = new CBWPIDigitalOutput(channel);
 		}
-	}
-
-	@Override
-	public void senseUpdate() {
-
-	}
-
-	@Override
-	public void controlUpdate() {
-
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	@Override
@@ -89,4 +73,25 @@ public class CBDigitalOutput extends CBDeviceInit implements CBIDigitalOutput {
 		return this;
 	}
 
+	@Override
+	public CBDeviceControl getDeviceControl() {
+		return deviceControl;
+	}
+
+	CBDeviceControl deviceControl = new CBDeviceControl() {
+		@Override
+		public void init() {
+
+		}
+
+		@Override
+		public void senseUpdate() {
+
+		}
+
+		@Override
+		public void controlUpdate() {
+
+		}
+	};
 }

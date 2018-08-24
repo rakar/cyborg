@@ -3,10 +3,6 @@ package org.montclairrobotics.cyborg.devices;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 
-import edu.wpi.first.wpilibj.Joystick;
-import org.montclairrobotics.cyborg.simulation.CBIJoystick;
-import org.montclairrobotics.cyborg.simulation.CBSimJoystick;
-
 public class CBAxis extends CBJoystickIndex implements CBDevice {
     String name, subsystem;
 
@@ -53,35 +49,14 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
         return this;
     }
 
-    public void deviceInit() {
-        if (!initialized) {
-            init();
-            initialized = true;
-        }
+    public CBAxis setDeviceName(String name) {
+        setName(name);
+        return this;
     }
 
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void senseUpdate() {
-        lastValue = value;
-
-        if (this.isDefined()) {
-            rawValue = scale * joystick.getRawAxis(index);
-        } else {
-            rawValue = 0;
-        }
-
-        // smoothing: 0 => none, 1 => no change
-        value = rawValue - (rawValue - lastValue) * smoothing;
-
-        if (Math.abs(value) < deadzone) value = 0.0;
-    }
-
-    @Override
-    public void controlUpdate() {
+    public CBAxis setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
     }
 
     public double get() {
@@ -91,7 +66,6 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
     public double getRaw() {
         return value;
     }
-
 
     @Override
     public String getName() {
@@ -103,15 +77,6 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
         this.name = name;
     }
 
-    public CBAxis setDeviceName(String name) {
-        setName(name);
-        return this;
-    }
-
-    public CBAxis setDeviceName(String subsystem, String name) {
-        setName(subsystem, name);
-        return this;
-    }
 
     @Override
     public String getSubsystem() {
@@ -127,4 +92,36 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
     public void initSendable(SendableBuilder builder) {
 
     }
+
+    @Override
+    public CBDeviceControl getDeviceControl() {
+        return deviceControl;
+    }
+
+    //CBAxis outer = this;
+    private CBDeviceControl deviceControl = new CBDeviceControl() {
+        @Override
+        public void init() {
+        }
+
+        @Override
+        public void senseUpdate() {
+            lastValue = value;
+
+            if (isDefined()) {
+                rawValue = scale * joystick.getRawAxis(index);
+            } else {
+                rawValue = 0;
+            }
+
+            // smoothing: 0 => none, 1 => no change
+            value = rawValue - (rawValue - lastValue) * smoothing;
+
+            if (Math.abs(value) < deadzone) value = 0.0;
+        }
+
+        @Override
+        public void controlUpdate() {
+        }
+    };
 }
