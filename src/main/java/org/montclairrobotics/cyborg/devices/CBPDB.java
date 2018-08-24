@@ -1,8 +1,6 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.tables.ITable;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.simulation.CBIPDB;
 import org.montclairrobotics.cyborg.simulation.CBSimPDB;
@@ -11,8 +9,8 @@ import org.montclairrobotics.cyborg.simulation.CBWPIPDB;
 public class CBPDB extends CBDeviceInit {
 	String name, subsystem;
 
-	int canID;
-	CBIPDB pdb;
+	private int canID;
+	private CBIPDB pdb;
 
 	public CBPDB() {
 		this(0);
