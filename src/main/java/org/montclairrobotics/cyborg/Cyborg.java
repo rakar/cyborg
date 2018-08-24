@@ -86,7 +86,7 @@ public abstract class Cyborg extends IterativeRobot {
 	}
 	
 	public Cyborg addAutonomous(CBAutonomous autonomous) {
-		this.autonomice.add(autonomous);
+		autonomice.add(autonomous);
 		return this;
 	}
 	
