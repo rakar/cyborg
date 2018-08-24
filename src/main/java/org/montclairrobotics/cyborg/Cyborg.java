@@ -65,7 +65,7 @@ public abstract class Cyborg extends IterativeRobot {
 		return this;
 	}
 	
-	public Cyborg addCustomMapper(CBSensorMapper mapper) {
+	public Cyborg addSensorMapper(CBSensorMapper mapper) {
 		sensorMappers.add(mapper);
 		return this;
 	}
