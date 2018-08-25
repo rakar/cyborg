@@ -76,17 +76,6 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
         }
     }
 
-	/*
-	@Override
-	public String getName() {
-		String name = super.getName();
-		if(name=="") {
-			name = "CAN:"+Integer.toString(canChannel)+" PDB:"+Integer.toString(pdbChannel);
-		}
-		return name;
-	}
-	*/
-
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
 		return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);
 	}
