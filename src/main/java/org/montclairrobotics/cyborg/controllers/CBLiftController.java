@@ -2,7 +2,7 @@ package org.montclairrobotics.cyborg.controllers;
 
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.assemblies.CBSpeedControllerArrayController;
-import org.montclairrobotics.cyborg.data.CBLiftControllerData;
+import org.montclairrobotics.cyborg.data.CBLiftControlData;
 import org.montclairrobotics.cyborg.devices.CBDeviceID;
 import org.montclairrobotics.cyborg.devices.CBDigitalInput;
 import org.montclairrobotics.cyborg.devices.CBEncoder;
@@ -40,7 +40,7 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
  * All limits, margins, and targets use the encoder
  * getDistance values.
  *
- * The lift controller must be attached to a CBLiftControllerData object
+ * The lift controller must be attached to a CBLiftControlData object
  * using the setControlData method. This data object contains all of the soft
  * limits, margins, and targets, as well as the normal and slow speed values,
  * and the up/down request values. These up and down request values
@@ -60,7 +60,7 @@ public class CBLiftController extends CBRobotController {
     boolean bottomLimit;
     boolean encoderClean;
     CBLiftStateMachine sm;
-    CBLiftControllerData cd;
+    CBLiftControlData cd;
 
     // external
     CBErrorCorrection errorCorrection;
@@ -257,7 +257,7 @@ public class CBLiftController extends CBRobotController {
         sm = new CBLiftStateMachine();
     }
 
-    public CBLiftController setData(CBLiftControllerData data) {
+    public CBLiftController setData(CBLiftControlData data) {
         cd = data;
         return this;
     }

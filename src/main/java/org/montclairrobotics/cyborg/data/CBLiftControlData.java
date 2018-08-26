@@ -2,7 +2,7 @@ package org.montclairrobotics.cyborg.data;
 
 import org.montclairrobotics.cyborg.utils.CBTarget1D;
 
-public class CBLiftControllerData {
+public class CBLiftControlData {
     /**
      * Request the lift move Up
      */
@@ -55,7 +55,7 @@ public class CBLiftControllerData {
     public double normDown;
 
 
-    public CBLiftControllerData() {
+    public CBLiftControlData() {
         target = new CBTarget1D();
         topMargin = new CBTarget1D();
         bottomMargin = new CBTarget1D();
