@@ -85,8 +85,6 @@ public class CBEncoder implements CBSource, CBDevice {
         return this;
     }
 
-
-
 	public class CBIndexEntry {
 		CBDigitalInput trigger;
 		CBDeviceID triggerId;
@@ -245,7 +243,6 @@ public class CBEncoder implements CBSource, CBDevice {
                 return 0;
         }
     }
-
 
 	/*
 	public CBEncoder setSamplesToAverage(int samplesToAverage) {

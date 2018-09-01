@@ -36,7 +36,7 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
  * When the bottom limit switch is triggered the encoder is reset to 0
  * or if a bottom encoder limit is active, the encoder is set to that
  * value and then the encoder is considered valid.
-
+ *
  * All limits, margins, and targets use the encoder
  * getDistance values.
  *
@@ -47,7 +47,8 @@ import org.montclairrobotics.cyborg.utils.CBStateMachine;
  * are used to control the lift.
  *
  * Additionally, if the target is set active
- * the lift will move to the desired height, overriding the
+ * the lift will move to the desired height,
+ * but will be overridden by the
  * up/down requests.
  */
 public class CBLiftController extends CBRobotController {
