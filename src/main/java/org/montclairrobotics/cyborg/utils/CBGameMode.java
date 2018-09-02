@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.utils;
 
 /**
  * Defines the constants used to indicate the different

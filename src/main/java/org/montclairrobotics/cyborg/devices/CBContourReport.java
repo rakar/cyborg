@@ -74,7 +74,7 @@ public class CBContourReport implements CBDevice {
 	CBDeviceControl deviceControl = new CBDeviceControl() {
 		@Override
 		public void senseUpdate() {
-			if(timer.update()) {
+			if(timer.update().getState()) {
 				area = table.getEntry("area").getDoubleArray(new double[0]);
 				if (area.length>0) {
 					widthArray = table.getEntry("width").getDoubleArray(new double[0]);
@@ -83,7 +83,7 @@ public class CBContourReport implements CBDevice {
 					centerYArray = table.getEntry("centerY").getDoubleArray(new double[0]);
 				} else {
 					if (widthArray.length>0) {
-						widthArray =  new double[0];
+						widthArray = new double[0];
 						heightArray = new double[0];
 						centerXArray = new double[0];
 						centerYArray = new double[0];

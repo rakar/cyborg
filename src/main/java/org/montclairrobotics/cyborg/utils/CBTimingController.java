@@ -9,7 +9,7 @@ import org.montclairrobotics.cyborg.Cyborg;
  * to update dashboard values.
  * @author Rich Kopelow
  */
-public class CBTimingController {
+public class CBTimingController extends CBEdgeTrigger {
 
 	private int timingMode;
 	private int timingDelay; 
@@ -39,7 +39,7 @@ public class CBTimingController {
      * periods of a match.
      * @return true/false
      */
-	public boolean update() {
+	public CBTimingController update() {
 		boolean res = false;
 		if((Cyborg.gameMode & timingMode)!=0 ) {
 			timingCount--;
@@ -48,6 +48,7 @@ public class CBTimingController {
 				timingCount = timingDelay;
 			}
 		}
-		return res;
+		super.update(res);
+		return this;
 	}
 }

@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg;
+package org.montclairrobotics.cyborg.simulation;
 
 import org.montclairrobotics.cyborg.simulation.*;
 
