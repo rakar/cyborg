@@ -206,4 +206,8 @@ public abstract class Cyborg extends IterativeRobot {
 		gameMode = CBGameMode.testPeriodic;
         robotUpdate();
     }
+
+    public static boolean isGameMode(int gameMode) {
+    	return (Cyborg.gameMode & gameMode)!=0;
+	}
 }
