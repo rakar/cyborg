@@ -16,6 +16,7 @@ public abstract class CBStateMachine<T> {
 	protected T nextState;
 	protected int cyclesInState; 
 	private long stateStartTime;
+    private boolean firstUpdate = true;
 
 	/**
 	 * Duration of the current state in seconds.
@@ -59,28 +60,35 @@ public abstract class CBStateMachine<T> {
 	}
 	
 	public void update() {
-		if(stateStartTime==0) {
-			stateStartTime = new Date().getTime();
-		}
-		doCurrentState();
+		if(firstUpdate) {
+            stateStartTime = new Date().getTime();
+            doCurrentState();
+        }
+		// update seconds in state for use by calcNextState()
 		secondsInState = (new Date().getTime()-stateStartTime)/1000.0;
+		// set default next state in case calcNextState() does nothing
 		nextState=currentState;
 		calcNextState();
 		loop = currentState!=nextState;
-		while(loop) {
-			cyclesInState = 0;
-			stateStartTime = new Date().getTime();
-			secondsInState = 0;
-			doTransition();
-			currentState=nextState;
-			doCurrentState();
-            loop = loopMode;
-			if(loop) {
-                calcNextState();
-                loop = (currentState != nextState);
+		if(!loop && !firstUpdate) {
+            doCurrentState();
+        } else {
+            while (loop) {
+                stateStartTime = new Date().getTime();
+                cyclesInState = 0;
+                secondsInState = 0;
+                doTransition();
+                currentState = nextState;
+                doCurrentState();
+                loop = loopMode;
+                if (loop) {
+                    calcNextState();
+                    loop = (currentState != nextState);
+                }
             }
-		}
+        }
         cyclesInState++;
+		firstUpdate = false;
 	}
 	
 	public CBStateMachine<T> exit()
