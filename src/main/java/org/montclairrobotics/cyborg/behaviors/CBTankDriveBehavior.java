@@ -6,16 +6,26 @@ import org.montclairrobotics.cyborg.data.CBStdDriveControlData;
 import org.montclairrobotics.cyborg.data.CBStdDriveRequestData;
 import org.montclairrobotics.cyborg.data.CBTankDriveRequestData;
 
+@Deprecated
 public class CBTankDriveBehavior extends CBBehavior {
 
 	CBTankDriveRequestData drd;
 	CBDifferentialDriveControlData dcd;
 
 
-	public CBTankDriveBehavior(Cyborg robot) {
+	public CBTankDriveBehavior(Cyborg robot, CBTankDriveRequestData requestData, CBDifferentialDriveControlData controlData) {
 		super(robot);
-		setRequestData((CBTankDriveRequestData)Cyborg.requestData.driveData);
-		setControlData((CBDifferentialDriveControlData)Cyborg.controlData.driveData);
+        drd = requestData;
+        dcd = controlData;
+		//setRequestData((CBTankDriveRequestData)Cyborg.requestData.driveData);
+		//setControlData((CBDifferentialDriveControlData)Cyborg.controlData.driveData);
+	}
+
+	/*
+	public CBTankDriveBehavior setData(CBTankDriveRequestData requestData, CBDifferentialDriveControlData controlData) {
+		drd = requestData;
+		dcd = controlData;
+		return this;
 	}
 
 	public CBTankDriveBehavior setRequestData(CBTankDriveRequestData data) {
@@ -27,6 +37,7 @@ public class CBTankDriveBehavior extends CBBehavior {
 		dcd = data;
 		return this;
 	}
+	*/
 
 	@Override
 	public void update() {

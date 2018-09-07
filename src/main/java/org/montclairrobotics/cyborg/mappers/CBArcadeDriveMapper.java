@@ -13,11 +13,12 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 	private CBAxis fwdAxis, strAxis, rotAxis;
 	private CBButton gyroLock; 
 	private double  xScale, yScale, rScale;
-	private CBDriveRequestData driveRequestData;
+	private CBStdDriveRequestData drd;
 
-	public CBArcadeDriveMapper(Cyborg robot) {
+	public CBArcadeDriveMapper(Cyborg robot, CBStdDriveRequestData requestData) {
 		super(robot);
-		setRequestData(Cyborg.requestData.driveData);
+		//setRequestData(Cyborg.requestData.driveData);
+		drd = requestData;
 	}
 
 	public CBArcadeDriveMapper setAxes(CBDeviceID fwdDeviceID, CBDeviceID strDeviceID, CBDeviceID rotDeviceID) {
@@ -39,10 +40,12 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 		return this;
 	}
 
+	/*
 	public CBArcadeDriveMapper setRequestData(CBDriveRequestData data) {
-		driveRequestData = data;
+		drd = data;
 		return this;
 	}
+	*/
 
 	public CBArcadeDriveMapper setGyroLockButton(CBDeviceID buttonDeviceID) {
 		this.gyroLock = Cyborg.hardwareAdapter.getDefaultedButton(buttonDeviceID);
@@ -58,16 +61,11 @@ public class CBArcadeDriveMapper extends CBTeleOpMapper {
 
 	@Override
 	public void update() {
-		if(driveRequestData instanceof CBStdDriveRequestData) {
-			CBStdDriveRequestData drd = (CBStdDriveRequestData)driveRequestData;
-			drd.active = true;
-			drd.direction.setXY(xScale*strAxis.get(), yScale*fwdAxis.get()); 
-			drd.rotation = rScale*rotAxis.get(); 
-			drd.gyroLockActive = gyroLock.getState();
-			SmartDashboard.putNumber("Mapper speed:", drd.direction.getY());
-		} else {
-			driveRequestData.active = false; // If we don't know what type of request it is shut down drive
-            throw new RuntimeException("Unknown driveRequestData type in CBArcadeDriveMapper.");
-		}
-	}
+        CBStdDriveRequestData drd = (CBStdDriveRequestData) this.drd;
+        drd.active = true;
+        drd.direction.setXY(xScale * strAxis.get(), yScale * fwdAxis.get());
+        drd.rotation = rScale * rotAxis.get();
+        drd.gyroLockActive = gyroLock.getState();
+        SmartDashboard.putNumber("Mapper speed:", drd.direction.getY());
+    }
 }

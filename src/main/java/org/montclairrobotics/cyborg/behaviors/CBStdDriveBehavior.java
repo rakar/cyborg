@@ -12,13 +12,19 @@ public class CBStdDriveBehavior extends CBBehavior {
 	CBStdDriveRequestData drd;
 	CBStdDriveControlData dcd;
 
-	public CBStdDriveBehavior(Cyborg robot) {
+	public CBStdDriveBehavior(Cyborg robot, CBStdDriveRequestData requestData, CBStdDriveControlData controlData) {
 		super(robot);
-		drd = (CBStdDriveRequestData)Cyborg.requestData.driveData;
-		dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
+		drd = requestData;
+		dcd = controlData;
 		gyroLockState = new CBEdgeTrigger();
 	}
 
+	/*
+	public CBStdDriveBehavior setData(CBStdDriveRequestData requestData, CBStdDriveControlData controlData) {
+		drd = requestData;
+		dcd = controlData;
+		return this;
+	}
 
 	public CBStdDriveBehavior setRequestData(CBStdDriveRequestData data) {
 		drd = data;
@@ -29,6 +35,7 @@ public class CBStdDriveBehavior extends CBBehavior {
 		dcd = data;
 		return this;
 	}
+	*/
 
 	public CBStdDriveBehavior setGyroLockTracker(CBErrorCorrection pid) {
 		this.gyroLockTracker = pid;

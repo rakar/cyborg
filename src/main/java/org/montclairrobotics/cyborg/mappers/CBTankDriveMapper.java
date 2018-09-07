@@ -17,14 +17,14 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 	private CBTankDriveRequestData tdrd;
 	
 
-	public CBTankDriveMapper(Cyborg robot, CBDeviceID leftDeviceID, CBDeviceID rightDeviceID) {
+	public CBTankDriveMapper(Cyborg robot, CBDriveRequestData requestData, CBDeviceID leftDeviceID, CBDeviceID rightDeviceID) {
 		super(robot);
 		this.left = Cyborg.hardwareAdapter.getAxis(leftDeviceID);
 		this.right = Cyborg.hardwareAdapter.getAxis(rightDeviceID);
-		setRequestData(Cyborg.requestData.driveData);
+		setRequestData(requestData);
 	}
 
-	public CBTankDriveMapper setRequestData(CBDriveRequestData data) {
+	private CBTankDriveMapper setRequestData(CBDriveRequestData data) {
 	    sdrd = null;
 	    tdrd = null;
 		if(data instanceof CBStdDriveRequestData ) {
@@ -32,7 +32,7 @@ public class CBTankDriveMapper extends CBTeleOpMapper {
 		} else if (data instanceof CBTankDriveRequestData) {
 			tdrd = (CBTankDriveRequestData)data;
 		} else {
-			Cyborg.requestData.driveData.active = false; // If we don't know what type of request it is shut down drive
+			data.active = false; // If we don't know what type of request it is shut down drive
 			throw new RuntimeException("Unknown driveRequestData type in CBTankDriveMapper.");
 		}
 		return this;

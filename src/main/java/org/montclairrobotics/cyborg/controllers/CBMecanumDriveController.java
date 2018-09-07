@@ -24,12 +24,14 @@ public class CBMecanumDriveController extends CBDriveController {
 	protected CBStdDriveControlData dcd;
 	
 
-	public CBMecanumDriveController(Cyborg robot) {
+	public CBMecanumDriveController(Cyborg robot, CBStdDriveControlData controlData) {
 		super(robot);
-        setControlData(Cyborg.controlData.driveData);
+        //setControlData(Cyborg.controlData.driveData);
+		dcd = controlData;
 		System.err.println("Warning: CBMecanumDriveController implementation is highly experimental.");
 	}
 
+	/*
 	public CBMecanumDriveController setControlData(CBDriveControlData data) {
 		if (data instanceof CBStdDriveControlData) {
 			dcd = (CBStdDriveControlData) data;
@@ -38,11 +40,11 @@ public class CBMecanumDriveController extends CBDriveController {
 		}
 		return  this;
 	}
-
+	*/
 
 		@Override
 	public void update() {
-		if(Cyborg.controlData.driveData.active) {
+		if(dcd.active) {
 			calculate();
 			for(int i=0;i<dmCount;i++) {
 				CBDriveModule dm = driveModules.get(i);

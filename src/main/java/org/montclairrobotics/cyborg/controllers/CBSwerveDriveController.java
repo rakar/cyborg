@@ -11,12 +11,14 @@ public class CBSwerveDriveController extends CBDriveController {
 
     CBStdDriveControlData dcd;
 
-    public CBSwerveDriveController(Cyborg robot) {
+    public CBSwerveDriveController(Cyborg robot, CBStdDriveControlData controlData) {
         super(robot);
-        setControlData(Cyborg.controlData.driveData);
+        //setControlData(Cyborg.controlData.driveData);
+        dcd = controlData;
         System.err.println("Warning: CBSwerveDriveController implementation is highly experimental.");
     }
 
+    /*
     public CBSwerveDriveController setControlData(CBDriveControlData data) {
         if (data instanceof CBStdDriveControlData) {
             CBStdDriveControlData dcd = (CBStdDriveControlData) data;
@@ -25,11 +27,11 @@ public class CBSwerveDriveController extends CBDriveController {
         }
         return this;
     }
-
+    */
 
     @Override
     public void update() {
-        if (Cyborg.controlData.driveData.active) {
+        if (dcd.active) {
             for (CBDriveModule dm : driveModules) {
                 updateModule(
                         (CBSwerveDriveModule) dm, dcd.direction, dcd.rotation,

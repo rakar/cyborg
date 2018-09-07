@@ -1,6 +1,5 @@
 package org.montclairrobotics.cyborg.controllers;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -20,25 +19,28 @@ public class CBDifferentialDriveController extends CBDriveController implements 
 	Instant lastUpdateTime;
 	CBDriveFeedback feedback;
 	boolean canProvideFeedback=false;
-	CBDriveControlData driveControlData;
+	CBDriveControlData dcd;
 	
-	public CBDifferentialDriveController(Cyborg robot) {
+	public CBDifferentialDriveController(Cyborg robot, CBDriveControlData controlData) {
 		super(robot);
 		driveModules = null;
-		driveControlData = Cyborg.controlData.driveData;
+		//dcd = Cyborg.controlData.driveData;
+		dcd = controlData;
 	}
 
+	/*
 	public CBDifferentialDriveController setControlData(CBDriveControlData data) {
-		driveControlData = data;
+		dcd = data;
 		return this;
 	}
+	*/
 	
 	@Override
 	public void update() {
-		if(driveControlData.active) {
-			if(driveControlData instanceof CBDifferentialDriveControlData) {
+		if(dcd.active) {
+			if(dcd instanceof CBDifferentialDriveControlData) {
 
-				CBDifferentialDriveControlData dcd = (CBDifferentialDriveControlData)Cyborg.controlData.driveData;
+				CBDifferentialDriveControlData dcd = (CBDifferentialDriveControlData) this.dcd;
 				for(CBDriveModule m:this.leftDriveModules){
 					m.update(dcd.leftPower);
 				}
@@ -46,9 +48,9 @@ public class CBDifferentialDriveController extends CBDriveController implements 
 					m.update(dcd.rightPower);
 				}
 
-			} else if(driveControlData instanceof CBStdDriveControlData) {
+			} else if(dcd instanceof CBStdDriveControlData) {
 				
-				CBStdDriveControlData dcd = (CBStdDriveControlData)Cyborg.controlData.driveData;
+				CBStdDriveControlData dcd = (CBStdDriveControlData) this.dcd;
 				for(CBDriveModule dm:leftDriveModules) {
 					double power = calculate(dm, dcd.direction, dcd.rotation);
 					dm.update(power);
