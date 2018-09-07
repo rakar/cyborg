@@ -14,8 +14,8 @@ public class CBMecanumDriveController extends CBDriveController {
 	private double qtrPi = Math.PI/4.0;
 	private double halfPi = Math.PI/2.0;
 
-	protected CBStdDriveControlData dcd;
-	protected ArrayList<CBCalcModule> calcModules = new ArrayList<>();
+	private CBStdDriveControlData dcd;
+	private ArrayList<CBCalcModule> calcModules = new ArrayList<>();
 
 	public enum CBMecanumDriveCalcMode {ASYMMETRIC, SYMMETRIC}
 
