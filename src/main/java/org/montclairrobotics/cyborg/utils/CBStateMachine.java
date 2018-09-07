@@ -22,7 +22,8 @@ public abstract class CBStateMachine<T> {
 	 */
 	protected double secondsInState;
 	protected boolean loop;
-	protected CBStateMachineLoopMode loopMode = CBStateMachineLoopMode.OneShot;
+	//protected CBStateMachineLoopMode loopMode = CBStateMachineLoopMode.OneShot;
+    boolean loopMode = false;
 	
 	/**
 	 * The state machine loop modes control whether the machine can transition multiple states in a single update
@@ -41,7 +42,7 @@ public abstract class CBStateMachine<T> {
 	}
 	
 	public CBStateMachine<T> setLoopMode(CBStateMachineLoopMode loopMode) {
-		this.loopMode = loopMode;
+		this.loopMode = (loopMode==CBStateMachineLoopMode.Looping);
 		return this;
 	}
 	
@@ -61,23 +62,25 @@ public abstract class CBStateMachine<T> {
 		if(stateStartTime==0) {
 			stateStartTime = new Date().getTime();
 		}
-		loop = true;
+		doCurrentState();
+		secondsInState = (new Date().getTime()-stateStartTime)/1000.0;
+		nextState=currentState;
+		calcNextState();
+		loop = currentState!=nextState;
 		while(loop) {
-			nextState=currentState;
-			secondsInState = (new Date().getTime()-stateStartTime)/1000.0;
-			calcNextState();
-			loop = currentState!=nextState;
-			if(loop) {
-				cyclesInState = 0;
-				stateStartTime = new Date().getTime();
-				secondsInState = 0;
-				doTransition();
-			}
+			cyclesInState = 0;
+			stateStartTime = new Date().getTime();
+			secondsInState = 0;
+			doTransition();
 			currentState=nextState;
 			doCurrentState();
-			cyclesInState++;
-			loop = loop && (loopMode == CBStateMachineLoopMode.Looping);
+            loop = loopMode;
+			if(loop) {
+                calcNextState();
+                loop = (currentState != nextState);
+            }
 		}
+        cyclesInState++;
 	}
 	
 	public CBStateMachine<T> exit()
