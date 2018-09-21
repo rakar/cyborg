@@ -36,9 +36,17 @@ public abstract class Cyborg extends IterativeRobot {
 
 	// Data Stores
 	// Data Stores represent high-level meaningful messages
-	public static CBRequestData requestData;
-	public static CBControlData controlData;
-	public static CBLogicData logicData;
+	// In order to improve the CyborgInit code and avoid mucho casting,
+    // and to ensure that any reference to them is generalized
+    // for example by using setters to connect cyborg objects to
+    // the relevant data. Most of this is done already. The real
+    // change will be in the class that extends Cyborg, which
+    // will need to create the data stores, and in the custom
+    // code that references the data stores. The custom references
+    // should be able to be simplified.
+	// public static CBRequestData requestData;
+	// public static CBControlData controlData;
+	// public static CBLogicData logicData;
 
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
