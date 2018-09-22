@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 
+import static org.montclairrobotics.cyborg.Cyborg.hardwareAdapter;
+
 /**
  * Represents a generic speed controller.
  */
@@ -35,7 +37,7 @@ public abstract class CBSpeedController implements CBDevice {
     }
 
     public CBSpeedController setPowerSource(CBDeviceID pdb, int channel) {
-        this.pdb = Cyborg.hardwareAdapter.getPDB(pdb);
+        this.pdb = hardwareAdapter.getPDB(pdb);
         this.pdbChannel = channel;
         return this;
     }

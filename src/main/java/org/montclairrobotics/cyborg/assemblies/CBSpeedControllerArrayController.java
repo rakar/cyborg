@@ -10,6 +10,8 @@ import org.montclairrobotics.cyborg.utils.CBErrorCorrection;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBDriveMode;
 import org.montclairrobotics.cyborg.utils.CBEnums.CBEncoderScheme;
 
+import static org.montclairrobotics.cyborg.Cyborg.hardwareAdapter;
+
 /**
  * Base class for an array of speed controllers regulated as a unit with a
  * single feedback (encoder) device. If more than one speed controller
@@ -50,7 +52,7 @@ public abstract class CBSpeedControllerArrayController {
 	 * @see org.montclairrobotics.cyborg.devices.CBSpeedControllerArrayController#addSpeedController(org.montclairrobotics.cyborg.devices.CBSpeedController)
 	 */
 	public CBSpeedControllerArrayController addSpeedController(CBDeviceID controllerId) {
-		speedControllers.add(Cyborg.hardwareAdapter.getSpeedController(controllerId));
+		speedControllers.add(hardwareAdapter.getSpeedController(controllerId));
 		return this;
 	}
 
@@ -66,7 +68,7 @@ public abstract class CBSpeedControllerArrayController {
 	
 
 	public CBSpeedControllerArrayController setEncoder(CBDeviceID encoderId) {
-		this.encoder = Cyborg.hardwareAdapter.getEncoder(encoderId);
+		this.encoder = hardwareAdapter.getEncoder(encoderId);
 		return this;
 	}
 	

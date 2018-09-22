@@ -40,7 +40,7 @@ public abstract class Cyborg extends IterativeRobot {
     // and to ensure that any reference to them is generalized
     // for example by using setters to connect cyborg objects to
     // the relevant data. Most of this is done already. The real
-    // change will be in the class that extends Cyborg, which
+    // changes will be in the class that extends Cyborg, which
     // will need to create the data stores, and in the custom
     // code that references the data stores. The custom references
     // should be able to be simplified.

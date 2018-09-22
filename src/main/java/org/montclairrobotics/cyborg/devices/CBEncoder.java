@@ -46,6 +46,7 @@ public class CBEncoder implements CBSource, CBDevice {
 	private int offsetPulses=0;
 	private int offsetEdges=0;
 	private double offsetDistance=0;
+	private boolean indexed=false;
 	private ArrayList<CBIndexEntry> indexEntries = new ArrayList<>();
     private String name;
     private String subsystem;
@@ -151,6 +152,7 @@ public class CBEncoder implements CBSource, CBDevice {
 		offsetDistance = distance;
 		offsetPulses = (int)(distance/distancePerPulse);
 		offsetEdges = (int)(distance*edgesPerPulse/distancePerPulse);
+		indexed = true;
 		//SmartDashboard.putNumber("setting dist dist",distance);
 		//SmartDashboard.putNumber("setting dist edges", offsetEdges);
 		return this;
@@ -161,6 +163,7 @@ public class CBEncoder implements CBSource, CBDevice {
 		offsetDistance = distancePerPulse*pulses;
 		offsetPulses = pulses;
 		offsetEdges = offsetPulses*edgesPerPulse;
+		indexed = true;
 		return this;
 	}
 
@@ -169,7 +172,12 @@ public class CBEncoder implements CBSource, CBDevice {
 		offsetEdges = edges;
 		offsetPulses = edges/edgesPerPulse;
 		offsetDistance = distancePerPulse*offsetPulses;
+		indexed = true;
 		return this;
+	}
+
+	public boolean wasIndexed() {
+    	return indexed;
 	}
 
 	public CBEncoder setReverseDirection(boolean reverseDirection) {
@@ -298,6 +306,9 @@ public class CBEncoder implements CBSource, CBDevice {
 	
 	public CBEncoder reset() {
 		encoder.reset();
+		edgeValue = reversedScale*encoder.getRaw();
+		pulseValue = edgeValue /edgesPerPulse;
+		distanceValue = pulseValue*distancePerPulse;
 		offsetEdges = 0;
 		offsetPulses = 0;
 		offsetDistance = 0;
