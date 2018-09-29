@@ -3,7 +3,7 @@ package org.montclairrobotics.cyborg.devices;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import org.montclairrobotics.cyborg.utils.CBTimingController;
+import org.montclairrobotics.cyborg.core.utils.CBTimingController;
 
 public class CBContourReport implements CBDevice {
 	String name,subsystem;

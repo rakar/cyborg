@@ -1,7 +1,7 @@
 package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import org.montclairrobotics.cyborg.utils.CBTimingController;
+import org.montclairrobotics.cyborg.core.utils.CBTimingController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

@@ -1,7 +1,7 @@
 package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import org.montclairrobotics.cyborg.utils.CBTriState.CBTriStateValue;
+import org.montclairrobotics.cyborg.core.utils.CBTriState.CBTriStateValue;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -46,7 +46,7 @@ public class CBSolenoid implements CBDevice {
 	 * disabled until power cycle, or until faults are cleared.
 	 *
 	 * @return If solenoid is disabled due to short.
-	 * @see #clearAllPCMStickyFaults()
+	 * //@see #clearAllPCMStickyFaults()
 	 */
 	public boolean isBlackListed() {
 		return solenoid.isBlackListed();
@@ -120,17 +120,17 @@ public class CBSolenoid implements CBDevice {
 
 	CBDeviceControl deviceControl = new CBDeviceControl() {
 		@Override
-		void init() {
+		public void init() {
 
 		}
 
 		@Override
-		void senseUpdate() {
+		public void senseUpdate() {
 
 		}
 
 		@Override
-		void controlUpdate() {
+		public void controlUpdate() {
 
 		}
 	};

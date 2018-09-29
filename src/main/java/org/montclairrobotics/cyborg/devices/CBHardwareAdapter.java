@@ -4,7 +4,7 @@ package org.montclairrobotics.cyborg.devices;
 import java.util.ArrayList;
 
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.utils.CBModule;
+import org.montclairrobotics.cyborg.core.utils.CBModule;
 
 /**
  * Main device catalog

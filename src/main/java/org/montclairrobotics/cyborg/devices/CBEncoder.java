@@ -1,23 +1,18 @@
 package org.montclairrobotics.cyborg.devices;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import org.montclairrobotics.cyborg.Cyborg;
+
 import java.util.ArrayList;
+
 import static java.lang.System.currentTimeMillis;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.PIDSourceType;
+public class CBEncoder extends CBEncoderBase {
 
-import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.simulation.CBIEncoder;
-import org.montclairrobotics.cyborg.simulation.CBSimEncoder;
-import org.montclairrobotics.cyborg.simulation.CBSrxEncoder;
-import org.montclairrobotics.cyborg.simulation.CBWPIEncoder;
-import org.montclairrobotics.cyborg.utils.CBSource;
-
-public class CBEncoder implements CBSource, CBDevice {
-	private CBIEncoder encoder;
+	// Common code FRC/FTC
 	private int edgeValue =0;
 	private int pulseValue = 0;
 	private double distanceValue=0;
@@ -34,7 +29,7 @@ public class CBEncoder implements CBSource, CBDevice {
 	private long lastUpdate;
 	private long pulseRate=0;
 	private double speed=0;
-	private PIDSourceType pidSourceType;
+	private PIDSourceType sourceType;
 
 	private int edgesPerPulse=0;
 
@@ -48,89 +43,76 @@ public class CBEncoder implements CBSource, CBDevice {
 	private double offsetDistance=0;
 	private boolean indexed=false;
 	private ArrayList<CBIndexEntry> indexEntries = new ArrayList<>();
-    private String name;
-    private String subsystem;
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, boolean reversed, double distancePerPulse)
+	{
+		super(aChannel, bChannel, encodingType, reversed, distancePerPulse);
+		setReverseDirection(reversed);
+		setTickConversion(encodingType);
+		setDistancePerPulse(distancePerPulse);
+	}
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
+	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, boolean reversed, double distancePerPulse) {
+		super(aSource, bSource, encodingType, reversed, distancePerPulse);
+		setReverseDirection(reversed);
+		setTickConversion(encodingType);
+		setDistancePerPulse(distancePerPulse);
+	}
 
-    @Override
-    public String getSubsystem() {
-        return subsystem;
-    }
+	public CBEncoder(CBDeviceID talonSrx, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
+		super(talonSrx, encoderType, reversed, distancePerPulse);
+		setReverseDirection(reversed);
+		setTickConversion(EncodingType.k4X);
+		setDistancePerPulse(distancePerPulse);
+	}
 
-    @Override
-    public void setSubsystem(String subsystem) {
-        this.subsystem = subsystem;
-    }
+	public CBEncoder(String name, boolean reversed, double distancePerPulse) {
+		super(name, reversed, distancePerPulse);
+	}
 
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        //TODO: implement CBEncoder initSendable
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    public CBEncoder setDeviceName(String name) {
-        setName(name);
-        return this;
-    }
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public CBEncoder setDeviceName(String subsystem, String name) {
-        setName(subsystem, name);
-        return this;
-    }
+	@Override
+	public String getSubsystem() {
+		return subsystem;
+	}
+
+	@Override
+	public void setSubsystem(String subsystem) {
+		this.subsystem = subsystem;
+	}
+
+	public CBEncoderBase setDeviceName(String name) {
+		setName(name);
+		return this;
+	}
+
+	public CBEncoderBase setDeviceName(String subsystem, String name) {
+		setName(subsystem, name);
+		return this;
+	}
+
 
 	public class CBIndexEntry {
 		CBDigitalInput trigger;
 		CBDeviceID triggerId;
 		boolean activeState;
 		double distance;
-		
+
 		public CBIndexEntry(CBDeviceID triggerId, boolean activeState, double distance) {
 			this.triggerId = triggerId;
 			this.activeState = activeState;
 			this.distance = distance;
 			this.trigger = Cyborg.hardwareAdapter.getDigitalInput(triggerId);
 		}
-	}
-
-	public CBEncoder(int aChannel, int bChannel, EncodingType encodingType, boolean reversed, double distancePerPulse) {
-		if(Cyborg.simulationActive) {
-			encoder = new CBSimEncoder(aChannel, bChannel, false, encodingType);
-		} else {
-			encoder = new CBWPIEncoder(aChannel, bChannel, false, encodingType);
-		}
-		setReverseDirection(reversed);
-		setTickConversion(encodingType);
-		setDistancePerPulse(distancePerPulse);
-	}
-	
-	public CBEncoder(DigitalSource aSource, DigitalSource bSource, EncodingType encodingType, boolean reversed, double distancePerPulse) {
-		if(Cyborg.simulationActive) {
-			encoder = new CBSimEncoder(aSource, bSource, false, encodingType);
-		} else {
-			encoder = new CBWPIEncoder(aSource, bSource, false, encodingType);
-		}
-        setReverseDirection(reversed);
-		setTickConversion(encodingType);
-		setDistancePerPulse(distancePerPulse);
-	}
-
-	public CBEncoder(CBDeviceID talonSrx, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
-		if(Cyborg.simulationActive) {
-			encoder = new CBSimEncoder(0, 0, false, EncodingType.k4X);
-		} else {
-			encoder = new CBSrxEncoder(Cyborg.hardwareAdapter.getTalonSRX(talonSrx), encoderType, false, distancePerPulse);
-		}
-        setReverseDirection(reversed);
-        setTickConversion(EncodingType.k4X);
-        setDistancePerPulse(distancePerPulse);
 	}
 
 	private void setTickConversion(EncodingType encodingType) {
@@ -146,7 +128,7 @@ public class CBEncoder implements CBSource, CBDevice {
 			break;
 		}
 	}
-	
+
 	public CBEncoder setDistance(double distance){
 		reset();
 		offsetDistance = distance;
@@ -195,7 +177,7 @@ public class CBEncoder implements CBSource, CBDevice {
 		indexEntries.add(indexEntry);
 		return this;
 	}
-	
+
 	public CBEncoder removeIndexEntry(CBDeviceID triggerId) {
 		int trg = -1;
 		for(int i=0;i<indexEntries.size();i++) {
@@ -230,23 +212,23 @@ public class CBEncoder implements CBSource, CBDevice {
 	}
 	*/
 
-	public CBEncoder setPIDSourceType(PIDSourceType pidSource) {
-		this.pidSourceType = pidSource;
+	public CBEncoder setSourceType(PIDSourceType sourceType) {
+		this.sourceType = sourceType;
 		return this;
 	}
 
-    public PIDSourceType getPIDSourceType() {
-        return pidSourceType;
+    public PIDSourceType getSourceType() {
+        return sourceType;
     }
 
     // have to hijack this since our offset system
     // prevents using the encoder's pidGet
     public double pidGet() {
-        switch(pidSourceType) {
+        switch(sourceType) {
             case kDisplacement:
                 return getDistance();
             case kRate:
-                return getRate();
+                return getSpeed();
             default:
                 return 0;
         }
@@ -271,7 +253,7 @@ public class CBEncoder implements CBSource, CBDevice {
     }
 
     public double get() {
-		return offPulseValue;
+		return pidGet();
 	}
 
     public double getDistance() {
@@ -281,15 +263,17 @@ public class CBEncoder implements CBSource, CBDevice {
     public boolean getDirection() {
 		return (pulseValue-lastPulseValue)>0;
 	}
-	
+
 	public int getEncodingScale() {
 		return edgesPerPulse;
 	}
-	
+
 	public double getRate() {
 		return pulseRate;
 	}
-	
+
+	public double getSpeed() { return speed; }
+
 	public int getEdges() {
 		return edgeValue +offsetEdges;
 	}
@@ -299,14 +283,14 @@ public class CBEncoder implements CBSource, CBDevice {
 		return encoder.getSamplesToAverage();
 	}
     */
-	
+
 	public boolean getStopped() {
 		return Math.abs(pulseRate)<stoppedMargin;
 	}
-	
+
 	public CBEncoder reset() {
-		encoder.reset();
-		edgeValue = reversedScale*encoder.getRaw();
+		baseReset();
+		edgeValue = reversedScale*baseGetRaw();
 		pulseValue = edgeValue /edgesPerPulse;
 		distanceValue = pulseValue*distancePerPulse;
 		offsetEdges = 0;
@@ -340,7 +324,7 @@ public class CBEncoder implements CBSource, CBDevice {
 			lastEdgeValue = edgeValue;
 
 
-			edgeValue = reversedScale*encoder.getRaw();
+			edgeValue = reversedScale*baseGetRaw();
 			pulseValue = edgeValue /edgesPerPulse;
 			distanceValue = pulseValue*distancePerPulse;
 			offEdgeValue = edgeValue+offsetEdges;

@@ -36,8 +36,8 @@ public interface CBIEncoder {
     //int getSamplesToAverage();
 
     /*
-    void setPIDSourceType(PIDSourceType pidSource);
-    PIDSourceType getPIDSourceType();
+    void setSourceType(PIDSourceType pidSource);
+    PIDSourceType getSourceType();
     double pidGet();
 
     @Override

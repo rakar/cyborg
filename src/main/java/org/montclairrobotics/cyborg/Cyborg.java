@@ -4,18 +4,15 @@ import java.util.ArrayList;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import org.montclairrobotics.cyborg.behaviors.CBAutonomous;
-import org.montclairrobotics.cyborg.behaviors.CBBehavior;
-import org.montclairrobotics.cyborg.behaviors.CBRule;
-import org.montclairrobotics.cyborg.controllers.CBRobotController;
-import org.montclairrobotics.cyborg.data.CBControlData;
-import org.montclairrobotics.cyborg.data.CBRequestData;
-import org.montclairrobotics.cyborg.data.CBLogicData;
+import org.montclairrobotics.cyborg.core.behaviors.CBAutonomous;
+import org.montclairrobotics.cyborg.core.behaviors.CBBehavior;
+import org.montclairrobotics.cyborg.core.behaviors.CBRule;
+import org.montclairrobotics.cyborg.core.controllers.CBRobotController;
 import org.montclairrobotics.cyborg.devices.CBHardwareAdapter;
-import org.montclairrobotics.cyborg.mappers.CBSensorMapper;
-import org.montclairrobotics.cyborg.mappers.CBTeleOpMapper;
-import org.montclairrobotics.cyborg.utils.CBGameMode;
-import org.montclairrobotics.cyborg.utils.CBRunStatistics;
+import org.montclairrobotics.cyborg.core.mappers.CBSensorMapper;
+import org.montclairrobotics.cyborg.core.mappers.CBTeleOpMapper;
+import org.montclairrobotics.cyborg.core.utils.CBGameMode;
+import org.montclairrobotics.cyborg.core.utils.CBRunStatistics;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,36 +31,22 @@ public abstract class Cyborg extends IterativeRobot {
 	public static boolean simulationActive;
 	public static CBSimLink simLink;
 
-	// Data Stores
-	// Data Stores represent high-level meaningful messages
-	// In order to improve the CyborgInit code and avoid mucho casting,
-    // and to ensure that any reference to them is generalized
-    // for example by using setters to connect cyborg objects to
-    // the relevant data. Most of this is done already. The real
-    // changes will be in the class that extends Cyborg, which
-    // will need to create the data stores, and in the custom
-    // code that references the data stores. The custom references
-    // should be able to be simplified.
-	// public static CBRequestData requestData;
-	// public static CBControlData controlData;
-	// public static CBLogicData logicData;
-
 	// Mapper/Controller Queues
 	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
-	private ArrayList<CBTeleOpMapper> teleOpMappers = new ArrayList<>();
-	private ArrayList<CBSensorMapper> sensorMappers = new ArrayList<>();
+	private ArrayList<CBTeleOpMapper> teleOpMappers; // = new ArrayList<>();
+	private ArrayList<CBSensorMapper> sensorMappers; // = new ArrayList<>();
 	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
-	private ArrayList<CBRobotController> robotControllers = new ArrayList<>();
+	private ArrayList<CBRobotController> robotControllers; // = new ArrayList<>();
 	
 	// Logic Layer
-	private ArrayList<CBRule> rules = new ArrayList<>();
-	private ArrayList<CBBehavior> behaviors = new ArrayList<>();
-	private ArrayList<CBAutonomous> autonomice = new ArrayList<>();
+	private ArrayList<CBRule> rules; // = new ArrayList<>();
+	private ArrayList<CBBehavior> behaviors; // = new ArrayList<>();
+	private ArrayList<CBAutonomous> autonomice; // = new ArrayList<>();
 	
-	public static int gameMode=0;
+	public static int gameMode; //=0;
 	public NetworkTable table;
 	
-	public CBRunStatistics runStatistics = new CBRunStatistics();
+	public CBRunStatistics runStatistics; // = new CBRunStatistics();
 	
 	// General Configuration
 	/**
@@ -108,7 +91,19 @@ public abstract class Cyborg extends IterativeRobot {
 	@Override
     public final void robotInit() {        	
 		gameMode = CBGameMode.robotInit;
+
+        teleOpMappers = new ArrayList<>();
+        sensorMappers = new ArrayList<>();
+        robotControllers = new ArrayList<>();
+
+        rules = new ArrayList<>();
+        behaviors = new ArrayList<>();
+        autonomice = new ArrayList<>();
+
+        runStatistics = new CBRunStatistics();
+
 		table = NetworkTableInstance.getDefault().getTable("GRIP");
+
 		cyborgInit();
 		moduleInit();
 	}
@@ -134,17 +129,18 @@ public abstract class Cyborg extends IterativeRobot {
         // Update input interfaces
         hardwareAdapter.senseUpdate();
 
+        for(CBSensorMapper m:this.sensorMappers) m.update();
+
         // Update Input Mappers
         if(gameMode==CBGameMode.teleopPeriodic) {
             for (CBTeleOpMapper m : this.teleOpMappers) m.update();
         }
-        for(CBSensorMapper m:this.sensorMappers) m.update();
-
-        // Update Rule and Behavior Processors
-        for(CBRule m:this.rules) m.update();
         if(gameMode==CBGameMode.autonomousPeriodic) {
             for (CBAutonomous auto : this.autonomice) auto.update();
         }
+
+        // Update Rule and Behavior Processors
+        for(CBRule m:this.rules) m.update();
         for(CBBehavior m:this.behaviors) m.update();
 
         // Update Output Controllers
@@ -218,4 +214,15 @@ public abstract class Cyborg extends IterativeRobot {
     public static boolean isGameMode(int gameMode) {
     	return (Cyborg.gameMode & gameMode)!=0;
 	}
+
+	// utility functions
+	public void logMessage(String msg) {
+		logMessage(msg,false);
+	}
+
+	public void logMessage(String msg, boolean immediate) {
+		System.out.println(msg);
+		//if(immediate) telemetry.update();
+	}
+
 }

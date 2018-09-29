@@ -131,12 +131,12 @@ public class CBSimEncoder implements CBIEncoder {
     }
 
     @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
+    public void setSourceType(PIDSourceType pidSource) {
         simData.pidSource = pidSource;
     }
 
     @Override
-    public PIDSourceType getPIDSourceType() {
+    public PIDSourceType getSourceType() {
         return simData.pidSource;
     }
 

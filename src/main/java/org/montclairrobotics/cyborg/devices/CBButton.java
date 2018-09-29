@@ -2,7 +2,7 @@ package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
+import org.montclairrobotics.cyborg.core.utils.CBEdgeTrigger;
 
 public class CBButton extends CBEdgeTrigger implements CBDevice {
 	String name,subsystem;

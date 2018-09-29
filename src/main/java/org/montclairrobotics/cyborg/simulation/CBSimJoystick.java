@@ -1,9 +1,8 @@
 package org.montclairrobotics.cyborg.simulation;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.utils.CBEdgeTrigger;
+import org.montclairrobotics.cyborg.core.utils.CBEdgeTrigger;
 
 public class CBSimJoystick implements CBIJoystick {
     CBSimJoystickData simData;

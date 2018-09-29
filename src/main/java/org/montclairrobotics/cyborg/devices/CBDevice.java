@@ -9,5 +9,4 @@ import edu.wpi.first.wpilibj.Sendable;
  */
 public interface CBDevice extends Sendable{
     CBDeviceControl getDeviceControl();
-
 }
