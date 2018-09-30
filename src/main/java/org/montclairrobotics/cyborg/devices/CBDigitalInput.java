@@ -67,17 +67,17 @@ public class CBDigitalInput implements CBIDigitalInput, CBDevice{
 
     CBDeviceControl deviceControl = new CBDeviceControl() {
         @Override
-        void init() {
+        public void init() {
 
         }
 
         @Override
-        void senseUpdate() {
+        public void senseUpdate() {
 
         }
 
         @Override
-        void controlUpdate() {
+        public void controlUpdate() {
 
         }
     };
