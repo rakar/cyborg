@@ -3,7 +3,7 @@ package org.montclairrobotics.cyborg.devices;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class CBAxis extends CBJoystickIndex implements CBDevice {
+public class CBAxis extends CBAxisRef implements CBDevice {
     String name, subsystem;
 
     CBJoystick joystick;
@@ -16,12 +16,12 @@ public class CBAxis extends CBJoystickIndex implements CBDevice {
     protected boolean initialized;
 
 
-    public CBAxis(CBJoystickIndex joystickIndex) {
+    public CBAxis(CBAxisRef joystickIndex) {
         this(joystickIndex.stickID, joystickIndex.index);
     }
 
     public static CBAxis getDefaulted(CBAxis axis) {
-        return (axis != null) ? axis : new CBAxis(CBJoystickIndex.undefined());
+        return (axis != null) ? axis : new CBAxis(CBAxisRef.undefined());
     }
 
     public CBAxis(int stickID, int index) {

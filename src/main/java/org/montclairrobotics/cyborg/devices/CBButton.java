@@ -6,7 +6,7 @@ import org.montclairrobotics.cyborg.core.utils.CBEdgeTrigger;
 
 public class CBButton extends CBEdgeTrigger implements CBDevice {
 	String name,subsystem;
-	private CBJoystickIndex stickIndex;
+	private CBButtonRef buttonRef;
 	private CBJoystick joystick;
 
 	/*
@@ -19,16 +19,16 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	}
     */
 
-	public CBButton(CBJoystickIndex joystickIndex) {
-		this(joystickIndex.stickID, joystickIndex.index);
+	public CBButton(CBButtonRef buttonRef) {
+		this(buttonRef.stickID, buttonRef.index);
 	}
 
 
     public CBButton(int stickID, int index) {
 		super();
-		stickIndex = new CBJoystickIndex(stickID, index);
+		buttonRef = new CBButtonRef(stickID, index);
 		if(stickID>=0) {
-			joystick = Cyborg.hardwareAdapter.getJoystick(stickIndex.stickID);
+			joystick = Cyborg.hardwareAdapter.getJoystick(buttonRef.stickID);
 		} else {
 			joystick = null;
 		}
@@ -36,11 +36,11 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	}
 	
 	public static CBButton getDefaulted(CBButton button) {
-		return (button!=null)?button:new CBButton(CBJoystickIndex.undefined());
+		return (button!=null)?button:new CBButton(CBButtonRef.undefined());
 	}
 
 	public boolean isDefined() {
-		return stickIndex.isDefined();
+		return buttonRef.isDefined();
 	}
 
     @Override
@@ -88,7 +88,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 		@Override
 		public void senseUpdate() {
 			if (isDefined()) {
-				update(joystick.getRawButton(stickIndex.index));
+				update(joystick.getRawButton(buttonRef.index));
 			}
 		}
 
