@@ -225,4 +225,7 @@ public abstract class Cyborg extends IterativeRobot {
 		//if(immediate) telemetry.update();
 	}
 
+	public void putStringArray(String title, String[] msgs) {
+    	SmartDashboard.putStringArray(title, msgs);
+	}
 }
