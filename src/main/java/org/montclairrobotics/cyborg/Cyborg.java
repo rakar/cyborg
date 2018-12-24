@@ -23,74 +23,75 @@ import org.montclairrobotics.cyborg.simulation.CBSimLink;
  * is overridden to produce the main robot control class. This class
  * "hijacks" the standard IterativeRobot interface and performs the
  * appropriate Cyborg operations instead.
+ *
  * @author rich
  */
 public abstract class Cyborg extends IterativeRobot {
 
-	public static CBHardwareAdapter hardwareAdapter;
-	public static boolean simulationActive;
-	public static CBSimLink simLink;
+    public static CBHardwareAdapter hardwareAdapter;
+    public static boolean simulationActive;
+    public static CBSimLink simLink;
 
-	// Mapper/Controller Queues
-	// Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
-	private ArrayList<CBTeleOpMapper> teleOpMappers; // = new ArrayList<>();
-	private ArrayList<CBSensorMapper> sensorMappers; // = new ArrayList<>();
-	// Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
-	private ArrayList<CBRobotController> robotControllers; // = new ArrayList<>();
-	
-	// Logic Layer
-	private ArrayList<CBRule> rules; // = new ArrayList<>();
-	private ArrayList<CBBehavior> behaviors; // = new ArrayList<>();
-	private ArrayList<CBAutonomous> autonomice; // = new ArrayList<>();
-	
-	public static int gameMode; //=0;
-	public NetworkTable table;
-	
-	public CBRunStatistics runStatistics; // = new CBRunStatistics();
-	
-	// General Configuration
-	/**
-	 * Conversion from default angle unit to radians.
-	 */
-	public static double angleToRadiansConversion = Math.PI/180.0;
-	
-	public Cyborg addTeleOpMapper(CBTeleOpMapper mapper) {
-		teleOpMappers.add(mapper);
-		return this;
-	}
-	
-	public Cyborg addSensorMapper(CBSensorMapper mapper) {
-		sensorMappers.add(mapper);
-		return this;
-	}
-	
-	public Cyborg addRobotController(CBRobotController controller) {
-		robotControllers.add(controller);
-		return this;
-	}
-	
-	public Cyborg addRule(CBRule rule) {
-		rules.add(rule);
-		return this;
-	}
-	
-	public Cyborg addBehavior(CBBehavior behavior) {
-		behaviors.add(behavior);
-		return this;
-	}
-	
-	public Cyborg addAutonomous(CBAutonomous autonomous) {
-		autonomice.add(autonomous);
-		return this;
-	}
-	
-	/**
+    // Mapper/Controller Queues
+    // Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info
+    private ArrayList<CBTeleOpMapper> teleOpMappers; // = new ArrayList<>();
+    private ArrayList<CBSensorMapper> sensorMappers; // = new ArrayList<>();
+    // Controller Queues hold lists of controllers that convert high-level requests into low-level raw control output data
+    private ArrayList<CBRobotController> robotControllers; // = new ArrayList<>();
+
+    // Logic Layer
+    private ArrayList<CBRule> rules; // = new ArrayList<>();
+    private ArrayList<CBBehavior> behaviors; // = new ArrayList<>();
+    private ArrayList<CBAutonomous> autonomice; // = new ArrayList<>();
+
+    public static int gameMode; //=0;
+    public NetworkTable table;
+
+    public CBRunStatistics runStatistics; // = new CBRunStatistics();
+
+    // General Configuration
+    /**
+     * Conversion from default angle unit to radians.
+     */
+    public static double angleToRadiansConversion = Math.PI / 180.0;
+
+    public Cyborg addTeleOpMapper(CBTeleOpMapper mapper) {
+        teleOpMappers.add(mapper);
+        return this;
+    }
+
+    public Cyborg addSensorMapper(CBSensorMapper mapper) {
+        sensorMappers.add(mapper);
+        return this;
+    }
+
+    public Cyborg addRobotController(CBRobotController controller) {
+        robotControllers.add(controller);
+        return this;
+    }
+
+    public Cyborg addRule(CBRule rule) {
+        rules.add(rule);
+        return this;
+    }
+
+    public Cyborg addBehavior(CBBehavior behavior) {
+        behaviors.add(behavior);
+        return this;
+    }
+
+    public Cyborg addAutonomous(CBAutonomous autonomous) {
+        autonomice.add(autonomous);
+        return this;
+    }
+
+    /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-	@Override
-    public final void robotInit() {        	
-		gameMode = CBGameMode.robotInit;
+    @Override
+    public final void robotInit() {
+        gameMode = CBGameMode.robotInit;
 
         teleOpMappers = new ArrayList<>();
         sensorMappers = new ArrayList<>();
@@ -102,13 +103,13 @@ public abstract class Cyborg extends IterativeRobot {
 
         runStatistics = new CBRunStatistics();
 
-		table = NetworkTableInstance.getDefault().getTable("GRIP");
+        table = NetworkTableInstance.getDefault().getTable("GRIP");
 
-		cyborgInit();
-		moduleInit();
-	}
+        cyborgInit();
+        moduleInit();
+    }
 
-	private void moduleInit() {
+    private void moduleInit() {
         // Init input interfaces
         hardwareAdapter.moduleInit();
 
@@ -129,22 +130,22 @@ public abstract class Cyborg extends IterativeRobot {
         // Update input interfaces
         hardwareAdapter.senseUpdate();
 
-        for(CBSensorMapper m:this.sensorMappers) m.update();
+        for (CBSensorMapper m : this.sensorMappers) m.update();
 
         // Update Input Mappers
-        if(gameMode==CBGameMode.teleopPeriodic) {
+        if (gameMode == CBGameMode.teleopPeriodic) {
             for (CBTeleOpMapper m : this.teleOpMappers) m.update();
         }
-        if(gameMode==CBGameMode.autonomousPeriodic) {
+        if (gameMode == CBGameMode.autonomousPeriodic) {
             for (CBAutonomous auto : this.autonomice) auto.update();
         }
 
         // Update Rule and Behavior Processors
-        for(CBRule m:this.rules) m.update();
-        for(CBBehavior m:this.behaviors) m.update();
+        for (CBRule m : this.rules) m.update();
+        for (CBBehavior m : this.behaviors) m.update();
 
         // Update Output Controllers
-        for(CBRobotController m:this.robotControllers) m.update();
+        for (CBRobotController m : this.robotControllers) m.update();
 
         // Update output interfaces
         hardwareAdapter.controlUpdate();
@@ -152,10 +153,14 @@ public abstract class Cyborg extends IterativeRobot {
 
 
     public abstract void cyborgInit();
-	public abstract void cyborgDisabledInit();
+
+    public abstract void cyborgDisabledInit();
+
     public abstract void cyborgAutonomousInit();
-	public abstract void cyborgTeleopInit();
-	public abstract void cyborgTestInit();
+
+    public abstract void cyborgTeleopInit();
+
+    public abstract void cyborgTestInit();
 
 
     @Override
@@ -164,68 +169,69 @@ public abstract class Cyborg extends IterativeRobot {
         cyborgDisabledInit();
         moduleInit();
     }
+
     @Override
     public final void disabledPeriodic() {
         gameMode = CBGameMode.disabledPeriodic;
         robotUpdate();
     }
 
-
-	@Override
+    @Override
     public final void autonomousInit() {
-		gameMode = CBGameMode.autonomousInit;
-		cyborgAutonomousInit();
+        gameMode = CBGameMode.autonomousInit;
+        cyborgAutonomousInit();
         moduleInit();
     }
+
     public final void autonomousPeriodic() {
-		gameMode = CBGameMode.autonomousPeriodic;
-		robotUpdate();
+        gameMode = CBGameMode.autonomousPeriodic;
+        robotUpdate();
     }
 
-	
-	@Override
+    @Override
     public final void teleopInit() {
-		gameMode = CBGameMode.teleopInit;
-		cyborgTeleopInit();
-		runStatistics.teleopInitUpdate();
-		moduleInit();
-    }
-	@Override
-    public final void teleopPeriodic() {
-		gameMode = CBGameMode.teleopPeriodic;		
-		runStatistics.teleopPeriodicUpdate();
-		SmartDashboard.putNumber("cyclesPERsecond", runStatistics.averageCycles);
-		robotUpdate();
+        gameMode = CBGameMode.teleopInit;
+        cyborgTeleopInit();
+        runStatistics.teleopInitUpdate();
+        moduleInit();
     }
 
-	
-	@Override
-	public final void testInit() {
-		gameMode = CBGameMode.testInit;
-		cyborgTestInit();
-		moduleInit();
-	}
-	@Override
+    @Override
+    public final void teleopPeriodic() {
+        gameMode = CBGameMode.teleopPeriodic;
+        runStatistics.teleopPeriodicUpdate();
+        SmartDashboard.putNumber("cyclesPERsecond", runStatistics.averageCycles);
+        robotUpdate();
+    }
+
+    @Override
+    public final void testInit() {
+        gameMode = CBGameMode.testInit;
+        cyborgTestInit();
+        moduleInit();
+    }
+
+    @Override
     public final void testPeriodic() {
-		gameMode = CBGameMode.testPeriodic;
+        gameMode = CBGameMode.testPeriodic;
         robotUpdate();
     }
 
     public static boolean isGameMode(int gameMode) {
-    	return (Cyborg.gameMode & gameMode)!=0;
-	}
+        return (Cyborg.gameMode & gameMode) != 0;
+    }
 
-	// utility functions
-	public void logMessage(String msg) {
-		logMessage(msg,false);
-	}
+    // utility functions
+    public void logMessage(String msg) {
+        logMessage(msg, false);
+    }
 
-	public void logMessage(String msg, boolean immediate) {
-		System.out.println(msg);
-		//if(immediate) telemetry.update();
-	}
+    public void logMessage(String msg, boolean immediate) {
+        System.out.println(msg);
+        //if(immediate) telemetry.update();
+    }
 
-	public void putStringArray(String title, String[] msgs) {
-    	SmartDashboard.putStringArray(title, msgs);
-	}
+    public void putStringArray(String title, String[] msgs) {
+        SmartDashboard.putStringArray(title, msgs);
+    }
 }

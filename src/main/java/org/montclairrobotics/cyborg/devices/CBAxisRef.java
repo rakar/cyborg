@@ -5,7 +5,7 @@ public class CBAxisRef {
     public int index;
 
     public CBAxisRef() {
-        stickID  = -1;
+        stickID = -1;
         index = -1;
     }
 
@@ -15,10 +15,10 @@ public class CBAxisRef {
     }
 
     public boolean isDefined() {
-        return stickID>=0;
+        return stickID >= 0;
     }
 
     public static CBAxisRef undefined() {
-        return new CBAxisRef(-1,-1);
+        return new CBAxisRef(-1, -1);
     }
 }

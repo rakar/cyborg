@@ -5,9 +5,9 @@ import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.core.utils.CBEdgeTrigger;
 
 public class CBButton extends CBEdgeTrigger implements CBDevice {
-	String name,subsystem;
-	private CBButtonRef buttonRef;
-	private CBJoystick joystick;
+    String name, subsystem;
+    private CBButtonRef buttonRef;
+    private CBJoystick joystick;
 
 	/*
 	protected boolean initialized;
@@ -19,29 +19,29 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 	}
     */
 
-	public CBButton(CBButtonRef buttonRef) {
-		this(buttonRef.stickID, buttonRef.index);
-	}
+    public CBButton(CBButtonRef buttonRef) {
+        this(buttonRef.stickID, buttonRef.index);
+    }
 
 
     public CBButton(int stickID, int index) {
-		super();
-		buttonRef = new CBButtonRef(stickID, index);
-		if(stickID>=0) {
-			joystick = Cyborg.hardwareAdapter.getJoystick(buttonRef.stickID);
-		} else {
-			joystick = null;
-		}
-		//setName(subsystem, name);
-	}
-	
-	public static CBButton getDefaulted(CBButton button) {
-		return (button!=null)?button:new CBButton(CBButtonRef.undefined());
-	}
+        super();
+        buttonRef = new CBButtonRef(stickID, index);
+        if (stickID >= 0) {
+            joystick = Cyborg.hardwareAdapter.getJoystick(buttonRef.stickID);
+        } else {
+            joystick = null;
+        }
+        //setName(subsystem, name);
+    }
 
-	public boolean isDefined() {
-		return buttonRef.isDefined();
-	}
+    public static CBButton getDefaulted(CBButton button) {
+        return (button != null) ? button : new CBButton(CBButtonRef.undefined());
+    }
+
+    public boolean isDefined() {
+        return buttonRef.isDefined();
+    }
 
     @Override
     public String getName() {
@@ -50,7 +50,7 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
 
     @Override
     public void setName(String name) {
-        this.name=name;
+        this.name = name;
     }
 
     @Override
@@ -81,25 +81,25 @@ public class CBButton extends CBEdgeTrigger implements CBDevice {
     CBButton tthis = this;
 
     CBDeviceControl device = new CBDeviceControl() {
-		@Override
-		public void init() {
-		}
+        @Override
+        public void init() {
+        }
 
-		@Override
-		public void senseUpdate() {
-			if (isDefined()) {
-				update(joystick.getRawButton(buttonRef.index));
-			}
-		}
+        @Override
+        public void senseUpdate() {
+            if (isDefined()) {
+                update(joystick.getRawButton(buttonRef.index));
+            }
+        }
 
-		@Override
-		public void controlUpdate() {
-		}
+        @Override
+        public void controlUpdate() {
+        }
 
-	};
+    };
 
-	@Override
-	public CBDeviceControl getDeviceControl() {
-		return device;
-	}
+    @Override
+    public CBDeviceControl getDeviceControl() {
+        return device;
+    }
 }

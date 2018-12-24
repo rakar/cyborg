@@ -11,7 +11,7 @@ public class CBJoystick {
 
 
     public CBJoystick(int port) {
-        if(Cyborg.simulationActive) {
+        if (Cyborg.simulationActive) {
             joystick = new CBSimJoystick(port);
         } else {
             joystick = new CBWPIJoystick(port);

@@ -19,7 +19,7 @@ public abstract class CBEncoderBase implements CBSource, CBDevice {
     protected String subsystem;
 
     public CBEncoderBase(int aChannel, int bChannel, CounterBase.EncodingType encodingType, boolean reversed, double distancePerPulse) {
-        if(Cyborg.simulationActive) {
+        if (Cyborg.simulationActive) {
             encoder = new CBSimEncoder(aChannel, bChannel, false, encodingType);
         } else {
             encoder = new CBWPIEncoder(aChannel, bChannel, false, encodingType);
@@ -27,7 +27,7 @@ public abstract class CBEncoderBase implements CBSource, CBDevice {
     }
 
     public CBEncoderBase(DigitalSource aSource, DigitalSource bSource, CounterBase.EncodingType encodingType, boolean reversed, double distancePerPulse) {
-        if(Cyborg.simulationActive) {
+        if (Cyborg.simulationActive) {
             encoder = new CBSimEncoder(aSource, bSource, false, encodingType);
         } else {
             encoder = new CBWPIEncoder(aSource, bSource, false, encodingType);
@@ -35,7 +35,7 @@ public abstract class CBEncoderBase implements CBSource, CBDevice {
     }
 
     public CBEncoderBase(CBDeviceID talonSrx, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
-        if(Cyborg.simulationActive) {
+        if (Cyborg.simulationActive) {
             encoder = new CBSimEncoder(0, 0, false, CounterBase.EncodingType.k4X);
         } else {
             encoder = new CBSrxEncoder(Cyborg.hardwareAdapter.getTalonSRX(talonSrx), encoderType, false, distancePerPulse);

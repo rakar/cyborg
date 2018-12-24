@@ -10,7 +10,7 @@ import static org.montclairrobotics.cyborg.Cyborg.hardwareAdapter;
  * Represents a generic speed controller.
  */
 public abstract class CBSpeedController implements CBDevice {
-    String name,subsystem;
+    String name, subsystem;
     protected CBPDB pdb;
     protected int pdbChannel;
     protected CBSpeedControllerFaultCriteria faultCriteria;
@@ -19,7 +19,7 @@ public abstract class CBSpeedController implements CBDevice {
 
     public abstract double get();
 
-	//CBSpeedController set(double speed, byte syncGroup);
+    //CBSpeedController set(double speed, byte syncGroup);
 
     public abstract CBSpeedController set(double speed);
 
@@ -32,7 +32,7 @@ public abstract class CBSpeedController implements CBDevice {
     public abstract CBSpeedController stopMotor();
 
     public double getActualCurrent() {
-        if(pdb==null) throw new RuntimeException("Power Source not configured for SpeedController "+getName());
+        if (pdb == null) throw new RuntimeException("Power Source not configured for SpeedController " + getName());
         return pdb.getCurrent(pdbChannel);
     }
 
@@ -42,14 +42,14 @@ public abstract class CBSpeedController implements CBDevice {
         return this;
     }
 
-    public CBSpeedController setSpeedControllerFaultCriteria(CBSpeedControllerFaultCriteria criteria){
+    public CBSpeedController setSpeedControllerFaultCriteria(CBSpeedControllerFaultCriteria criteria) {
         this.faultCriteria = criteria;
         return this;
     }
 
     public CBSpeedControllerFault getSpeedControllerFault() {
-        if(faultCriteria== null || pdb==null) return null;
-        return faultCriteria.check(getActualCurrent(),this.get());
+        if (faultCriteria == null || pdb == null) return null;
+        return faultCriteria.check(getActualCurrent(), this.get());
     }
 
     @Override

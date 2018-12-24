@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj.Sendable;
  * in the hardware adapter and updated automatically
  * by the framework.
  */
-public interface CBDevice extends Sendable{
+public interface CBDevice extends Sendable {
     CBDeviceControl getDeviceControl();
 }

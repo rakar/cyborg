@@ -7,88 +7,88 @@ import org.montclairrobotics.cyborg.simulation.CBSimPDB;
 import org.montclairrobotics.cyborg.simulation.CBWPIPDB;
 
 public class CBPDB implements CBDevice {
-	String name, subsystem;
+    String name, subsystem;
 
-	private int canID;
-	private CBIPDB pdb;
+    private int canID;
+    private CBIPDB pdb;
 
-	public CBPDB() {
-		this(0);
-	}
+    public CBPDB() {
+        this(0);
+    }
 
-	public CBPDB(int CanID) {
-		canID = CanID;
-		if (Cyborg.simulationActive) {
-			pdb = new CBSimPDB(CanID);
-		} else {
-			pdb = new CBWPIPDB(CanID);
-		}
-	}
+    public CBPDB(int CanID) {
+        canID = CanID;
+        if (Cyborg.simulationActive) {
+            pdb = new CBSimPDB(CanID);
+        } else {
+            pdb = new CBWPIPDB(CanID);
+        }
+    }
 
-	public CBPDB clearStickyFaults() {
-		pdb.clearStickyFaults();
-		return this;
-	}
+    public CBPDB clearStickyFaults() {
+        pdb.clearStickyFaults();
+        return this;
+    }
 
-	public boolean equals(Object obj) {
-		return pdb.equals(obj);
-	}
+    public boolean equals(Object obj) {
+        return pdb.equals(obj);
+    }
 
-	//public CBPDB free() {
-	//	pdb.free();
-	//	return this;
-	//}
+    //public CBPDB free() {
+    //	pdb.free();
+    //	return this;
+    //}
 
-	public double getCurrent(int channel) {
-		return pdb.getCurrent(channel);
-	}
+    public double getCurrent(int channel) {
+        return pdb.getCurrent(channel);
+    }
 
-	public double getTemperature() {
-		return pdb.getTemperature();
-	}
+    public double getTemperature() {
+        return pdb.getTemperature();
+    }
 
-	public double getTotalCurrent() {
-		return pdb.getTotalCurrent();
-	}
+    public double getTotalCurrent() {
+        return pdb.getTotalCurrent();
+    }
 
-	public double getTotalEnergy() {
-		return pdb.getTotalEnergy();
-	}
+    public double getTotalEnergy() {
+        return pdb.getTotalEnergy();
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String getSubsystem() {
-		return subsystem;
-	}
+    @Override
+    public String getSubsystem() {
+        return subsystem;
+    }
 
-	@Override
-	public void setSubsystem(String subsystem) {
-		this.subsystem = subsystem;
-	}
+    @Override
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
 
-	@Override
-	public void initSendable(SendableBuilder builder) {
+    @Override
+    public void initSendable(SendableBuilder builder) {
 
-	}
+    }
 
-	public CBPDB setDeviceName(String name) {
-		setName(name);
-		return this;
-	}
+    public CBPDB setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
 
-	public CBPDB setDeviceName(String subsystem, String name) {
-		setName(subsystem, name);
-		return this;
-	}
+    public CBPDB setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
 
     @Override
     public CBDeviceControl getDeviceControl() {
@@ -97,17 +97,17 @@ public class CBPDB implements CBDevice {
 
     CBDeviceControl deviceControl = new CBDeviceControl() {
         @Override
-		public void init() {
+        public void init() {
 
         }
 
         @Override
-		public void senseUpdate() {
+        public void senseUpdate() {
 
         }
 
         @Override
-		public void controlUpdate() {
+        public void controlUpdate() {
 
         }
     };

@@ -6,132 +6,131 @@ import org.montclairrobotics.cyborg.core.utils.CBTriState.CBTriStateValue;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class CBSolenoid implements CBDevice {
-	String name, subsystem;
-	Solenoid solenoid;
+    String name, subsystem;
+    Solenoid solenoid;
 
-	public CBSolenoid(int channel) {
-		solenoid = new Solenoid(channel);
-	}
+    public CBSolenoid(int channel) {
+        solenoid = new Solenoid(channel);
+    }
 
-	public CBSolenoid(int moduleNumber, int channel) {
-		solenoid = new Solenoid(moduleNumber,channel);
-	}
-	
-	public CBSolenoid set(CBTriStateValue value) {
-		if(value==CBTriStateValue.high) solenoid.set(true);
-		else if(value==CBTriStateValue.low) solenoid.set(false);
-		return this;
-	}
+    public CBSolenoid(int moduleNumber, int channel) {
+        solenoid = new Solenoid(moduleNumber, channel);
+    }
 
-	/**
-	 * Set the value of a solenoid.
-	 *
-	 * @param on True will turn the solenoid output on. False will turn the solenoid output off.
-	 */
-	public void set(boolean on) {
-		solenoid.set(on);
-	}
+    public CBSolenoid set(CBTriStateValue value) {
+        if (value == CBTriStateValue.high) solenoid.set(true);
+        else if (value == CBTriStateValue.low) solenoid.set(false);
+        return this;
+    }
 
-	/**
-	 * Read the current value of the solenoid.
-	 *
-	 * @return True if the solenoid output is on or false if the solenoid output is off.
-	 */
-	public boolean get() {
-		return solenoid.get();
-	}
+    /**
+     * Set the value of a solenoid.
+     *
+     * @param on True will turn the solenoid output on. False will turn the solenoid output off.
+     */
+    public void set(boolean on) {
+        solenoid.set(on);
+    }
 
-	/**
-	 * Check if solenoid is blacklisted. If a solenoid is shorted, it is added to the blacklist and
-	 * disabled until power cycle, or until faults are cleared.
-	 *
-	 * @return If solenoid is disabled due to short.
-	 * //@see #clearAllPCMStickyFaults()
-	 */
-	public boolean isBlackListed() {
-		return solenoid.isBlackListed();
-	}
+    /**
+     * Read the current value of the solenoid.
+     *
+     * @return True if the solenoid output is on or false if the solenoid output is off.
+     */
+    public boolean get() {
+        return solenoid.get();
+    }
 
-	/**
-	 * Set the pulse duration in the PCM. This is used in conjunction with
-	 * the startPulse method to allow the PCM to control the timing of a pulse.
-	 * The timing can be controlled in 0.01 second increments.
-	 *
-	 * @param durationSeconds The duration of the pulse, from 0.01 to 2.55 seconds.
-	 *
-	 * @see #startPulse()
-	 */
-	public void setPulseDuration(double durationSeconds) {
-		solenoid.setPulseDuration(durationSeconds);
-	}
+    /**
+     * Check if solenoid is blacklisted. If a solenoid is shorted, it is added to the blacklist and
+     * disabled until power cycle, or until faults are cleared.
+     *
+     * @return If solenoid is disabled due to short.
+     * //@see #clearAllPCMStickyFaults()
+     */
+    public boolean isBlackListed() {
+        return solenoid.isBlackListed();
+    }
 
-	/**
-	 * Trigger the PCM to generate a pulse of the duration set in
-	 * setPulseDuration.
-	 *
-	 * @see #setPulseDuration(double)
-	 */
-	public void startPulse() {
-		solenoid.startPulse();
-	}
+    /**
+     * Set the pulse duration in the PCM. This is used in conjunction with
+     * the startPulse method to allow the PCM to control the timing of a pulse.
+     * The timing can be controlled in 0.01 second increments.
+     *
+     * @param durationSeconds The duration of the pulse, from 0.01 to 2.55 seconds.
+     * @see #startPulse()
+     */
+    public void setPulseDuration(double durationSeconds) {
+        solenoid.setPulseDuration(durationSeconds);
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    /**
+     * Trigger the PCM to generate a pulse of the duration set in
+     * setPulseDuration.
+     *
+     * @see #setPulseDuration(double)
+     */
+    public void startPulse() {
+        solenoid.startPulse();
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String getSubsystem() {
-		return subsystem;
-	}
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public void setSubsystem(String subsystem) {
-		this.subsystem = subsystem;
-	}
+    @Override
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
 
 
-	@Override
-	public void initSendable(SendableBuilder builder) {
-		builder.setSmartDashboardType("Solenoid");
-		builder.setSafeState(() -> set(false));
-		builder.addBooleanProperty("Value", this::get, this::set);
-	}
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Solenoid");
+        builder.setSafeState(() -> set(false));
+        builder.addBooleanProperty("Value", this::get, this::set);
+    }
 
-	public CBSolenoid setDeviceName(String name) {
-		setName(name);
-		return this;
-	}
+    public CBSolenoid setDeviceName(String name) {
+        setName(name);
+        return this;
+    }
 
-	public CBSolenoid setDeviceName(String subsystem, String name) {
-		setName(subsystem, name);
-		return this;
-	}
+    public CBSolenoid setDeviceName(String subsystem, String name) {
+        setName(subsystem, name);
+        return this;
+    }
 
-	@Override
-	public CBDeviceControl getDeviceControl() {
-		return deviceControl;
-	}
+    @Override
+    public CBDeviceControl getDeviceControl() {
+        return deviceControl;
+    }
 
-	CBDeviceControl deviceControl = new CBDeviceControl() {
-		@Override
-		public void init() {
+    CBDeviceControl deviceControl = new CBDeviceControl() {
+        @Override
+        public void init() {
 
-		}
+        }
 
-		@Override
-		public void senseUpdate() {
+        @Override
+        public void senseUpdate() {
 
-		}
+        }
 
-		@Override
-		public void controlUpdate() {
+        @Override
+        public void controlUpdate() {
 
-		}
-	};
+        }
+    };
 }
