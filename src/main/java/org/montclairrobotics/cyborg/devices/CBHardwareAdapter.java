@@ -125,6 +125,10 @@ public class CBHardwareAdapter extends CBModule {
 		return (CBPov)getDevice(id);
 	}
 
+	public CBServo getServo(CBDeviceID id) {
+		return (CBServo) getDevice(id);
+	}
+
 	public CBSolenoid getSolenoidValve(CBDeviceID id) {
 		return (CBSolenoid)getDevice(id);
 	}
