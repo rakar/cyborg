@@ -19,7 +19,9 @@ On the output side "controllers" convert the high-level output data from the log
 
 By isolating the logic layer, the input mappers, and the output controllers the entire process is broken down into clear discrete components that will hopefully allow for efficient implementation with a high degree of code reuse and a high degree of flexibility. 
 
-Connecting the mappers and the behaviors and similarly the behaviors and the controllers are a number of data stores. These data stores act as the output of one "zone" and the input to another. Specifically, the mappers read from the devices defined in the hardware adapter and output the results to a data store representing the high-level requests. The behaviors then read from these same data store, determine what should be done and then output the desired control request to the control data store, which are in turn read by the controllers which execute the control requests by sending outputs full circle to the appropriate devices in the hardware adapter. The request data a specific property for the drivetrain data. The controller data does as well. This is done to facilitate using standard pre-built data stores and standard pre-built mappers, behaviors and controllers to control the drive train. These are often standard enough that they can be used "off the shelf" saving significant time in getting a robot up and running. Of course custom components can be used for any piece or all of the drivetrain control if desired. It is our hope that the tools provided in the framework will cover most (hopefully virtually all) drivetrains. On the other hand, manipulator control is almost impossible to predict, so additional properties will be added to custom extensions of the data stores to house this control data. These can hold whatever data is required by the mappers, behaviors and controllers you create to manage the rest of your robot. An additional data store is provided for the logic layer to maintain any additional data that would be required within the logic components. The autonomous behaviors are special in that they write to the Request data store.  
+Connecting the mappers and the behaviors and similarly the behaviors and the controllers are a number of data stores. These data stores act as the output of one "zone" and the input to another. Specifically, the mappers read from the devices defined in the hardware adapter and output the results to a data store representing the high-level requests. The behaviors then read from these same data store, determine what should be done and then output the desired control request to the control data store, which is in turn read by the controllers which execute the control requests by sending outputs full circle to the appropriate devices in the hardware adapter. 
+
+It is our hope that the tools provided in the framework will cover request and control information for most drivetrains. On the other hand, manipulator control is almost impossible to predict, so additional properties will be added to custom extensions of the data stores to house this control data. These can hold whatever data is required by the mappers, behaviors and controllers you create to manage the rest of your robot. An additional data store is provided for the logic layer to maintain any additional data that would be required within the logic components. The autonomous behaviors are special in that they write to the Request data store.  
 
 Additionally, the structured framework should allow for the creation of a rich toolset that will further promote rapid reliable code development. 
 
@@ -37,8 +39,7 @@ Controller classes for any custom device control. (Ex. SHCustomController.java e
 
 Custom data, mapper, behavior, and controller classes are only needed if standard ones can't be used. 
 
- 
-
+Please refer to the sample project repo listed above to see the implementation of a cybor robot. 
 
 
 
@@ -46,7 +47,7 @@ Custom data, mapper, behavior, and controller classes are only needed if standar
 Implementation Directives:
 
 Functional Isolation
-Any component should only operate within a single zone of the system. For example mappers should only connect devices inputs and the request data stores. They should never access the control data stores or device outputs. Likewise, behaviors should never look at the devices directly, but instead should only access the request and control data stores. Controllers should only access the control data stores and devices.
+Any component should only operate within a single zone of the system. For example mappers should only connect devices to the request data stores. They should never access the control data stores or control devices. Likewise, behaviors should never look at the devices directly, but instead should only access the request and control data stores. Controllers should only access the control data stores and devices.
 
 Device Catalog
 Devices are defined and added to the HardwareAdapter which manages them. From then on a DeviceId is used to reference the device in other Cyborg classes. 
