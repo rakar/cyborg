@@ -6,7 +6,7 @@ The cyborg project is an attempt to streamline the development of the human/robo
 The intent is to provide a core framework to control the overall process, along with a set of extendable, customizable, replaceable plug-in modules that each perform simple well defined functions. In combination, the framework and these modules, along with custom user modules should be able to perform any of the basic to complex functions required by modern competitive robots. 
 
 ### Quick Notes:
-- This repo is the framework project itself. Users who want to work on cyborg development should continue delving into this repo. Users who simply want to use the framework should probably look at [CBFRCRobot2019](https://github.com/rakar/CBFRCRobot2019).
+- This repo is the framework project itself. Users who want to work on cyborg development should continue delving into this repo. Users who simply want to use the framework should probably look at the cyborg wiki and the [CBFRCRobot2019](https://github.com/rakar/CBFRCRobot2019) repo.
 - If you do clone this repo, be aware that it contains submodules so you must execute **git submodule update --init** in the root directory of the cloned project in order to pull the submodule source.
 
 An overview chart can be found [here](https://drive.google.com/open?id=1_jMmhirzTuN9DtRAc1PL9qTd5cR360GLOtq_dHbUayQ).
