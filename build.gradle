@@ -7,7 +7,13 @@
  */
 
 // Apply the java-library plugin to add support for Java Library
-apply plugin: 'java-library'
+//apply plugin: 'java-library'
+plugins {
+    id 'idea'
+    id 'java'
+    id 'java-library'
+    id "edu.wpi.first.GradleRIO" version "2019.1.1"
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -53,13 +59,23 @@ ext.autoIncrementBuildNumber = {
 
 
 dependencies { 
-    implementation 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
-    implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.2.2.0'
-    implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.346'
-    implementation 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
+    //implementation 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
+    //implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.2.2.0'
+    //implementation 'openrio.mirror.third.kauailabs:navx-java:3.0.346'
+    //implementation 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
+    //implementation fileTree(dir: "libs", include: ['*.jar'])
+    //// Use JUnit test framework
+    ////testImplementation 'junit:junit:4.12'
+    implementation 'edu.wpi.first.wpilibj:wpilibj-java:2019.1.1'
+    implementation 'edu.wpi.first.ntcore:ntcore-java:2019.1.1'
+    implementation 'edu.wpi.first.wpiutil:wpiutil-java:2019.1.1'
+    implementation 'openrio.mirror.third.ctre:CTRE-phoenix-java:5.7.1.0'
     implementation fileTree(dir: "libs", include: ['*.jar'])
-    // Use JUnit test framework
-    //testImplementation 'junit:junit:4.12'
+    
+    compile wpi.deps.wpilib()
+    compile wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 }
 
 jar {

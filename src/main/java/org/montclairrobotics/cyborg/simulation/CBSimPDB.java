@@ -1,16 +1,15 @@
 package org.montclairrobotics.cyborg.simulation;
 
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.SensorBase;
-import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
+
+import static edu.wpi.first.wpilibj.SensorUtil.kPDPChannels;
 
 /**
  * Class for getting voltage, current, temperature, speed and energy from the Power Distribution
  * Panel over CAN.
  */
-public class CBSimPDB extends SensorBase implements CBIPDB {
+public class CBSimPDB implements CBIPDB {
     CBSimPDBData simData;
 
     public class CBSimPDBData {
@@ -32,7 +31,7 @@ public class CBSimPDB extends SensorBase implements CBIPDB {
      */
     public CBSimPDB(int module) {
         simData = new CBSimPDBData(module);
-        setName("PowerDistributionPanel", module);
+        //setName("PowerDistributionPanel", module);
         Cyborg.simLink.pdbs.add(simData);
     }
 
@@ -123,6 +122,26 @@ public class CBSimPDB extends SensorBase implements CBIPDB {
     public void clearStickyFaults() {
 
         // Clear faults
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public void setName(String name) {
+
+    }
+
+    @Override
+    public String getSubsystem() {
+        return null;
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) {
+
     }
 
     @Override

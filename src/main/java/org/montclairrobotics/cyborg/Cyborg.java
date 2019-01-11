@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.TimedRobot;
 import org.montclairrobotics.cyborg.core.behaviors.CBAutonomous;
 import org.montclairrobotics.cyborg.core.behaviors.CBBehavior;
 import org.montclairrobotics.cyborg.core.behaviors.CBRule;
@@ -26,7 +27,7 @@ import org.montclairrobotics.cyborg.simulation.CBSimLink;
  *
  * @author rich
  */
-public abstract class Cyborg extends IterativeRobot {
+public abstract class Cyborg extends TimedRobot {
 
     public static CBHardwareAdapter hardwareAdapter;
     public static boolean simulationActive;
