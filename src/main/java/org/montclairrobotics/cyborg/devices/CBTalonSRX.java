@@ -6,15 +6,17 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import org.montclairrobotics.cyborg.Cyborg;
 
 public class CBTalonSRX extends CBSpeedController implements CBDevice {
     TalonSRX talon;
     int canChannel;
 
     public CBTalonSRX(int canChannel) {
-        this.talon = new TalonSRX(canChannel);
+        this.talon = new com.ctre.phoenix.motorcontrol.can.TalonSRX(canChannel);
         this.canChannel = canChannel;
     }
+
 
     @Override
     public CBSpeedController pidWrite(double output) {
@@ -30,6 +32,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
     @Override
     public CBSpeedController set(double speed) {
         talon.set(ControlMode.PercentOutput, speed);
+        if(debug) {
+            Cyborg.hardwareAdapter.robot.logMessage("CBTalonSRX: set: "+Double.toString(speed));
+        }
         return this;
     }
 

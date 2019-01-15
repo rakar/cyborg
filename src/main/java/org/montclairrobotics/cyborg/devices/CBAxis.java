@@ -1,6 +1,7 @@
 package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
 
 public class CBAxis extends CBAxisRef implements CBDevice {
@@ -12,7 +13,7 @@ public class CBAxis extends CBAxisRef implements CBDevice {
     double deadzone;
     double smoothing;
     double lastValue;
-    double scale;
+    double scale=1.0;
     protected boolean initialized;
 
 

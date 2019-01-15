@@ -14,12 +14,18 @@ public abstract class CBSpeedController implements CBDevice {
     protected CBPDB pdb;
     protected int pdbChannel;
     protected CBSpeedControllerFaultCriteria faultCriteria;
+    protected boolean debug;
 
     public abstract CBSpeedController pidWrite(double output);
 
     public abstract double get();
 
     //CBSpeedController set(double speed, byte syncGroup);
+
+    public CBSpeedController setDebug(boolean debug) {
+        this.debug = debug;
+        return this;
+    }
 
     public abstract CBSpeedController set(double speed);
 

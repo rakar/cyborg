@@ -79,6 +79,7 @@ dependencies {
 }
 
 jar {
+    //from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest {
         attributes('Implementation-Title': project.name,
                 'Implemntation-Version': project.version)
