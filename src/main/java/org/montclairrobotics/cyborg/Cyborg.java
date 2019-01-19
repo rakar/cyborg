@@ -20,9 +20,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.simulation.CBSimLink;
 
 /**
- * Framework specific replacement for IterativeRobot. This class
+ * Framework specific replacement for TimedRobot. This class
  * is overridden to produce the main robot control class. This class
- * "hijacks" the standard IterativeRobot interface and performs the
+ * "hijacks" the standard TimedRobot interface and performs the
  * appropriate Cyborg operations instead.
  *
  * @author rich

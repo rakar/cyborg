@@ -179,6 +179,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
         talon.set(mode, outputValue);
     }
 
+    @Deprecated
     public void set(ControlMode mode, double demand0, double demand1) {
         talon.set(mode, demand0, demand1);
     }
@@ -914,8 +915,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
         return talon.getBaseID();
     }
 
-    public void follow(IMotorController masterToFollow) {
-        talon.follow(masterToFollow);
+    public CBTalonSRX follow(CBDeviceID master) { //IMotorController masterToFollow) {
+        talon.follow(Cyborg.hardwareAdapter.getTalonSRX(master).talon);
+        return this;
     }
 
     public void valueUpdated() {
