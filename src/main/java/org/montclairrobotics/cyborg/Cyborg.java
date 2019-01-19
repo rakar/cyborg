@@ -53,33 +53,45 @@ public abstract class Cyborg extends TimedRobot {
      */
     public static double angleToRadiansConversion = Math.PI / 180.0;
 
-    public Cyborg addTeleOpMapper(CBTeleOpMapper mapper) {
-        teleOpMappers.add(mapper);
+    public Cyborg addTeleOpMapper(CBTeleOpMapper... mappers) {
+        for(CBTeleOpMapper mapper:mappers) {
+            teleOpMappers.add(mapper);
+        }
         return this;
     }
 
-    public Cyborg addSensorMapper(CBSensorMapper mapper) {
-        sensorMappers.add(mapper);
+    public Cyborg addSensorMapper(CBSensorMapper... mappers) {
+        for(CBSensorMapper mapper:mappers) {
+            sensorMappers.add(mapper);
+        }
         return this;
     }
 
-    public Cyborg addRobotController(CBRobotController controller) {
-        robotControllers.add(controller);
+    public Cyborg addRobotController(CBRobotController... controllers) {
+        for(CBRobotController controller:controllers) {
+            robotControllers.add(controller);
+        }
         return this;
     }
 
-    public Cyborg addRule(CBRule rule) {
-        rules.add(rule);
+    public Cyborg addRule(CBRule... rules) {
+        for(CBRule rule:rules) {
+            this.rules.add(rule);
+        }
         return this;
     }
 
-    public Cyborg addBehavior(CBBehavior behavior) {
-        behaviors.add(behavior);
+    public Cyborg addBehavior(CBBehavior... behaviors) {
+        for(CBBehavior behavior:behaviors) {
+            this.behaviors.add(behavior);
+        }
         return this;
     }
 
-    public Cyborg addAutonomous(CBAutonomous autonomous) {
-        autonomice.add(autonomous);
+    public Cyborg addAutonomous(CBAutonomous... autonomice) {
+        for(CBAutonomous autonomous:autonomice) {
+            this.autonomice.add(autonomous);
+        }
         return this;
     }
 
