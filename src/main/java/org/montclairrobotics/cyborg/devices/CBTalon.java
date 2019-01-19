@@ -1,21 +1,14 @@
 package org.montclairrobotics.cyborg.devices;
 
-import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.simulation.CBITalon;
-import org.montclairrobotics.cyborg.simulation.CBSimTalon;
-import org.montclairrobotics.cyborg.simulation.CBWPITalon;
+import edu.wpi.first.wpilibj.Talon;
 
 public class CBTalon extends CBSpeedController implements CBDevice {
-    CBITalon talon;
+    Talon talon;
     int pwmPort;
 
     public CBTalon(int pwmPort) {
         this.pwmPort = pwmPort;
-        if (Cyborg.simulationActive) {
-            talon = new CBSimTalon(pwmPort);
-        } else {
-            talon = new CBWPITalon(pwmPort);
-        }
+        talon = new Talon(pwmPort);
     }
 
 

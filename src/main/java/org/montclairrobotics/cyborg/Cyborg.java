@@ -1,23 +1,20 @@
 package org.montclairrobotics.cyborg;
 
-import java.util.ArrayList;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.core.behaviors.CBAutonomous;
 import org.montclairrobotics.cyborg.core.behaviors.CBBehavior;
 import org.montclairrobotics.cyborg.core.behaviors.CBRule;
 import org.montclairrobotics.cyborg.core.controllers.CBRobotController;
-import org.montclairrobotics.cyborg.devices.CBHardwareAdapter;
 import org.montclairrobotics.cyborg.core.mappers.CBSensorMapper;
 import org.montclairrobotics.cyborg.core.mappers.CBTeleOpMapper;
 import org.montclairrobotics.cyborg.core.utils.CBGameMode;
 import org.montclairrobotics.cyborg.core.utils.CBRunStatistics;
+import org.montclairrobotics.cyborg.devices.CBHardwareAdapter;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.montclairrobotics.cyborg.simulation.CBSimLink;
+import java.util.ArrayList;
 
 /**
  * Framework specific replacement for TimedRobot. This class
@@ -31,7 +28,7 @@ public abstract class Cyborg extends TimedRobot {
 
     public static CBHardwareAdapter hardwareAdapter;
     public static boolean simulationActive;
-    public static CBSimLink simLink;
+    //public static CBSimLink simLink;
 
     // Mapper/Controller Queues
     // Mapper Queues hold lists of mappers that convert raw input state information into meaningful status info

@@ -1,83 +1,16 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import org.montclairrobotics.cyborg.Cyborg;
-import org.montclairrobotics.cyborg.simulation.CBIPDB;
-import org.montclairrobotics.cyborg.simulation.CBSimPDB;
-import org.montclairrobotics.cyborg.simulation.CBWPIPDB;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
-public class CBPDB implements CBDevice {
+public class CBPDB extends PowerDistributionPanel implements CBDevice {
     String name, subsystem;
-
-    private int canID;
-    private CBIPDB pdb;
 
     public CBPDB() {
         this(0);
     }
 
     public CBPDB(int CanID) {
-        canID = CanID;
-        if (Cyborg.simulationActive) {
-            pdb = new CBSimPDB(CanID);
-        } else {
-            pdb = new CBWPIPDB(CanID);
-        }
-    }
-
-    public CBPDB clearStickyFaults() {
-        pdb.clearStickyFaults();
-        return this;
-    }
-
-    public boolean equals(Object obj) {
-        return pdb.equals(obj);
-    }
-
-    //public CBPDB free() {
-    //	pdb.free();
-    //	return this;
-    //}
-
-    public double getCurrent(int channel) {
-        return pdb.getCurrent(channel);
-    }
-
-    public double getTemperature() {
-        return pdb.getTemperature();
-    }
-
-    public double getTotalCurrent() {
-        return pdb.getTotalCurrent();
-    }
-
-    public double getTotalEnergy() {
-        return pdb.getTotalEnergy();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getSubsystem() {
-        return subsystem;
-    }
-
-    @Override
-    public void setSubsystem(String subsystem) {
-        this.subsystem = subsystem;
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-
+        super(CanID);
     }
 
     public CBPDB setDeviceName(String name) {

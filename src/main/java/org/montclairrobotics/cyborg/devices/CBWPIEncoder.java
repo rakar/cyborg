@@ -1,4 +1,4 @@
-package org.montclairrobotics.cyborg.simulation;
+package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.Encoder;
@@ -12,6 +12,5 @@ public class CBWPIEncoder extends Encoder implements CBIEncoder {
     public CBWPIEncoder(DigitalSource sourceA, DigitalSource sourceB, boolean reverseDirection,
                    final EncodingType encodingType) {
         super(sourceA, sourceB, reverseDirection, encodingType);
-
     }
 }

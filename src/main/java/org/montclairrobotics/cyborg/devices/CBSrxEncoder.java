@@ -1,9 +1,8 @@
-package org.montclairrobotics.cyborg.simulation;
+package org.montclairrobotics.cyborg.devices;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import org.montclairrobotics.cyborg.devices.CBTalonSRX;
 
 public class CBSrxEncoder implements CBIEncoder {
     CBTalonSRX srx;
