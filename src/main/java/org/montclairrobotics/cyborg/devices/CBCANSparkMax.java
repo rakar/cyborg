@@ -7,6 +7,10 @@ public class CBCANSparkMax extends CBSmartSpeedController {
     CANSparkMax controller;
     CANError canError;
 
+    public CBCANSparkMax(int channel, CANSparkMaxLowLevel.MotorType motorType) {
+        controller = new CANSparkMax(channel, motorType);
+    }
+
     @Override
     public CBCANSparkMax pidWrite(double output) {
         controller.pidWrite(output);

@@ -14,7 +14,7 @@ public class CBTalonSRX extends CBSmartSpeedController {
     ErrorCode errorCode;
 
     public CBTalonSRX(int canChannel) {
-        this.controller = new com.ctre.phoenix.motorcontrol.can.TalonSRX(canChannel);
+        this.controller = new TalonSRX(canChannel);
         this.canChannel = canChannel;
     }
 
