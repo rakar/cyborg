@@ -69,6 +69,7 @@ public class CBHardwareAdapter extends CBModule {
     public CBDeviceID add(CBDevice device) {
         CBDeviceID id = new CBDeviceID();
         id.ordinal = devices.size();
+        //id.device = device;
         devices.add(device);
         //device.getDeviceControl().deviceInit(); // I don't think this should happen with the other init calls.
         initialized = false;
