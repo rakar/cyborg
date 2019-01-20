@@ -8,30 +8,30 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.montclairrobotics.cyborg.Cyborg;
 
-public class CBTalonSRX extends CBSpeedController implements CBDevice {
-    TalonSRX talon;
+public class CBTalonSRX extends CBSmartSpeedController {
+    TalonSRX controller;
     int canChannel;
+    ErrorCode errorCode;
 
     public CBTalonSRX(int canChannel) {
-        this.talon = new com.ctre.phoenix.motorcontrol.can.TalonSRX(canChannel);
+        this.controller = new com.ctre.phoenix.motorcontrol.can.TalonSRX(canChannel);
         this.canChannel = canChannel;
     }
 
-
     @Override
-    public CBSpeedController pidWrite(double output) {
-        talon.set(ControlMode.PercentOutput, output);
+    public CBTalonSRX pidWrite(double output) {
+        controller.set(ControlMode.PercentOutput, output);
         return this;
     }
 
     @Override
     public double get() {
-        return talon.getMotorOutputPercent();
+        return controller.getMotorOutputPercent();
     }
 
     @Override
-    public CBSpeedController set(double speed) {
-        talon.set(ControlMode.PercentOutput, speed);
+    public CBTalonSRX set(double speed) {
+        controller.set(ControlMode.PercentOutput, speed);
         if(debug) {
             Cyborg.hardwareAdapter.robot.logMessage("CBTalonSRX: set: "+Double.toString(speed));
         }
@@ -39,27 +39,57 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
     }
 
     @Override
-    public CBSpeedController setInverted(boolean isInverted) {
-        talon.setInverted(isInverted);
+    public CBTalonSRX setInverted(boolean isInverted) {
+        controller.setInverted(isInverted);
         return this;
     }
 
     @Override
     public boolean getInverted() {
-        return talon.getInverted();
+        return controller.getInverted();
     }
 
     @Override
-    public CBSpeedController disable() {
-        talon.neutralOutput();
+    public CBTalonSRX disable() {
+        controller.neutralOutput();
         return this;
     }
 
     @Override
-    public CBSpeedController stopMotor() {
-        talon.neutralOutput();
-        return null;
+    public CBTalonSRX stopMotor() {
+        controller.neutralOutput();
+        return this;
     }
+
+    public double getOutputVoltage() {
+        return controller.getMotorOutputVoltage();
+    }
+
+    public double getOutputCurrent() {
+        return controller.getOutputCurrent();
+    }
+
+    public double getTemperature() {
+        return controller.getTemperature();
+    }
+
+    public CBTalonSRX follow(CBDeviceID master) {
+        controller.follow(Cyborg.hardwareAdapter.getTalonSRX(master).controller);
+        return this;
+    }
+
+    public CBTalonSRX follow(CBDeviceID master, boolean inverted) {
+        controller.follow(Cyborg.hardwareAdapter.getTalonSRX(master).controller);
+        if(!inverted)
+            controller.setInverted(InvertType.FollowMaster);
+        else
+            controller.setInverted(InvertType.OpposeMaster);
+        return this;
+    }
+
+
+
+
 
     public CBTalonSRX setDeviceName(String name) {
         setName(name);
@@ -81,28 +111,33 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
         }
     }
 
-    public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
-        return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);
+    public CBTalonSRX setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
+        errorCode =  controller.setStatusFramePeriod(frame, periodMs, timeoutMs);
+        return this;
     }
 
     public int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
-        return talon.getStatusFramePeriod(frame, timeoutMs);
+        return controller.getStatusFramePeriod(frame, timeoutMs);
     }
 
-    public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs) {
-        return talon.configVelocityMeasurementPeriod(period, timeoutMs);
+    public CBTalonSRX configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs) {
+        errorCode =  controller.configVelocityMeasurementPeriod(period, timeoutMs);
+        return this;
     }
 
-    public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs) {
-        return talon.configVelocityMeasurementWindow(windowSize, timeoutMs);
+    public CBTalonSRX configVelocityMeasurementWindow(int windowSize, int timeoutMs) {
+        errorCode = controller.configVelocityMeasurementWindow(windowSize, timeoutMs);
+        return this;
     }
 
-    public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
-        return talon.configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+    public CBTalonSRX configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
+        errorCode = controller.configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+        return this;
     }
 
-    public ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
-        return talon.configReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+    public CBTalonSRX configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
+        errorCode = controller.configReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+        return this;
     }
 
     /**
@@ -112,8 +147,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configPeakCurrentLimit(int amps, int timeoutMs) {
-        return talon.configPeakCurrentLimit(amps, timeoutMs);
+    public CBTalonSRX configPeakCurrentLimit(int amps, int timeoutMs) {
+        errorCode = controller.configPeakCurrentLimit(amps, timeoutMs);
+        return this;
     }
 
     /**
@@ -124,8 +160,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs    Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configPeakCurrentDuration(int milliseconds, int timeoutMs) {
-        return talon.configPeakCurrentDuration(milliseconds, timeoutMs);
+    public CBTalonSRX configPeakCurrentDuration(int milliseconds, int timeoutMs) {
+        errorCode = controller.configPeakCurrentDuration(milliseconds, timeoutMs);
+        return this;
     }
 
     /**
@@ -135,8 +172,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs) {
-        return talon.configContinuousCurrentLimit(amps, timeoutMs);
+    public CBTalonSRX configContinuousCurrentLimit(int amps, int timeoutMs) {
+        errorCode = controller.configContinuousCurrentLimit(amps, timeoutMs);
+        return this;
     }
 
     /**
@@ -144,12 +182,13 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *
      * @param enable Enable state of current limit.
      **/
-    public void enableCurrentLimit(boolean enable) {
-        talon.enableCurrentLimit(enable);
+    public CBTalonSRX enableCurrentLimit(boolean enable) {
+        controller.enableCurrentLimit(enable);
+        return this;
     }
 
     public long getHandle() {
-        return talon.getHandle();
+        return controller.getHandle();
     }
 
     /**
@@ -158,37 +197,39 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Device number.
      */
     public int getDeviceID() {
-        return talon.getDeviceID();
+        return controller.getDeviceID();
     }
 
     /**
-     * Sets the appropriate output on the talon, depending on the mode.
+     * Sets the appropriate output on the controller, depending on the mode.
      * <p>
      * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as
      * stopped. In Voltage mode, output value is in volts. In Current mode,
      * output value is in amperes. In Speed mode, output value is in position
      * change / 100ms. In Position mode, output value is in encoder ticks or an
      * analog value, depending on the sensor. In Follower mode, the output value
-     * is the integer device ID of the talon to duplicate.
+     * is the integer device ID of the controller to duplicate.
      *
      * @param mode
      * @param outputValue The setpoint value, as described above.
      *                    //@see #SelectProfileSlot to choose between the two sets of gains.
      */
-    public void set(ControlMode mode, double outputValue) {
-        talon.set(mode, outputValue);
+    public CBTalonSRX set(ControlMode mode, double outputValue) {
+        controller.set(mode, outputValue);
+        return this;
     }
 
     @Deprecated
     public void set(ControlMode mode, double demand0, double demand1) {
-        talon.set(mode, demand0, demand1);
+        controller.set(mode, demand0, demand1);
     }
 
     /**
      * Neutral the motor output by setting control mode to disabled.
      */
-    public void neutralOutput() {
-        talon.neutralOutput();
+    public CBTalonSRX neutralOutput() {
+        controller.neutralOutput();
+        return this;
     }
 
     /**
@@ -197,16 +238,19 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param neutralMode The desired mode of operation when the Controller output
      *                    throttle is neutral (ie brake/coast)
      **/
-    public void setNeutralMode(NeutralMode neutralMode) {
-        talon.setNeutralMode(neutralMode);
+    public CBTalonSRX setNeutralMode(NeutralMode neutralMode) {
+        controller.setNeutralMode(neutralMode);
+        return this;
     }
 
-    public void enableHeadingHold(boolean enable) {
-        talon.enableHeadingHold(enable);
+    public CBTalonSRX enableHeadingHold(boolean enable) {
+        controller.enableHeadingHold(enable);
+        return this;
     }
 
-    public void selectDemandType(boolean value) {
-        talon.selectDemandType(value);
+    public CBTalonSRX selectDemandType(boolean value) {
+        controller.selectDemandType(value);
+        return this;
     }
 
     /**
@@ -215,8 +259,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *
      * @param PhaseSensor Indicates whether to invert the phase of the sensor.
      **/
-    public void setSensorPhase(boolean PhaseSensor) {
-        talon.setSensorPhase(PhaseSensor);
+    public CBTalonSRX setSensorPhase(boolean PhaseSensor) {
+        controller.setSensorPhase(PhaseSensor);
+        return this;
     }
 
     /**
@@ -228,8 +273,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *                                 not successful within timeout.
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
-        return talon.configOpenloopRamp(secondsFromNeutralToFull, timeoutMs);
+    public CBTalonSRX configOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
+        errorCode = controller.configOpenloopRamp(secondsFromNeutralToFull, timeoutMs);
+        return this;
     }
 
     /**
@@ -240,8 +286,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs                Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configClosedloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
-        return talon.configClosedloopRamp(secondsFromNeutralToFull, timeoutMs);
+    public CBTalonSRX configClosedloopRamp(double secondsFromNeutralToFull, int timeoutMs) {
+        errorCode = controller.configClosedloopRamp(secondsFromNeutralToFull, timeoutMs);
+        return this;
     }
 
     /**
@@ -251,8 +298,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs  Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configPeakOutputForward(double percentOut, int timeoutMs) {
-        return talon.configPeakOutputForward(percentOut, timeoutMs);
+    public CBTalonSRX configPeakOutputForward(double percentOut, int timeoutMs) {
+        errorCode = controller.configPeakOutputForward(percentOut, timeoutMs);
+        return this;
     }
 
     /**
@@ -262,8 +310,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs  Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configPeakOutputReverse(double percentOut, int timeoutMs) {
-        return talon.configPeakOutputReverse(percentOut, timeoutMs);
+    public CBTalonSRX configPeakOutputReverse(double percentOut, int timeoutMs) {
+        errorCode = controller.configPeakOutputReverse(percentOut, timeoutMs);
+        return this;
     }
 
     /**
@@ -273,8 +322,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs  Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configNominalOutputForward(double percentOut, int timeoutMs) {
-        return talon.configNominalOutputForward(percentOut, timeoutMs);
+    public CBTalonSRX configNominalOutputForward(double percentOut, int timeoutMs) {
+        errorCode = controller.configNominalOutputForward(percentOut, timeoutMs);
+        return this;
     }
 
     /**
@@ -284,8 +334,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs  Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configNominalOutputReverse(double percentOut, int timeoutMs) {
-        return talon.configNominalOutputReverse(percentOut, timeoutMs);
+    public CBTalonSRX configNominalOutputReverse(double percentOut, int timeoutMs) {
+        errorCode = controller.configNominalOutputReverse(percentOut, timeoutMs);
+        return this;
     }
 
     /**
@@ -296,8 +347,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs       Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configNeutralDeadband(double percentDeadband, int timeoutMs) {
-        return talon.configNeutralDeadband(percentDeadband, timeoutMs);
+    public CBTalonSRX configNeutralDeadband(double percentDeadband, int timeoutMs) {
+        errorCode = controller.configNeutralDeadband(percentDeadband, timeoutMs);
+        return this;
     }
 
     /**
@@ -307,8 +359,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configVoltageCompSaturation(double voltage, int timeoutMs) {
-        return talon.configVoltageCompSaturation(voltage, timeoutMs);
+    public CBTalonSRX configVoltageCompSaturation(double voltage, int timeoutMs) {
+        errorCode = controller.configVoltageCompSaturation(voltage, timeoutMs);
+        return this;
     }
 
     /**
@@ -319,8 +372,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs           Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs) {
-        return talon.configVoltageMeasurementFilter(filterWindowSamples, timeoutMs);
+    public CBTalonSRX configVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs) {
+        errorCode = controller.configVoltageMeasurementFilter(filterWindowSamples, timeoutMs);
+        return this;
     }
 
     /**
@@ -329,8 +383,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *
      * @param enable Enable state of voltage compensation.
      **/
-    public void enableVoltageCompensation(boolean enable) {
-        talon.enableVoltageCompensation(enable);
+    public CBTalonSRX enableVoltageCompensation(boolean enable) {
+        controller.enableVoltageCompensation(enable);
+        return this;
     }
 
     /**
@@ -339,7 +394,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return The bus voltage value (in volts).
      */
     public double getBusVoltage() {
-        return talon.getBusVoltage();
+        return controller.getBusVoltage();
     }
 
     /**
@@ -348,33 +403,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Output of the motor controller (in percent).
      */
     public double getMotorOutputPercent() {
-        return talon.getMotorOutputPercent();
+        return controller.getMotorOutputPercent();
     }
 
-    /**
-     * @return applied voltage to motor
-     */
-    public double getMotorOutputVoltage() {
-        return talon.getMotorOutputVoltage();
-    }
-
-    /**
-     * Gets the output current of the motor controller.
-     *
-     * @return The output current (in amps).
-     */
-    public double getOutputCurrent() {
-        return talon.getOutputCurrent();
-    }
-
-    /**
-     * Gets the temperature of the motor controller.
-     *
-     * @return Temperature of the motor controller (in 'C)
-     */
-    public double getTemperature() {
-        return talon.getTemperature();
-    }
 
     /**
      * Select the remote feedback device for the motor controller.
@@ -384,8 +415,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs      Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
-        return talon.configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
+    public CBTalonSRX configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
+        errorCode = controller.configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
+        return this;
     }
 
     /**
@@ -396,16 +428,19 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs      Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
-        return talon.configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
+    public CBTalonSRX configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
+        errorCode = controller.configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
+        return this;
     }
 
-    public ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs) {
-        return talon.configRemoteFeedbackFilter(deviceID, remoteSensorSource, remoteOrdinal, timeoutMs);
+    public CBTalonSRX configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs) {
+        errorCode = controller.configRemoteFeedbackFilter(deviceID, remoteSensorSource, remoteOrdinal, timeoutMs);
+        return this;
     }
 
-    public ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs) {
-        return talon.configSensorTerm(sensorTerm, feedbackDevice, timeoutMs);
+    public CBTalonSRX configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs) {
+        errorCode = controller.configSensorTerm(sensorTerm, feedbackDevice, timeoutMs);
+        return this;
     }
 
     /**
@@ -415,7 +450,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Position of selected sensor (in Raw Sensor Units).
      */
     public int getSelectedSensorPosition(int pidIdx) {
-        return talon.getSelectedSensorPosition(pidIdx);
+        return controller.getSelectedSensorPosition(pidIdx);
     }
 
     /**
@@ -425,7 +460,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Velocity of selected sensor (in Raw Sensor Units per 100 ms).
      */
     public int getSelectedSensorVelocity(int pidIdx) {
-        return talon.getSelectedSensorVelocity(pidIdx);
+        return controller.getSelectedSensorVelocity(pidIdx);
     }
 
     /**
@@ -436,8 +471,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs) {
-        return talon.setSelectedSensorPosition(sensorPos, pidIdx, timeoutMs);
+    public CBTalonSRX setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs) {
+        errorCode = controller.setSelectedSensorPosition(sensorPos, pidIdx, timeoutMs);
+        return this;
     }
 
     /**
@@ -447,8 +483,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param periodMs Period in ms for the given frame.
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode setControlFramePeriod(ControlFrame frame, int periodMs) {
-        return talon.setControlFramePeriod(frame, periodMs);
+    public CBTalonSRX setControlFramePeriod(ControlFrame frame, int periodMs) {
+        errorCode = controller.setControlFramePeriod(frame, periodMs);
+        return this;
     }
 
     /**
@@ -458,8 +495,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param periodMs Period in ms for the given frame.
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode setControlFramePeriod(int frame, int periodMs) {
-        return talon.setControlFramePeriod(frame, periodMs);
+    public CBTalonSRX setControlFramePeriod(int frame, int periodMs) {
+        errorCode = controller.setControlFramePeriod(frame, periodMs);
+        return this;
     }
 
     /**
@@ -470,8 +508,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs  Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode setStatusFramePeriod(int frameValue, int periodMs, int timeoutMs) {
-        return talon.setStatusFramePeriod(frameValue, periodMs, timeoutMs);
+    public CBTalonSRX setStatusFramePeriod(int frameValue, int periodMs, int timeoutMs) {
+        errorCode = controller.setStatusFramePeriod(frameValue, periodMs, timeoutMs);
+        return this;
     }
 
     /**
@@ -482,8 +521,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs) {
-        return talon.setStatusFramePeriod(frame, periodMs, timeoutMs);
+    public CBTalonSRX setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs) {
+        errorCode = controller.setStatusFramePeriod(frame, periodMs, timeoutMs);
+        return this;
     }
 
     /**
@@ -494,7 +534,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Period of the given status frame.
      */
     public int getStatusFramePeriod(int frame, int timeoutMs) {
-        return talon.getStatusFramePeriod(frame, timeoutMs);
+        return controller.getStatusFramePeriod(frame, timeoutMs);
     }
 
     /**
@@ -505,7 +545,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Period of the given status frame.
      */
     public int getStatusFramePeriod(StatusFrame frame, int timeoutMs) {
-        return talon.getStatusFramePeriod(frame, timeoutMs);
+        return controller.getStatusFramePeriod(frame, timeoutMs);
     }
 
     /**
@@ -517,8 +557,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs         Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
-        return talon.configForwardLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);
+    public CBTalonSRX configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+        errorCode = controller.configForwardLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);
+        return this;
     }
 
     /**
@@ -530,8 +571,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs         Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
-        return talon.configReverseLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);
+    public CBTalonSRX configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+        errorCode = controller.configReverseLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);
+        return this;
     }
 
     /**
@@ -539,8 +581,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *
      * @param enable Enable state for limit switches.
      **/
-    public void overrideLimitSwitchesEnable(boolean enable) {
-        talon.overrideLimitSwitchesEnable(enable);
+    public CBTalonSRX overrideLimitSwitchesEnable(boolean enable) {
+        controller.overrideLimitSwitchesEnable(enable);
+        return this;
     }
 
     /**
@@ -550,8 +593,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs          Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs) {
-        return talon.configForwardSoftLimitThreshold(forwardSensorLimit, timeoutMs);
+    public CBTalonSRX configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs) {
+        errorCode = controller.configForwardSoftLimitThreshold(forwardSensorLimit, timeoutMs);
+        return this;
     }
 
     /**
@@ -561,8 +605,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs          Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs) {
-        return talon.configReverseSoftLimitThreshold(reverseSensorLimit, timeoutMs);
+    public CBTalonSRX configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs) {
+        errorCode = controller.configReverseSoftLimitThreshold(reverseSensorLimit, timeoutMs);
+        return this;
     }
 
     /**
@@ -572,8 +617,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configForwardSoftLimitEnable(boolean enable, int timeoutMs) {
-        return talon.configForwardSoftLimitEnable(enable, timeoutMs);
+    public CBTalonSRX configForwardSoftLimitEnable(boolean enable, int timeoutMs) {
+        errorCode = controller.configForwardSoftLimitEnable(enable, timeoutMs);
+        return this;
     }
 
     /**
@@ -583,8 +629,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs) {
-        return talon.configReverseSoftLimitEnable(enable, timeoutMs);
+    public CBTalonSRX configReverseSoftLimitEnable(boolean enable, int timeoutMs) {
+        errorCode = controller.configReverseSoftLimitEnable(enable, timeoutMs);
+        return this;
     }
 
     /**
@@ -592,8 +639,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *
      * @param enable Enable state for soft limit switches.
      **/
-    public void overrideSoftLimitsEnable(boolean enable) {
-        talon.overrideSoftLimitsEnable(enable);
+    public CBTalonSRX overrideSoftLimitsEnable(boolean enable) {
+        controller.overrideSoftLimitsEnable(enable);
+        return this;
     }
 
     /**
@@ -604,8 +652,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode config_kP(int slotIdx, double value, int timeoutMs) {
-        return talon.config_kP(slotIdx, value, timeoutMs);
+    public CBTalonSRX config_kP(int slotIdx, double value, int timeoutMs) {
+        errorCode = controller.config_kP(slotIdx, value, timeoutMs);
+        return this;
     }
 
     /**
@@ -616,8 +665,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode config_kI(int slotIdx, double value, int timeoutMs) {
-        return talon.config_kI(slotIdx, value, timeoutMs);
+    public CBTalonSRX config_kI(int slotIdx, double value, int timeoutMs) {
+        errorCode = controller.config_kI(slotIdx, value, timeoutMs);
+        return this;
     }
 
     /**
@@ -628,8 +678,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode config_kD(int slotIdx, double value, int timeoutMs) {
-        return talon.config_kD(slotIdx, value, timeoutMs);
+    public CBTalonSRX config_kD(int slotIdx, double value, int timeoutMs) {
+        errorCode = controller.config_kD(slotIdx, value, timeoutMs);
+        return this;
     }
 
     /**
@@ -640,8 +691,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode config_kF(int slotIdx, double value, int timeoutMs) {
-        return talon.config_kF(slotIdx, value, timeoutMs);
+    public CBTalonSRX config_kF(int slotIdx, double value, int timeoutMs) {
+        errorCode = controller.config_kF(slotIdx, value, timeoutMs);
+        return this;
     }
 
     /**
@@ -652,8 +704,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode config_IntegralZone(int slotIdx, int izone, int timeoutMs) {
-        return talon.config_IntegralZone(slotIdx, izone, timeoutMs);
+    public CBTalonSRX config_IntegralZone(int slotIdx, int izone, int timeoutMs) {
+        errorCode = controller.config_IntegralZone(slotIdx, izone, timeoutMs);
+        return this;
     }
 
     /**
@@ -664,8 +717,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs                Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configAllowableClosedloopError(int slotIdx, int allowableClosedLoopError, int timeoutMs) {
-        return talon.configAllowableClosedloopError(slotIdx, allowableClosedLoopError, timeoutMs);
+    public CBTalonSRX configAllowableClosedloopError(int slotIdx, int allowableClosedLoopError, int timeoutMs) {
+        errorCode = controller.configAllowableClosedloopError(slotIdx, allowableClosedLoopError, timeoutMs);
+        return this;
     }
 
     /**
@@ -676,8 +730,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs) {
-        return talon.configMaxIntegralAccumulator(slotIdx, iaccum, timeoutMs);
+    public CBTalonSRX configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs) {
+        errorCode = controller.configMaxIntegralAccumulator(slotIdx, iaccum, timeoutMs);
+        return this;
     }
 
     /**
@@ -688,8 +743,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs) {
-        return talon.setIntegralAccumulator(iaccum, pidIdx, timeoutMs);
+    public CBTalonSRX setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs) {
+        errorCode = controller.setIntegralAccumulator(iaccum, pidIdx, timeoutMs);
+        return this;
     }
 
     /**
@@ -698,7 +754,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param pidIdx@return Closed-loop error value.
      */
     public int getClosedLoopError(int pidIdx) {
-        return talon.getClosedLoopError(pidIdx);
+        return controller.getClosedLoopError(pidIdx);
     }
 
     /**
@@ -708,7 +764,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Integral accumulator value.
      */
     public double getIntegralAccumulator(int pidIdx) {
-        return talon.getIntegralAccumulator(pidIdx);
+        return controller.getIntegralAccumulator(pidIdx);
     }
 
     /**
@@ -717,7 +773,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param pidIdx@return The error derivative value.
      */
     public double getErrorDerivative(int pidIdx) {
-        return talon.getErrorDerivative(pidIdx);
+        return controller.getErrorDerivative(pidIdx);
     }
 
     /**
@@ -726,20 +782,21 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param slotIdx Profile slot to select.
      * @param pidIdx
      **/
-    public void selectProfileSlot(int slotIdx, int pidIdx) {
-        talon.selectProfileSlot(slotIdx, pidIdx);
+    public CBTalonSRX selectProfileSlot(int slotIdx, int pidIdx) {
+        controller.selectProfileSlot(slotIdx, pidIdx);
+        return this;
     }
 
     public int getActiveTrajectoryPosition() {
-        return talon.getActiveTrajectoryPosition();
+        return controller.getActiveTrajectoryPosition();
     }
 
     public int getActiveTrajectoryVelocity() {
-        return talon.getActiveTrajectoryVelocity();
+        return controller.getActiveTrajectoryVelocity();
     }
 
     public double getActiveTrajectoryHeading() {
-        return talon.getActiveTrajectoryHeading();
+        return controller.getActiveTrajectoryHeading();
     }
 
     /**
@@ -749,8 +806,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs           Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
-        return talon.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
+    public CBTalonSRX configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
+        errorCode = controller.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
+        return this;
     }
 
     /**
@@ -761,40 +819,47 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs                 Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
-        return talon.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
+    public CBTalonSRX configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
+        errorCode = controller.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
+        return this;
     }
 
-    public ErrorCode clearMotionProfileTrajectories() {
-        return talon.clearMotionProfileTrajectories();
+    public CBTalonSRX clearMotionProfileTrajectories() {
+        errorCode = controller.clearMotionProfileTrajectories();
+        return this;
     }
 
     public int getMotionProfileTopLevelBufferCount() {
-        return talon.getMotionProfileTopLevelBufferCount();
+        return controller.getMotionProfileTopLevelBufferCount();
     }
 
-    public ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt) {
-        return talon.pushMotionProfileTrajectory(trajPt);
+    public CBTalonSRX pushMotionProfileTrajectory(TrajectoryPoint trajPt) {
+        errorCode = controller.pushMotionProfileTrajectory(trajPt);
+        return this;
     }
 
     public boolean isMotionProfileTopLevelBufferFull() {
-        return talon.isMotionProfileTopLevelBufferFull();
+        return controller.isMotionProfileTopLevelBufferFull();
     }
 
-    public void processMotionProfileBuffer() {
-        talon.processMotionProfileBuffer();
+    public CBTalonSRX processMotionProfileBuffer() {
+        controller.processMotionProfileBuffer();
+        return this;
     }
 
-    public ErrorCode getMotionProfileStatus(MotionProfileStatus statusToFill) {
-        return talon.getMotionProfileStatus(statusToFill);
+    public CBTalonSRX getMotionProfileStatus(MotionProfileStatus statusToFill) {
+        errorCode = controller.getMotionProfileStatus(statusToFill);
+        return this;
     }
 
-    public ErrorCode clearMotionProfileHasUnderrun(int timeoutMs) {
-        return talon.clearMotionProfileHasUnderrun(timeoutMs);
+    public CBTalonSRX clearMotionProfileHasUnderrun(int timeoutMs) {
+        errorCode = controller.clearMotionProfileHasUnderrun(timeoutMs);
+        return this;
     }
 
-    public ErrorCode changeMotionControlFramePeriod(int periodMs) {
-        return talon.changeMotionControlFramePeriod(periodMs);
+    public CBTalonSRX changeMotionControlFramePeriod(int periodMs) {
+        errorCode = controller.changeMotionControlFramePeriod(periodMs);
+        return this;
     }
 
     /**
@@ -802,20 +867,24 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      *
      * @return Last Error Code generated by a function.
      */
-    public ErrorCode getLastError() {
-        return talon.getLastError();
+    public CBTalonSRX getLastError() {
+        errorCode = controller.getLastError();
+        return this;
     }
 
-    public ErrorCode getFaults(Faults toFill) {
-        return talon.getFaults(toFill);
+    public CBTalonSRX getFaults(Faults toFill) {
+        errorCode = controller.getFaults(toFill);
+        return this;
     }
 
-    public ErrorCode getStickyFaults(StickyFaults toFill) {
-        return talon.getStickyFaults(toFill);
+    public CBTalonSRX getStickyFaults(StickyFaults toFill) {
+        errorCode = controller.getStickyFaults(toFill);
+        return this;
     }
 
-    public ErrorCode clearStickyFaults(int timeoutMs) {
-        return talon.clearStickyFaults(timeoutMs);
+    public CBTalonSRX clearStickyFaults(int timeoutMs) {
+        errorCode = controller.clearStickyFaults(timeoutMs);
+        return this;
     }
 
     /**
@@ -824,7 +893,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Firmware version of device.
      */
     public int getFirmwareVersion() {
-        return talon.getFirmwareVersion();
+        return controller.getFirmwareVersion();
     }
 
     /**
@@ -833,7 +902,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Has a Device Reset Occurred?
      */
     public boolean hasResetOccurred() {
-        return talon.hasResetOccurred();
+        return controller.hasResetOccurred();
     }
 
     /**
@@ -844,8 +913,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs  Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configSetCustomParam(int newValue, int paramIndex, int timeoutMs) {
-        return talon.configSetCustomParam(newValue, paramIndex, timeoutMs);
+    public CBTalonSRX configSetCustomParam(int newValue, int paramIndex, int timeoutMs) {
+        errorCode = controller.configSetCustomParam(newValue, paramIndex, timeoutMs);
+        return this;
     }
 
     /**
@@ -856,7 +926,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Value of the custom param.
      */
     public int configGetCustomParam(int paramIndex, int timoutMs) {
-        return talon.configGetCustomParam(paramIndex, timoutMs);
+        return controller.configGetCustomParam(paramIndex, timoutMs);
     }
 
     /**
@@ -869,8 +939,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
-        return talon.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    public CBTalonSRX configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+        errorCode = controller.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+        return this;
     }
 
     /**
@@ -883,8 +954,9 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @param timeoutMs Timeout value in ms. @see #ConfigOpenLoopRamp
      * @return Error Code generated by function. 0 indicates no error.
      */
-    public ErrorCode configSetParameter(int param, double value, int subValue, int ordinal, int timeoutMs) {
-        return talon.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    public CBTalonSRX configSetParameter(int param, double value, int subValue, int ordinal, int timeoutMs) {
+        errorCode = controller.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+        return this;
     }
 
     /**
@@ -896,7 +968,7 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Value of parameter.
      */
     public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
-        return talon.configGetParameter(param, ordinal, timeoutMs);
+        return controller.configGetParameter(param, ordinal, timeoutMs);
     }
 
     /**
@@ -908,34 +980,31 @@ public class CBTalonSRX extends CBSpeedController implements CBDevice {
      * @return Value of parameter.
      */
     public double configGetParameter(int param, int ordinal, int timeoutMs) {
-        return talon.configGetParameter(param, ordinal, timeoutMs);
+        return controller.configGetParameter(param, ordinal, timeoutMs);
     }
 
     public int getBaseID() {
-        return talon.getBaseID();
+        return controller.getBaseID();
     }
 
-    public CBTalonSRX follow(CBDeviceID master) { //IMotorController masterToFollow) {
-        talon.follow(Cyborg.hardwareAdapter.getTalonSRX(master).talon);
+
+    public CBTalonSRX valueUpdated() {
+        controller.valueUpdated();
         return this;
-    }
-
-    public void valueUpdated() {
-        talon.valueUpdated();
     }
 
     /**
      * @retrieve object that can get/set individual RAW sensor values.
      */
     public SensorCollection getSensorCollection() {
-        return talon.getSensorCollection();
+        return controller.getSensorCollection();
     }
 
     /**
      * @retrieve control mode of motor controller
      */
     public ControlMode getControlMode() {
-        return talon.getControlMode();
+        return controller.getControlMode();
     }
 
     @Override

@@ -148,4 +148,8 @@ public class CBHardwareAdapter extends CBModule {
     public CBTalonSRX getTalonSRX(CBDeviceID id) {
         return (CBTalonSRX) getDevice(id);
     }
+
+    public CBCANSparkMax getCBCANSparkMax(CBDeviceID id) {
+        return (CBCANSparkMax) getDevice(id);
+    }
 }
