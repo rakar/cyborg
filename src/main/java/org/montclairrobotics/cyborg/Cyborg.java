@@ -1,7 +1,5 @@
 package org.montclairrobotics.cyborg;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.core.behaviors.CBAutonomous;
@@ -43,7 +41,7 @@ public abstract class Cyborg extends TimedRobot {
     private ArrayList<CBAutonomous> autonomice; // = new ArrayList<>();
 
     public static int gameMode; //=0;
-    public NetworkTable table;
+    //public NetworkTable table;
 
     public CBRunStatistics runStatistics; // = new CBRunStatistics();
 
@@ -113,7 +111,7 @@ public abstract class Cyborg extends TimedRobot {
 
         runStatistics = new CBRunStatistics();
 
-        table = NetworkTableInstance.getDefault().getTable("GRIP");
+        //table = NetworkTableInstance.getDefault().getTable("GRIP");
 
         cyborgInit();
         moduleInit();
