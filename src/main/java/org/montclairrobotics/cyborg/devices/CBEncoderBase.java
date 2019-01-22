@@ -3,9 +3,9 @@ package org.montclairrobotics.cyborg.devices;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.core.utils.CBSource;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 
 public abstract class CBEncoderBase implements CBSource, CBDevice {
@@ -22,8 +22,16 @@ public abstract class CBEncoderBase implements CBSource, CBDevice {
             encoder = new CBWPIEncoder(aSource, bSource, false, encodingType);
     }
 
-    public CBEncoderBase(CBDeviceID talonSrx, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
-            encoder = new CBSrxEncoder(Cyborg.hardwareAdapter.getTalonSRX(talonSrx), encoderType, false, distancePerPulse);
+    public CBEncoderBase(CBDeviceID controllerId, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
+        CBDevice controller = Cyborg.hardwareAdapter.getDevice(controllerId);
+
+        if(controller instanceof CBTalonSRX) {
+            encoder = new CBSrxEncoder((CBTalonSRX)controller, encoderType, false, distancePerPulse);
+        }
+
+        if(controller instanceof CBCANSparkMax) {
+            encoder = new CBCANSparkMaxEncoder((CBCANSparkMax)controller);
+        }
     }
 
     @Deprecated

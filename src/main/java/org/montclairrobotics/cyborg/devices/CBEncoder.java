@@ -58,8 +58,8 @@ public class CBEncoder extends CBEncoderBase {
         setDistancePerPulse(distancePerPulse);
     }
 
-    public CBEncoder(CBDeviceID talonSrx, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
-        super(talonSrx, encoderType, reversed, distancePerPulse);
+    public CBEncoder(CBDeviceID controllerId, FeedbackDevice encoderType, boolean reversed, double distancePerPulse) {
+        super(controllerId, encoderType, reversed, distancePerPulse);
         setReverseDirection(reversed);
         setTickConversion(EncodingType.k4X);
         setDistancePerPulse(distancePerPulse);
