@@ -5,6 +5,7 @@ import com.revrobotics.CANEncoder;
 public class CBCANSparkMaxEncoder implements CBIEncoder {
     CBCANSparkMax controller;
     CANEncoder ce;
+    double resetBase;
 
 
 
@@ -15,11 +16,11 @@ public class CBCANSparkMaxEncoder implements CBIEncoder {
 
     @Override
     public int getRaw() {
-        return (int) ce.getPosition()*100;
+        return (int) (ce.getPosition()-resetBase)*100;
     }
 
     @Override
     public void reset() {
-        ce = controller.getEncoder();
+        resetBase = ce.getPosition();
     }
 }
