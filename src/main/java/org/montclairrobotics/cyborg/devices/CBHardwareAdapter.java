@@ -1,10 +1,10 @@
 package org.montclairrobotics.cyborg.devices;
 
 
-import java.util.ArrayList;
-
 import org.montclairrobotics.cyborg.Cyborg;
 import org.montclairrobotics.cyborg.core.utils.CBModule;
+
+import java.util.ArrayList;
 
 /**
  * Main device catalog
@@ -97,6 +97,10 @@ public class CBHardwareAdapter extends CBModule {
         return CBButton.getDefaulted((CBButton) getDevice(id));
     }
 
+    public CBCANSparkMax getCBCANSparkMax(CBDeviceID id) {
+        return (CBCANSparkMax) getDevice(id);
+    }
+
     public CBContourReport getContourReport(CBDeviceID id) {
         return (CBContourReport) getDevice(id);
     }
@@ -119,6 +123,10 @@ public class CBHardwareAdapter extends CBModule {
 
     public CBNavXYawSource getNavXYawSource(CBDeviceID id) {
         return (CBNavXYawSource) getDevice(id);
+    }
+
+    public CBNetworkTable getNetworkTable(CBDeviceID id) {
+        return (CBNetworkTable) getDevice(id);
     }
 
     public CBPDB getPDB(CBDeviceID id) {
@@ -149,7 +157,4 @@ public class CBHardwareAdapter extends CBModule {
         return (CBTalonSRX) getDevice(id);
     }
 
-    public CBCANSparkMax getCBCANSparkMax(CBDeviceID id) {
-        return (CBCANSparkMax) getDevice(id);
-    }
 }
