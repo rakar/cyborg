@@ -2,13 +2,20 @@ package org.montclairrobotics.cyborg.devices;
 
 import com.revrobotics.*;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.core.utils.CBEnums;
+
+import static com.revrobotics.ControlType.*;
 
 public class CBCANSparkMax extends CBSmartSpeedController {
     CANSparkMax controller;
+    private CANPIDController pidController;
     CANError canError;
+    CBEnums.CBMotorControlMode controlMode = CBEnums.CBMotorControlMode.DUTYCYCLE;
 
     public CBCANSparkMax(int channel, CANSparkMaxLowLevel.MotorType motorType) {
         controller = new CANSparkMax(channel, motorType);
+        pidController = controller.getPIDController();
+        pidController.setOutputRange(-1,1);
     }
 
     @Override
@@ -22,10 +29,59 @@ public class CBCANSparkMax extends CBSmartSpeedController {
         return controller.get();
     }
 
+    private com.revrobotics.ControlType localControlMode() {
+        com.revrobotics.ControlType ct = null;
+        switch (controlMode) {
+            case DUTYCYCLE:
+                ct = kDutyCycle;
+                break;
+            case VOLTAGE:
+                ct = kVoltage;
+                break;
+            case POSITION:
+                ct = kPosition;
+                break;
+            case VELOCITY:
+                ct = kVelocity;
+                break;
+            case PERCENTAGEOUTPUT:
+                break;
+            case CURRENT:
+                break;
+            case DISABLED:
+                break;
+            case FOLLOWER:
+                break;
+            case MOTIONMAGIC:
+                break;
+            case MOTIONPROFILE:
+                break;
+            case MOTIONPROFILEARC:
+                break;
+        }
+        return ct;
+    }
+
     @Override
     public CBCANSparkMax set(double speed) {
-        controller.set(speed);
+        //controller.set(speed);
+        pidController.setReference(speed, localControlMode());
         return this;
+    }
+
+    public CBCANSparkMax set(double speed, CBEnums.CBMotorControlMode ctrl) {
+        controlMode = ctrl;
+        set(speed);
+        return this;
+    }
+
+    public CBCANSparkMax setControlMode(CBEnums.CBMotorControlMode ctrl) {
+        controlMode = ctrl;
+        return this;
+    }
+
+    public CBEnums.CBMotorControlMode getControlMode() {
+        return controlMode;
     }
 
     @Override
@@ -70,6 +126,9 @@ public class CBCANSparkMax extends CBSmartSpeedController {
         }
     };
 
+    public CANSparkMax getController() {
+        return controller;
+    }
 
     @Override
     public double getOutputVoltage() {
@@ -104,7 +163,23 @@ public class CBCANSparkMax extends CBSmartSpeedController {
         return controller.isFollower();
     }
 
+    public CBCANSparkMax setOutputRange(double min, double max) {
+        pidController.setOutputRange(min,max);
+        return this;
+    }
 
+    public CBCANSparkMax setPIDConstants(double p, double i, double d) {
+        pidController.setP(p);
+        pidController.setI(i);
+        pidController.setD(d);
+        return this;
+    }
+
+    public CBCANSparkMax setPIDConstants(double p, double i, double d, double f) {
+        setPIDConstants(p,i,d);
+        pidController.setFF(f);
+        return this;
+    }
 
     public CBCANSparkMax close() {
         return this;

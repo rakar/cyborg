@@ -7,20 +7,62 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.core.utils.CBEnums;
 
 public class CBTalonSRX extends CBSmartSpeedController {
     TalonSRX controller;
     int canChannel;
     ErrorCode errorCode;
+    CBEnums.CBMotorControlMode controlMode = CBEnums.CBMotorControlMode.PERCENTAGEOUTPUT;
+
 
     public CBTalonSRX(int canChannel) {
         this.controller = new TalonSRX(canChannel);
         this.canChannel = canChannel;
     }
 
+    private com.ctre.phoenix.motorcontrol.ControlMode localControlMode() {
+        com.ctre.phoenix.motorcontrol.ControlMode ct = null;
+        switch (controlMode) {
+            case DUTYCYCLE:
+                break;
+            case VOLTAGE:
+                break;
+            case POSITION:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.Position;
+                break;
+            case VELOCITY:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.Velocity;
+                break;
+            case PERCENTAGEOUTPUT:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput;
+                break;
+            case CURRENT:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.Current;
+                break;
+            case DISABLED:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.Disabled;
+                break;
+            case FOLLOWER:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.Follower;
+                break;
+            case MOTIONMAGIC:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.MotionMagic;
+                break;
+            case MOTIONPROFILE:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.MotionProfile;
+                break;
+            case MOTIONPROFILEARC:
+                ct = com.ctre.phoenix.motorcontrol.ControlMode.MotionProfileArc;
+                break;
+        }
+        return ct;
+    }
+
+
     @Override
     public CBTalonSRX pidWrite(double output) {
-        controller.set(ControlMode.PercentOutput, output);
+        controller.set(localControlMode(), output);
         return this;
     }
 
@@ -31,12 +73,42 @@ public class CBTalonSRX extends CBSmartSpeedController {
 
     @Override
     public CBTalonSRX set(double speed) {
-        controller.set(ControlMode.PercentOutput, speed);
+        controller.set(localControlMode(), speed);
         if(debug) {
             Cyborg.hardwareAdapter.robot.logMessage("CBTalonSRX: set: "+Double.toString(speed));
         }
         return this;
     }
+
+    /**
+     * Sets the appropriate output on the controller, depending on the mode.
+     * <p>
+     * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as
+     * stopped. In Voltage mode, output value is in volts. In Current mode,
+     * output value is in amperes. In Speed mode, output value is in position
+     * change / 100ms. In Position mode, output value is in encoder ticks or an
+     * analog value, depending on the sensor. In Follower mode, the output value
+     * is the integer device ID of the controller to duplicate.
+     *
+     * @param speed The setpoint value, as described above.
+     * @param ctrl
+     *                    //@see #SelectProfileSlot to choose between the two sets of gains.
+     */
+    public CBTalonSRX set(double speed, CBEnums.CBMotorControlMode ctrl) {
+        controlMode = ctrl;
+        set(speed);
+        return this;
+    }
+
+    public CBTalonSRX setControlMode(CBEnums.CBMotorControlMode ctrl) {
+        controlMode = ctrl;
+        return this;
+    }
+
+    public CBEnums.CBMotorControlMode getControlMode() {
+        return controlMode;
+    }
+
 
     @Override
     public CBTalonSRX setInverted(boolean isInverted) {
@@ -214,15 +286,15 @@ public class CBTalonSRX extends CBSmartSpeedController {
      * @param outputValue The setpoint value, as described above.
      *                    //@see #SelectProfileSlot to choose between the two sets of gains.
      */
-    public CBTalonSRX set(ControlMode mode, double outputValue) {
-        controller.set(mode, outputValue);
-        return this;
-    }
+    //public CBTalonSRX set(CBMotorControlMode mode, double outputValue) {
+    //    controller.set(mode, outputValue);
+    //    return this;
+    //}
 
-    @Deprecated
-    public void set(ControlMode mode, double demand0, double demand1) {
-        controller.set(mode, demand0, demand1);
-    }
+    //@Deprecated
+    //public void set(CBMotorControlMode mode, double demand0, double demand1) {
+    //    controller.set(mode, demand0, demand1);
+    //}
 
     /**
      * Neutral the motor output by setting control mode to disabled.
@@ -998,13 +1070,6 @@ public class CBTalonSRX extends CBSmartSpeedController {
      */
     public SensorCollection getSensorCollection() {
         return controller.getSensorCollection();
-    }
-
-    /**
-     * @retrieve control mode of motor controller
-     */
-    public ControlMode getControlMode() {
-        return controller.getControlMode();
     }
 
     @Override
