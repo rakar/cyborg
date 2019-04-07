@@ -1,8 +1,8 @@
 package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.core.utils.CBUtil;
 
 public class CBAxis extends CBAxisRef implements CBDevice {
     String name, subsystem;
@@ -110,15 +110,15 @@ public class CBAxis extends CBAxisRef implements CBDevice {
             lastValue = value;
 
             if (isDefined()) {
-                rawValue = scale * joystick.getRawAxis(index);
+                rawValue = joystick.getRawAxis(index);
+                rawValue = CBUtil.ApplyDeadzone(rawValue, deadzone);
+                rawValue *= scale;
             } else {
                 rawValue = 0;
             }
 
             // smoothing: 0 => none, 1 => no change
             value = rawValue - (rawValue - lastValue) * smoothing;
-
-            if (Math.abs(value) < deadzone) value = 0.0;
         }
 
         @Override

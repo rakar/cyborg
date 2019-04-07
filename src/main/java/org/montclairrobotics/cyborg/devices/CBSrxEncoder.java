@@ -3,8 +3,9 @@ package org.montclairrobotics.cyborg.devices;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.core.utils.CBSource;
 
-public class CBSrxEncoder implements CBIEncoder {
+public class CBSrxEncoder implements CBIEncoder, CBSource {
     CBTalonSRX srx;
     int encoderScale = 4;
     double distancePerPulse=1;
@@ -27,12 +28,12 @@ public class CBSrxEncoder implements CBIEncoder {
     }
 
     //@Override
-    public int getRaw() {
+    public double getRaw() {
         return reversedMultiplier * srx.getSelectedSensorPosition(0);
     }
 
     //@Override
-    public int get() {
+    public double get() {
         return getRaw()/getEncodingScale();
     }
 

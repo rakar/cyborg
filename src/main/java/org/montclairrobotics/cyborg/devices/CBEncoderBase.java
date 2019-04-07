@@ -43,7 +43,7 @@ public abstract class CBEncoderBase implements CBSource, CBDevice {
         encoder.reset();
     }
 
-    protected int baseGetRaw() {
+    protected double baseGetRaw() {
         return encoder.getRaw();
     }
 

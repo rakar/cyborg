@@ -15,8 +15,8 @@ public class CBCANSparkMaxEncoder implements CBIEncoder {
     }
 
     @Override
-    public int getRaw() {
-        return (int) (ce.getPosition()-resetBase)*100;
+    public double getRaw() {
+        return (ce.getPosition()-resetBase);
     }
 
     @Override

@@ -4,8 +4,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.core.utils.CBYawSource;
 
-public class CBNavX implements CBDevice {
+public class CBNavX implements CBDevice, CBYawSource {
     String name, subsystem;
 
     // AHRS reference from wherever NavXGyro is initialized 

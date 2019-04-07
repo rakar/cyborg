@@ -1,11 +1,40 @@
 package org.montclairrobotics.cyborg.devices;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import org.montclairrobotics.cyborg.core.utils.CBEdgeTrigger;
 
-public class CBDigitalInput extends DigitalInput implements CBDevice {
+public class CBDigitalInput extends CBEdgeTrigger implements CBDevice {
+    String name, subsystem;
+    DigitalInput digitalInput;
 
     public CBDigitalInput(int channel) {
-        super(channel);
+        digitalInput = new DigitalInput(channel);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getSubsystem() {
+        return subsystem;
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) {
+        this.subsystem = subsystem;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+
     }
 
     public void setName(String subsystem, String name) {
@@ -36,7 +65,7 @@ public class CBDigitalInput extends DigitalInput implements CBDevice {
 
         @Override
         public void senseUpdate() {
-
+            update(digitalInput.get());
         }
 
         @Override

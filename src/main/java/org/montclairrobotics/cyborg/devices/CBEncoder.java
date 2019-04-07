@@ -13,33 +13,33 @@ import static java.lang.System.currentTimeMillis;
 public class CBEncoder extends CBEncoderBase {
 
     // Common code FRC/FTC
-    private int edgeValue = 0;
-    private int pulseValue = 0;
+    private double edgeValue = 0;
+    private double pulseValue = 0;
     private double distanceValue = 0;
-    private int lastEdgeValue = 0;
-    private int lastPulseValue = 0;
+    private double lastEdgeValue = 0;
+    private double lastPulseValue = 0;
     private double lastDistanceValue = 0;
 
-    private int offEdgeValue = 0;
-    private int offPulseValue = 0;
+    private double offEdgeValue = 0;
+    private double offPulseValue = 0;
     private double offDistanceValue = 0;
 
-    private int stoppedMargin = 0;
+    private double stoppedMargin = 0;
     private long ms = 0;
     private long lastUpdate;
-    private long pulseRate = 0;
+    private double pulseRate = 0;
     private double speed = 0;
     private PIDSourceType sourceType;
 
-    private int edgesPerPulse = 0;
+    private double edgesPerPulse = 0;
 
     private double distancePerPulse = 1;
 
     private boolean reversed = false;
     private int reversedScale = 1;
 
-    private int offsetPulses = 0;
-    private int offsetEdges = 0;
+    private double offsetPulses = 0;
+    private double offsetEdges = 0;
     private double offsetDistance = 0;
     private boolean indexed = false;
     private ArrayList<CBIndexEntry> indexEntries = new ArrayList<>();
@@ -247,7 +247,7 @@ public class CBEncoder extends CBEncoderBase {
 	}
     */
 
-    public int getRaw() {
+    public double getRaw() {
         return offEdgeValue;
     }
 
@@ -263,7 +263,7 @@ public class CBEncoder extends CBEncoderBase {
         return (pulseValue - lastPulseValue) > 0;
     }
 
-    public int getEncodingScale() {
+    public double getEncodingScale() {
         return edgesPerPulse;
     }
 
@@ -275,7 +275,7 @@ public class CBEncoder extends CBEncoderBase {
         return speed;
     }
 
-    public int getEdges() {
+    public double getEdges() {
         return edgeValue + offsetEdges;
     }
 
