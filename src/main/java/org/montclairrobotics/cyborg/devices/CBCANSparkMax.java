@@ -10,12 +10,13 @@ public class CBCANSparkMax extends CBSmartSpeedController {
     CANSparkMax controller;
     private CANPIDController pidController;
     CANError canError;
-    CBEnums.CBMotorControlMode controlMode = CBEnums.CBMotorControlMode.DUTYCYCLE;
+    ControlType localControlMode;
 
     public CBCANSparkMax(int channel, CANSparkMaxLowLevel.MotorType motorType) {
         controller = new CANSparkMax(channel, motorType);
         pidController = controller.getPIDController();
         pidController.setOutputRange(-1,1);
+        setLocalControlMode();
     }
 
     @Override
@@ -29,9 +30,10 @@ public class CBCANSparkMax extends CBSmartSpeedController {
         return controller.get();
     }
 
-    private com.revrobotics.ControlType localControlMode() {
+    private void setLocalControlMode() {
         com.revrobotics.ControlType ct = null;
         switch (controlMode) {
+            case NONE:
             case DUTYCYCLE:
                 ct = kDutyCycle;
                 break;
@@ -45,43 +47,33 @@ public class CBCANSparkMax extends CBSmartSpeedController {
                 ct = kVelocity;
                 break;
             case PERCENTAGEOUTPUT:
-                break;
             case CURRENT:
-                break;
             case DISABLED:
-                break;
             case FOLLOWER:
-                break;
             case MOTIONMAGIC:
-                break;
             case MOTIONPROFILE:
-                break;
             case MOTIONPROFILEARC:
                 break;
         }
-        return ct;
+        localControlMode = ct;
     }
 
     @Override
     public CBCANSparkMax set(double speed) {
-        //controller.set(speed);
-        pidController.setReference(speed, localControlMode());
+        pidController.setReference(speed, localControlMode);
         return this;
     }
 
     public CBCANSparkMax set(double speed, CBEnums.CBMotorControlMode ctrl) {
-        controlMode = ctrl;
+        setControlMode(ctrl);
         set(speed);
         return this;
     }
 
     public CBCANSparkMax setControlMode(CBEnums.CBMotorControlMode ctrl) {
         controlMode = ctrl;
+        setLocalControlMode();
         return this;
-    }
-
-    public CBEnums.CBMotorControlMode getControlMode() {
-        return controlMode;
     }
 
     @Override

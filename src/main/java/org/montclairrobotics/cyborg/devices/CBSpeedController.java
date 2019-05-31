@@ -1,8 +1,7 @@
 package org.montclairrobotics.cyborg.devices;
 
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import org.montclairrobotics.cyborg.Cyborg;
+import org.montclairrobotics.cyborg.core.utils.CBEnums;
 
 import static org.montclairrobotics.cyborg.Cyborg.hardwareAdapter;
 
@@ -15,6 +14,8 @@ public abstract class CBSpeedController implements CBDevice {
     protected int pdbChannel;
     protected CBSpeedControllerFaultCriteria faultCriteria;
     protected boolean debug;
+    protected CBEnums.CBMotorControlMode controlMode = CBEnums.CBMotorControlMode.NONE;
+
 
     public abstract CBSpeedController pidWrite(double output);
 
@@ -26,6 +27,8 @@ public abstract class CBSpeedController implements CBDevice {
         this.debug = debug;
         return this;
     }
+
+    public CBEnums.CBMotorControlMode getControlMode() {return controlMode;};
 
     public abstract CBSpeedController set(double speed);
 

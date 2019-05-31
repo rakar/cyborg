@@ -13,19 +13,19 @@ public class CBTalonSRX extends CBSmartSpeedController {
     TalonSRX controller;
     int canChannel;
     ErrorCode errorCode;
-    CBEnums.CBMotorControlMode controlMode = CBEnums.CBMotorControlMode.PERCENTAGEOUTPUT;
+    ControlMode localControlMode;
 
 
     public CBTalonSRX(int canChannel) {
         this.controller = new TalonSRX(canChannel);
         this.canChannel = canChannel;
+        setLocalControlMode();
     }
 
-    private com.ctre.phoenix.motorcontrol.ControlMode localControlMode() {
+    private void setLocalControlMode() {
         com.ctre.phoenix.motorcontrol.ControlMode ct = null;
         switch (controlMode) {
             case DUTYCYCLE:
-                break;
             case VOLTAGE:
                 break;
             case POSITION:
@@ -34,6 +34,7 @@ public class CBTalonSRX extends CBSmartSpeedController {
             case VELOCITY:
                 ct = com.ctre.phoenix.motorcontrol.ControlMode.Velocity;
                 break;
+            case NONE:
             case PERCENTAGEOUTPUT:
                 ct = com.ctre.phoenix.motorcontrol.ControlMode.PercentOutput;
                 break;
@@ -56,13 +57,13 @@ public class CBTalonSRX extends CBSmartSpeedController {
                 ct = com.ctre.phoenix.motorcontrol.ControlMode.MotionProfileArc;
                 break;
         }
-        return ct;
+        localControlMode = ct;
     }
 
 
     @Override
     public CBTalonSRX pidWrite(double output) {
-        controller.set(localControlMode(), output);
+        controller.set(localControlMode, output);
         return this;
     }
 
@@ -73,7 +74,7 @@ public class CBTalonSRX extends CBSmartSpeedController {
 
     @Override
     public CBTalonSRX set(double speed) {
-        controller.set(localControlMode(), speed);
+        controller.set(localControlMode, speed);
         if(debug) {
             Cyborg.hardwareAdapter.robot.logMessage("CBTalonSRX: set: "+Double.toString(speed));
         }
@@ -95,20 +96,16 @@ public class CBTalonSRX extends CBSmartSpeedController {
      *                    //@see #SelectProfileSlot to choose between the two sets of gains.
      */
     public CBTalonSRX set(double speed, CBEnums.CBMotorControlMode ctrl) {
-        controlMode = ctrl;
+        setControlMode(ctrl);
         set(speed);
         return this;
     }
 
     public CBTalonSRX setControlMode(CBEnums.CBMotorControlMode ctrl) {
         controlMode = ctrl;
+        setLocalControlMode();
         return this;
     }
-
-    public CBEnums.CBMotorControlMode getControlMode() {
-        return controlMode;
-    }
-
 
     @Override
     public CBTalonSRX setInverted(boolean isInverted) {

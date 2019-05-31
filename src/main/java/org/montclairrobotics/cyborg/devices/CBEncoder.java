@@ -352,7 +352,7 @@ public class CBEncoder extends CBEncoderBase {
             speed = pulseRate * distancePerPulse;
 
             for (CBIndexEntry i : indexEntries) {
-                if (i.trigger.get() == i.activeState) {
+                if (i.trigger.getState() == i.activeState) {
                     setDistance(i.distance);
                 }
             }

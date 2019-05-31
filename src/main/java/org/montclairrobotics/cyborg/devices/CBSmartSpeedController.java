@@ -16,7 +16,6 @@ public abstract class CBSmartSpeedController extends CBSpeedController {
 
     public abstract CBSmartSpeedController setControlMode(CBEnums.CBMotorControlMode ctrl);
 
-    public abstract CBEnums.CBMotorControlMode getControlMode();
 
 
 }
