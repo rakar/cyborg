@@ -51,42 +51,78 @@ public abstract class Cyborg extends TimedRobot {
      */
     public static double angleToRadiansConversion = Math.PI / 180.0;
 
+    @Deprecated
     public Cyborg addTeleOpMapper(CBTeleOpMapper... mappers) {
+        addTeleOpMappers(mappers);
+        return this;
+    }
+
+    public Cyborg addTeleOpMappers(CBTeleOpMapper... mappers) {
         for(CBTeleOpMapper mapper:mappers) {
             teleOpMappers.add(mapper);
         }
         return this;
     }
 
+    @Deprecated
     public Cyborg addSensorMapper(CBSensorMapper... mappers) {
+        addSensorMappers(mappers);
+        return this;
+    }
+
+    public Cyborg addSensorMappers(CBSensorMapper... mappers) {
         for(CBSensorMapper mapper:mappers) {
             sensorMappers.add(mapper);
         }
         return this;
     }
 
+    @Deprecated
     public Cyborg addRobotController(CBRobotController... controllers) {
+        addRobotControllers(controllers);
+        return this;
+    }
+
+    public Cyborg addRobotControllers(CBRobotController... controllers) {
         for(CBRobotController controller:controllers) {
             robotControllers.add(controller);
         }
         return this;
     }
 
+    @Deprecated
     public Cyborg addRule(CBRule... rules) {
+        addRules(rules);
+        return this;
+    }
+
+    public Cyborg addRules(CBRule... rules) {
         for(CBRule rule:rules) {
             this.rules.add(rule);
         }
         return this;
     }
 
+    @Deprecated
     public Cyborg addBehavior(CBBehavior... behaviors) {
+        addBehaviors(behaviors);
+        return this;
+    }
+
+    public Cyborg addBehaviors(CBBehavior... behaviors) {
         for(CBBehavior behavior:behaviors) {
             this.behaviors.add(behavior);
         }
         return this;
     }
 
+    @Deprecated
     public Cyborg addAutonomous(CBAutonomous... autonomice) {
+        addAutonomousBehaviors(autonomice);
+        return this;
+    }
+
+    public Cyborg addAutonomousBehaviors(CBAutonomous... autonomice) {
         for(CBAutonomous autonomous:autonomice) {
             this.autonomice.add(autonomous);
         }

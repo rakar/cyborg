@@ -379,8 +379,4 @@ public class CBCANSparkMax extends CBSmartSpeedController {
             }
         }
     }
-
-
-
-
 }
